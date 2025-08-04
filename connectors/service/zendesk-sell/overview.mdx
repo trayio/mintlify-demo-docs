@@ -1,0 +1,48 @@
+---
+title: "Overview"
+description: "Overview of the Zendesk Sell (formely Base) connector"
+---
+
+# Overview
+
+## Overview
+
+Zendesk Sell (formely Base) is sales force automation software to enhance productivity, processes and pipeline visibility for sales teams.
+
+## Authentication
+
+Zendesk Sell uses OAuth2 for authentication. So all that is required is to click on the `New Authentcation` button and choose the required scopes (normally this would be all 3, shown below). Zendesk Sell also provides three optional headers: App ID, Organization ID, and Marketplace Name. 
+
+For more information on using OAuth based authentication, please refer to our guide [here](https://tray.io/documentation/platform/connectors/authenticating-connectors/).
+
+## Example 1 - Create call
+
+In this example, we'll create a call in Zendesk Sell. The only mandatory field in this operation is `Phone number`.
+
+Other fields that are not mandatory will default to certain values if no value is provided. For example, if no `User ID` is provided, then it will default to the authenticated user who created the call.
+
+The `Made at` input field, which is the date/time the call was made at, will default to the current time if no value is provided.
+
+The phone number field is a string, so can include + and - characters to indicate area code.
+
+If populating the `Resource type` input field, then the `Resource ID` field must also be populated. This will associate the call with a lead or contact in Zendesk Sell.
+
+To associate the created call with a deal or multiple deals, deal IDs can be added to the `Associated deal IDs` list.
+
+There also the option to associate the call with an entity outside of Zendesk Sell. Do this by using the `External ID` input field.
+
+## Example 2 - List deals
+
+In this example, we'll retrieve a list of deals from Zendesk Sell.
+
+The `List deals` operation allows you to filter and sort the results.
+
+A specific list of deals can be returned by submitting a list of deal IDs to the `Ids` input field.
+
+There also a number of other resource types the deals can be filtered, please use the appropriate input field for that specific resource. For example, to list all deals belong to one owner, you can use the `Owner ID` field to do that.
+
+Custom fields can also be filtered on, however, the custom fields must be defined in Zendesk Sell and the `Filterable` property must be (supported custom field types are: Number, Single Line Text, Dropdown, Multi Select).
+
+To filter custom fields, the field names must be known as these must be entered manually. To add a custom field, click on `Add property to custom fields`, then enter the custom field name (shown below).
+
+This then adds the custom field to the filters. The next step is to add a value to filter on for that custom field. Please ensure that the data type is correct for the kind of field being filtered. This will return all deals with that value for the specified custom field.

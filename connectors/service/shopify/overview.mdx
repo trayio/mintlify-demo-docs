@@ -1,0 +1,116 @@
+---
+title: "Overview"
+description: "Overview of the Shopify connector"
+---
+
+# Overview
+
+## Overview
+
+The Shopify connector currently provides operations to manage orders, fulfilments and customers in your shop be it online, on social media, or in person.
+
+## API Information
+
+The Shopify connector has the following Base URL: **https://${params['#auth'].shop}.myshopify.com/admin/api/**. More information can be found on their main [API documentation (version: 2025-01)](https://shopify.dev/docs/api/admin-graphql) site. Details regarding their API limitations can be found [here](https://shopify.dev/api/usage/rate-limits). 
+
+## Authentication
+
+When using the Shopify connector, the first thing you will need to do is go to your Tray account page, and select the workflow you wish to work on. Once in the workflow dashboard itself, search and drag the Shopify connector from the connectors panel (on the left hand side) onto your workflow.
+
+With the new Shopify connector step highlighted, in the properties panel on the right, click on 'Create New Authentication' which is located under the 'Authentications' tab.
+
+The Shopify connector supports either **Token (Or) Custom OAuth** as its authentication method. Our recommended approach is to use **Token **based authentication when possible, you can learn more about how to create a Admin API access token within Shopify [here](https://help.shopify.com/en/manual/apps/app-types/custom-apps#create-and-install-a-custom-app).
+
+So when you click on 'Create New Authentication' you will be presented with the following screen, where you need to select the type of authentication.
+
+### **Token Authentication**
+
+You will be asked to specify the domain of the store and the admin access token.
+
+Your domain name is displayed in the URL of your main Shopify dashboard. For example, if "west.shopify.com" and "east.shopify.com" are both URLs with the root domain "shopify", this means that "east" and "west" are the SUBDOMAINS.
+
+For the access token, you need to create one from the Shopify admin, instructions can be found [here](https://help.shopify.com/en/manual/apps/app-types/custom-apps#create-and-install-a-custom-app), ensure your Shopify Admin API access token has necessary scopes needed for you to work with the connector.
+
+### OAuth Authentication
+
+We recommend using token based authentication when possible but if you do have a need to use OAuth authentication, you need to create your own custom OAuth app and use that to authenticate with the connector, instructions for the same can be found [here](https://tray.ai/documentation/connectors/service/shopify/#custom-oauth-apps). 
+
+## Shopify Trigger
+
+If you wish your workflow to be kicked off by a particular action in Shopify, you can use the Shopify Trigger.
+
+The Shopify trigger allows you to receive notifications and trigger workflows when given events occur associated with the selected trigger operation.
+
+### Trigger operations available:
+
+- Webhook
+
+### Webhook Setup
+
+When creating a new workflow, click the 'Create new workflow' button in the top right hand corner of your main Tray dashboard. When the trigger popup window opens, search and select the Shopify trigger. Wait to be redirected to your new workflow and the workflow dashboard itself.
+
+With the new Shopify trigger step highlighted, in the properties panel on the right, click on 'Create New Authentication' which is located under the 'Authentications' tab.
+
+This will result in a Tray authentication pop-up window, that should look like this:
+
+As of **v2.3** the Shopify Trigger uses the same authentication methods as the standard Shopify connector.
+
+Follow the instructions above in the connector authentication tab to set up your trigger, and select 'Webhook' as the event you want your trigger to listen to (aka the operation) in order to set off the workflow itself.
+
+Below is an example of a way in which you could potentially use the Shopify connector, to use the 'Search customers' operation and specify `orders_count:0` into the 'Query' property. I.e: to search for customers that haven't ordered anything on your shop.
+
+*Additionally, you can specify only a set of fields that should be in the output by adding them in the 'Fields' property such as  id ,  name .*
+
+The steps will be as follows:
+
+1. Set up Shopify trigger and boolean branch.
+2. Add a Slack connector notification step.
+
+The final outcome should look like this:
+
+### 1 - Setup trigger & Boolean branch
+
+Once you have clicked 'Create new workflow' on your main Tray dashboard (and named said new workflow), select the Shopify trigger from the trigger options available:
+
+> Make sure you have set up your trigger as explained depending on the version you are using, before going any further.
+
+Once you have been redirected to the Tray workflow dashboard, from the connectors panel on the left, add a Boolean connector to your second step. Set the operation to 'Boolean condition'.
+
+If you have used the 'Send test notification' option, from the admin section in your Shopify webhook dashboard (as detailed earlier in the trigger section above), you should have gotten an output similar to the below:
+
+*This is viewable in the Debug panel under your step output.*
+
+The data sent by the Shopify webhook can be extracted and used with a jsonpath beginning with either `$.steps.trigger.topic` or `$.steps.trigger.data.[field]`.
+
+You can achieve most of this path by using the connector-snake to save you time and effort.
+
+In our case we will create a boolean branch to check if the user accepts marketing, by setting the comparison type to 'Equal to' and the second value to 'The 2nd of 2 values to compare'.
+
+> Take special notice of the Input types! if they are net set correctly, your condition will fail.
+
+### 2 - Add a Slack notification
+
+Add a Slack connector step to your workflow on the TRUE branch. Set up your auth and set the operation to 'Send message'.
+
+Choose your channel, and then use Tray's interpolation method to have your result displayed in the message output.
+
+*Note the use of  { }  to input the result of the jsonpath in to a string field*
+
+Now, whenever the boolean branch returns a TRUE result, a notification message will be sent to this particular Slack channel, to let people know that a user (as identified by their email address) has accepted the marketing material.
+
+## Notes for Embedded customers
+
+### Custom OAuth apps
+
+You can create a custom OAuth app in order to [White-label](/embedded/core-topics/whitelabelling/the-config-wizard/) your authentications dialog in during your integrations. Additionally, your can choose to advise your users to create their own Shopify Admin API access tokens and use it for their workflows instead of going through the turmoil of having to maintain your own custom OAuth Shopify app. 
+
+Simply follow the steps outlined below:
+
+### Scopes
+
+Please be aware of the following points when dealing with scopes while using an Embedded account:
+
+- **The scopes you use for your source / master workflow are the scopes that your end users will have when creating the auth**. 
+- You can also override scopes in the solution editor. This will allow you to specify that **only a subset of the scopes set in the master workflow are available to your End Users**. Please reach out to your Tray technical support if you wish to activate this feature.
+
+- When creating an OAuth app in the Shopify UI, you shouldn't set granular scopes. This way, you would have to create a custom OAuth app for every integration that you create for this service to enforce scope limitation.

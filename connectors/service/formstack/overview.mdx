@@ -1,0 +1,126 @@
+---
+title: "Overview"
+description: "Overview of the Formstack connector"
+---
+
+# Overview
+
+## Overview
+
+Formstack is a data management system that helps users collect information through various types of online forms, including surveys, job applications, event registrations, and payment forms. It has an easy to use online builder that lets you create and brand forms with no previous coding knowledge required in order to help manage and brand your business needs.
+
+## Authentication
+
+When using the Formstack connector, the first thing you will need to do is make sure that you are already verified and signed into your Formstack account. Once you are logged into your dashboard, head to your Tray.io account page, and select the relevant workflow.
+
+Once in the workflow dashboard itself, search and drag the Formstack connector from the connectors panel (on the left hand side) onto your workflow. With the new Formstack connector step highlighted, in the properties panel on the right, click on 'New Authentication' which is located under the 'Settings' heading.
+
+This will result in a Tray.io authentication pop-up window, that should look like this:
+
+As you can see, you will only need to name your authentication appropriately, which will then redirect you to another authentication popup window similar to the below:
+
+You will either need to login to your Formstack account here, (or if you are already logged in) simply confirm your Tray.io - Formstack permissions and click 'Authorise'.
+
+Go back to your authentication field (within the workflow dashboard properties panel from earlier), and select the recently added authentication from the dropdown options now available.
+
+Your connector authentication setup should now be complete.
+
+## Formstack Trigger
+
+If you wish your workflow to be kicked off by a particular action in Formstack, you can use the Formstack Trigger.
+
+The Formstack trigger allows you to receive notifications and trigger workflows when given events occur associated with the selected trigger operation.
+
+In this case, it is when a form within Formstack is filled in that the trigger initiates.
+
+### Trigger operations available:
+
+- Webhook
+
+### Webhook Setup
+
+When creating a new workflow, click the 'Create new workflow' button in the top right hand corner of your main Tray.io dashboard. When the trigger popup window opens, search and select the Formstack trigger. Wait to be redirected to your new workflow and the workflow dashboard itself.
+
+As in the above authentication instructions, once the Formstack trigger step is highlighted, in the properties panel on the right, click on 'New Authentication' which is located under the 'Settings' heading.
+
+This will result in a Tray.io authentication pop-up window. Again, you will only need to name your authentication appropriately, before being redirected to another authentication popup window similar to the below:
+
+Confirm your Tray.io - Formstack permissions and click 'Authorise', followed by 'Add authentication'.
+
+> 
+
+Once you have added your Tray.io authentication, go to the settings icon in the top left hand corner of your workflow dashboard and click on it. Here you will see and option to copy your 'Workflow Public URL'. Do this, and save it for use later on.
+
+Next, head to the [Formstack](https://www.formstack.com/) website and log into your Formstack account. Once on your main dashboard page, click on your user icon in the top right hand corner and select "API":
+
+### New API
+
+From here you will be directed to the Formstack API page. Click on "+ New Application":
+
+### Create API
+
+Fill in the details as needed - *bearing in mind that the "Redirect URL" refers to the public URL we copied from Tray.io earlier* .
+
+### API created
+
+You should now be able to see you Formstack API name and token listed in the main API page, which means that your trigger authentication setup is now complete.
+
+Head back to your Tray.io workflow dashboard. With your trigger authentication chosen, select 'Webhook' as the event you want your trigger to listen to (aka the operation).
+
+In this case you will also need to set up the 'Form ID' for the form you are referring to. If you have followed the above instructions, you should have a drop down list of options to choose from by now.
+
+Your end result should look similar to below:
+
+## Available Operations
+
+The examples below show one or two of the available connector operations in use.
+
+Please see the [Full Operations Reference](#operationsFull) at the end of this page for details on all available operations for this connector.
+
+## Example usage
+
+Below is an example of a way in which you could potentially use the Formstack trigger and connector to auto-populate a Google spreadsheet each time a form is submitted, with said form's fields and user answers.
+
+The steps will be as follows:
+
+1. Setup the trigger and get your form fields.
+2. Get user answers.
+3. Populate a connected Google spreadsheet.
+
+The final outcome should look like this:
+
+> 
+
+## 1 - Setup trigger & get form fields
+
+Once you have clicked 'Create new workflow' from your main Tray.io dashboard (and named said new workflow), select the Formstack trigger from the trigger options available as shown above in the trigger authentication section.
+
+Once you have been redirected to your workflow dashboard, set your operation to 'Webhook' and select which form you want your trigger to activate on.
+
+From the connectors panel the left, add a Formstack connector to your second step. Set the operation to 'List field types'. The 'Form ID' will need to be generated from the trigger step itself. Use a jsonpath to generate this.
+
+.
+
+From the trigger output - which will be generated once you complete a form submission - you should be able to see the 'FormID' field necessary to create this pathway: `$.steps.trigger.FormID`. *Note that the type selector field is set to jsonpath, if this is not setup properly your output will fail.*
+
+## 2 - Get user submission
+
+Drag another Formstack connector into your workflow. Set the operation to 'Get submission'. You will the 'Submission ID' for this step.
+
+Use another jsonpath to automatically get the unique identifier for each new form submission. Try using the connector-snake this time, by clicking and dragging from the 'Submission ID' field to the trigger itself.
+
+Depending on your use case you may need an encryption key, but don't worry about it for now.
+
+*Feel free to re-name your steps as you go along to make things clearer for yourself and other users.*
+
+## 3 - Auto-populate Google Sheets
+
+Choose the 'Google Sheets' connector from your connector panel and place it in the last step of your workflow. With the correct authentication selected, set the operation to 'Add row'.
+
+Select the spreadsheet you intend to populate from the dropdown options available in the 'Spreadsheet' field, and in the 'Worksheet' field choose the specific worksheet within said spreadsheet.
+
+Provided you have already set up your sheet with column headers, you will be able to choose the columns you wish to effect from the options available in the 'Row data' -> 'Field' -> 'Column' sections. Google will automatically assign the column a letter a well for clarification.
+
+Set your 'Value's to your desired outputs again using the jsonpath methods stipulated earlier. Most will come from the results of formstack-2, and be dependant on the `value` you require.
+
+Once all is set, each time a new form is submited in Formstack that relates to our chosen form, the results will be auto-generated within your Google spreadsheet!

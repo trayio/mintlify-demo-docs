@@ -1,0 +1,43 @@
+---
+title: "Overview"
+description: "Overview of the Merlin Guardian connector"
+---
+
+# Overview
+
+## Overview
+
+The Merlin Guardian connector provides robust data masking capabilities to enhance data security and privacy while sending data to AI services. With operations to mask and unmask sensitive data, it ensures that sensitive information is protected while allowing authorized access when needed.
+
+## Operations
+
+### Mask sensitive data
+
+The Mask Sensitive Data operation replaces sensitive information with mask IDs, ensuring data privacy.
+
+The operation accepts the following three parameters: 
+
+- **Input: **The operation accepts data only in string format. If the source data is in any other format (e.g., JSON), it must first be converted to a string.<br/><br/>Like in the below example the data received through the Webhook is in JSON format. We have converted the data from JSON to string using Object helper's JSON stringify operation.
+- **Language: **specifies the language of the input data.
+- **Minimum Score: **The minimum confidence score for identifying sensitive data entities. <br/><br/>Typically set to 0.9, this field masks entities with a confidence score of 90% or higher. <br/><br/>Users can adjust the value to balance sensitivity and accuracy: lowering it masks more entities, while raising it ensures only the most confidently identified entities are masked.<br/>
+
+### Unmask sensitive data
+
+The **Unmask Sensitive Data** operation in the Merlin Guardian connector is designed to revert masked sensitive information back to its original form, ensuring that authorized users can access the necessary data when needed.
+
+***Note:**** Ensure that you unmask sensitive information only when necessary and authorized, while being mindful of privacy and security concerns.*
+
+**Input Requirement**: 
+
+- **Masked Text**: The text where sensitive data has been masked.
+- **Mask Map**: The mapping of masked IDs to their original values generated during the masking process.
+
+**Original Data:**
+
+**Masked Data:**
+
+**Mask Map:**
+
+### Usage Limits
+
+1. Merlin Guardian connector can support up to 2500 tasks a month - for more tasks please reach out to your account representative

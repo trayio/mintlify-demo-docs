@@ -1,0 +1,58 @@
+---
+title: "Overview"
+description: "Overview of the Mustache connector"
+---
+
+# Overview
+
+## Overview
+
+The Mustache connector can be used as a simple way of turning values returned by other connectors into variables that can be used in messages.
+
+Mustache connector uses the popular templating library **Mustache.js**. You can refer to this [readme](https://github.com/janl/mustache.js#readme) for more reference.
+
+This can help you to work with your data in a more systematic manner.
+
+As well as the example below, please see the following template for some Mustache in action:
+
+## Example 1: Autofilling data Slack blocks
+
+This short video explains how you can use the Mustache connector to auto-populate your Slack blocks.
+
+Key points covered in this video are:
+
+- How to use the Slack Block Kit Builder to create a template for your Slack notification.
+- Placing double curly brackets `{{example}}` around your block properties will mean the Moustache connector can later inject the properties into your Slack code block dynamically.
+- Doing so means you can simply and easily change the properties and / or values of the Slack Block code whenever you like without having to rewrite the Slack Block code itself.
+
+## Example 2: Turning values into variables
+
+The following workflow gives a very simplified example of this:
+
+Here we have:
+
+1. Used the first Salesforce connector to **List Opportunities** (returning Account Id, Name, Owner Id and Amount for each)
+2. Used the Loop connector to process each opportunity one-by-one
+3. For each opportunity, **Got Owner Name** in Salesforce
+4. Used **Mustache Template** to create template variables using outputs from all of the above and set the message using these variables
+5. Sent the formatted message to a Slack channel
+
+From the screenshot above you can see that we have created a list of **Parameters** for the **Mustache Template** step, by clicking the **Add Property to Parameters** button:
+
+In the Template code box we have then been able to create a message which includes the parameter variables enclosed in `{ }`:
+
+The debug output for one opportunity in the loop would then show:
+
+And there would be a series of messages sent to the Slack channel which you have set in the final step:
+
+## Example 3: Using Mustache templates in config data
+
+You could also use mustache template variables in your config data messages.
+
+For example you could set a standard 'new opportunity' message in **Configurable data** in your workflow settings:
+
+This message can use `{ }` to use a mustache variable:
+
+Then for any Mustache step in your workflow you can set the parameter and make the **Template Code** pick up the config message for a new opportunity:
+
+The debug output will then show that the config data 'new opportunity' message and Mustache parameter have combined to correctly format the message:

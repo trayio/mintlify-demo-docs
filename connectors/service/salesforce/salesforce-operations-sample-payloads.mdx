@@ -1,0 +1,432 @@
+---
+title: "Operations (sample payloads)"
+description: "Operations (sample payloads) documentation for Salesforce connector"
+---
+
+# Operations (sample payloads)
+
+## Main operations
+
+### Batch create records
+
+Create a batch of new records in Salesforce. (Max 200).
+
+**Sample Input**
+
+**Sample Output**
+
+### Batch delete records
+
+Delete a batch of records in Salesforce. (Max 200).
+
+**Sample Input**
+
+**Sample Output**
+
+### Batch update records
+
+Update a batch of records in Salesforce. (Max 200).
+
+**Sample Input**
+
+**Sample Output**
+
+### Bulk update records
+
+Bulk update records using the Salesforce Bulk API. Record data should be in CSV format.
+
+**Sample Input**
+
+**Sample Output**
+
+### Bulk upsert records
+
+Bulk upsert records using the Salesforce Bulk API. Record data should be in CSV format
+
+**Sample Input**
+
+**Sample Output**
+
+### Convert Lead
+
+Convert a lead into an account, contact and/or opportunity
+
+**Sample Input**
+
+**Sample Output**
+
+### Count records
+
+Count the number of records that match a given set of conditions.
+
+**Sample Input**
+
+**Sample Output**
+
+### Create amendment quote
+
+Create an amendment quote for a contract.
+
+**Sample Input**
+
+**Sample Output**
+
+### Create custom field
+
+Create custom field metadata. Single or multiple fields can be created.
+
+**Sample Input**
+
+**Sample Output**
+
+### Create query job
+
+Creates a query job.
+
+**Sample Input**
+
+**Sample Output**
+
+### Create record
+
+Create a new record in Salesforce.
+
+**Sample Input**
+
+**Sample Output**
+
+### Create/update record
+
+Create a record if a record with the "lookup value" doesn't already exist. Update it if it does exist.
+
+**Sample Input**
+
+**Sample Output**
+
+### Create/update record using ID
+
+Create a record if a record with the 'lookup value' doesn't already exist. Update it if it does exist. If there is no external ID to reference, insert a new record using ID as the External ID.
+
+**Sample Input**
+
+**Sample Output**
+
+### Delete custom field
+
+Delete custom field metadata. Single or multiple fields can be deleted in a single operation.
+
+**Sample Input**
+
+**Sample Output**
+
+### Delete query job
+
+Deletes a query job.
+
+**Sample Input**
+
+**Sample Output**
+
+### Delete record
+
+Delete a record in Salesforce, using it's unique object id.
+
+**Sample Input**
+
+**Sample Output**
+
+### Describe object (advanced)
+
+Describes the raw structure of an object in Salesforce.
+
+**Sample Input**
+
+**Sample Output**
+
+### Download attachment
+
+Downloads a file attachment from Salesforce, for use in other connectors.
+
+**Sample Input**
+
+**Sample Output**
+
+### Download file
+
+Downloads a file from Salesforce.
+
+**Sample Input**
+
+**Sample Output**
+
+### Execute report async
+
+Runs an instance of a report asynchronously with or without filters.
+
+**Sample Input**
+
+**Sample Output**
+
+### Execute report query
+
+Returns report data without saving changes to an existing report or creating a new one.
+
+**Sample Input**
+
+**Sample Output**
+
+### Execute report sync
+
+Runs a report immediately with or without changing filters, groupings, or aggregates and returns the latest summary data with or without details for your level of access.
+
+**Sample Input**
+
+**Sample Output**
+
+### Find records
+
+Find a list of records in Salesforce.
+
+**Sample Input**
+
+**Sample Output**
+
+### Get consent
+
+Locate customers’ preferences for consent across multiple records.
+
+**Sample Input**
+
+**Sample Output**
+
+### Get instance results
+
+Retrieves results of an asynchronous report run.
+
+**Sample Input**
+
+**Sample Output**
+
+### Get job info
+
+Get details about a bulk data processing job
+
+**Sample Input**
+
+**Sample Output**
+
+### Get job successful record results
+
+Retrieve a list of successfully processed records for a completed job as a CSV file.
+
+**Sample Input**
+
+**Sample Output**
+
+### Get omni-channel presence status
+
+Get the presence status of an omni-channel
+
+**Sample Input**
+
+**Sample Output**
+
+### Get picklist item details
+
+Retrieves details for a specific picklist item from a given object and field name.
+
+**Sample Input**
+
+**Sample Output**
+
+### Get query job
+
+Gets information about one query job.
+
+**Sample Input**
+
+**Sample Output**
+
+### Get query job results
+
+Returns a CSV file with the results of a completed query job.
+
+**Sample Input**
+
+**Sample Output**
+
+### Get Record Object Description
+
+Get the description of a record type, given the unique ID of the record of that type in Salesforce.
+
+**Sample Input**
+
+**Sample Output**
+
+### Get user info
+
+Get details about the authenticated Salesforce user.
+
+**Sample Input**
+
+**Sample Output**
+
+### List jobs
+
+Retrieve a list of jobs created by bulk data operations e.g. Bulk upsert records
+
+**Sample Input**
+
+**Sample Output**
+
+### List query jobs
+
+Gets information about all query jobs.
+
+**Sample Input**
+
+**Sample Output**
+
+### List report fields
+
+Retrieves report fields available for specified reports.
+
+**Sample Input**
+
+**Sample Output**
+
+### List report instances
+
+Returns a list of instances for a report.
+
+**Sample Input**
+
+**Sample Output**
+
+### List report types
+
+Return a list of report types.
+
+**Sample Input**
+
+**Sample Output**
+
+### List reports
+
+Retrieves a list of up to 200 reports that you recently viewed.
+
+**Sample Input**
+
+**Sample Output**
+
+### Merge records
+
+Merge records into a master record. Be advised if you want to keep values from non-master records the Fields to populate input must be used
+
+**Sample Input**
+
+**Sample Output**
+
+### Raw HTTP request (advanced)
+
+Perform a raw HTTP request with some pre-configuration and processing by the connector, such as authentication.
+
+**Sample Input**
+
+**Sample Output**
+
+### Revoke tokens
+
+Revokes the access and refresh token used in the auth, which makes the authentication useless
+
+**Sample Input**
+
+**Sample Output**
+
+### Run report (sync)
+
+Run a report from your Salesforce Reports list.
+
+**Sample Input**
+
+**Sample Output**
+
+### SOQL Query (advanced)
+
+Execute a raw SOQL query to extract data from Salesforce.
+
+**Sample Input**
+
+**Sample Output**
+
+### SOSL Query (advanced)
+
+Execute a raw SOSL query to extract data from Salesforce.
+
+**Sample Input**
+
+**Sample Output**
+
+### Update custom field
+
+Update custom field metadata using name.
+
+**Sample Input**
+
+**Sample Output**
+
+### Update record
+
+Update a record in Salesforce.
+
+**Sample Input**
+
+**Sample Output**
+
+### Upload and link file
+
+Upload and link a file to a particular record in Salesforce.
+
+**Sample Input**
+
+**Sample Output**
+
+### Write consent
+
+Update and write consent across multiple records, helping you sync consent across records or populate the new Consent data model.
+
+**Sample Input**
+
+**Sample Output**
+
+## DDL operations
+
+### List query jobs (DDL)
+
+**Sample Input**
+
+**Sample Output**
+
+### List report fields (DDL)
+
+**Sample Input**
+
+**Sample Output**
+
+### List report fields for standard date filter (DDL)
+
+**Sample Input**
+
+**Sample Output**
+
+### List report types (DDL)
+
+**Sample Input**
+
+**Sample Output**
+
+### List reports (DDL)
+
+**Sample Input**
+
+**Sample Output**

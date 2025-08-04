@@ -1,0 +1,92 @@
+---
+title: "Overview"
+description: "Overview of the Sage 300 connector"
+---
+
+# Overview
+
+## Overview
+
+Sage 300 is a subscription-based version of the software that provides web screen capabilities to allow users to access core product functionality via a web-browser.
+
+## Authentication
+
+When using the Sage 300 connector, the first thing you will need to do is go to your Tray.io account page, and select the workflow you wish to work on. Once in the workflow builder itself, search and drag the Sage 300 connector from the connectors panel (on the left hand side) onto your workflow.
+
+With the new Sage 300 connector step highlighted, in the properties panel on the right, click on the Authenticate tab followed by 'Add new authentication' (located under the 'Authentication' field).
+
+This will result in a Tray.io authentication pop-up window. The first page will ask you to name your authentication, and state which type of authentication you wish to create ('Organization' or 'Personal').
+
+As you can see, the next page asks you for your 'Username', 'Password', 'Host application path' and 'Company' credentials.
+
+Once you have added these fields to your Tray.io authentication popup window, click on the 'Create authentication' button. Go back to your settings authentication field (within the workflow builder properties panel), and select the recently added authentication from the dropdown options now available.
+
+Your connector authentication setup should now be complete.
+
+## Using the Raw HTTP Request ('Universal Operation')
+
+As of **version 1.0**, you can effectively create your own operations.
+
+This is a very powerful feature which you can put to use when there is an endpoint in Sage 300 which is not used by any of our operations.
+
+To use this you will first of all need to research the endpoint in the [Sage 300 API documentation v1.0](https://github.com/SageNADev/Sage300-SDK/blob/master/docs/webapi/Sage300_WebAPI_EndpointReference.docx), to **find the exact format** that Sage 300 will be expecting the endpoint to be passed in. 
+
+Look for the webApi docs in [GitHub - SageNADev/Sage300-SDK: Sage300-SDK](https://github.com/SageNADev/Sage300-SDK) at `docs/webapi`. Once the Web Screens are installed (option during Sage 300 installation), the Web API is installed at that time. Accessing the landing page for the Web API (localhost/sage300webapi) will allow you to access swagger and interactively invoke the apis.
+
+Note that you will only need to add the suffix to the endpoint, as the base URL will be automatically set (the base URL is picked up from the value you entered when you created your authentication).
+
+The base URL for Sage 300 is: `https://sage300api.serviceName.com/Sage300WebApi/v1.0/-/companyName`
+
+For example, say that the 'List APVendors' operation did not exist in our Sage 300 connector, and you wanted to use this endpoint, you would use the Sage 300 API docs to find the relevant endpoint - which in this case is a `GET` request called: `/AP/APVendors`.
+
+More details can be found [here](https://sage300api.agas.com/Sage300WebApi/swagger/ui/index#!/APVendors/APVendors_GetByApiversionAndTenantAndCompany).
+
+As you can see there is also the option to include a query parameter, should you wish to do so. So if you know what your method, endpoint and details of your query parameters are, you can get the APVendors information with the following settings:
+
+Method: `GET`
+
+Endpoint: `/AP/APVendors`
+
+Query Parameter: Key: `$select` Value: `VendorNumber`
+
+Final Example outcome being: **https://sage300api.serviceName.com/Sage300WebApi/v1.0/-/companyName/AP/APVendors**
+
+## Example Usage
+
+Below is an example of a way in which you could potentially use the Sage 300 connector, to get the existing APVendors from your account one by one.
+
+1. Setup using a manual trigger and the List APVendors operation.
+2. Add a Loop connector to iterate through the APVendors found.
+3. Get all the available data for each APVendor, individually.
+
+The final outcome should look like this:
+
+### 1 - Setup Trigger & List APVendors
+
+Once you have clicked 'Create new workflow' from your main Tray.io dashboard named it, select the Manual trigger from the trigger options available:
+
+After you have been redirected to the Tray.io workflow dashboard, from the connectors panel on the left, add a Sage connector to your second step. Set the operation to 'List APVendors'.
+
+When run, this workflow will list all the APVendors within the Sage 300 account under your credentials.
+
+### 2 - Add a Loop connector
+
+Next, search for the Loop collection connector within your connector panel, and drag it into your workflow as your next step. Set your operations to 'Loop list'.
+
+The Loop Collection connector allows you to iterate through a list of results. In this example, we will use it to iterate through the data found within the previous List APVendors connector step.
+
+In order to specify the list you want to loop through, start by using the 'List' mapping icon (found next to the list input field, within the properties panel) to generate the connector-snake.
+
+While hovering over the 'List APVendors' step (with the tail end of the connector-snake), select `value` from the list of output properties displayed. This will auto-populate a jsonpath within your 'List' input field, and update the type selector to jsonpath.
+
+For more clarification on the pathways you have available, open the Debug panel to view your step's Input and Output.
+
+When run, this workflow will iterate through the list of APVendors provided by the earlier step.
+
+### 3 - Get APVendors by number
+
+The last step is to drag a Sage 300 connector **inside** of the Loop Collection step itself. Set the operation to 'Get APVendors by number'. As you can see, the 'Vendor number' field is required.
+
+When run, the workflow will now iterate through the list of APVendors provided, and get all the details available for each individual one.
+
+You can also check the Debug panel for more details on the provided output:

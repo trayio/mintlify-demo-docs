@@ -1,0 +1,132 @@
+---
+title: "Overview"
+description: "Overview of the Blueshift connector"
+---
+
+# Overview
+
+## Overview
+
+Blueshift's solution enables marketers to engage with a segment-of-one at scale, on multiple channels including email, websites and mobile apps. Blueshift offers a unified solution that combines a customer data platform with cross-channel marketing automation.
+
+## Authentication
+
+When using the Blueshift connector, the first thing you will need to do is go to your Tray.io account page, and select the workflow you wish to work on. Once in the workflow dashboard itself, search and drag the Blueshift connector from the connectors panel (on the left hand side) onto your workflow.
+
+With the new Blueshift connector step highlighted, in the properties panel on the right, click on 'New Authentication' which is located under the 'Settings' heading.
+
+This will result in a Tray.io authentication pop-up window. First, name your authentication and choose your auth level ('Personal' or 'Organization'). Once you've clicked 'Next Step' you will see that you need your 'Blueshift API keys' aka: your Blueshift 'User API key', 'Event API key' and 'S3 folder access key'.
+
+To find your Blueshift API keys, login to your Blueshift account and in the hamburger menu (top right) click on the "Account Settings" option. On the page that appears, select the "API Keys" tab.
+
+You should see a list of all the available API keys that have been created including your 'User API key', 'Event API key' and 'S3 folder access key'. Feel free to make a new one should this suit your project better.
+
+Once you have your API keys, copy them into the appropriate fields within the Tray.io authentication popup. Click the 'Create authentication' button.
+
+Go back to your authentication field (within the workflow dashboard properties panel from earlier), and select the recently added authentication from the dropdown options now available.
+
+Your connector authentication setup should now be complete.
+
+## Available Operations
+
+The examples below show one or two of the available connector operations in use.
+
+Please see the [Full Operations Reference](#operationsFull) at the end of this page for details on all available operations for this connector.
+
+## Note on Operations usage
+
+**SEND EVENT**
+
+Note that the 'Event API key' is *required* if you want to use the 'Send event' operation.
+
+Every other operation needs the 'User API key' as minimum.
+
+**ADD ITEMS TO CATALOG**
+
+In order to add items to a specific catalog, you need a 'Catalog UUID'.
+
+This ID is generated when you create a catalog using the 'Create catalog' operation. If you want to add to an existing catalog, in order to find the ID first log in to your Blueshift account. Click on the gear icon and choose Catalog from the menu options.
+
+You will be redirected to a list of previously created catalogs. Select your preferred catalog.
+
+The catalog's UUDI can be found within its URL. For example: `https://app.getblueshift.com/dashboard#/app/catalogs/<CATALOG_UUID>/details`. Copy the UUID information ONLY, in order to use it in conjunction with the 'Add items to catalog' operation.
+
+## Using the Raw HTTP request ('Universal Operation')
+
+As of **version 1.0**, it is possible to effectively create your own operations.
+
+This is a very powerful feature which you can put to use when there is an endpoint in Blueshift which is not used by any of our operations.
+
+To use this you will first of all need to research the endpoint in the [ Blueshift API documentation v1.0](https://developer.blueshift.com/reference) , to *find the exact format* that Blueshift will be expecting the endpoint to be passed in.
+
+Note that you will only need to add the suffix to the endpoint, as the base URL will be automatically set (the base URL is picked up from the value you entered when you created your authentication).
+
+The base URL for Blueshift is: `https://api.getblueshift.com/api/v1`
+
+For example, say that the 'Search user' operation did not exist in our Blueshift connector, and you wanted to use this endpoint, you would use the Blueshift API docs to find the relevant endpoint - which in this case is a `GET` request at the [ following URL](https://api.getblueshift.com/api/v1/customers) :
+
+As you can see, there is also the option to include a query parameter, should you wish to do so. So if you know what your method, endpoint and query parameters are, you can get a specific customer's details with the following settings:
+
+Method: `GET`
+
+Endpoint: `/customers`
+
+Query parameters: `email` : `example@email.com`
+
+Final Example outcome being:
+
+**https://api.getblueshift.com/api/v1/customers?email=example@email.com**
+
+## Example usage
+
+Below is an example of a way in which you could potentially use the Blueshift connector to create a catalog, add items to it and later send an email to "your team" to inform them about the newly created catalog and item.
+
+The steps will be as follows:
+
+1. Setup using a manual trigger, and create a new catalog.
+2. Add a new item to the new catalog.
+3. Send an email notification around about the new product now available.
+
+The final outcome should look like this:
+
+### 1 - Setup Trigger & Create Catalog
+
+Once you have clicked 'Create new workflow' from your main Tray.io dashboard (and named the new workflow), select the Manual trigger from the trigger options available:
+
+After you have been redirected to the Tray.io workflow dashboard, from the connectors panel on the left, add a Blueshift connector to your second step. Set the operation to 'Create catalog'.
+
+*Feel free to re-name your steps as you go along to make things clearer for yourself and other users. Use the operation names themselves.*
+
+For this operation you only need to fill in one required field, which is the name of your catalog. This example creates a catalog for and named: `Televisions 2020`.
+
+### 2 - Create & Add Item to Catalog
+
+Add the second Blueshift connector and set to 'Add items to catalog'. To add any item to a catalog you need to have the UUID (Universally unique identifier) of that catalog and add/ fill in the product details.
+
+In order to specify the catalog you want to use, start by using the 'Catalog UUID' mapping icon (found next to the 'Catalog UUID' input field within the properties panel) to generate the connector-snake.
+
+While hovering over the 'Create catalog' step (with the tail end of the connector-snake), select `catalog_uuid` from the output properties displayed. This will auto-populate a jsonpath within your 'Catalog UUID' input field, and update the type selector to jsonpath.
+
+*For more clarification on the pathways you have available, open the Debug panel to view your step's Input and Output.*
+
+To be able to complete this operation successfully, the new product itself must be added. Select the 'Add Product' button. You should see a whole new list of options to fill in for said product appear. Make sure to fill in the mandatory fields minimum. Remember that all this data will be part of your item's catalog details.
+
+Check out the following gif for a completed example:
+
+### 3 - Send Email
+
+The final step is to send an email to our colleagues, in order to inform them about the newly created catalog and item within. Add a 'Send Email' connector to your workflow as your next step.
+
+There are several mandatory fields here, including the recipient email address, the content, and the address of the sender. Please make sure you fill in these details accurately. Note that the way you space your words and sentences within the 'Content' field, will be reflected in your email.
+
+In order to include the catalog number within the content of the email itself, copy the jsonpath from earlier and use Tray.io's method of interpolation.
+
+Once the workflow is run, it will create a new catalog (and product within), not to mention email the relevant parties at hand notifying them of this event. Check the Debug panel for more details:
+
+Or better yet - check your email!
+
+To check that this has completed fully, login to your Blueshift account and go to the catalog section of your app (shown above on the Authentication section).
+
+The newly created catalog should be displayed, and once clicked through, you will be able to find your item by its ID number like so:
+
+Clicking the item will show you all the information available (which was created during the previous step) displayed:

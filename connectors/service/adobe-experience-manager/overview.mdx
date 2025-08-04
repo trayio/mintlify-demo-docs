@@ -1,0 +1,127 @@
+---
+title: "Overview"
+description: "Overview of the Adobe Experience Manager connector"
+---
+
+# Overview
+
+## Overview
+
+Adobe Experience Manager is a comprehensive content management solution for building websites and all of their complementary applications, including mobile apps, paperless forms and online communities.
+
+## Authentication
+
+When using the Adobe Experience Manager connector, the first thing you will need to do is go to your Tray.io account page, and select the workflow you wish to work on. Once in the workflow dashboard itself, search and drag the Adobe Experience Manager connector from the connectors panel (on the left hand side) onto your workflow.
+
+With the new Adobe Experience Manager connector step highlighted, in the properties panel on the right, click on 'New Authentication' which is located under the 'Settings' heading.
+
+This will result in a two step Tray.io authentication pop-up window, that should look like this:
+
+As you can see, besides from naming your authentication appropriately and selecting the purpose, you will need your 'Username', 'Password', 'Port' and 'URL'.
+
+The username and password are the same as the ones you use to log into your Adobe Experience Manager instance.
+
+Your URL and a PORT are those which are associated with your account. For example if the URL to your instance is `https://docsdemo.com:1234` you will enter `https://docsdemo.com` as URL and `1234` as PORT. *Depending on your server set up, some times you may not even need a port.*
+
+The result should be similar to the below:
+
+## Available Operations
+
+The examples below show one or two of the available connector operations in use.
+
+Please see the [Full Operations Reference](#operationsFull) at the end of this page for details on all available operations for this connector.
+
+## Note on Operations usage
+
+### Paths
+
+**NAVIGATION**
+
+Knowing how to correctly navigate **Paths** within Adobe Experience Manager is important.
+
+For instance, know that you can navigate through the content of your Adobe Experience Manager instance, by specifying the path to the folder you wish to get the content of.
+
+A path example could be: `/assets/we-retail/en/people.json`
+
+The `rel` property of a path specifies if the path is relative to the containing folder, or whether it points to resources in another folder. A path where `rel` is equal to self *is a path that points to itself*. Whereas a path where rel is equal to `content`, *is a path to a downloadable file*.
+
+Note that you can then use the 'Get path content" operation to see what any of these paths contains.
+
+**DOWNLOADS**
+
+When you go to your Debug panel and check the output from a pervious step - for example 'Get path content' - you will have two path options displayed, but only one of them is downloadable.
+
+The first path displayed may show the file path "ending" with a file you wish to download, but if you look closely you will notice that the file type goes past the normal format, and in fact ends with `.json` (instead of for exmaple, `.png` etc). It is therefore not possible to download the file as expected. This path can instead be used to get information about the file itself, such as metadata.
+
+The second file path seemingly goes beyond the file type and into another couple of folder options altogether, but this is just Adobe's way of making sure the image within said path, renders as expected. THIS is the file path to use when you intend to download anything.
+
+### Navigating through Folders
+
+The output of the 'Get path content' operation allows you to navigate through the folders available in Adobe Experience Manager. Three main properties will be returned:
+
+- **Content**: A list of folders/files found for the given path. For each one of these items there is the property path_downloadable that you can use to check whether there is something to download at that path (using the Download file operation) or not.
+- **Metadata**: A list of properties related to the file, if the path specified points to a file.
+- **Navigation**: A List of paths that you can use to go either "up" to the parent folder but also to go to the next page of results. If there is a next or previous page of results, this list will also contain a path to the previous or next page.
+
+## Using the Raw HTTP Request ('Universal Operation')
+
+As of **version 1.1**, you can effectively create your own operations.
+
+This is a very powerful feature which you can put to use when there is an endpoint in Adobe Experience Manager which is not used by any of our operations.
+
+To use this you will first of all need to research the endpoint in the [Adobe Experience Manager API documentation v6.5](https://experienceleague.adobe.com/docs/experience-manager-65/assets/extending/mac-api-assets.html?lang=en#overview), to **find the exact format** that Adobe Experience Manager will be expecting the endpoint to be passed in.
+
+Note that you will only need to add the suffix to the endpoint, as the base URL will be automatically set (the base URL is picked up from the value you entered when you created your authentication).
+
+The base URL for Adobe Experience Manager is made up of the `URL` and `port` authentication parameters as mentioned in the [Authentication](##Authentication) section of this page. So if you have `https://docsdemo.com` as the URL and `1234` as PORT, the base URL will be `https://docsdemo.com:1234`. *Depending on your server set up, some times you may not even need a port.*
+
+For example, say that the 'Get folder' operation did not exist in our Adobe Experience Manager connector, and you wanted to use this endpoint, you would use the Adobe Experience Manager API docs to find the relevant endpoint - which in this case is a `GET` request called: `/api/assets/myFolder.json`.
+
+More details can be found [here](https://experienceleague.adobe.com/docs/experience-manager-65/assets/extending/mac-api-assets.html?lang=en#retrieve-a-folder-listing).
+
+The `myFolder` part of the endpoint is the path to the folder you wish to get information for, this could be the name of the folder like here it is here `myFolder` or could be a path to a deeper directory if the folder is contained within other directories e.g. `firstFolder/secondFolder/myFolder`. So if you know what your method and path is to create the endpoint, you can get the folder information with the following settings:
+
+Method: `GET`
+
+Endpoint: `/api/assets/firstFolder/secondFolder/myFolder.json`
+
+Body Type : `none`
+
+Final Example outcome being: **https://docsdemo.com:1234fi/api/assets/firstFolder/secondFolder/myFolder.json**
+
+## Example usage
+
+In this scenario, there is a folder called "Project" in the assets section, which contains another folder ("My folder") and a file ("image.png") that will be downloaded.
+
+The steps will be as follows:
+
+1. Setup manual trigger and List folders.
+2. Get the content of this folder, and download a particular file.
+
+The final outcome should look like this:
+
+### 1 - Setup trigger & List Folders
+
+Once you have clicked 'Create new workflow' on your main Tray.io dashboard (and named said new workflow), select the Manual trigger from the trigger options available:
+
+Once you have been redirected to the Tray.io workflow dashboard, from the connectors panel on the left, add a Adobe Experience Manager connector to your second step. Set the operation to 'List assets folders'.
+
+### 2 - Get Folder content
+
+Add another Adobe Experience Manager connector to your workflow and set the operation to 'Get path content'.
+
+As the way to navigate around your Adobe Experience Manager account is similar to that of any directory path, you can specify the path you want by using the same style of navigation: `/assets/we-retail-screens.json`.
+
+To double check, you can also use the 'List assets folders' operation to find the path your project file. Here's a snippet from the debug:
+
+From the Adobe side of things it will navigate as follows:
+
+### 3 - Download file
+
+Add a final Adobe Experience Manager connector to your workflow and set the operation to 'Download file'.
+
+The path that you will need to specify, will be found again in your Debug panel. Please see *Note on Operations usage -> Paths -> Downloads* above for more details on how to find this path.
+
+Your work flow step should look similar to the below:
+
+Once you run said workflow, you should end up with a file automatically locally downloaded.

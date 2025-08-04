@@ -1,0 +1,136 @@
+---
+title: "Overview"
+description: "Overview of the Panaya connector"
+---
+
+# Overview
+
+## Overview
+
+Panaya is a suite of change intelligence solutions to reduce the time, cost, and risk involved in change to business applications like SAP®, Oracle® EBS, and Salesforce.com
+
+## Authentication
+
+Within the workflow builder, highlight the Panaya connector.
+
+In the Panaya connector properties panel to the right of the builder, click on the Authenticate tab and the 'Add new authentication' button.
+
+This will result in a Tray.io authentication pop-up modal. The first page will ask you to name your authentication and select the type of authentication you wish to create ('Personal' or 'Organisational').
+
+The next page asks you for your 'Username' and 'Access token' credentials, and the 'Environment' that you would like to connect to.
+
+Your username is the email address that you used to sign up for your Panaya account.
+
+In order to get your access token, head to the Panaya dashboard. Click on the cog icon in the top right-hand corner of the page. This will open the settings page. In the 'Security' section you will find 'Access Tokens'; click on the 'Generate and Manage' link.
+
+To create an access token, click on the 'Create Access Token' button.
+
+Provide a name and expiration date and click 'Generate'.
+
+Once you have created an access token, copy it to the clipboard and make a note of it in a secure place. You will not be able to see the access token ever again once the dialog is closed.
+
+Once you have added these fields to your Tray.io authentication pop-up window, click the 'Create authentication' button.
+
+Go back to your settings authentication field (within the workflow builder properties panel), and select the recently added authentication from the dropdown options now available.
+
+Your connector authentication setup should now be complete.
+
+## Available Operations
+
+The examples below show one or two of the available connector operations in use.
+
+Please see the [Full Operations Reference](#operationsFull) at the end of this page for details on all available operations for this connector.
+
+## Notes on using panaya
+
+### Mandatory Custom Fields
+
+In Panaya, it is possible to create custom fields for entities like defects and requirements. Some of these can be flagged as mandatory which means that you must provide a value for the fields when creating a defect or requirement.
+
+If this is the case with your Panaya environment then you must supply values for those custom fields in the properties panel.
+
+Mandatory custom fields will appear first in the Field dropdown and will be prepended with an asterisk (*).
+
+Below are the default API limits for the available calls:
+
+- Update and Create (Post/Put/Patch) - **12 Calls per minute**
+- Read (Get) - **30 Calls per minute**
+- Custom Code Upload / Patches Upload - **2 Calls per day**
+
+For more details please see the Panaya documentation: [What are the default API call limits?](https://success.panaya.com/Setup-Configuration/APIs/999613381/What-are-the-default-API-call-limits.htm)
+
+## Using the Raw HTTP Request ('Universal Operation')
+
+As of **version 1.0**, you can effectively create your own operations.
+
+This is a very powerful feature which you can put to use when there is an endpoint in Panaya which is not used by any of our operations.
+
+To use this you will first of all need to research the endpoint in the [Panaya API documentation v1](https://app.swaggerhub.com/apis-docs/Panaya6/Panaya/20.06#/), to **find the exact format** that Panaya will be expecting the endpoint to be passed in.
+
+Note that you will only need to add the suffix to the endpoint, as the base URL will be automatically set (the base URL is picked up from the value you entered when you created your authentication).
+
+The base URL for Panaya is: `https://my.panaya.com/api`
+
+For example, say that the 'List tasks' operation did not exist in our Panaya connector, and you wanted to use this endpoint. You would use the Panaya API docs to find the relevant endpoint - which in this case is a `GET` request called: `/v1/projects/{projectId}/tasks`.
+
+More details about this endpoint can be found [here](https://app.swaggerhub.com/apis-docs/Panaya6/Panaya/20.06#/Tasks/getAllUsingGET_3).
+
+As you can see there is also the option to include query parameters, should you wish to do so. So if you know what your method, endpoint and details of your query parameters are, you can get the 10 most recent tasks with the following settings:
+
+Method: `GET`
+
+Endpoint: `/v1/projects/1234/tasks`
+
+Query Parameters:
+
+- Key: `order` Value: `"Last Modified Date"-`
+- Key: `pageSize` Value: `10`
+- Key: `pageNumber` Value: `1`
+
+Final outcome being: **https://my.panaya.com/api/v1/projects/1234/tasks?order=%22Last%20Modified%20Date%22-&pageSize=10&pageNumber=1**
+
+## Example Usage
+
+Below is an example of a way in which you could potentially use the Panaya connector, to iterate through all resolved defects and set their status to be closed.
+
+The steps will be as follows:
+
+1. Setup using a manual trigger and list resolved defects.
+2. Add a loop to iterate over the resolved defects one at a time.
+3. Set each defect's status to be closed.
+
+Your completed workflow should look similar to this:
+
+### 1 - Setup Trigger & List Resolved Defects
+
+Select the Manual Trigger from the trigger options available. From the connectors panel on the left, add a Panaya connector to your workflow. Set the operation to 'Raw HTTP request (advanced)' and configure the properties panel as shown below making sure to use your own project ID in the endpoint and to select a valid authentication.
+
+We now have a first step that retrieves all resolved defects.
+
+### 2 - Iterate through the Resolved Defects
+
+Next, search for the Loop collection connector within your connector panel, and drag it into your workflow as your next step. Set your operation to 'Loop list'.
+
+The Loop Collection connector allows you to iterate through a list of results. In this example, we will use it to iterate through the data found within the previous Panaya connector step.
+
+In order to specify the list you want to loop through, start by using the list mapping icon (found next to the list input field, within the properties panel) to generate the connector-snake.
+
+While hovering over the 'List resolved defects' step (with the tail end of the connector-snake), select `entities` from the list of output properties displayed. This will auto-populate a jsonpath within your list input field, and update the type selector to jsonpath.
+
+For more clarification on the pathways you have available, open the Debug panel to view your step's Input and Output.
+
+We have added a loop connector which will allow us to iterate over the resolved defects in step 3.
+
+### 3 - Close Defects
+
+The last step is to drag a Panaya connector **inside** of the Loop Collection step itself. Set the operation to 'Update defect'. As you can see, the 'Project ID' and 'Defect ID' fields are required.
+
+Select your 'Project ID' value from the dropdown.
+
+In order to specify the defect you want to update, start by using the mapping icon (found next to the 'Defect ID' input field, within the properties panel) to generate the connector-snake.
+
+While hovering over the 'Loop list' step (with the tail end of the connector-snake), select `ID` from the list of output properties displayed. This will auto-populate a jsonpath within your Defect ID field, and update the type selector to jsonpath.
+
+Now set the 'Status' to 'Closed'.
+
+We have successfully updated the defect's status from 'Resolved' to 'Closed'.

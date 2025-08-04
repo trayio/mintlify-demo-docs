@@ -1,0 +1,82 @@
+---
+title: "Overview"
+description: "Overview of the Attentive Mobile connector"
+---
+
+# Overview
+
+## Overview
+
+Attentive Mobile allows people the ability to add subscribers to an Attentive solution plan. Using real-time behavioural data, Attentive automatically sends engaging text messages to each subscriber at every step of the customer lifecycle.
+
+## Authentication
+
+Within the builder, click on the Attentive Mobile connector to display the connector properties panel. Select the 'Auth' tab and click on the 'New authentication' button.
+
+In the Tray.io authentication pop-up modal, name the authentication in a way that will quickly identify it within a potentially large list. For example, whether it is a Sandbox or Production auth, etc.
+
+Consider who/ how many people will need access to this authentication when choosing where to create this authentication ('Personal' or 'Organisational').
+
+As you can see, the next page will ask you to select the type of authentication you wish to create. This is either 'Token' or 'OAuth 2'. 
+
+### 1. OAuth 2.0 Authentication
+
+Suppose you choose to create an OAuth 2.0 authentication. You will be instructed to provide the Client ID and Client Secret. Creating a public application will allow you to retrieve this information. Please note that if your Attentive Mobile application is public you will need to use this authorization flow. 
+
+### 2. Token-based Authentication 
+
+If you choose to create a token-based authentication, you will need to enter your API Key. 
+
+To generate a unique API key, you must create an app in the Attentive platform. Please note that if your Attentive Mobile application is private you will need to use this authorisation flow.
+
+Once you have added these fields to your Tray.io authentication popup window, click on the 'Create authentication' button. Go back to your settings authentication field (within the workflow builder properties panel), and select the recently added authentication from the dropdown options now available.
+
+Your connector authentication setup should now be complete.
+
+## Example usage
+
+Below is an example of a way in which you could potentially use the Attentive Mobile connector to subscribe a collection of users.
+
+The steps will be as follows:
+
+1. Setup the workflow using a manual trigger and a Script helper connector in order to stimulate a data response.
+2. Loop through the list provided, and return the details of each individual item.
+3. Setup the Attentive Mobile connector to subscribe each user to your Attentive mobile account.
+
+The final outcome should look like this:
+
+### 1 - Setup Trigger & Execute Script
+
+Once you have clicked 'Create new workflow' from your main Tray.io dashboard (and named said new workflow), select the Manual trigger from the trigger options available:
+
+After you have been redirected to the Tray.io workflow dashboard, from the connectors panel on the left, add a Script Helper connector to your second step. Set the operation to 'Execute Script'.
+
+The purpose of this step is to make sure there is some 'dummy data' available so that the Attentive Mobile connector can has something to build with.
+
+Paste this into the 'Script' input field (note that you don't need to worry about the 'Variables' field in this example, and can in fact delete these fields for now).
+
+Feel free to re-name your steps as you go along to make things clearer for yourself and other users.
+
+### 2 - Loop List
+
+Next, search for the 'Loop collection' connector within your connector panel, and drag it into your workflow as your next step. Set your operations to 'Loop list'.
+
+The Loop Collection connector allows you to iterate through a list of results. In this example, we will use it to iterate through the phone data found within the previous connector step.
+
+In order to specify the list you want to loop through, start by using the 'List' mapping icon (found next to the list input field within the properties panel) to generate the connector-snake.
+
+While hovering over the 'Execute script' step (with the tail end of the connector-snake), select `result` from the list of output properties displayed. This will auto-populate a jsonpath within your 'List' input field, and update the type selector.
+
+**For more clarification on the pathways you have available, open the Debug panel to view your step's Input and Output.**
+
+This step enables the user to loop through each list item, and return their individual details. 
+
+### 3 - Subscribe user
+
+The last step is to drag a Attentive Mobile connector **inside** the Loop Collection step itself. Set the operation to 'Subscribe user'. As you can see, one of 'Phone' or 'Email' is required as well as the 'Sign up source ID' field.
+
+Use the connector-snake to find the jsonpath for the 'Email' field we had in our script results from the loop step. It should appear similar to this `$.steps.loop-1.value.email`.
+
+Do the same with the 'Visitor ID' field (this will be our 'Sign up source ID'). Both should now be auto-populated with the jsonpath required for them to retrieve the necessary information.
+
+Now when the workflow is run, each new contact along with their contact details, will be added to the Attentive Mobile account. You can view the results of this within your Debug panel:

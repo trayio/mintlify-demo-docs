@@ -1,0 +1,100 @@
+---
+title: "Overview"
+description: "Overview of the AWS S3 connector"
+---
+
+# Overview
+
+## Overview
+
+AWS S3 provides simple object storage. It is useful for hosting website images and videos, data analytics, and both mobile and web applications. S3 object storage manages data as objects, meaning all data types are stored in their native formats.
+
+## API Information
+
+The AWS S3 connector uses official AWS SDK v2. It based on AWS S3 API version:2006-03-01. More information could be found on official page [Amazon S3 Docs](https://docs.aws.amazon.com/AmazonS3/latest/userguide/Welcome.html) .
+
+## AWS S3 templates
+
+Please note that we have the following AWS S3 templates available:
+
+These will give you pre-configured best practice ways of working with AWS S3 and integrating it with other connectors.
+
+However, please continue to at least read the Authentication setup instructions on this page to enable you to get started with using AWS S3.
+
+## Note on testing S3
+
+If you are testing an S3 bucket setup from scratch, an important point to bear in mind is that you need to have *at least two buckets with subfolders* in your S3 instance:
+
+Each bucket should contain at least one folder:
+
+It is also important to check that the public settings of your buckets do not block any of your actions.
+
+If you try and test with only one bucket set up, no buckets will show when you attempt to use any of the Tray get or put operations.
+
+## Authentication
+
+When using the Tray S3 connector you must first create an authentication for a correctly configured user by clicking on 'New Authentication':
+
+Then entering the **Access Key** and **Secret Key** for the user
+
+Please see the instructions below for how to correctly configure a user with access to your S3 buckets.
+
+## Important note on s3 region
+
+It is important that you set the Amazon region your buckets are hosted in correctly.
+
+This is done by clicking on 'Show Advanced Settings'
+
+You can then specify the region using the appropriate drop-down:
+
+Leaving the region as 'auto' will lead to errors with some operations such as 'List Buckets' which will give:
+
+`"message": "getaddrinfo ENOTFOUND s3-auto.amazonaws.com s3-auto.amazonaws.com:80"`
+
+## 1 - Create a user
+
+In order to authenticate with the S3 Connector, you must use the IAM console to set up a user with the correct permissions. The two steps required for this are:
+
+1. Create a user
+2. Create a permissions policy
+
+The user must be created with **programmatic access**:
+
+At the final stage you will be issued with the required **Access key ID** and **Secret access key** which you need to enter when authenticating with the Tray connector:
+
+## 2 - Create a policy
+
+Before using the Tray S3 connector, you will need to make sure the user is set with the correct IAM permissions.
+
+S3 permissions policies can be managed on two levels and you can manage all at user level if desired:
+
+1. At the **user** level - the basic 'List Buckets' operation (which displays all buckets a user has access to) must be set at this level
+2. At the individual **bucket** level - you can specify the user as a 'Principal' when defining bucket access permissions. All other permissions can be set here
+
+You can divide the permissions between user- and bucket-level policies, but you will always need to set a user-level policy to allow for the 'List Buckets' operation.
+
+## Setting a policy at user level
+
+In the IAM console, when setting permissions for an AWS user you can create a policy to add the user to or you can add an 'inline policy' in the user's details screen:
+
+You can add the policy using the visual editor:
+
+Or click on the **JSON** tab to enter a policy such as the following which would give the user access to a bucket called 'bucket-name-1':
+
+Note that the **ARN (Amazon Resource Name)** for the bucket/object has to be entered into the **"Resource"** for each permission, and how it is different for `s3:ListBucket` and `s3:ListAllMyBuckets` :
+
+- **"Resource": "arn:aws:s3:::bucket-name-1/*"** means that it applies to any invidual objects within a bucket (you could name specific objects e.g. arn:aws:s3:::bucket-name-1/picture1.jpg)
+- **"Resource": "arn:aws:s3:::bucket-name-1"** means that it applies to the bucket itself (note there is no trailing slash)
+- **"Resource": "*"** must be used for `s3:ListAllMyBuckets` as it does not apply to one particular bucket
+
+Remember that `s3:ListAllMyBuckets` can only be set at user level.
+
+## Setting a policy at bucket level
+
+In the S3 console, it is also possible to set an individual policy on a specific bucket:
+
+Note that you must specify a user's ARN as a **Principal** and remember that `s3:ListAllMyBuckets` can only be set at user level, so cannot be entered as part of a bucket policy.
+
+## Table of required permissions
+
+The following table sets out the permissions that are required for full use of the different operations available in the Tray s3 connector:

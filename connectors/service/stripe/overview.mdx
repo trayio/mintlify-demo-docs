@@ -1,0 +1,120 @@
+---
+title: "Overview"
+description: "Overview of the Stripe connector"
+---
+
+# Overview
+
+## Overview
+
+Stripe combines a payments platform with applications which put revenue data at the centre of their business operations. It is geared towards removing the barriers associated with online commerce in order to create a more seamless transaction experience for all concerned.
+
+## API Information
+
+The Stripe connector has the following Base URL: **https://api.stripe.com/v1**. More information can be found on their main [API documentation (v1)](https://stripe.com/docs/api) site. Details regarding their API limitations can be found [here](https://stripe.com/docs/rate-limits).
+
+## Authentication
+
+Whether you are using the Stripe Trigger or main Connector, the first thing you will need to do is select 'New Authentication' (if you are using the Stripe Trigger please also see the relevant section below):
+
+As you can see from the below image, in order to complete authentication set up, Tray requires that you input your "API secret key":
+
+This is found within the main dashboard of your Stripe account. Once you have logged into your Stripe account, navigate to the Developers section which is on the right hand side panel. Under this heading, you will see another option listed "API keys".
+
+Click through to reveal your API key, then copy and paste it into the **API secret key** field in the above Tray authentication dialog. Once you have added the authentication, it will already be selected in the authentication section in the Tray properties panel:
+
+When you select either a Stripe trigger or Stripe connector for your projects, you will have this specific Stripe-Tray authentication to hand regardless of project.
+
+## The Stripe Trigger
+
+If you are using the Stripe Trigger, you will need to setup a webhook in Stripe.
+
+First, in your Tray workflow, select the settings icon in the top left hand corner. Under General settings, you will see an option labelled "Workflow Public URL". Copy this, press 'Cancel changes', and head back to your Stripe Developer dashboard.
+
+Then, in the 'developers' section of the Stripe dashboard, select the "Webhook" option under the API Keys subheading.
+
+This will redirect you to a new page. Choose 'Add Endpoint' and paste the Tray "Workflow Public URL" into the "Endpoint URL" section. Make sure you don't have a double "https://" at the beginning of said URL (Stripe tends to auto populate the bar). Then choose the most current version option beneath.
+
+Under "Events to send", select what is relevant to your workflow (e.g `customer.created` will send a webhook any time a new customer in Stripe is created). Click 'Add endpoint'.
+
+> 
+
+While your dashboard will not have changed, and the authentication will appear the same as it was, don't be alarmed. You can test your trigger by performing an action in Stripe (e.g. create customer) which will trigger your webhook.
+
+**Note:** Before testing your Stripe-triggered workflow, make sure you have clicked the **Enable** button in the bottom-right corner of the builder screen.
+
+When you perform an action in Stripe which triggers your workflow you can check the result by opening the debug panel in your workflow:
+
+## Available Operations
+
+The examples below show one or two of the available connector operations in use.
+
+Please see the [Full Operations Reference](#operationsFull) at the end of this page for details on all available operations for this connector.
+
+## Note on Operations usage
+
+Please be aware that the "Create card" operation is for advanced users as it requires more than basic Tray workflow knowledge.
+
+## Example usage
+
+This brief tutorial will demonstrate how to use the Stripe connector in order to email relevant customers regarding their account invoices.
+
+This example envisages a scenario whereby the first step is manually triggered (for the sake of our demonstration), rather than using the Stripe trigger itself. This in turn kicks off the Tray workflow which will eventually return an automated email response to the customers provided.
+
+1. The trigger is manually invoked.
+2. A list of invoices is called for via the Stripe connector.
+3. The Loop connector iterates through the list of invoices.
+4. Another Stripe connector is used in order to retrieve each invoice's customer data.
+5. Each customer receives an automated reminder email regarding the invoices found under their account.
+
+The completed workflow will look like this:
+
+### 1 - Set up the Manual trigger
+
+Once you are logged into your Tray account and are in the main dashboard, select the 'Create new workflow' button, name said workflow, and choose the Manual trigger when prompted.
+
+Follow through the authentication process as described above - making sure the endpoints you select - in this case *customer* - in your Stripe webhook account is accurate.
+
+> 
+
+### 2 - List Invoices
+
+Using the search panel on the left hand side of your workflow, select the Stripe connector and add your second step. Validate the step with your pre-made Stripe authentication. You can rename the steps to make the workflow more user friendly however this is not mandatory.
+
+Make sure to choose the 'List invoices' operation under your authentication option.
+
+Either click on the 'Run workflow' button in the bottom right corner or hit the refresh option on any previously run flows in the debug panel. Your Input and Output panels will display the relevant JSON data, listing the available invoices currently in your Stripe account:
+
+*These panels are expandable if you wish to see their details more clearly.*
+
+### 3 - Iterate through the invoices
+
+Now search for and add the Loop connector for your next step.
+
+This connector will iterate through the list of available invoices created from the previous step, and deal with each of them individually, accordingly. It is a very simple but very effective tool and we recommend you see its main [documentation page](/connectors/core/loop/?docs_source=search&docs_term=loop) for more use cases.
+
+Link the Loop connector to the list using the connector snake as displayed below:
+
+### 4 - Get customer data
+
+Add another Stripe connector onto the square space available in the loop connector's workflow. Set the Operation to 'Get customer', with the Customer ID as `$.steps.loop-1.value.customer`, making sure that the input type for your Customer ID is set to JSON.
+
+This step within the loop, will now retrieve each invoice's customer data. You can see the relevant output when you run the workflow and open the debug panel.
+
+### 5 - Email customers
+
+Finally, add the Send Email connector to the next stage of the loop. Start by clicking 'Add recipient' beneath the "To recipients" option (under the input section, in the right hand panel).
+
+Once you click through, you will be asked to fill in both the email address and names for said recipients. In order to make sure this is coded for each individual customer, use the JSON path method and the connector snake in conjunction with second Stripe connector. The field values should be along the lines of: `$.steps.stripe-2.email`.
+
+The last stage of the email connector is adding the subject and content fields, in the next section below. Naturally you can adjust these to your needs, below is just an example of the kind of message you may wish to send:
+
+As you can see, we have used **Interpolation** in order to automatically fill in the fields mentioned within the email itself. This is essentially using the JSONpaths similar to what has been used earlier, within a plain text setting.
+
+*For more information on how to use this please reference Tray's  <Content type link TBD> .*
+
+The end result being, once your have run your workflow, as demonstrated below.
+
+Your customers in the meantime will have received fully rendered emails similar to this:
+
+In which case **Congratulations!**, you have fully completed the Stripe tutorial.

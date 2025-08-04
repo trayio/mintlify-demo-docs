@@ -1,0 +1,36 @@
+---
+title: "Overview"
+description: "Overview of the OpsGenie connector"
+---
+
+# Overview
+
+## Overview
+
+Using dynamic reporting and analytics, Opsgenie receives alerts from your monitoring systems and custom applications, and categorizes each alert based on importance and timing. The OpsGenie connector allows you to connect with Atlassian's powerful DevOps tool,making it easier to be notified of incidents on your services, respond to them, and plan for them.
+
+## Authentication
+
+In order to authenticate with Tray.io, you will need an API key. To get this, first log into your OpsGenie account.
+
+Go to 'Settings' (this is the gear icon on the left hand side, when you hover over it the menu options will slide out):
+
+Once you are in your 'Settings', scroll down on the settings menu options until you come to 'API Key management':
+
+Here you will have a list of current keys (if any) and the option to create new ones. Click on the 'Add new API key' button.
+
+You will get a pop up with your new API key and usability options displayed. Copy your key and keep it safe for later use, while making sure you align your permissions as needed.
+
+Go to your Tray.io dashboard and in the relevant project, once you have your Opsgenie connector is in place, create a new authentication. Make sure said connector is highlighted, thereby giving you the option of clicking on the 'New Authentication' in the properties panel on the right hand side:
+
+In the pop-up box that appears, enter your Authorization key (this is technically the API key you gathered from the Opsgenie site from earlier).
+
+Assuming the Authorization key was correct, you will now be able to use the OpsGenie connector.
+
+## Note on Operations usage
+
+As you can see from the operations list below, the OpsGenie connector is primarily for alert management.
+
+Note that there are also operations for updating various properties of an alert: description,message, priority, tags, team assignment, and responder.
+
+The 'Get request status' operation can also be used to retrieve the status of a request using its ID.

@@ -1,0 +1,48 @@
+---
+title: "Overview"
+description: "Overview of the Conversica connector"
+---
+
+# Overview
+
+## Overview
+
+Conversica is a cloud software technology company that offers Intelligent Virtual Assistants for businesses to advance marketing and sales using artificial intelligence.
+
+## Authentication
+
+Within the workflow builder, highlight the Conversica connector.
+
+In the Conversica connector properties panel to the right of the builder, click on the Authenticate tab and the 'Add new authentication' button.
+
+This will result in a Tray.io authentication pop-up modal. The first page will ask you to name your authentication and select the type of authentication you wish to create ('Personal' or 'Organisational').
+
+The next page asks you for your 'Username and 'Password' Conversica credentials.
+
+Once you have added these fields to your Tray.io authentication pop-up window, click the 'Create authentication' button.
+
+Go back to your settings authentication field (within the workflow builder properties panel), and select the recently added authentication from the dropdown options now available.
+
+Your connector authentication setup should now be complete.
+
+## Using the Raw HTTP Request ('Universal Operation')
+
+As of **version 1.0**, you can effectively create your own operations.
+
+This is a very powerful feature which you can put to use when there is an endpoint in Conversica which is not used by any of our operations.
+
+To use this you will first of all need to research the endpoint in the Conversica API documentation recieved from your representative to **find the exact format** that Conversica will be expecting the endpoint to be passed in.
+
+Note that you will only need to add the suffix to the endpoint, as the base URL will be automatically set (the base URL is picked up from the value you entered when you created your authentication).
+
+The base URL for Conversica is: `https://integrations-api.conversica.com/json/`
+
+For example, if you wanted to create a lead and use this endpoint. You would use the Conversica API docs to find the relevant endpoint - which in this case is a `POST` request called: `https://integrations-api.conversica.com/json/`.
+
+As you can see, there is also the option to include a raw body, should you wish to do so. So if you know what your method, endpoint, and details of your query parameters are, you can create a lead with the following settings:
+
+Method: `POST`
+
+Endpoint: `https://integrations-api.conversica.com/json/`
+
+Body Type : Raw :<br/>`{ "apiVersion" : "7.1", "id" : "12345", "conversationId" : "Tray", "firstName" : "Tray Docs", "email" : "traydocsconversica@tray.io", "leadSource" : "Docs", "optOut" : true, "repName" : "Name" }`

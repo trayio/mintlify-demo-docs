@@ -1,0 +1,62 @@
+---
+title: "Overview"
+description: "Overview of the Liveramp connector"
+---
+
+# Overview
+
+## Overview
+
+LiveRamp is a middleware company that moves data between most of the major marketing applications.
+
+## Authentication
+
+When using the Liveramp connector, the first thing you will need to do is go to your Tray.io account page, and select your desired workflow. Once in the workflow dashboard itself, search and drag the Liveramp connector from the connectors panel (on the left hand side) onto your workflow.
+
+With the new Liveramp connector step highlighted, in the properties panel on the right, click on 'New Authentication' which is located under the 'Settings' heading.
+
+This will result in a Tray.io authentication pop-up window, that should look like this:
+
+As you can see, besides from naming your authentication appropriately, you will need your API key.
+
+> 
+
+Once you have done this, make sure to copy and paste said key into the above field, and press 'Add Authentication'. Your auth should now be live.
+
+## Available Operations
+
+The examples below show one or two of the available connector operations in use.
+
+Please see the [Full Operations Reference](#operationsFull) at the end of this page for details on all available operations for this connector.
+
+## Example usage
+
+Below is an example of a way in which you could potentially use the Liveramp connector to add segments to a destination account.
+
+The steps will be as follows:
+
+1. List segments in account
+2. Create a new destination account
+3. Add segment to the destination account
+
+The final outcome should look like this:
+
+## 1 - Create a new destination account
+
+First go to your Tray.io dashboard, click on the 'Create new workflow' button in the top right corner and name your project workflow. Select Manual for your trigger.
+
+To run an operation with the Liveramp connector, search for Liveramp in the connector panel (found on the right hand side of your workflow) and type 'Liveramp' into the search input. Then Drag the connector into the workflow builder.
+
+In the RHS panel, set the operation to 'Create a new destination account'.
+
+Proceed to fill out the required input parameters. Note that the integration ID can be found on the Liveramp API documentation pages. In the below example we create a Quantcast destination.
+
+## 2 - List segments in account
+
+Next step in the workflow is to drag another Liveramp step onto the workflow and select the 'List account segments' operation. This is going to return a list of segments we have already created in the UI and their related IDs which will be fed through into the next step.
+
+## 3 - Add segment to the destination account
+
+The final step of the workflow is to segment(s) to a destination account. We will use the output of previous steps as inputs to this step using a feature of the workflow builder called jsonpaths.
+
+In the last step, for both 'Account ID' and 'Segment ID' the connector-snake was utilised in order to auto-populate the fields themselves.

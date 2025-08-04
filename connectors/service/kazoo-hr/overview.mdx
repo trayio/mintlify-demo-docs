@@ -1,0 +1,116 @@
+---
+title: "Overview"
+description: "Overview of the Kazoo HR connector"
+---
+
+# Overview
+
+## Overview
+
+Kazoo (formally known as "You Earned It" / YEI) is an employee-first SaaS solution designed to increases productivity, retention, and revenue, and enable companies to build a purpose-driven culture of high engagement and high performance.
+
+## Authentication
+
+When using the Kazoo HR connector, the first thing you will need to do is go to your Tray.io account page, and select the relevant workflow. Once in the workflow dashboard itself, search and drag the Kazoo HR connector from the connectors panel (on the left hand side) onto your workflow.
+
+With the new Kazoo HR connector step highlighted, in the properties panel on the right, click on 'New Authentication' which is located under the 'Settings' heading.
+
+### Versions 2.0 & ABOVE
+
+For the Kazoo HR connectors version 2.0 and above, users can now configure their own environment and their own OAuth2 service.
+
+As per the image above, you must enter in the two fields you generated when developing an app with Kazoo HR: the client ID and the client secret. The environment on which they are based, the domain, is the url of your account when you are loggin in.
+
+In the case of this user above, the domain to be entered would be `bamboohr.sandbox.youearnedit.com`.
+
+You should have now completed the authentication process and be able to use the Kazoo HR connector.
+
+### Versions BELOW 2.0
+
+As you can see from the image below, in order to complete authentication set up, Tray.io requires that you input the 'Subdomain' field - which can contain either the subdomain name, or the subdomain name *PLUS* the environment needed. This means your subdomain can be just your company name, or have ".sandbox" or ".staging" as well.
+
+You can find this by logging into your Kazoo HR account, and extracting everything from the URL after the `http://` but BEFORE the `.youearnedit.com`.
+
+You should have now completed the authentication process and be able to use the Kazoo HR connector.
+
+## Available Operations
+
+The examples below show one or two of the available connector operations in use.
+
+Please see the [Full Operations Reference](#operationsFull) at the end of this page for details on all available operations for this connector.
+
+## Note on Operations usage
+
+Please take special note that when a new user is created (or updated) and a password is then added to the 'password input field', the password is actually shown in the 'input log':
+
+> 
+
+## Using the Raw HTTP request ('Universal Operation')
+
+As of **v1.1**, it is now possible to effectively create your own operations.
+
+This is a very powerful feature which you can put to use when there is an endpoint in Kazoo HR which is not used by any of our operations.
+
+To use this you will first of all need to research the endpoints in both the "Your Earned It" [ YEI Api v3 documentation](https://yei.youearnedit.com/docs/v3.html) **AND** *possibly* the **YEI v2 Docs** as well (though the latter is unlikely). This is so you can *find<br/>the exact format* that Kazoo HR will be expecting the endpoint to be passed in.
+
+Note that you will only need to add the suffix to the endpoint, as the base url will be automatically set (the base url is picked up from the value you entered when you created your authentication).
+
+The base URL for all API requests will be the same as you would use to access the Kazoo HR/ YEI application for your company:
+
+Production:​ ​`https://{COMPANY_SUBDOMAIN}.youearnedit.com`
+
+Test (Sandbox):​ `​https://{COMPANY_SUBDOMAIN}.sandbox.youearnedit.com`
+
+For example, say that the 'List users' operation did not exist in our Kazoo HR connector, and you wanted to use this endpoint, you would use the YEI v3 API docs to find that the 'List users' endpoint is a get request at the following url:
+
+`https://{COMPANY_SUBDOMAIN}.sandbox.youearnedit.com/api/v3/users`
+
+So if you the above endpoint, you can list the users available with the following settings:
+
+List users: `/api/v3/users`
+
+## Example usage
+
+Below is a brief example which demonstrates how to iterate through the persons stored within your Kazoo HR app.
+
+This example imagines a scenario whereby the first step is manually triggered which in turn kicks off the Tray.io workflow to get the all the individuals within the Kazoo HR account, one by one.
+
+The outlined is as follows:
+
+1. Set up your manual trigger and first Kazoo HR connector step to list the users available.
+2. Add a Loop connector to iterate through your persons.
+3. Finally add a step to get each users details individually.
+
+### 1 - Setup trigger & List users
+
+Once you have clicked 'Create new workflow' on your main Tray.io dashboard, select the 'Manual Trigger' from the trigger options available:
+
+Once you have been redirected to your new Tray.io workflow dashboard, add a 'Kazoo HR' connector from the connectors panel on the left hand side of the builder. Set the operation to 'List users'.
+
+This operation will retrieve users within the Kazoo web app. You can further filter the response by IDs, Fields that you want to include in the response, and more besides. For the purposes of this demo however, we will keep things simple and leave these options out for now.
+
+The result will also depend on the values added in the pagination fields. Please note that pagination starts from 1 and it defaults to 1 also.
+
+*Please feel free to re-name your steps as you go along to make things clearer for yourself and other users.*
+
+Now when this workflow is run, it will pull down a list of users from the Kazoo HR API. This means you will be able to view them when you click through your Debug panel, and expend the output field.
+
+### 2 - Add a Loop step
+
+Next, we add a 'Loop Collection' connector to the workflow, with the operation set to 'Loop list'.
+
+Use the connector-snake to generate the jsonpath you will need, by clicking and dragging on the orange circle mapping icon, left of the 'List' field.
+
+Once you have dragged it over to the first Kazoo HR step, you will see a dropdown list of options appear. Select the `users` array from the list available.
+
+This will enable us to iterate over the list of users, and perform the required operations for each one, during each loop cycle.
+
+### 3 - Get user
+
+Finally drag one more Kazoo HR connector step, into the Loop collection itself, and select the operation 'Get users'.
+
+Use the same connector-snake method for generating the jsonpath to get and generate the 'ID' field.
+
+This should result in the user ID being utilised to return detailed information about each individual user available.
+
+You could expand this workflow or adapt the following step by changing the operation from 'Get user' to 'Update user', in order to update each person in turn with some new data, once you run your workflow.

@@ -1,0 +1,63 @@
+---
+title: "Overview"
+description: "Overview of the Process Street connector"
+---
+
+# Overview
+
+## Overview
+
+Process street is a simple, free and powerful way to manage your team's recurring checklists and procedures.
+
+## **API Information **
+
+The Base URL used for the Process street connector is [https://public-api.process.st/api/v1.1](https://public-api.process.st/api/v1.1). More information can be found on their main API  [documentation (v1.1)](https://public-api.process.st/api/v1.1/docs/index.html#section/Welcome!) site.
+
+## Authentication
+
+Within the builder, click on the Process street connector to display the connector properties panel. Select the 'Auth' tab and click on the 'New authentication' button.
+
+In the Tray.io authentication pop-up modal, name the authentication in a way that will quickly identify it within a potentially large list. For example, whether it is a Sandbox or Production auth, etc.
+
+Consider who/ how many people will need access to this authentication when choosing where to create this authentication ('Personal' or 'Organisational').
+
+The second page asks you for your '**API key**' credentials.
+
+To get these fields, head to the Process street and login. Click on the highlighted box with your account initials on it to view the menu drop down then click on the settings button to get to the settings page.
+
+To get the settings page click on the button highlighted.
+
+To get the the API key click on the integrations tab highlighted.
+
+Once you have added these fields to your Tray.io authentication pop-up window, click the 'Create authentication' button. 
+
+Your connector authentication setup should now be complete.
+
+## Available Operations
+
+The examples below show one or two of the available connector operations in use.
+
+Please see the [Full Operations Reference](#operationsFull) at the end of this page for details on all available operations for this connector.
+
+## Using the Raw HTTP Request ('Universal Operation')
+
+As of **version 1.0**, you can effectively create your own operations.
+
+This is a powerful feature that you can use when there is an endpoint in Process street that is not used by any of our operations.
+
+To use this, you will first of all need to research the endpoint in the [Process street](https://public-api.process.st/api/v1.1/docs/index.html#section/Welcome!) API documentation (v.1.1) to find the exact format that Process street will be expecting the endpoint to be passed in.
+
+For example, say that the **'Get a workflow run'** operation did not exist in our Process street connector, and you wanted to use this endpoint. You would use the Process street API docs to find the relevant endpoint - ***which in this case is a `get` request called: ***`/v1.1/workflow-runs/{workflowRunId}.`
+
+More details about this endpoint can be found [here](https://public-api.process.st/api/v1.1/docs/index.html#section/Welcome!).
+
+Based on the information provided in the above API call doc, you need to configure the following attributes on your Tray platform:
+
+- **Method:** `GET`
+- **URL: ***         *
+- **Endpoint: **`v1.1/workflow-runs/{workflowRunId}`* *
+- **Headers: ** `'X-API-Key : api_key'`
+
+Once the API call is executed successfully,  you should get the following results:
+
+**

@@ -1,0 +1,174 @@
+---
+title: "Overview"
+description: "Overview of the Outreach connector"
+---
+
+# Overview
+
+## Overview
+
+The Outreach connector enables the full manipulation of data within the Outreach Sales Engagement Platform, including Accounts, Opportunities, Calls, Prospects and Mailings.
+
+### Note
+
+If you are wanting to return collections of data that have a total count greater than 10,000, it will cause the Outreach API to crash. When dealing with large collections of Outreach data, be sure to break down the collection into smaller chunks to ensure that API doesn't crash when the 10,000 count limit is reached - [source](https://api.outreach.io/api/v2docs).
+
+## **API Information**
+
+The Base URL used for the Outreach connector is **https://api.outreach.io/api/v2**. More information can be found on their main API documentation (**v2.0**) - [Outreach documentation](https://api.outreach.io/api/v2/docs) site.
+
+## Authentication
+
+To use the Outreach connector, simply use the same credentials you would use to login to your Outreach account. To add a set of credentials to login to your Outreach account, navigate to the workflow where you wish to use the Outreach connector and click on new authentication.
+
+When you log in with your credentials through the Tray.io platform, you are granting permission for Tray.io to access you Outreach account. It is possible to grant access to specific data objects in Outreach, rather than granting access to all data.
+
+To include certain data objects, such as Prospects, Mailings and Accounts, tick the box under the chosen object type in the pop up window. `.all` refers to the permissions on that data object, which include read and write (and delete).
+
+Click on the next button to enter your credentials and grant permission to the Tray.io app.
+
+## Example 1 - Creating a record in Outreach
+
+### Step 1 - Attributes and relationships
+
+In this example, we'll be creating an account in Outreach. The format of the input property panel is usually split into two high level sections, attributes and relationships. Attributes describe the record being created. In the relationship properties, the IDs of other records you want to relate to the new record can be entered.
+
+Attributes and Relationships are specified in a similar way for all Create operations. The types of records that can be related will be listed.
+
+Start off by dragging the Outreach connector to a workflow and selecting Create account from the operation dropdown.
+
+ 
+
+### Step 2 - Enter attribute details
+
+When creating a record in Outreach, all required attribute must be completed. Any property with * next to the name is required.
+
+### Step 3 - Specify relationships
+
+The next step in creating an account is relating the account to an Owner (this could be, for example, an account manager) who will look after that account. It is worth noting that other record types, for example a mailing record, will have more options for relationships (see a screenshot below of the relationships when creating a mailing record)
+
+### Step 4 - Specify custom fields
+
+In Outreach, some of the record types allow for custom fields to be specified. Where custom fields do exist, a list of custom field properties will be present in the input property panel.
+
+If custom fields have been labelled in Outreach, you may have to refer to your Outreach admin to find out which number corresponds to which custom field.
+
+Please note that the order is the same i.e. if custom fields in the Outreach UI appeared as Test 1, Test 2, etc, then Test 2 would correspond to Custom 2 in the Outreach connector input property panel.
+
+### Step 5 - Working with output
+
+All create operations when successful return the record just created. The format of records returned consistently has everything falling under a data property, which the type property specifying the type record e.g. account, prospect, opportunity, etc.
+
+Also falling under the data property are the attributes and relationships properties. Under the attributes, all the values entered in the input property panel should be seen.
+
+The relationship properties returns a number of relationships, both specifying actual IDs of related records and also links to related lists of records. These links could potentially be used by the HTTP Client connector to obtain details for these related records.
+
+## Example 2 - Listing records
+
+### Step 1 - Choose list criteria
+
+Most of the List operations in the Outreach connector have some filtering and sorting functionality.
+
+Results of the list operation can be filtered by particular fields on the record. For example, when listing opportunities, results can be filtered by a range of values in the field Amount.
+
+### Step 2 - Specify list sorting
+
+Lists can be sorted by particular fields. Each record or object type has different sortable fields, please refer to this [link](https://api.outreach.io/api/v2docs) to find out more information about which fields can be sorted by.
+
+### Step 3 - Specify pagination
+
+If dealing with large amounts of data, you may not want to deal with all the data in one go. The answer to this would be to limit the number of results and specify a page. Please be aware that the max number of items that can be returned by list functions is 50 per page.
+
+## Outreach trigger
+
+The Outreach trigger allows you to receive notifications and trigger workflows when given events occur associated with a given entity. A workflow can listen for when entities are created, deleted, updated or all types of events. You can then specify one of the following entities to listen to:
+
+- All
+- Prospect
+- Opportunity
+- Task
+- Call
+- Sequence
+- User
+- Account
+- Mailbox
+- Sequence step
+- Sequence state
+- Mailing
+
+Below is an example of how to use the outreach trigger:
+
+### Step 1 - Select the Outreach trigger found in the trigger listings
+
+When creating a workflow, select the Outreach trigger in the listings. This will load up the workflow with the Outreach trigger waiting for you.
+
+### Step 2 - Select / create an authentication
+
+Before being able to configure the trigger, an authentication will need to be provided. Either select a pre-existing one or create one (see Authentication section).
+
+### Step 3 - Select an action
+
+The first step in configuring when your workflow will be notified is selecting what action should be listened to. Select one from the dropdown.
+
+### Step 4 - Select an entity
+
+The second step in configuring when your workflow will be notified is selecting what entity will be listened to for changes that have been defined in the previous step.
+
+### Step 5 - Enable workflow
+
+Now the configuration of the trigger is complete, you can enable the workflow and notifications will start being sent from Outreach.
+
+## Example 3 - Getting around the 10,000 collection limit
+
+As mentioned previously, Outreach limits collections of data to 10,000 - anymore and calls to the API will stop. For example, if we want to collect high volume data with a date range of the past month, chances are that the collection will contain more than 10,000 records. Below is an example of a workaround that collects data for each day in a given month.
+
+The steps involved in this workflow are:
+
+- Add in today's date as the starting date
+- Set up a main loop which, on it's first run, gets the day before and sets as 'last run'
+- The main loop then gets the total number of calls from Outreach from the day before up to today's date (or the date set from last loop)
+- These calls are then batched into pages - e.g. 135 calls on 3 pages with a maximum of 50 in each page
+- The next sub-loop then lists individual call details
+- A second sub-loop then extracts the data for each call and processes to redshift
+- At the end of the main loop a math helper adds 1 to the count of days and can check if the 30 day limit has been reached - if not the main loop continues
+- Each time the main loop is run, the day before the last run has been set as the starting point for that run of the loop
+
+Let's disect the workflow step by step.
+
+### Step 1 - Add the start date
+
+Other than the manual trigger connector, we begin the workflow by using a `Date & Time Helper` connector. Here we will start the workflow with the current date and work our way backwards for one month (or 30 days). You will set the connectors Operation to Get Current Timestamp, select your timezone and change the date and time format to whichever you prefer.
+
+We then need to be able store the initial date created via the Date & Time Helper connector. The reason for this is because we'll need to be able to retrieve it at a later point in the workflow, modify it, and then replace it with the modified date & time. To do this, we will get a `Data Storage` connector, give this connector an Operation of Set value, set the scope to current run, set the Key to Current, or whatever you prefer (but remember what you set it as, as we will need it later in the workflow!). Then finally, set its value to the output of date-time-helpers-1.
+
+Following this we will add in a `Loop Collection` connector and set its Operation to Loop Forever.
+
+### Step 2 - Get the day before
+
+After saving the starting time and date in the first `Data Storage` connector, we then use another `Data Storage` connector to get its value by changing the Key field to the one that was set in the previous `Data Storage` connector - in this workflows case we will set it to Current (the same as what was set in Step 1).
+
+Following this we use a `Date & Time Helper` connector, set its operation to Minus From Date and then change the Date fields input to the contents of the previous Data Storage connector and set the Days field to 1. What this step does is get the day before the current date created via the first `Date & Time Helper` connector.
+
+To use this new date in the next iteration of the loop, we get another `Data Storage` connector and set the current Key's value to the result of date-time-helpers-2.
+
+To summarise, what this part of the workflow does is that on every iteration of loop-3 (the `Loop Collection` connector) it gets the date, finds out the day before, and stores the day before in the Data Storage connector that held the original date.
+
+### Step 3 - Get total number of calls
+
+Now that we have the date range, let's get the call data for that date range. Drag in an `Outreach` connector and set the operation to List Calls, then add a filter and set the Field to createdAt. Once done, change the Critera field to Range of Values and set From to the result of date-time-helpers-2 and the To field to the contents of storage-2.
+
+This will then return all the calls between these two dates with 50 per a page - make sure Per Page in the `Outreach` connector is set to 50. We now need the total count of pages in this API call. Next, bring in a `List Helper` connector, set the operation to Get list of page numbers and the Total Count fields value to `$.steps.outreach-1.meta.count`.
+
+Following this, add in another `Loop Collection` connector, set its operation to Loop List and put the input fiels value as the result of the previous list (list-helpers-1).
+
+### Step 4 - List calls and process them
+
+Let's pull in another Outreach connector to list the calls. Repeat the steps taken for the previous `Outreach` connector, but set the Page value to the Total Count fields value to `$.steps.outreach-1.meta.count`.
+
+Following this, add in another `Loop Collection` connector with the operation set to Loop List, and put the list field to the output of the precedeing `Outreach` connector. What this does is grab one item from the list ready for the next step. In this example we are processing each item to then be pushed to a data warehouse. You can replace `script-2` and `redshift-tray-private-1` with connectors that meet your own requirements.
+
+### Step 5 - Incrementing the forever loop
+
+To make sure we that we are only returning the past 30 or 31 days in the month (or however many days), we need to add in some logic. After loop-3, let's add in a Math Helper connector and change it's operation to Add. We will then make the First Value a JSON path to the index of loop-3 and the second value an integer of 1. When the workflow reaches this connector, it adds 1 to the index of loop-3.
+
+After this we will place a Boolean Condition connector that checks whether the result of the Math Helper connector is equal to however many days we to collect data for - in our case it's 30. If they are not equal, the workflow continues around the loop, if not, the workflow will terminate by breaking loop-3.

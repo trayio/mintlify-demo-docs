@@ -1,0 +1,86 @@
+---
+title: "Overview"
+description: "Overview of the Zendesk Sunshine connector"
+---
+
+# Overview
+
+## Overview
+
+Zendesk Sunshine is an open customer relationship platform designed to work with all your business applications. Built on AWS, it has a modern approach to CRM systems with the idea of creating personalised experiences at the forefront.
+
+## Authentication
+
+When using the Zendesk Sunshine connector, the first thing you will have to do is click on 'New Authentication' in the step editor:
+
+You will immediately get a popup asking you for an authentication name, and Zendesk Sunshine specific details:
+
+As you can see from the above image, in order to complete authentication set up, Tray.io requires that you input your Zendesk Sunshine 'Subdomain', 'Admin email address', and an 'API key'.
+
+Your subdomain can be found in your Zendesk Sunshine account URL. For example: the subdomain of :`https://docsdemo.zendesk.com` would be: `docsdemo`.
+
+Your admin email address is the email address you use to log into your Zendesk Sunshine account.
+
+In order to find the API key you must go into your Zendesk Sunshine account dashboard.
+
+Navigate to the main admin page of your Zendesk account. Click on the settings icon in the left hand navigation panel, and then scroll down until you get to a heading titled 'CHANNELS'. Under this heading you will see an option called 'API'. Click through.
+
+In order to add or create a new API token you MUST have the 'Token Access' AND 'Password Access' switched to 'Enabled'.
+
+Compare the image above and below for further details.
+
+As you can see, once enabled, you will now be able to generate a new key. Click on the plus button, and copy your key to keep it safe. Note the warning message about not being able to retrieve it once lost, you will have to make a new one instead.
+
+Now that you have all these details collected, add them into your Tray.io auth popup:
+
+Once you have added the authentication, it will already be selected in the authentication section in the Tray.io properties panel.
+
+## Available Operations
+
+The examples below show one or two of the available connector operations in use.
+
+Please see the [Full Operations Reference](#operationsFull) at the end of this page for details on all available operations for this connector.
+
+## Example usage
+
+This brief tutorial will demonstrate how to use the Zendesk Sunshine connector to create a relationship record. Relationship records create associations between object records based on a pre-defined relationship type.
+
+In this scenario we will create an one-to-many relationship record between a "Bug ticket" object record, and a "Customer" object record.
+
+1. Setup your manual trigger and create the Customer object record.
+2. Create the Bug ticket object record.
+3. Create a relationship record.
+
+> 
+
+The completed workflow looks like this:
+
+## 1 - Setup trigger and Customer object
+
+The first step is to go to your Tray.io dashboard, click on the 'Create new workflow' button in the top right corner and name your project workflow. This can be edited later if need be.
+
+Select 'Manual trigger'. There is only one operation available for this trigger and no authorisation needed.
+
+> 
+
+In the connectors panel, select the Zendesk Sunshine connector and make sure your authentication is selected.
+
+In order to create the custom object record, you need to input the 'Type' give it two attribute values: 'Name' and 'Value':
+
+Click on the greyed out 'Add Item' button and fill in the relevant fields appropriately.
+
+> 
+
+## 2 - Create a bug ticket record
+
+Get another Zendesk Sunshine connector and repeat the process this time making sure you have bug specific detailing (the operation will be the same also):
+
+## 3 - Create a relationship
+
+In this step it is easier to demonstrate the usage of interpolation as we already have a couple of steps created that we can use in order to pull the necessary data in from.
+
+As you can see we will need various inout fields filled in on order to comeplete this step:
+
+Here we will use the JSON path: `$.steps.zendesk-sunshine-1.data.id` as it will get the source and target IDs we need in order to create said relationship between the records previously created.
+
+In order to generate this path we used the [connector-snake](https://tray.io/documentation/platform/working-with-data/basic-data-guide/). By dragging the input field across to our selected connector and choosoing `id` from the dropdown options made available.

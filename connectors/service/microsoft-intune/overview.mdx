@@ -1,0 +1,113 @@
+---
+title: "Overview"
+description: "Overview of the Microsoft Intune connector"
+---
+
+# Overview
+
+## Overview
+
+Microsoft Intune is designed to make it easier to manage a variety of devices in a way that protects corporate data while still allowing employees to do their jobs using both corporate and personal devices.<br/>
+
+## Authentication
+
+When using the Microsoft Intune connector, the first thing you will need to do is go to your Tray.io account page and select the workflow you wish to work on. Once in the workflow builder itself, search and drag the Microsoft Intune connector from the connectors panel (on the left-hand side) onto your workflow.
+
+With the new Microsoft Intune connector step highlighted, in the properties panel on the right, click the Authenticate tab and 'Add new authentication' (located under the 'Authentication' field).
+
+This will result in a Tray.io authentication pop-up window. The first page will ask you to name your authentication and state which type of authentication you wish to create ('Personal' or 'Organisational').
+
+As you can see, the next page asks you for your 'Tenant', 'Client ID', and 'Client secret'.
+
+In order to get these fields, you will need to register your app with Microsoft using the Azure portal. To do so, follow the steps mentioned below:
+
+1. Sign in to the Azure portal.
+2. Click 'App registrations' under Azure services.<br/>
+3. Choose 'New registration'.<br/>
+4. Next, a new 'Register an application' window opens. Fill in all the details about your application on this page. Provide the following URL `https://auth.tray.io/oauth2/token` in the 'Redirect URI' field. Click the 'Register' button when completed.<br/>
+5. Once you are done registering your application, you will receive details of your registered application (as you can see in the image below) along with the required Client ID and Tenant ID. Copy and paste both the IDs into your Tray.io authentication modal.<br/>
+6. To retrieve your client secret for the newly registered app. From the same page that you just copied your Client ID and Tenant ID, click 'Certificates & Secrets' from the left panel, and then click 'New client secret'.<br/>
+7. Enter the description and select the 'Expires' in duration for your client secret and then click the 'Add' button.<br/>
+8. This will provide value for the client secret under the 'Client secrets' section. Copy and paste the client secret value into your Tray.io authentication modal.<br/>
+
+For detailed information on how to register your application with Microsoft, please refer to the document stating [detailed guidelines on how to register an app](https://docs.microsoft.com/en-us/graph/auth-register-app-v2?context=graph%2Fapi%2F1.0&view=graph-rest-1.0) given by Microsoft.
+
+Once you have added these fields to your Tray.io authentication popup window, click on the 'Create authentication' button. Go back to your settings authentication field (within the workflow builder properties panel), and select the recently added authentication from the dropdown options now available.
+
+Your connector authentication setup should now be complete.
+
+## Available Operations
+
+The examples below show one or two of the available connector operations in use.
+
+Please see the [Full Operations Reference](#operationsFull) at the end of this page for details on all available operations for this connector.
+
+## Using the Raw HTTP Request ('Universal Operation')
+
+As of **version 1.0**, you can effectively create your own operations.
+
+This is a very powerful feature which you can put to use when there is an endpoint in Microsoft Intune which is not used by any of our operations.
+
+To use this, you will firstly need to research the endpoint in the [Microsoft Intune API documentation v1.0](https://docs.microsoft.com/en-us/graph/api/resources/intune-graph-overview), to **find the exact format** that Microsoft Intune will be expecting the endpoint to be passed in.
+
+Note that you will only need to add the suffix to the endpoint, as the base URL will be automatically set (the base URL is picked up from the value you entered when you created your authentication).
+
+The base URL for Microsoft Intune is: `https://graph.microsoft.com/v1.0`
+
+For example, say that the 'List managed devices' operation did not exist in our Microsoft Intune connector, and you wanted to use this endpoint. You would use the Microsoft Intune API docs to find the relevant endpoint - which in this case is a `GET` request called: `/deviceManagement/managedDevices`.
+
+More details can be found [here](https://docs.microsoft.com/en-us/graph/api/intune-devices-manageddevice-list?view=graph-rest-1.0).
+
+As you can see, there is also the option to include a query parameter, should you wish to do so. So if you know what your method, endpoint, and details of your query parameters are, you can retrieve the list of devices with the following settings:
+
+Method: `GET`
+
+Endpoint: `/deviceManagement/managedDevices`
+
+Body Type: `none`
+
+Final Example outcome being: **https://graph.microsoft.com/v1.0/deviceManagement/listedDevices**
+
+## Example Usage
+
+Below is an example of a way in which you could potentially use the Microsoft Intune connector, to retrieve a list of managed devices and then retrieve information about each device in the list.
+
+The steps will be as follows:
+
+1. Setup using a manual trigger and list managed devices.
+2. Loop through the list of devices.
+3. Retrieve information about each device.
+
+The final outcome should look like this:
+
+### 1 - Setup Trigger & List Managed Devices
+
+Once you have clicked 'Create new workflow' from your main Tray.io dashboard named it, select the Manual trigger from the trigger options available:
+
+After you have been redirected to the Tray.io workflow dashboard, from the connectors panel on the left, add a Microsoft Intune connector to your second step. Set the operation to 'List managed devices'.
+
+Feel free to re-name your steps as you go along to make things clearer for yourself and other users.
+
+Upon completion of this step, your workflow will retrieve the list of managed devices available in your account.
+
+### 2 - Loop Through List of Devices
+
+Next, search for the Loop collection connector within your connector panel, and drag it into your workflow as your next step. Set your operations to 'Loop list'.
+
+The Loop Collection connector allows you to iterate through a list of results. In this example, we will use it to iterate through the data found within the previous Microsoft Intune connector step.
+
+In order to specify the list, you want to loop through, start by using the 'List' mapping icon (found next to the list input field, within the properties panel) to generate the connector-snake.
+
+While hovering over the 'List managed devices' step (with the tail end of the connector-snake), select `value` from the list of output properties displayed. This will auto-populate a jsonpath within your 'List' input field, and update the type selector to jsonpath.
+
+For more clarification on the pathways you have available, open the Debug panel to view your step's Input and Output.
+
+After this step, you will have enabled your workflow to iterate through each device you have retrieved in the previous step.
+
+### 3 - Retrieve Information About Each Device
+
+The last step is to drag a Microsoft Intune connector **inside** of the Loop Collection step itself. Set the operation to 'Get managed device'. As you can see, the 'Device ID' field is required.
+
+If you click on 'Debug' at the top of the page, you can see your workflow execution. As you can see, the connector loops through the list of managed devices provided by step 1.
+
+If you click on each execution of 'Get managed device', you will be able to see the results of each loop.

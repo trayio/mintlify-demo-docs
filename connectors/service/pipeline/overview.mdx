@@ -1,0 +1,60 @@
+---
+title: "Overview"
+description: "Overview of the Pipeline connector"
+---
+
+# Overview
+
+## Overview
+
+Pipeline is a sales platform that offers easy setup, seamless integrations, and intuitive tools.
+
+## Authentication
+
+Within the workflow builder, highlight the Pipeline connector.
+
+In the Pipeline connector properties panel to the right of the builder, click on the Authenticate tab and the 'Add new authentication' button.
+
+This will result in a Tray.io authentication pop-up modal. The first page will ask you to name your authentication and select the type of authentication you wish to create ('Personal' or 'Organisational').
+
+The next page asks you for your 'API key' credentials.
+
+In order to get these fields, head to the Pipeline dashboard. Click on 'Profile' in the top right hand corner, and go to 'Account Settings'.
+
+To get the API key, head to 'Pipepine API' in the menu on the left hand side.
+
+Once you have added these fields to your Tray.io authentication popup window, click the 'Create authentication' button.
+
+Go back to your settings authentication field (within the workflow builder properties panel), and select the recently added authentication from the dropdown options now available.
+
+Your connector authentication setup should now be complete.
+
+## Available Operations
+
+The examples below show one or two of the available connector operations in use.
+
+Please see the [Full Operations Reference](#operationsFull) at the end of this page for details on all available operations for this connector.
+
+## Using the Raw HTTP Request ('Universal Operation')
+
+As of **version 1.0**, you can effectively create your own operations.
+
+This is a very powerful feature which you can put to use when there is an endpoint in Pipeline which is not used by any of our operations.
+
+To use this you will first of all need to research the endpoint in the [Pipeline API documentation v3](https://app.pipelinecrm.com/api/docs), to **find the exact format** that Pipeline will be expecting the endpoint to be passed in.
+
+Note that you will only need to add the suffix to the endpoint, as the base URL will be automatically set (the base URL is picked up from the value you entered when you created your authentication).
+
+The base URL for Pipeline is: `https://api.pipelinecrm.com/api/v3`
+
+For example, say that the 'List account notifications' operation did not exist in our Pipeline connector, and you wanted to use this endpoint. You would use the Pipeline API docs to find the relevant endpoint - which in this case is a `GET` request called: `/account_notifications`.
+
+More details about this endpoint can be found [here](https://app.pipelinecrm.com/api/docs).
+
+If you know what your method and endpoint are, you can get the account notifications information with the following settings:
+
+Method: `GET`
+
+Endpoint: `/account_notifications`
+
+Final outcome being: **https://api.pipelinecrm.com/api/v3/account_notifications**

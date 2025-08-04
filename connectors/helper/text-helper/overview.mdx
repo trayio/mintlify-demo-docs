@@ -1,0 +1,70 @@
+---
+title: "Overview"
+description: "Overview of the Text Helpers connector"
+---
+
+# Overview
+
+## Overview
+
+The Text Helper connector allows you to manipulate text results from connectors and triggers, primarily to extract and format information so that it can be passed to a connector in a suitable format.
+
+## Important notes
+
+### Split vs Change Type
+
+Both of these operations can convert your input into an array but the format will be different. Please be aware of this and use whichever suits your use case accordingly.
+
+## The 'Concatenate' operation
+
+The following screenshot shows a text helper which is using the **concatenate** function to pull the 'email address' and 'suggestion' fields from the form trigger and feed it in to the first Slack connector:
+
+This will result in **john@example.com has suggested: this is my suggestion** being sent to the first Slack connector, which can use the `$.steps.text-helpers-1.result` variable:
+
+## The 'Contains' operation
+
+The **Contains** operation is useful for checking if a keyword is contained in a piece of text being returned by another connector.
+
+It is however limited to only one word or phrase. If you need to check for multiple words or phrases you could use our [script generator too](https://developer.tray.io/developer-portal/dev-tools/data-transformer/transformer/)l to generate a regex [script connector](#) step for you:
+
+## The 'Typecast' operation
+
+The **Typecast** operation takes any string as input and determines the type that it should be output as.
+
+This is useful if e.g. a number has been returned as a string and you need to convert to number in order to satisfy the requirements of your destination service.
+
+Note that this operation is not suitable for typecasting arrays. 
+
+## The 'Split' operation
+
+The 'Split' operation can be used to split a group of words or numbers into an array of strings.
+
+For example:
+
+`Marketing, Sales, Support`
+
+Could be split into:
+
+When splitting you need to use 'split by' to specify what character identifies the separation between the words.
+
+This could be a comma for e.g. `Marketing, Sales, Support`:
+
+Or any other character such as a `+` sign for e.g. `Marketing + Sales + Support:`
+
+It can also be a space for e.g. `Marketing Sales Support `- in which case just click on 'split by' and hit the spacebar:
+
+## Using 'Regular Expressions'
+
+## 'Replace' Example 1: Replace characters in phone number
+
+This example will use regular expressions within the Replace operation to demonstrate the power of this way of generating the pattern. For instance, when dealing with phone numbers some systems don't allow special characters, apart from the `+` in the prefix. Taking the example of US phone numbers, which are formatted as '+1 (564) 654-5464'. We cannot simply use the **Remove special characters** operation in the Text Helper, as this will remove *all* special characters, leaving '15646545464'. Instead, we use a 'Regular Expression' pattern in the **Replace** operation to remove just the characters of interest. By setting the **Pattern** to `[()\s-]` and the **Replacement** to an empty string, we can remove just the characters we need to remove:
+
+The output of this operation is
+
+Note you can explore more regular expression examples at this website: https://javascript.info/regular-expressions. You will notice that the regular expression flags are explicit options in the input panel in Tray. For instance, the **Replace all patterns?** field toggles the `g` flag on the expression, and the **Case sensitive?** field toggles the `i` flag.
+
+## 'Replace' Example 2: Remove empty fields from a text body
+
+Take another example. In this example, we have a body of text which has been populated with the values that come from a random record. Let's say this formatted body of text is as follows:
+
+Ideally, we want to remove any empty fields, such as the *Last Name* field, which have no value. This can be achieved very easily by using the Text Helper's **Replace** operation, using a regular expression pattern. By specifying the pattern `([^:\\n]+): *\\n`, we can target any line that starts with a label (any text preceding a colon), that has no value after this colon. By specifying the **Replacement** value as an empty string, we can transform the above body of text into:

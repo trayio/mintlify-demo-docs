@@ -1,0 +1,106 @@
+---
+title: "Overview"
+description: "Overview of the Musixmatch connector"
+---
+
+# Overview
+
+## Overview
+
+Musixmatch is a service connector that provides a large music data for track lyrics to enhance the music experience. It includes transcriptions, time-synced, search, translations and enriched metadata.
+
+## Authentication
+
+When using the Musixmatch connector, the first thing you will need to do is go to your Tray.io account page, and select the workflow you wish to work on. Once in the workflow builder itself, search and drag the Musixmatch connector from the connectors panel (on the left hand side) onto your workflow.
+
+With the new Musixmatch connector step highlighted, in the properties panel on the right, click on the Authenticate tab and 'Add new authentication' (located under the 'Authentication' field).
+
+This will result in a Tray.io authentication pop-up window. The first page will ask you to name your authentication, and state which type of authentication you wish to create ('Personal' or 'Organisational').
+
+As you can see, the next page asks you for your 'API Key' as credentials.
+
+In order to get this field, you need to sign up for a [Musixmatch account](https://developer.musixmatch.com/signup), and head to your [Applications dashboard](https://developer.musixmatch.com/admin/applications).
+
+Once you have added this field to your Tray.io authentication popup window, click on the 'Create authentication' button. Go back to your settings authentication field (within the workflow builder properties panel), and select the recently added authentication from the dropdown options now available.
+
+Your connector authentication setup should now be complete.
+
+## Available Operations
+
+The examples below show one or two of the available connector operations in use.
+
+Please see the [Full Operations Reference](#operationsFull) at the end of this page for details on all available operations for this connector.
+
+## Using the Raw HTTP Request ('Universal Operation')
+
+As of **version 1.0**, you can effectively create your own operations.
+
+This is a very powerful feature which you can put to use when there is an endpoint in Musixmatch which is not used by any of our operations.
+
+To use this you will first of all need to research the endpoint in the [Musixmatch API documentation v1.1](https://developer.musixmatch.com/documentation), to **find the exact format** that Musixmatch will be expecting the endpoint to be passed in.
+
+Note that you will only need to add the suffix to the endpoint, as the base URL will be automatically set (the base URL is picked up from the value you entered when you created your authentication).
+
+The base URL for Musixmatch is: `https://api.musixmatch.com/ws/1.1`
+
+For example, say that the 'Get album' operation did not exist in our Musixmatch connector, and you wanted to use this endpoint, you would use the Musixmatch API docs to find the relevant endpoint - which in this case is a `GET` request called: `/artist.get`.
+
+More details can be found [here](https://developer.musixmatch.com/documentation/api-reference/artist-get).
+
+As you can see there is also the option to include the query parameters. According to the docs, for this endpoint, the `artist_id` is a required query parameter. You would provide this in your raw HTTP request by supplying the key and value as a query parameter. So if you know what your method, endpoint and details of your query parameters are, you can get the information with the following settings:
+
+Method: `GET`
+
+Endpoint: `/artist.get`
+
+Query Parameter: Key: `artist_id` Value: `118`
+
+Body Type : none : `{ "none" : null }`
+
+Final Example outcome being: **https://api.musixmatch.com/ws/1.1/artist.get?artist_id=118**
+
+## Example Usage
+
+Below is an example of a way in which you could potentially use the musixmatch connector, to retrieve the lyrics to each song from the search track result.
+
+The steps will be as follows:
+
+1. Setup using a manual trigger and search track
+2. Loop through tracks
+3. Retrieve the lyrics to each track
+
+The final outcome should look like this:
+
+### 1 - Setup Trigger & Search Track
+
+Once you have clicked 'Create new workflow' from your main Tray.io dashboard and named it, select the Manual trigger from the trigger options available:
+
+After you have been redirected to the Tray.io workflow dashboard, from the connectors panel on the left, add a Musixmatch connector to your second step. Set the operation to 'Search track'.
+
+Feel free to re-name your steps as you go along to make things clearer for yourself and other users.
+
+Upon completion, you will have set up the manual trigger and retrieved the list of tracks associated with the specified search filters.
+
+### 2 - Loop Collection
+
+Next, search for the Loop collection connector within your connector panel, and drag it into your workflow as your next step. Set your operations to 'Loop list'.
+
+The Loop Collection connector allows you to iterate through a list of results. In this example, we will use it to iterate through the data found within the previous 'Search Track' connector step.
+
+In order to specify the list you want to loop through, start by using the 'List' mapping icon (found next to the list input field, within the properties panel) to generate the connector-snake.
+
+While hovering over the 'Search track' step (with the tail end of the connector-snake), select `track_list` from the list of output properties displayed. This will auto-populate a jsonpath within your 'List' input field, and update the type selector to jsonpath.
+
+For more clarification on the pathways you have available, open the Debug panel to view your step's Input and Output.
+
+Now, you will be able to loop through the list of tracks you retrieved in the first step.
+
+### 3 - Get Lyrics for Each Track
+
+The last step is to drag a Musixmatch connector **inside** of the Loop Collection step itself. Set the operation to 'Get track lyrics'. As you can see, the 'Track ID type' and the 'Track ID' fields are required.
+
+Once you select the 'Track ID type', use the connector snake and hover over the 'Loop Collection' step (with the tail end of the connector-snake), select 'commontrack_id' or 'track_id' value (depending on the selected type) under 'track' from the list of output properties displayed.
+
+Click on 'Debug' at the top of the page and you can see your workflow execution. You will see the connector looping through the list of tracks as provided by step 1.
+
+If you click on each execution of 'Get Track Lyrics', you will be able to see the results of each loop.

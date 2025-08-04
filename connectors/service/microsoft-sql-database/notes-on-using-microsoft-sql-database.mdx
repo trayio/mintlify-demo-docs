@@ -1,0 +1,302 @@
+---
+title: "Notes on using Microsoft SQL database"
+description: "Notes on using Microsoft SQL database documentation for Microsoft SQL Database connector"
+---
+
+# Notes on using Microsoft SQL database
+
+## Basic examples
+
+This section provides simple, step-by-step instructions on how to work with specific operations of the Microsoft SQL database connector.
+
+### Run SQL query
+
+The Run SQL query operation helps communicate with the Microsoft SQL database by executing raw specified SQL commands. The SQL commands can be used to perform actions like create and manipulate database objects, run queries, load tables, and modify the data in tables.
+
+A sample query to create a table in the Microsoft SQL database would be something similar to this:
+
+`Create table purchase_details (order_id int, email varchar(20), total_price float, currency varchar(20));`
+
+For the ease of working with the Microsoft SQL database queries, refer to the [Microsoft SQL database document](https://docs.microsoft.com/en-us/sql/t-sql/queries/queries).
+
+### Insert rows
+
+Microsoft SQL database connector's 'Insert rows' operation helps insert one or more rows into the Microsoft SQL database.
+
+There are two ways to insert rows into the Microsoft SQL database.
+
+Refer to the [Example usage](#example-usage) section below for detailed examples on both ways.
+
+#### Inserting data row by row
+
+When inserting data row by row, the 'Insert rows' operation accepts a jsonpath for each column separately.
+
+In this case, the expected JSON data is mainly in the following format:
+
+To learn more refer to the [Add or update record](#add-or-update-record) example.
+
+#### Inserting multiple rows in a single call
+
+When inserting data in a single call, the 'Insert rows' operation accepts a jsonpath for the entire data from the source.
+
+In this case, the expected JSON data should be an array of key-value objects:
+
+You may need to format the incoming data into the format accepted by Microsoft SQL database connector. To learn more refer to the [Batch insertion of data](#batch-insertion-of-data) example.
+
+## <br/>Detailed examples
+
+This section presents comprehensive workflows that incorporate the Microsoft SQL database connector along with other connectors to demonstrate complex use cases.
+
+### Insert records
+
+Below is an example of how you could potentially use the Microsoft SQL database connector to insert new records into the Microsoft SQL database and read all the records from said database.
+
+This example demonstrates the following operations of the Microsoft SQL database connector:
+
+- **Run SQL query:** Executes a raw specified SQL query on the chosen database.
+- **Insert rows:** Inserts one or more rows into your chosen Microsoft SQL database.
+
+The steps will be as follows:
+
+1. Pull the client records from the source (a webhook trigger in this example).
+2. Push the records one by one into the Microsoft SQL database using the Loop connector.
+3. Read the records from the Microsoft SQL database.
+
+The final outcome should look like this:
+
+**1 - Pull records**
+
+When using a Webhook trigger, 'When webhook is received, auto respond with HTTP 200' is the most common operation unless you specify a custom response.
+
+Be sure to click the 'Enable' button before continuing. This makes the workflow ready to receive incoming calls.
+
+In this example, the records received by the Webhook are in JSON format:
+
+Remember that **the format in which you receive data will vary depending on where it is coming from** - pulling records from Salesforce, Webform, etc., will have different results / views.
+
+**2 - Add records**
+
+Add a Loop connector with the 'List' field set to `$.steps.trigger.body`. You can use the connector-snake to generate this automatically.
+
+Next, add a Microsoft SQL database connector **inside** the Loop connector and set the operation to 'Insert rows'.
+
+In the 'Rows to insert' field, add all the property names using the 'Add to Rows to insert' button for the selected table.
+
+Select 'Column name' from the available drop-down options.
+
+Using the connector-snake once more, find the jsonpath for each field from the previous step.
+
+**3 - Read records**
+
+Add another Microsoft SQL database connector and set the operation as 'Run SQL query'.
+
+Add the following query in the 'SQL query' field:
+
+`select * from client_info`
+
+The above query will list all the newly inserted rows in the previous step.
+
+The fetched records in the final step should look similar to this:
+
+### Adding a record to a particular table
+
+This workflow demonstrates how to insert records into multiple Microsoft SQL database tables based on the received data.
+
+The Microsoft SQL database considered in this example contains three tables, namely 'account', 'prospect', and 'sequenceState'. So depending on the **tableName** specified in the received data, the workflow will add the data to the specified table.
+
+The steps will be as follows:
+
+1. Pull the records from the source (a webhook trigger in this example) and extract the table name from the value of the **tableName** attribute.
+2. Navigate the course of the workflow to the appropriate branch using the Branch connector based on the value (table name) received from the previous step.
+3. Insert the new records into the appropriate Microsoft SQL database table.
+
+The final outcome should look like this:
+
+**1 - Pull records and extract the table name**
+
+When using a Webhook trigger 'When webhook is received, auto respond with HTTP 200' is the most common operation unless you specify a custom response. Be sure to click the 'Enable' button before continuing. This makes the workflow ready to receive incoming calls.
+
+Be sure to click the 'Enable' button before continuing. This makes the workflow ready to receive incoming calls.
+
+The records received by the Webhook are in JSON format:
+
+Remember that the format in which you **receive data will vary depending on where it is coming from** - pulling records from Salesforce, Outreach, etc., will have different results/views.
+
+Next, add the Text Helper connector and set the operation to 'Get text after'.
+
+The Text Helper connector using the 'Get text after' operation returns a substring based on the inputs provided.
+
+As you can see in the image below, given a jsonpath to the 'String' field using the connector-snake (`$.steps.trigger.body.meta.tableName`) and a value to the 'Pattern' field as `create.`. It returns the substring between where the pattern was found depending on the 'Match number' `2` and the beginning of the string.
+
+To understand this operation, consider the example JSON provided above. Based on the provided jsonpath and values for each field, the retrieved values are:
+
+- **String:** `create.prospect`
+- **Pattern:** `create.`
+- **Match number:** `2`
+
+So when the values of the String and Pattern fields are compared, the match found is `create.`. So the operation provides the substring that comes after(second) the match. In this case, as you can see in the image below, the substring returned by the operation is `prospect.`
+
+Based on this step's output, the workflow will navigate to the branch with the Label as 'Prospect'.
+
+For more clarification on the pathways, you have available, open the [Debug](/platform/troubleshooting/logs-and-debugging/) panel to view your step's Input and Output.
+
+**2 - Navigate and add records**
+
+Add a [Branch](/connectors/core/branch/) connector with the 'Value To Test' field set to `$.steps.text-helpers-1.result`. You can use the connector-snake to generate this automatically.
+
+Set the 'Value' and 'Label' pair for each branch with the Microsoft SQL database table names, as shown in the image below.
+
+The Branch connector will navigate the workflow execution based on the input received from the previous step. The possible values you could receive from the previous step are 'prospect', 'account', and 'sequenceState', thus the three branches.
+
+The third branch is an auto-generated 'Default' branch, which will terminate the workflow if the branch does not receive any of the three values mentioned above as an input.
+
+For the workflow to terminate, add the Terminate connector under this fourth branch, i.e., the 'DEFAULT' branch.
+
+Next, add the Microsoft SQL database connector under each branch except the 'DEFAULT' branch, and set the operation to 'Insert new rows'.
+
+As you can see, the 'Table' and the 'Rows to insert' fields are mandatory.
+
+Select the appropriate table name from the drop-down options based on the branch your Microsoft SQL database connector is on. As you can see we have selected the table name for the first branch as `prospect`.
+
+Using a connector-snake find the jsonpath for the 'Row' field from the Trigger step. It should appear similar to this: `$.steps.trigger.body.data`.
+
+Similarly, add values for the 'Table' and the 'Rows to insert' fields for the Microsoft SQL database connectors under the 'ACCOUNT' and 'SEQUENCE STATE' branches.
+
+The Insert new rows operation will insert the records received through the Webhook trigger in the selected Microsoft SQL database table.
+
+### Add or update record
+
+The below example demonstrates how you could potentially use the Microsoft SQL database connector to insert and update the records into the Microsoft SQL database.
+
+In this workflow, the record to be uploaded to the Microsoft SQL database is received through the Webhook trigger. The received record includes the **event** attribute which specifies if the record is to be **created** or **updated**.
+
+The steps will be as follows:
+
+1. Pull the records from the source (a webhook trigger in this example) and navigate the course of the workflow to the appropriate branch using the Branch connector based on the value (event) received from the previous step.
+2. Insert or update the record to the Microsoft SQL database.
+
+The final outcome should look like this:
+
+**1 - Pull records and navigate**
+
+When using a Webhook trigger 'When webhook is received, auto respond with HTTP 200' is the most common operation unless you specify a custom response. Be sure to click the 'Enable' button before continuing. This makes the workflow ready to receive incoming calls.
+
+Be sure to click the 'Enable' button before continuing. This makes the workflow ready to receive incoming calls.
+
+The records received by the Webhook are in JSON format:
+
+Remember that the format in which you receive data will vary depending on where it is coming from - pulling records from Salesforce, Outreach, etc., will have different results/views.
+
+Next, add the [Branch](/connectors/core/branch/) connector with the 'Value To Test' field set to `$.steps.trigger.body.meta.event`. You can use the connector-snake to generate this automatically.
+
+Set the 'Value' and 'Label' pair for the first two branches as 'create' and 'update' as shown in the image below.
+
+The Branch connector will navigate the workflow execution based on the value of the **event** attribute received in the JSON data from the trigger. The possible values you could receive are 'create' and 'update', thus the first two branches.
+
+The third branch is an auto-generated 'Default' branch, which will terminate the workflow if the branch does not receive any of the two values mentioned above as an input.
+
+For the workflow to terminate, add the Terminate connector under this fourth branch, i.e., the 'DEFAULT' branch.
+
+**2 - Insert or update the record**
+
+Now, add the Microsoft SQL database connector under each branch except the 'DEFAULT' branch.
+
+As you can see in the image below, the first Microsoft SQL database connector under the 'CREATE' branch will insert a new record into the Microsoft SQL database. The second Microsoft SQL database connector under the 'UPDATE' branch will update the received record into the Microsoft SQL database.
+
+The two Microsoft SQL database connectors for insert and update operation can be configured as follows:
+
+**Microsoft SQL database connector to insert a record:**
+
+To insert the record, set the operation to 'Insert new rows'.
+
+As you can see, the 'Table' and the 'Rows to insert' fields are mandatory.
+
+Select the table name of your choice from the available drop-down options. As you can see, in this example, we have selected the table name as `customer_details`.
+
+Using a connector-snake find the jsonpath for the 'Row' field from the Trigger step. It should appear similar to this: `$.steps.trigger.body.data`.
+
+Now, based on the selected table and the jsonpath for the received data, the workflow will insert the received record into the selected Microsoft SQL database table.
+
+**Microsoft SQL database connector to update a record:**
+
+To update the record, set the operation to 'Update rows'.
+
+Set the values for the 'Table' and the 'Rows to insert' fields similarly as we did above.
+
+Before updating the record, the Update rows operation matches the existing 'id' from the selected Microsoft SQL database table with the ID of the data received from the trigger: `$.steps.trigger.body.data.id`.
+
+Thus, as you can see in the image below, the condition is set to specify the **id** of the existing record that needs to be updated.
+
+Now, based on the specified table, jsonpath, and the condition, the workflow will locate and update the record if it already exists.
+
+### Batch insertion of data
+
+For efficiency purposes, and to reduce the amount of calls you make to Microsoft SQL database, you want to **avoid a situation where you are looping through data and inserting it row by row**, such as the following:
+
+The following workflow shows a simple example of how you can loop through batches of e.g. 200 records so that you can make **e.g. 10 calls of 200 instead of 2000 individual calls**.
+
+1. **Loop batches** is the main loop which is set to 'loop forever' and keeps running until Salesforce doesn't return an offset token - indicating there are no more batches to loop through.
+
+1. **get page offset** gets the offset token returned by Salesforce in the previous loop, so that Salesforce knows where to start retrieving this batch of records.
+
+1. **list accounts** specifies what record type and fields to retrieve from Salesforce.
+
+It also passes the page offset token, and sets the batch size.
+
+Records received from Salesforce looks like this:
+
+1. **Map objects to list** is a data mapper step that maps an array of objects, i.e., records received from the previous step into an array of key-value objects.
+
+In order to insert records in a single call into the Microsoft SQL database, the records should be an array of key-value objects.
+
+The output for the data mapper should look similar to this:
+
+1. **Insert rows** then inserts the data from the current list into the selected Microsoft SQL database table in a single call.
+
+The payload sent to the Microsoft SQL database is an array of key-value objects received from the **Map objects to list** step, which matches the format accepted by the Microsoft SQL database to insert the data in a single call.
+
+1. **page offset NULL?** uses `$.steps.salesforce-1.next_page_offset` to check if Salesforce has returned an offset token to indicate more batches are to be processed. If not, then the main **loopbatches** loop is broken.
+2. **set page offset** then stores the offset token to be retrieved at the start of the next batch.
+
+### Processing dynamic data
+
+Sometimes, depending on the data source, your workflow may receive dynamic data payloads - i.e., the attributes within may vary for each execution of your workflow.
+
+Let's assume an example where you wish to insert some data into a Microsoft SQL database.
+
+The data that you have received for the first execution of your workflow is in this format:
+
+For the second execution, your workflow may receive the data with more attributes like this:
+
+So in such a situation, where it is difficult to gauge the attributes you may receive in your data for each execution. We cannot map each attribute with their respective column names in order to upload the data in the Microsoft SQL database table, i.e., something like this, as shown in the image below, is not possible:
+
+To understand the mapping of each attribute with the column name, please refer to the [Insert records](#insert-records) workflow explained above.
+
+So as a solution, you have to upload the data in bulk, i.e., in one go. This is possible only if the received JSON data has a flat structure.
+
+The best way to transform a nested JSON structure into a flat structure is by using a [Data Mapper](/connectors/core/data-mapper/) connector.
+
+So the following workflow demonstrates how you could deal with dynamic data using a Data Mapper connector that flattens the nested JSON and uploads this data into your Microsoft SQL database table.
+
+In this example, we show data being received via the [Webhook trigger](/connectors/triggers/webhook-trigger/) - i.e., a scenario whereby you have configured an external service to automatically send new record data to your Tray workflow.
+
+In practice, you can receive data in any structure, and in other ways, such as from any pre-built Tray service trigger or from a previous workflow step which has pulled data from another source (e.g., Salesforce 'Find Records', CSV Reader, etc.)
+
+1. The **Webhook trigger** with operation as 'Auto respond with HTTP 200' listens for the incoming data.
+2. The **Process dynamic data** step is a Data Mapper connector step which flattens the received JSON data in order to handle the incoming dynamic data.
+
+The 'Mapping' field transforms the nested structure i.e `attributes.[column_name]` to a flat structure, i.e. just the `[column_name]`. The 'Mapping' field contains a list of all the possible attributes that you wish to get a flat structure for.
+
+Make sure to uncheck the 'Included unmapped' field. If you do not uncheck this field, it will include the fileds from the received JSON data that you haven't listed in the Mappings field, i.e., something like this:
+
+If the 'Included unmapped' field is unchecked the expected flat JSON output should look like this:
+
+1. **Map objects to list** is a data mapper step that maps an array of objects, i.e., records received from the previous step `$.steps.data-mapper-1` into an array of key-value objects.
+
+In order to insert records in a single call into the Microsoft SQL database, the records should be an array of key-value objects.
+
+The output for the data mapper should look similar to this:
+
+1. The **Insert new rows** step inserts an array of key-value objects (format accepted by Microsoft SQL database) received from the previous step in the selected Microsoft SQL database table.
+
+<br/>

@@ -1,0 +1,42 @@
+---
+title: "Overview"
+description: "Overview of the Xverify connector"
+---
+
+# Overview
+
+## Overview
+
+The Xverify connector on Tray allows you to perfom verfications to ensure user data are valid.
+
+**Note:** Address and phone verification are available only for US and Canada addresses and phone numbers.
+
+## Available Operations
+
+The examples below show one or two of the available connector operations in use.
+
+Please see the [Full Operations Reference](#operationsFull) at the end of this page for details on all available operations for this connector.
+
+## Authentication
+
+The first step is to log in to your Xverify account and visit [My account](https://www.xverify.com/users/my_account) to add domains to the trusted domains list to enable the verification services. Now you have the Api key and the domain to create an authentication for the Xverify connector.
+
+Add the Xverify connector to the workflow and hit the `New Authentication` button found in the input panel. You will see this screen:
+
+Input your API key into the **API key** box, and Domain in the **Domain** box. Click **Add authentication**, and if your details are correct then you will be authenticated.
+
+## Example 1 - Email verification
+
+To use this operation, select the `Email verification` operation in the input panel. Add the email address to verify in the input panel and click `Run workflow`.
+
+**Note:** Here you have the option to fail the workflow step if the email address is not valid by ticking the `Fail step?` box.
+
+Below you can see that the workflow ran successfully and the verification information is returned.
+
+If the email is invalid you can expect the below response.
+
+## Example 2 - Phone verification
+
+To use this operation, select the `Phone verification` operation in the input panel. Add the phone number to verify in the input panel.
+
+You can also select the phone number type from the drop down option and click `Run workflow`.

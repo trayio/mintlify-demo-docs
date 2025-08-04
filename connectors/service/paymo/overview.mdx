@@ -1,0 +1,35 @@
+---
+title: "Overview"
+description: "Overview of the Paymo connector"
+---
+
+# Overview
+
+## Overview
+
+Paymo helps your team work better by getting everyone on the same page. Planning, scheduling, task management & time tracking seamlessly integrated.
+
+## Authentication
+
+When using the Paymo connector, the first thing you will have to do is click on 'New Authentication' in the step editor:
+
+Ensure you correctly add your Paymo username/email and password correctly otherwise operations will not be able to be ran correctly.
+
+## Available Operations
+
+The examples below show one or two of the available connector operations in use.
+
+Please see the [Full Operations Reference](#operationsFull) at the end of this page for details on all available operations for this connector.
+
+## Example
+
+1. Create a new workflow with a **Manual Trigger** and add a **Paymo** connector.
+
+1. Select the `List Projects` operation and filter projects by their activity status:
+
+1. Click Run Workflow Now. Then select the Debug tab and you should be able to see a successful run of the workflow to click on and view the successful output of the workflow run:
+
+1. Let's try to update some specific project. For example, we want to change its name. Add a step from the Paymo connector, set to `Update project`. Set the `Project ID` to the ID of one of the projects, by using a JsonPath as shown in the example:
+
+1. Change project's name in corresponding field.
+2. Click Run Workflow Now, select the Debug tab and you should be able to see the successful output with new project's name.

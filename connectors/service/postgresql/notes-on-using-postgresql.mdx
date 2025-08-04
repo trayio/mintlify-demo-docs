@@ -1,0 +1,36 @@
+---
+title: "Notes on using PostgreSQL"
+description: "Notes on using PostgreSQL documentation for PostgreSQL connector"
+---
+
+# Notes on using PostgreSQL
+
+### **Run SQL query**
+
+When using a PostgreSQL connector to run SQL operations (such as `SELECT`, `INSERT`, `UPDATE`, or `DELETE`), the connector facilitates interaction between your application or tool and the PostgreSQL database.
+
+A sample query to create a table in the Redshift database would be something similar to this: `CREATE TABLE customer ( id SERIAL, name VARCHAR(50), email VARCHAR(100), age INT ); `
+
+For the ease of working with the PostgreSQL queries, refer to the PostreSQL [Queries](https://www.postgresql.org/docs/current/queries.html) document.
+
+### Insert single record
+
+To Insert a single record operation allows you to insert a single customer record into a PostgreSQL table. Once inserted, you can verify the record by using the **Find Rows** operation to read the inserted data.
+
+The below example demonstrates how you can insert single record into a PostgreSQL table. While working with multiple records use [batch insert method](https://tray.ai/documentation/connectors/service/postgresql/notes-on-using-postgresql/#batch-insertion-of-records).
+
+Consider the following JSON payload received by a Webhook, which contains a single customer record:
+
+### **Batch insertion of records**
+
+The workflow uses **Insert new rows** operation to insert multiple records in a table.
+
+When inserting records, it's important to ensure that they are formatted correctly according to the table's schema. You can verify the expected format using [sample payloads](https://tray.ai/documentation/connectors/service/postgresql/postgresql-operations-sample-payloads/#insert-new-rows).
+
+The workflow is designed to receive and process various types of data through a Webhook. For example, let's consider a scenario where the following JSON payload is received:
+
+To properly format this data for insertion into the PostgreSQL table, we used the JSON Transformer connector. Alternatively, you can achieve the same transformation using a script or Python connector. The following JSONata script is applied to structure the data as required for PostgreSQL:
+
+This transformation prepares the customer data by extracting key fields like `id`, `name`, `email`, and `age` from the incoming JSON payload.
+
+Once the data has been transformed, it is passed to the **PostgreSQL connector** to be inserted into the `customers` table.

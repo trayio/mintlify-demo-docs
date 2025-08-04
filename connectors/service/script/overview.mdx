@@ -1,0 +1,85 @@
+---
+title: "Overview"
+description: "Overview of the Script connector"
+---
+
+# Overview
+
+## Overview
+
+The Script connector can be used to add Script functions to your workflows.
+
+The Script connector supports ES6.
+
+The steps involved in using the Script connector are:
+
+1. Optionally define **input variables** which can be pulled in from previous steps in your workflow. The below screenshot shows using `$.steps.loop-1.value` to pull in the **value variable** from the 'loop-1' workflow step.
+
+1. Your script must begin with the `exports.step = function()` line in order to function correctly. From within this you can create and return variables and work with objects. If you wish to use variables pulled in from previous steps, as mentioned in point 1, this should be `exports.step = function(input)`
+2. In your script, 'input variables' are written in the format `input.NAME`<br/>So for example you could say `var message_object = input.message;` to create an object based on the above screenshot.
+3. What you return in your script will determine what is available for subsequent connector steps to make use of, e.g. `return message_object;};`
+
+Please see our example workflow below for a simple demonstration of these points in action.
+
+## JS Libraries
+
+The following Javascript libraries come pre-installed and you can use them within your script:
+
+- [lodash](https://lodash.com/)
+- [moment-timezone](https://momentjs.com/timezone/)
+
+Following Node modules are pre-installed in **connector version >= 3.2**:
+
+- [crypto](https://nodejs.org/api/crypto.html)
+- [Buffer](https://nodejs.org/api/buffer.html)
+- [URL](https://nodejs.org/api/url.html)
+
+Go through the section below on [Testing scripts locally**.**](#testing-scripts-locally)
+
+## Notes on using the Script connector
+
+The main property of the Script connector is the 'Script' input field. This is where you would typically write up the code needed.
+
+One of the way your code can integrate with Tray.io features is through the use of Interpolated mode.
+
+As this property is essentially a "text field", the use of interpolated mode within the Script connector itself is supported. Simply use the same curly brackets and jsonpath method as normal and the output should be the same.
+
+Take for example a workflow that generates a random string.
+
+Using some simple Javascript and the Script connector, we call the random string utilising interpolated mode:
+
+The code will then be interpreted as the actual result of the jsonpath rather than the jsonpath itself as displayed in the Debug panels:
+
+## Testing scripts locally
+
+Although you can figure out what went wrong with your script code from your logs, you can save yourself some trouble by testing / debugging your code locally before adding it to the connector. 
+
+[Script connector tester](https://github.com/trayio/script-connector-tester) is a tool from Tray that you can use to quickly test / debug your code. It comes with loadash and moment libraries.
+
+Fork the repo, clone it locally and run `npm install` to install libraries
+
+Now you can follow the steps below to use it:
+
+## Basic example
+
+The above example shows a manually triggered workflow which implements the following steps:
+
+1. Use a script to create some dummy message values. In a live situation these messages would be pulled in from another connector step (e.g. intercom, ringcentral etc.). Manually creating these values is actually a nice demo of the basics of working with the Script connector:
+
+1. Use a Loop Helper to loop through the above. The 'Loop List' Operation can be used to deal with each message one by one.
+
+In order to pull in the message for the script we use `$.steps.script-1.result.messages`.
+
+This is because, if we click on Debug and look at the output from the 'Execute Script' (script-1) step, it is in the format:
+
+1. Then for each message that the loop helper processes, we can use another Script connector ('Check-message-Script' (script-2)) to check that the message fulfils certain criteria. We do this by first of all creating a 'message' input variable which pulls the message from Loop Collection (loop-1) with `$.steps.loop-1.value`:
+
+We have to use 'value' here because the output log of a Loop Connector shows:
+
+The script itself then runs a check on each message fed by the loop, to see if the message itself was empty, in which case reformat it for the database. If it is not empty then it returns the message object unchanged:
+
+1. Finally, the result of each loop and message check is fed into a Google Bigquery database (you will need to authenticate the Bigquery connector with your Bigquery account and setup a dataset and table), using the 'Insert Rows' Operation. The 'Project Id' and 'Dataset Id' are specified and then the result of the message is fed in:
+
+1. Once the workflow is setup, click 'Run Workflow Now'<br/>A successful run will then lead to your Bigquery dataset being updated so it will look something like this:
+
+And clicking on the Debug tab of will enable you to view the output logs of each stage of your workflow:

@@ -1,0 +1,118 @@
+---
+title: "Overview"
+description: "Overview of the Front connector"
+---
+
+# Overview
+
+## Overview
+
+Front is the customer communication platform that combines emails, apps, and teammates into a single view. Front simplifies communication and collaboration, empowering you to even access Salesforce, Asana, and 50+ apps directly from your inbox.
+
+## Authentication
+
+When using the Front connector, the first thing you will need to do is go to your Tray.io account page and select the workflow you wish to work on. Once in the workflow builder itself, search and drag the Front connector from the connectors panel (on the left-hand side) onto your workflow.
+
+With the new Front connector step highlighted, in the properties panel on the right, click on the Authenticate tab and 'Add new authentication' (located under the 'Authentication' field).
+
+This will result in a Tray.io authentication pop-up window. The first page will ask you to name your authentication and state which type of authentication you wish to create ('Personal' or 'Organisational').
+
+As you can see, the next page asks you for your 'API Token' credentials.
+
+In order to get these fields, first head to your Front [login page](https://app.frontapp.com/signin) and login.
+
+After logging in, click on the cogwheel 'settings' icon in the upper left corner of the page.
+
+This will open a settings dashboard. Click on 'Plugins & API' from the left panel.
+
+This will open the Plugins & API page. Click on 'API' from the list that appears, and then on the 'New Token' button.
+
+Click the 'Select Scopes' dropdown button. From the list that appears, select the scopes that you want to apply to your token. Then click the 'Create' button.
+
+This will generate your token and return you to the previous page. Click on the 'Front token' tile for the new Token and then on the 'Copy' button that appears when you hover over the token. Copy your token as instructed in the pop-up that appears.
+
+Once you have added this field to your Tray.io authentication pop-up window, click on the 'Create authentication' button. Go back to your settings authentication field (within the workflow builder properties panel), and select the recently added authentication from the dropdown options now available.
+
+Your connector authentication setup should now be complete.
+
+## Available Operations
+
+The examples below show one or two of the available connector operations in use.
+
+Please see the [Full Operations Reference](#operationsFull) at the end of this page for details on all available operations for this connector.
+
+## Using the Raw HTTP Request ('Universal Operation')
+
+As of **version 1.0**, you can effectively create your own operations.
+
+This is a very powerful feature which you can put to use when there is an endpoint in Front's API, which is not used by any of our operations.
+
+To use this you will first of all need to research the endpoint in the [Front REST Core API documentation](https://dev.frontapp.com/reference/introduction), to 
+
+<u>find the exact format</u>
+
+ that Front will be expecting the endpoint to be passed in.
+
+Note that you will only need to add the suffix to the endpoint, as the base URL will be automatically set (the base URL is picked up from the value you entered when you created your authentication).
+
+The base URL for Front is: `https://api2.frontapp.com`
+
+For example, say that the 'List contacts' operation did not exist in our Front connector, and you wanted to use this endpoint, you would use the Front API docs to find the relevant endpoint - which in this case is a `GET` request called: `/contacts`.
+
+More details can be found [here](https://dev.frontapp.com/reference/contacts#get_contacts).
+
+As you can see, there is also the option to include query parameters, should you wish to do so (in this example, we will only be including the `limit` query parameter). So if you know what your method, endpoint, and details of your query parameters are, you can get information about contacts that are accessible by you with the following settings:
+
+Method: `GET`
+
+Endpoint: `/contacts`
+
+Query Parameter: Key: `limit` Value: `10`
+
+Body Type: `None`
+
+Final Example outcome being: **https://api2.frontapp.com/contacts?limit=10**
+
+## Example usage
+
+Below is an example of a way in which you could potentially use the Front connector to get the details of each of your contacts.
+
+The steps will be as follows:
+
+1. Setup using a manual trigger and list your contacts.
+2. Add Loop collection step to iterate through each contact.
+3. Get the details for each contact.
+
+The final outcome should look like this:
+
+### 1 - Setup Trigger & List Contacts
+
+Once you have clicked 'Create new workflow' from your main Tray.io dashboard named it, select the Manual trigger from the trigger options available:
+
+After you have been redirected to the Tray.io workflow dashboard, from the connectors panel on the left, add a Front connector to your second step. Set the operation to 'List contacts' and specify/adjust any of the inputs as you wish.
+
+Please feel free to re-name your steps (perhaps after their operational names, as in the demo) as you go along to make things clearer for yourself and other users.
+
+When run, the workflow will list your contacts.
+
+### 2 - Loop Collection
+
+Next, search for the 'Loop collection' connector within your connector panel, and drag it into your workflow as your next step. Set your operations to 'Loop list'.
+
+The Loop Collection connector allows you to iterate through a list of results. In this example, we will use it to iterate through the data found within the previous Front connector step.
+
+Use the connector-snake to find the jsonpath of the list you want to loop through from the previous step. It should appear similar to `$.steps.front-1._results`.
+
+For more clarification on the pathways, you have available, open the Debug panel to view your step's Input and Output.
+
+When run, the workflow will list your contacts and then iterate over each contact in the returned list.
+
+### 3 - Get Contact
+
+The last step is to drag a final Front connector *inside* of the actual Loop Collection step itself. Set the operation to 'Get contact'. As you can see, the 'Contact ID' is required.
+
+Use the connector-snake method for auto-generating the jsonpath for the 'Contact ID' (`$.steps.loop-1.value.id`). This time drag your mouse over the previous loop step and select `id` from within the value. This is exemplified in the image below:
+
+When run, the workflow will now list your contacts, iterate over each contact in the returned list and get the details of each contact.
+
+The inputs & outputs of each step of the workflow is displayed within your Debug panel.

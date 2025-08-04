@@ -1,0 +1,108 @@
+---
+title: "Overview"
+description: "Overview of the Thinkific connector"
+---
+
+# Overview
+
+## Overview
+
+Thinkific is a technology company with a platform that allows people and businesses to create online courses from their existing knowledge and then deliver or sell those courses to their audience from their website, and under their own brand.
+
+## Authentication
+
+When using the Thinkific connector, the first thing you will need to do is go to your Tray.io account page, and select the workflow you wish to work on. Once in the workflow dashboard itself, search and drag the Thinkific connector from the connectors panel (on the left hand side) onto your workflow.
+
+With the new Thinkific connector step highlighted, in the properties panel on the right, click on 'New Authentication' which is located under the 'Settings' heading.
+
+This will result in a Tray.io authentication pop-up window. The first page will ask you to name your authentication appropriately, and state which type of authentication you wish to make ('Personal' or 'Organisational').
+
+As you can see, the next page asks you for your 'Subdomain', 'Client ID' and 'Client secret'.
+
+In order to get these fields, head to your `partner.thinkific` dashboard at [ http://partner.thinkific.com/](http://partner.thinkific.com/) and login with your username and password.
+
+Once you are logged in, on the left hand side of the Thinkific platform, click on the "Apps" tab.
+
+This will take you to a page where you can create an application in Thinkific, which will provide you with your 'Client key' and 'Client secret'.
+
+In order to get your 'Subdomain name', click on the 'Sites' tab from the left hand side navigation of the Thinkific platform, and then click on 'Development' tab. This will redirect you to the 'Development Sites' page where you can find your Demo Site URL.
+
+The subdomain name can be found within this URL. For example if your URL was: `https://school-test-yr5.thinkific.com`, then the subdomain would be: `school-test-yr5`.
+
+Once you have the 'Subdomain', 'Client key' and 'Client secret', copy them into the Tray.io authentication popup fields and click 'Create authentication'.
+
+Go back to your authentication field (within the workflow dashboard properties panel from earlier), and select the recently added authentication from the dropdown options now available.
+
+Your connector authentication setup should now be completed.
+
+## Available Operations
+
+The examples below show one or two of the available connector operations in use.
+
+Please see the [Full Operations Reference](#operationsFull) at the end of this page for details on all available operations for this connector.
+
+## Using the Raw HTTP Request ('Universal Operation')
+
+As of **version 1.0**, it is now possible to effectively create your own operations.
+
+This is a very powerful feature which you can put to use when there is an endpoint in Thinkific which is not used by any of our operations.
+
+To use this you will first of all need to research the endpoint in the [ Thinkific API documentation v1.0](https://developers.thinkific.com/api/api-documentation/) , to *find the exact format* that Thinkific will be expecting the endpoint to be passed in.
+
+Note that you will only need to add the suffix to the endpoint, as the base URL will be automatically set (the base URL is picked up from the value you entered when you created your authentication).
+
+The base URL for Thinkific is: `https://api.thinkific.com/api/public/v1`
+
+For example, say that the 'List courses' operation did not exist in our Thinkific connector, and you wanted to use this endpoint, you would use the Thinkific API docs to find the relevant endpoint - which in this case is a `GET` request at the [ following URL](https://developers.thinkific.com/api/api-documentation/) . See the "Courses : Courses operations" section for more details.
+
+So if you know what your method and your endpoint is, you can get the details of the courses, with the following settings:
+
+Method: `GET`
+
+Endpoint: `/courses`
+
+Final Example outcome being: **https://api.thinkific.com/api/public/v1/courses**
+
+## Example usage
+
+Below is an example of a way in which you could potentially use the Thinkific connector, to iterate through the courses stored within your Thinkific app.
+
+The steps will be as follows:
+
+1. Set up your manual trigger and list the courses available.
+2. Add a Loop connector to iterate through the courses found.
+3. Get each course's information details individually.
+
+The final outcome should look like this:
+
+### 1 - Setup Trigger & List Courses
+
+Once you have clicked 'Create new workflow' from your main Tray.io dashboard (and named your new workflow), select the Manual trigger from the trigger options available:
+
+After you have been redirected to the Tray.io workflow dashboard, from the connectors panel on the left, add a Thinkific connector to your second step. Set the operation to 'List courses'.
+
+*Feel free to re-name your steps as you go along to make things clearer for yourself and other users.*
+
+You can see the results within the Debug panel once the workflow is run:
+
+When run, this workflow will list all the courses available within your Thinkific account.
+
+### 2 - Loop Collection
+
+Next, search for the 'Loop collection' connector within your connector panel, and drag it into your workflow as your next step. Set your operations to 'Loop list'.
+
+The Loop Collection connector allows you to iterate through a list of results. In this example, we will use it to iterate through the data found within the previous Thinkific connector step.
+
+In order to specify the list you want to loop through, use the 'List' input field with the mapping icon and connector-snake. Assign this property to the `items` option displayed in the 'List courses' step.
+
+*For better clarification of the pathways you have available, use the Debug panel.*
+
+When run, this workflow will iterate through the list of courses provided be the earlier step.
+
+### 3 - Get Course
+
+Add a Thinkific connector step *INSIDE* of the previous 'Loop List' step. Set the operation to 'Get course'.
+
+In order to specify the input you want to reference, use the 'Course ID' field with the mapping icon and connector-snake once more. Assign this property to the value `id` option displayed from the 'Loop List' step.
+
+When run, the workflow will now iterate through the list of courses provided and get each course's individual details. See the Debug panel for more details.

@@ -1,0 +1,51 @@
+---
+title: "Overview"
+description: "Overview of the Scoop connector"
+---
+
+# Overview
+
+## Overview
+
+Scoop is an intelligent employee driven work process automation platform
+
+## Authentication
+
+To use the Scoop connector, a valid email and password are required that have access to the Scoop API.
+
+To begin, drag a Scoop step into a workflow, and click **New Authentication**:
+
+You will then be presented with a window that looks like this:
+
+You can choose which API environment to use - **Production**, **Staging**, or **QA**. Make sure that your credentials have access to the environment you choose.
+
+A different company ID can also be optionally entered, however if there you do not wish to use a company ID, please leave the default value of `default`. Changing this to another invalid value may cause the connector to not function.
+
+Many API actions require that a company ID is specified, if no company ID is specified, Scoop will try to use the Company ID associated with the authenticated user.
+
+When you click **Add authentication**, another window will appear, which will ask you for your Scoop login details:
+
+Enter your credentials and click **Sign in**. If your details are correct, the pop-up window will close and you will be ready to use the Scoop connector.
+
+## The Scoop Trigger
+
+If you wish your workflow to be kicked off every time a new scoop is added, you can use the Scoop trigger.
+
+The Scoop trigger allows you to receive notifications and trigger workflows when given events occur associated with the selected trigger operation.
+
+### Trigger operations available
+
+- New scoop
+- Stage change scoop
+
+When creating a new workflow, you can choose Scoop as your trigger:
+
+Ensure that a valid authentication is selected and select the event you want to subscribe to from the dropdown list, in this case `New scoop`.
+
+Click the `enable` button, so the workflow can start receiving events.
+
+## Example - List groups
+
+In this example, we'll list groups in the Scoop account authenticated.
+
+To use the List groups operation, no inputs are mandatory. An App ID can be specified to filter groups by app, however if one is not supplied then all groups that the authenticated user has access to will be returned.

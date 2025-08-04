@@ -1,0 +1,67 @@
+---
+title: "Overview"
+description: "Overview of the Productboard connector"
+---
+
+# Overview
+
+## Overview
+
+While project management is an aspect of the product manager's role, their main responsibility is prioritising what to build next. However it is fair to say that truly excellent products are a team effort. They require trust and transparency, curiosity and creativity. And that's exactly what productboard helps you do.
+
+## Authentication
+
+When using the Productboard connector, the first thing you will need to do is go to your Tray.io account page, and select the workflow you wish to work on. Once in the workflow dashboard itself, search and drag the Productboard connector from the connectors panel (on the left hand side) onto your workflow.
+
+With the new ProductBoard connector step highlighted, in the properties panel on the right, click on 'New Authentication' which is located under the 'Settings' heading.
+
+This will result in a Tray.io authentication pop-up window. The first page will ask you to name your authentication appropriately, and state which type of authentication you wish to make ('Personal' or 'Organisational').
+
+As you can see, the next page asks you for your 'Access token'.
+
+If you do have Admin Access, you can find your token by navigating through as follows:
+
+Go to your "Workspace Settings" icon in the bottom left hand corner, and select "Integrations":
+
+you will be redirected to the integrations main page, and when you scroll down you will be able to see your Public API key options available to you. *Remember that if you do not have admin access or are not the "owner" these options will not be presented!*.
+
+Copy the "GDPR Public API" token exactly, and copy it into the 'Access token' field within your Tray.io authentication popup.
+
+Once you have clicked the 'Add authentication' button, go to back to your authentication field (within the workflow dashboard properties panel from earlier), and select the recently added authentication from the dropdown options now available.
+
+Your connector authentication setup should now be complete.
+
+## Available Operations
+
+The examples below show one or two of the available connector operations in use.
+
+Please see the [Full Operations Reference](#operationsFull) at the end of this page for details on all available operations for this connector.
+
+## Note on Operations usage
+
+**CREATE NOTE**
+
+When using the 'Source' property of the 'Create note' operation, both 'Origin' and 'Record ID' is required. For more details on what these properties are, please see the [ Productboard API docs](https://developer.productboard.com/) .
+
+## Example usage
+
+This example will walk through the creation of a workflow that will post a note to Productboard.
+
+The steps will be as follows:
+
+1. Setup a manual trigger and Productboard connector step to create a note.
+2. Check the integration is complete.
+
+The final outcome should look like this:
+
+### 1 - Setup trigger & Create Note
+
+Once you have clicked 'Create new workflow' on your main Tray.io dashboard (and named said new workflow), select the Manual Trigger from the trigger options available.
+
+Once you have been redirected to the Tray.io workflow dashboard, select your Productboard authentication, and set the operation to 'Create Note'.
+
+This operation contains only two mandatory fields: 'Title' and 'Description'. Feel free to fill these out with the news that your team now has Productboard integration! All other fields are optional.
+
+### 2 - Check your outcome
+
+Press the 'Run workflow' button in the bottom right hand corner of your builder. You should be able to see a successful run in the Debug panels, not to mention within your Productboard itself:

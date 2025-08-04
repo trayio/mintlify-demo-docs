@@ -1,0 +1,78 @@
+---
+title: "Overview"
+description: "Overview of the Microsoft Text Translate connector"
+---
+
+# Overview
+
+## Overview
+
+Microsoft Text Translate is a service connector and is used to provide multi-language user experiences, perform language translation and other language-related operations such as text language detection or text to speech.
+
+## Authentication
+
+When using the Microsoft Text Translate connector, the first thing you will need to do is go to your Tray.io account page, and select the workflow you wish to work on. Once in the workflow dashboard itself, search and drag the Microsoft Text Translate connector from the connectors panel (on the left hand side) onto your workflow.
+
+With the new Microsoft Text Translate connector step highlighted, in the properties panel on the right, click on 'New Authentication' which is located under the 'Settings' heading.
+
+This will result in a Tray.io authentication pop-up window. The first page will ask you to name your authentication appropriately, and state which type of authentication you wish to make ('Personal' or 'Organisational').
+
+As you can see, besides from naming your authentication appropriately, you will need your 'X-RapidAPI-Key'.
+
+In order to get this, head to your Microsoft Text Translation Rapid-API dashboard. Scroll down to header parameters which is in the center of the screen and here the 'X-RapidAPI-Key' can be found.
+
+Copy and paste this into the pop-up within the tray app. Once you have clicked the 'Add authentication' button, go to back to your authentication field (within the workflow dashboard properties panel from earlier), and select the recently added authentication from the dropdown options now available.
+
+Your connector authentication setup should now be complete.
+
+## Available Operations
+
+The examples below show one or two of the available connector operations in use.
+
+Please see the [Full Operations Reference](#operationsFull) at the end of this page for details on all available operations for this connector.
+
+## Example usage
+
+Below is an example of a way in which you could potentially use the Microsoft Text Translate connector to translate a piece of text to a desired language and then return an audio file of it being spoken in the language.
+
+The steps will be as follows:
+
+1. Create a new workflow with a manual trigger and configure a Microsoft Text Translate connector to translate a given piece of text.
+2. Add and configure a Microsoft Text Translate connector to return an audio file of the text being spoken in the language.
+3. Execute the workflow and check the result.
+
+The final outcome should look like this:
+
+### 1 - Setup trigger & translate text
+
+Once you have clicked 'Create new workflow' on your main Tray.io dashboard (and named said new workflow), select the Manual trigger from the trigger options available:
+
+Once you have been redirected to the Tray.io workflow dashboard, from the connectors panel on the left, add a Microsoft Text Translate connector to your second step. Set the operation to 'Translate text'.
+
+Then configure the operation by setting up Authentication, selecting a language to 'Translate to' and adding the 'Text' to be translated.
+
+*Feel free to re-name your steps as you go along to make things clearer for yourself and other users.*
+
+This step is now fully setup, it will translate the given text into your chosen language.
+
+### 2 - Get audio file of spoken text
+
+The next step is to add and configure another Microsoft Text Translate connector to take this translated text and convert it into a spoken audio file.
+
+Again once the connector is added to the workflow, in the workflow builder click on the second Microsoft Text Translate step you created to reveal the input panel for that step. Now using the connector-snake, drag from the 'Text' input in the input panel to the first Microsoft Text Translate step of the workflow (displayed in the image below, more information on the connector snake can be found below).
+
+The gray box which appears as a result of hovering over said connector, is a list of options that can be selected for the text input.
+
+In this example there is only one option, 'translation' which can now be selected. This will autogenerate the jsonpath of the text input, for this step of the workflow. The results are displayed in the 'Text' input field:
+
+The final configuration for this step is to select the appropriate language for the audio file to be spoken in. So this needs to match the 'Translate to' input from the first step.
+
+This step will take the translated text from step 1 and return an audio file with the text being spoken in the same language it has been translated to.
+
+### 3 - Execute the workflow
+
+Once all the operations are fully configured, the workflow is setup and ready to go. You can now click 'Run workflow'.
+
+Check the output in the 'Debug' panel to see the result of the workflow. If the workflow executes correctly, all steps within the 'Debug' panel will show as green and the final step should have a 'url' in the output.
+
+*Note that this can be copied into the browser to hear your original text spoken in the new language!.*

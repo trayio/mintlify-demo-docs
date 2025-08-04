@@ -1,0 +1,80 @@
+---
+title: "Overview"
+description: "Overview of the Google Drive connector"
+---
+
+# Overview
+
+## Overview
+
+Get access to files anywhere through secure cloud storage and file backup for your photos, videos, files and more.
+
+## API Information
+
+The Google Drive connector has the following Base URL: **https://www.googleapis.com/drive/v3**. More information can be found on their main [API documentation (v3)](https://developers.google.com/drive) site. Details regarding their API limitations can be found [here](https://developers.google.com/drive/api/guides/limits).
+
+## Authentication
+
+Within the builder, click on the Google Drive connector to display the connector properties panel. Select the **Auth** tab and click on the **New authentication** button.
+
+In the Tray.io authentication pop-up modal name your authentication in a way that will quickly identify it within a potentially large list. For example whether it is a Sandbox or Production auth, etc.
+
+Consider who/ how many people will need access to this authentication when choosing where to create this authentication ('Personal' vs 'Organisational').
+
+The next page asks you to set the scopes for your authentication. Select these depending on your project needs.
+
+Once you have added these fields to your Tray.io authentication pop-up window click the **Create authentication** button. 
+
+Your connector authentication setup should now be complete. Please run the simplest operation available to test and make sure you can retrieve data as expected.
+
+## Note on Operations usage
+
+### Sharing permissions
+
+If you wish to share or give people access to different components of the Google suite (such as Google Sheets, Docs, or Calendar), note that permissions for granting access fall under the capabilities of the Google Drive connector. Here’s how you can do it:
+
+Add the Google Drive Connector to Your Workflow Select the 'Create permission' operation to specify the kind of access you wish to grant your user(s).
+
+**Set Up Parameters**
+
+- **File ID**: Enter the ID of the Google file you want to share.<br/>You can find the ID in your document's URL. It is the string between `/d/` and `/edit`
+- **Email Message**: Optionally, include a message to the recipient.
+- **Send Notification Email**: Choose whether to send a notification email to the recipient.
+- **Transfer Ownership**: Decide if you want to transfer ownership of the file.
+- **Use Domain Admin Access**: Enable this if you are using domain-level admin access.
+- **Role**: Select the role you want to assign (e.g., Viewer, Commenter, Editor).
+- **Grantee Type**: Choose the type of grantee:
+- **Allow File Discovery**: Choose whether to allow the file to be discoverable.
+- **Email Address**: Provide the email address of the user or group you are sharing the file with.
+
+### List Spreadsheets & Google Drive
+
+Due to security updates from Google we have had to separate the ability to **List Spreadsheets** from the Google Sheets connector itself. 
+
+This operation now resides in the Google Drive connector in its entirety.
+
+If you have a workflow which uses an old version of Google Sheets (one where the List spreadsheets operation is still available) we recommended revising your workflow in one of the following ways to avoid any potential downloading or security issues:
+
+1. **Retrieve multiple sheets**: Add a Google Drive connector to an earlier point within your current workflow.
+2. **Retrieve a single sheet**: Select via sheet ID
+
+### Download types
+
+You must make sure you accurately set / know your file type before selecting a download operation. **Incorrect setup will result in a failed workflow run**.
+
+Here are some examples of when it is best to use each:
+
+- **Download Google file**: 
+- **Download file**: 
+
+## Example Usage
+
+Below is an example of a way in which you could potentially use the Google Drive connector to download a Google Drive file for later use.
+
+The basic logic of the workflow is as follows:
+
+1. Setup using a manual trigger and use a Google Drive connector to list your files.
+2. Download said file to the current run.
+3. Use the CSV Editor to download the specified file.
+
+Your completed workflow should look similar to this:

@@ -1,0 +1,195 @@
+---
+title: "Overview"
+description: "Overview of the SOAP Client connector"
+---
+
+# Overview
+
+## Overview
+
+The SOAP Client connector allows you to send requests to SOAP APIs via the **soap npm package**. It allows you to send requests in raw XML and make use of any existing authentications you may have already set up.
+
+## Authentication
+
+You may create a new authentication in SOAP Client or reuse an existing authentication. Either way, you will then be able to jsonpath the authentication parameters into your XML.
+
+The SOAP Client service makes no assumptions as to the format of your authentication parameters. This is so that you have the flexibility to store any data that you wish, unconstrained by the specific set of parameters of a given service.
+
+### Creating authentication in SOAP Client
+
+Within the workflow builder, highlight the SOAP Client connector.
+
+In the SOAP Client connector properties panel to the right of the builder click on the Authenticate tab and then on 'Add new authentication'.
+
+This will result in a Tray.io authentication pop-up modal. The first page will ask you to name your authentication and select the type of authentication you wish to create ('Personal' or 'Organization').
+
+Authentication for SOAP Client begins with an empty object, to which you may add whatever data you would to store. Click 'Add Property To Object' to add authentication parameters to the new authentication.
+
+For example, you could store a `token` in your SOAP Client authentication:
+
+When you have finished adding fields to to the Tray.io authentication popup window, click the 'Create authentication' button.
+
+Go back to your settings authentication field (within the workflow builder properties panel), and select the recently added authentication from the dropdown options now available.
+
+Your connector authentication setup is complete.
+
+In a SOAP Client step where this authentication is selected, you would be able to access the stored `token` via the jsonpath `$.auth.token`.
+
+### Using an existing authentication
+
+As an alternative to creating a new SOAP Client authentication, you may instead select any existing authentication. Here is an example:
+
+The Salesforce connector step has a pre-existing authentication. In the step following it, there is a SOAP Client step where this Salesforce authentication is selected:
+
+In this way, it is possible for the SOAP Client step to use the access token from the Salesforce authentication by the jsonpath `{$.auth.access_token}`:
+
+## Available Operations
+
+Please see the [Full Operations Reference](https://tray.io/documentation/connectors/core/soap-client/operations/) for details on all available operations for this connector.
+
+## Notes on using SOAP Client
+
+### Send request
+
+**You MUST write requests in raw XML**.
+
+The 'SOAP headers' field corresponds to what is inside the 'Header' XML element, and the 'XML body' field is everything inside the 'Body' XML element.
+
+Consider this example XML request:
+
+The 'SOAP Headers' field would be:
+
+The 'XML body' field would be:
+
+Note how in both cases **the top-level elements themselves are not included**, i.e. `<soap:Header></soap:Header>` and `<soap:Body></soap:Body>`.
+
+#### 'Authentication' field
+
+The 'Send request' operation has an 'Authentication' field, which refers to specific authentication security protocols supported by the `soap` package. As of SOAP Client 1.0, this field offers the following options:
+
+- None / Manual
+- BasicAuthSecurity
+- BearerSecurity
+- NTLMSecurity
+
+The purpose of this field is to map values of authentication parameters from the selected authentication on the 'Authenticate' tab or other source, including direct typed-in input.
+
+These mapped authentication parameters are used by the `soap` package to format the appropriate authentication headers for the chosen authentication protocol.
+
+Therefore the 'None / Manual' option should be used if a SOAP API requires authentication parameters to be sent in the 'XML body', or if you wish to manually define the authentication headers yourself.
+
+### List SOAP methods
+
+This operation can be used to return a listing of all the methods described in a WSDL. These are the supported methods that can be called by the 'Send request' operation.
+
+### Describe client
+
+This uses the `Client.describe()` method provided by the soap package to return a description of services, ports and methods.
+
+## Getting the WSDL
+
+The WSDL is the key to using the SOAP Client connector. There are three ways to provide a WSDL:
+
+- By URL: This is the recommended way
+- By uploaded file: e.g. from Google Drive
+- From internal WSDLs
+
+Please note that while the internal WSDLs are all current at the time of release of SOAP Client 1.0, since they are static internal files, it is recommended to retrieve the WSDL directly by URL in case a WSDL has been updated.
+
+### Supply WSDL file by full URL
+
+Simply provide the URL to the WSDL file.
+
+### Import WSDL from file
+
+Users can get the WSDL from any service that can output it as a File object.
+
+In this case the file must have the `.xml` file extension to ensure that it will be served as text/xml.
+
+### Select an internal WSDL
+
+For your convenience, there a few WSDLs stored internally that you can select from.
+
+## Example Usage
+
+Below is an example of how to set up a SOAP Client step by importing the WSDL file of 'Microsoft Dynamics GP' that has stored in Google Drive. The SOAP Client will then be used to call the `GetListItems` method.
+
+The steps will be as follows:
+
+1. Set up a new workflow with a manual trigger.
+2. Locate the WSDL file in Google Drive.
+3. Retrieve the WSDL file from Google Drive.
+4. Set up the SOAP Client using the retrieved WSDL file.
+
+Your completed workflow should look similar to this:
+
+### 1 - Setup the Manual trigger
+
+Once you have clicked 'Create new workflow' from your main Tray.io dashboard named it, select the Manual trigger from the trigger options available:
+
+After clicking 'Create workflow', you will be redirected to the Tray.io workflow dashboard.
+
+You are now ready to begin building your workflow.
+
+### 2 - Set up Google Drive step to locate the WSDL
+
+From the connectors panel on the left, add a Google Drive connector to your second step.
+
+In this Google Drive step, set the operation to 'List files'. For this example, there is a WSDL file in Google Drive named `DynamicsGPWebServices.xml`. It is important that the file has the extension of `xml` so that it will have the MIME type correctly set to 'text/xml'.
+
+In order to download this file we need its ID. So we will use the 'List files' operation to get the list of files in my drive ('Source': `user`), with 'Filter by name' set to `DynamicsGPWebServices`.
+
+For this example, there is one result which the file we are looking for.
+
+Feel free to re-name your steps as you go along to make things clearer for yourself and other users. The operation names themselves often suffice.
+
+### 3 - Download the WSDL from Google Drive
+
+From the connectors panel on the left, add another Google Drive connector to your third step. Set the operation of this Google Drive step to 'Download file'.<br/>
+
+We can now use the file ID returned by the previous step to download the file. Use the 'File ID' mapping icon to generate the connector-snake and drag it over to have its tail hover over the 'List files' step.
+
+When you release the mouse button, select `id` from the list of output properties displayed. This will auto-populate a jsonpath within the 'File ID' input field, and update the type selector to jsonpath.
+
+For more clarification on the pathways you have available, open the Debug panel to view your step's Input and Output.
+
+The 'Download file' operation in this Google Drive step will download the WSDL file and return a file object that will be used as input in the next step.
+
+### 4 - Use the SOAP Client to 'Send request'
+
+From the connectors panel on the left, add a SOAP Client connector to your fourth step.<br/>
+
+For our example, the important inputs are:
+
+- WSDL (always required)
+- Method (always required)
+- Authentication (always required)
+- XML body
+
+The other inputs can be left as they are.
+
+For `WSDL`, select 'Import WSDL from file' to reveal the 'WSDL file' property. Use the mapping icon here to generate a connector-snake and drag it over to have its tail hover over the 'Download file' step.
+
+When you release the mouse button, select `file` from the list of output properties displayed. This will auto-populate a jsonpath within the 'WSDL file' input field, and update the type selector to jsonpath.
+
+The `Method` we will call is `GetListItems`.
+
+For 'Authentication', the 'Microsoft Dynamics GP' web service uses the NTLM protocol, so select the `NTLMSecurity` option.
+
+Note the fields supported by the NTLM protocol. Now go to the 'Authenticate' tab and click 'Add new authentication'
+
+Now we will create a new authentication as described above in [Creating authentication in SOAP Client](#creating-authentication-in-soap-client)
+
+Let's say that in this example, we only need a username and password. So we will create a new SOAP Client authentication and store these values.
+
+With the created authentication selected in the 'Authenticate' tab, return to the 'Input data' tab where we will jsonpath the values stored in the authentication.
+
+Change the field data type to 'jsonpath' and begin typing `$.` and suggestions will appear. The result is that the 'Username' and 'Password' fields will contain jsonpaths to the values in the authentication.
+
+Finally, we need to provide the body of the XML request:
+
+The SOAP Client is configured and the workflow is ready to run.
+
+To see the results of running the workflow, click on 'Run workflow' and go to 'Debug'.
+
+The logs show that the workflow has run successfully and the SOAP Client has sent the request to the Microsoft Dynamics GP API.

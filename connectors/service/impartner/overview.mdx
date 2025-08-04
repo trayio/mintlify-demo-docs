@@ -1,0 +1,57 @@
+---
+title: "Overview"
+description: "Overview of the Impartner connector"
+---
+
+# Overview
+
+## Overview
+
+Impartner PRM helps companies of all sizes optimise the performance for their channel and accelerate revenue from partners of all types.
+
+### **API Information **
+
+The Base URL used for the Impartner connector is **https://prod.impartner.live**. More information can be found on their main [API documentation (v1.0)](https://prod.impartner.live/swagger/ui/index?urls.primaryName=Objects%20v1%20API)) site.
+
+## Authentication
+
+Within the builder, click on the Impartner connector to display the connector properties panel. Select the **Auth** tab and click on the **New authentication** button.
+
+In the Tray.io authentication pop-up modal name your authentication in a way that will quickly identify it within a potentially large list. For example whether it is a Sandbox or Production auth, etc.
+
+Consider who/ how many people will need access to this authentication when choosing where to create this authentication ('Personal' vs 'Organisational').
+
+The next page asks you for your **Username** and **Password** credentials. These are the same credentials you would use to log into your Impartner account.
+
+Once you have added these fields to your Tray.io authentication pop-up window click the **Create authentication** button. 
+
+Your connector authentication setup should now be complete. Please run the simplest operation available to test and make sure you can retrieve data as expected.
+
+## Available Operations
+
+The examples below show one or two of the available connector operations in use.
+
+Please see the [Full Operations Reference](#operationsFull) at the end of this page for details on all available operations for this connector.
+
+## Example Usage
+
+### Batch Update Records
+
+Below is an example how you could potentially use the Impartner connector to batch update multiple records - regardless of their incoming format. 
+
+This method will essentially show you how to transform any data into a composition that Impartner can easily use. 
+
+The overall logic of the workflow is as follows:
+
+1. Setup using a Manual Trigger. Remember that you can replace this with the service trigger of your choice or a scheduled trigger instead.
+2. Add an Object Helper and fill it with dummy data (for testing purposes). Again, you could replace or remove this with a service trigger / connector so that the data you are using comes in the format you will be working with immediately.
+3. Use a JSON Transformer to format the data in a way that makes it acceptable to use with Impartner's database structure.
+4. Add an Impartner connector to batch update the newly formatted information in bulk.
+
+Your completed workflow should look similar to this:
+
+The end result being multiple records updated with ease:
+
+#### Step-by-step Explanation
+
+### 

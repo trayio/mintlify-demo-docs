@@ -1,0 +1,56 @@
+---
+title: "Overview"
+description: "Overview of the Miro connector"
+---
+
+# Overview
+
+## Overview
+
+Miro is an online collaborative whiteboarding platform that enables distributed teams to work effectively together. Its services include brainstorming with digital sticky notes to planning and managing agile workflows, workshopping, strategy mapping, UX research and design, product development, customer discovery, and process visualization.
+
+Below is an example of a way in which you could potentially use the Miro connector to get the details of all widgets on a specific board.
+
+The steps will be as follows:
+
+1. Setup using a manual trigger and list the widgets on a specific board.
+2. Add Loop collection step to iterate through each widget.
+3. Get the details of each widget.
+
+The final outcome should look like this:
+
+### 1 - Setup Trigger & list widgets
+
+Once you have clicked 'Create new workflow' from your main Tray.io dashboard named it, select the Manual trigger from the trigger options available:
+
+After you have been redirected to the Tray.io workflow dashboard, from the connectors panel on the left, add a Miro connector to your second step. Set the operation to 'List widgets' and enter the `Board ID` for the board you want to retrieve.
+
+Please feel free to re-name your steps (perhaps after their operational names, as in the demo) as you go along to make things clearer for yourself and other users.
+
+When run, the workflow will provide a list of widgets available on the specified board.
+
+### 2 - Loop Collection
+
+Next, search for the 'Loop collection' connector within your connector panel, and drag it into your workflow as your next step. Set your operations to 'Loop list'.
+
+The Loop Collection connector allows you to iterate through a list of results. In this example, we will use it to iterate through the list of widgets from the previous Miro connector step.
+
+In order to specify the list you want to loop through, start by using the 'List' mapping icon (found next to the list input field, within the properties panel) to generate the connector-snake.
+
+While hovering over the 'List widgets' step (with the tail end of the connector-snake), select `data` from the list of output properties displayed. This will auto-populate a jsonpath within your 'List' input field (`$.steps.miro-1.data`, in this example), and update the type selector to jsonpath.
+
+For more clarification on the pathways, you have available, open the Debug panel to view your step's Input and Output.
+
+When run, the workflow will provide a list of widgets available on the specified board and then simply iterate over each widget in the returned list.
+
+### 3 - Get widgets
+
+The last step is to drag a final Miro connector *inside* of the actual Loop Collection step itself. Set the operation to 'Get widget'. As you can see, both the 'Board ID' and 'Widget ID' fields are required.
+
+In the 'Board ID' field on the properties panel, enter the same board ID you entered in the 'List widgets step'.
+
+Using the connector-snake, find the jsonpath for the 'Widget ID' from the previous step. It should appear similar to `$.steps.loop-1.value.id`.
+
+When run, the workflow will provide a list of widgets available on the specified board and then simply iterate over each widget in the returned list and then retrieve each widget's details on the specified board.
+
+If the workflow doesn't work as desired, click on the 'Debug' tab to [inspect your logs](/platform/troubleshooting/logs-and-debugging/) and see if you can find the problem.

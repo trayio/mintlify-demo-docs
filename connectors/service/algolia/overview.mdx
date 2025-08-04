@@ -1,0 +1,47 @@
+---
+title: "Overview"
+description: "Overview of the Algolia connector"
+---
+
+# Overview
+
+## Overview
+
+Algolia is a Search-as-a-Service platform that enables companies of all sizes to deliver fast and relevant digital experiences that drive real results
+
+## Authentication
+
+To authenticate with Algolia, add an Algolia step to your workflow. Once added to your workflow, click on the new authentication button found on the input panel. This will open the Algolia authentication dialog:
+
+You can retrieve your App ID and Admin API key by going to 'API Keys' in your Algolia dashboard:
+
+## Notes on using the Algolia connector
+
+When using the **Search Facet Values** operation, you will need to make sure that you have at least one attribute set for faceting, and made searchable:
+
+The properties for the operation can then be set:
+
+This will return a list of objects which match the query, and highlights the facet query:
+
+When updating objects, using either **Batch Write Operations** or **Create / Update Object with ID**, you will need to specify the **objectID**:
+
+Note that if you use 'Update object' it will re-create the object with only the attributes you specify.
+
+'Partial update object' however, will update the attributes you specify, and maintain the other attrbutes already present in the object.
+
+## Example usage
+
+The following workflow shows a very simple example of pulling details about a new / updated Salesforce opportunity and sending them to an Algolia search index:
+
+The steps involved here are:
+
+1. The workflow is triggered by a new/updated Salesforce opportunity
+2. **Get opportunity** uses the `$.steps.trigger.events[0].Id` jsonpath to pull the Opportunity ID from the trigger and extract all the required fields
+3. **Loop collection** loops through the opportunities (in this case it will be a list of 1 because we are searching by unique Opportunity ID!)
+4. **Add object to index**
+
+Note that here we are using the Salesforce Opportunity ID as the Algolia **objectID**
+
+And we are pulling in the fields returned by Salesforce to use directly as the attributes for the index
+
+An example of the type of information which might be pulled in is:

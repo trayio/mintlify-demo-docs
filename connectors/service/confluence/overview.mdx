@@ -1,0 +1,34 @@
+---
+title: "Overview"
+description: "Overview of the Confluence connector"
+---
+
+# Overview
+
+## Overview
+
+Confluence is Atlassian's content collaboration tool used to help teams collaborate and share knowledge efficiently. In Confluence, content is created and organized using spaces, pages, and blogs. Collaboration tools allow users to write, edit, comment and get work done together within the Confluence interface.
+
+## Authentication
+
+When using the Confluence connector, the first thing you will need to do is go to your Tray.io account page, and select your workflow. Once within the workflow dashboard itself, select and drag the Confluence connector from the connectors panel (on the left hand side) to your workflow.
+
+With the new connector step highlighted, in the properties panel on the right, click on 'New Authentication' under the 'Settings' heading.
+
+In order to authenticate with Confluence you will need to have your 'User name', 'API Token' and 'Domain name':
+
+Once you have named your authentication and filled in the above you should have your authentication automatically populate whenever you add a Confluence connector step.
+
+## Available Operations
+
+The examples below show one or two of the available connector operations in use.
+
+Please see the [Full Operations Reference](#operationsFull) at the end of this page for details on all available operations for this connector.
+
+## Note on Operations usage
+
+This means that in the Confluence connector, when you want to list the users of confluence, you have to use an Atlassian connector in order to get them.
+
+The Atlassian connector itself *requires a different authentication process*, one which requires you to have access to a 'Super API Key'.
+
+Please see our docs page for more information on authenticating with [Atlassian](/connectors/service/atlassian/)

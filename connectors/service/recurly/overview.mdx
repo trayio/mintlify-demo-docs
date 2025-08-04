@@ -1,0 +1,58 @@
+---
+title: "Overview"
+description: "Overview of the Recurly connector"
+---
+
+# Overview
+
+## Overview
+
+Recurly is an enterprise-class subscription management platform that cuts through the complexity of subscription management to optimize and automate revenue growth. Customers can harness the power of the subscription model to deliver predictable revenue, reveal critical customer insights, and automate revenue-optimizing decisions.
+
+## Authentication
+
+When using the Recurly connector, the first thing you will have to do is click on 'New Authentication' in the step editor:
+
+You will then need to add your API Key (picked up from the Recurly console by going to Developers > API credentials):
+
+## Notes on Operations usage
+
+## Pagination
+
+For list operations which may return thousands of results (such as 'List Accounts') Recurly supports **pagination**. It does this by providing a **Limit** parameter which can be used to specify the number of results which are returned per page, so they can be dealt with in manageable batches.
+
+It also returns **has_more** and **next** values which tell you if there are more pages to go through, and what page the next batch should start at:
+
+To find out how to correctly paginate results in Tray, please see our docs section on [Pagination](/platform/standard-best-practices/pagination/intro-to-pagination/)
+
+## Getting account codes
+
+Some operations (such as **'Get Account'** or **'Get Account billing information'** require the account code which must be entered as a string with a 'code-' prefix. This could be entered manually as e.g. 'code-person1234' or using a json path to pick it up from another operation as per the below example:
+
+## Example usage - finding inactive accounts
+
+The following example shows how to use the **'List Accounts'** operation to find inactive accounts and take action based on this. For testing purposes you can use a **Manual Trigger**. The workflow looks like this:
+
+It was set up as per the following:
+
+1.) Add a Recurly connector, authenticate as above and choose the 'List Accounts' operation:
+
+Note that you have to choose a **Site** from the drop-down.
+
+From the **Limit** paramter you will also note that Recurly supports **pagination** for list operations which may return thousands of results. Please see the note above on this.
+
+2.) To go through each account one-by-one, add a Loop connector with the **List** parameter set as a `$.steps.recurly-1.data` jsonpath:
+
+At this point, from the bottom right of the screen when you have selected the loop operation, you can note the data which is output for each account and can be accessed by other workflow steps using jsonpath notation:
+
+3.) At the start of the loop add a boolean condition to check if the account has a **State** of inactive:
+
+4.) In the **True** branch you can then take action such as send an email to the account owner (note that in both the **Name** and **Content** fields we are using the 'interpolated' method which allows to insert a jsonpath into a string using `{ }`):
+
+and notify an appropriate Slack channel:
+
+Note also that, at this point, you could use a **Get Account**-type operation to retrieve a user's billing info etc. (as explained in above note on operations usage)
+
+Once you have the workflow setup you can switch to the debug tab before clicking 'Run workflow now' and checking the output logs.
+
+## Available Operations

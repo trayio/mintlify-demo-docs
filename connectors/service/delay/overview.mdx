@@ -1,0 +1,27 @@
+---
+title: "Overview"
+description: "Overview of the Delay connector"
+---
+
+# Overview
+
+## Basic use of the delay connector
+
+All paths flowing through the 'Delay' connector will wait until the specified time delay has expired before continuing to the next connector in the workflow.
+
+This can be useful if you are waiting for the service you are querying to be updated.
+
+The following example shows how you might use a loop connector with a delay to check until a new contact record is found.
+
+And this example shows how you might use the delay function in order to make sure that you don't exceed the API rate limits of the service you are sending data to:
+
+## Implementing extended delay periods
+
+Note that the delay connector has a maximum delay period of 10 minutes / 3600 seconds
+
+If you need to implement extended delay periods, it should not be used e.g. in conjunction with the loop connector as this will be very inefficient in terms of task usage.
+
+In a scenario where, for example, you want to delay an operation for anywhere between a few days and a week, you could take an approach like the following:
+
+1. In the main workflow, use account / workspace-level data storage to save the execution details including the desired processing date 
+2. Create a separate schedule-triggered workflow which runs once a day:

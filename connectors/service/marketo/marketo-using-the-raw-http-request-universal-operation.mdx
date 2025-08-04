@@ -1,0 +1,30 @@
+---
+title: "Using the Raw HTTP Request ('Universal Operation')"
+description: "Using the Raw HTTP Request ('Universal Operation') documentation for Marketo connector"
+---
+
+# Using the Raw HTTP Request ('Universal Operation')
+
+As of **version 2.17** you can effectively create your own operations.
+
+This is a powerful feature that you can use when there is an endpoint in Marketo that is not used by any of our operations.
+
+To use this, you will first of all need to research the endpoint in the[ Marketo API documentation v1.0](https://developers.marketo.com/rest-api/) to **find the exact format** that Marketo will be expecting the endpoint to be passed in.
+
+For example say that the **List program leads** operation did not exist in our Marketo connector and you wanted to use this endpoint. You would use the [ Marketo API documentation v1.0](https://developers.marketo.com/rest-api/) to find the relevant endpoint - which in this case is a **GET** request called:** /v1/leads/programs/${programId}.json.**
+
+To find your URL you will need to go through your Marketo Admin pages log into your Marketo account and click on **Admin**. Under the Integration menu select **Web Services**.
+
+In the **REST API** **section** you will find your **Endpoint URL **(minus the `/rest` endpoint itself).
+
+**Base URL for Marketo**: `https://${your-base-url}.mktorest.com`
+
+Based on the information provided in the above API call doc, you need to configure the following attributes on your Tray platform:
+
+- **Method:** `GET`
+- **URL: **`https://${your-base-url}.mktorest.com`
+- **Headers: **`none`
+- **Query parameters: **`none`
+- **Body Type: **`raw`
+
+Once the API call is executed successfully,  you should get the following results:

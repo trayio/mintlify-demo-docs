@@ -1,0 +1,48 @@
+---
+title: "Error handling"
+description: "Error handling documentation for Marketo connector"
+---
+
+# Error handling
+
+## Managing 2XX Status Codes with Error Indications
+
+While working with the Marketo connector, there are instances where the response status code is 2XX, indicating a successful request, but the response body contains an error indication. 
+
+This discrepancy causes the connector to fail, despite receiving a 2XX status code. This behavior is expected due to the error handling by the Marketo service, and the Tray connector has been developed to accommodate specific error categories.
+
+For the complete list of error codes, refer to [Marketo's Error Codes](https://developers.marketo.com/rest-api/error-codes/#record_level_error_codes) documentation.
+
+You can choose one of the following methods based on your requirements to handle these errors:
+
+### Manual error handling
+
+By using manual error handling, you can override the default error alerting setup. To do so, select the "Manual" option by going to the 'If a step error occurs' setting in the properties panel. 
+
+This allows you to implement custom logic to handle the error based on the response body, even when the status code is 2XX.
+
+For more information on manual error handling, refer to our [Manual error handling](/tray-uac/error-handling/error-handling-setup/) Docs.
+
+### Using alert trigger
+
+The second option is to configure an [alert trigger](https://tray.io/documentation/connectors/triggers/alerting-trigger/) for an individual workflow. This trigger will notify you when specific conditions or errors occur within the workflow. 
+
+In the example below, the alert trigger sends a Slack notification, but you can tailor it to your specific needs.
+
+By configuring an alert trigger, you can ensure that you are promptly notified of any issues in your workflows, allowing you to take immediate action to resolve them. 
+
+This enhances the reliability and responsiveness of your automated processes.
+
+The below images shows the configured alert trigger. Make sure to set the **Include raw response **parameter to **True **to fetch the raw response from the failed workflow.
+
+To configure an alert trigger, select **Workflow settings** from the top right corner of the workflow for which you wish to configure the Alert trigger. 
+
+On the next page select your Alerting workflow from the drop-down.
+
+### Using branch connector
+
+The [branch connector](https://tray.io/documentation/connectors/core/branch/) is a good option when you are aware of one or more errors that might occur. It allows you to handle different types of errors in a customized manner. 
+
+You can create branches for specific error codes and implement different error-handling strategies for each.
+
+The example below shows a few types of errors and one of the ways in which they can be handled.

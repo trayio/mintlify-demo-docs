@@ -1,0 +1,86 @@
+---
+title: "Overview"
+description: "Overview of the Adaptive Insights connector"
+---
+
+# Overview
+
+## Overview
+
+The Adaptive Insights connector currently provides create and update operations for metadata records such as accounts, dimensions and levels.
+
+## Authentication
+
+You can use your Adaptive Insights username and password (the same one you would use to login to your account) to authenticate with this connector.
+
+To authenticate with the Adaptive Insights connector, navigate to a workflow and add the Adaptive Insights connector as a step. Then click on New Authentication:
+
+Enter your username and password. Under 'Options', you also have an opportunity to specify an 'Instance'. Each Adaptive Insights account can have access to multiple instances. Leave it blank if your account has only one instance or you want to use the default instance for your account.
+
+If you do want to specify an instance name, you will need to talk to your Adaptive Insights admin to find out the name of the instance.
+
+## Available Operations
+
+The examples below show one or two of the available connector operations in use.
+
+Please see the [Full Operations Reference](#operationsFull) at the end of this page for details on all available operations for this connector.
+
+## Note on Operations usage
+
+### Exporting data with Adaptive Insights
+
+There are two operations for exporting data out of Adaptive Insights. **Export data (standard)** works with exporting data for specified version of accounts and levels. **Export modeled sheet data** is for exporting a specified modeled sheet.
+
+Please be aware that this will only work with modeled sheets. If there is data appearing in standard or cube sheets this data will need to be referred by the account codes they fall under.
+
+Filters should be used to decrease the amount data being handled at one time. To this end, a 'time span' can be specified. Valid time span values can differ from account to account, in the examples you will see the format `Jan_2019`.
+
+The format for the time span can be found in the Adaptive Insights account UI and navigating to *Modeling* > *Time* and looking at the *code* column.
+
+Both operations output a CSV file with the exported data.
+
+### Export data (standard)
+
+To export data, all data can be exported for a given version. This can be filtered by 'account', 'level' and 'time span'.
+
+Data can also be filtered on 'Dimension values'. Valid dimension values for the Adaptive Insights account can be found in the UI main menu, *Modeling* > *Dimensions*.
+
+**Please take heed of the different between dimension name vs dimension value**. In Adaptive Insights, the top level list items are the dimension names, whereas the items that fall under them are the dimension values e.g. *Product* > *Product A1*.
+
+For more information see: [Export data API documentation](https://knowledge.adaptiveplanning.com/Integration/Managing_Data_Integration/API_Documentation/Metadata_and_Data_Create%2C_Update%2C_and_Read_Methods/exportData).
+
+### Export modeled sheet data
+
+This is the simpler operation if exporting data from modeled sheet. When specifying the sheet name, there is an 'Is global' which should match the setting of the sheet.
+
+When specifying the 'Level', to obtain all the data underneath that level please tick the 'Include descendants' option. This could be a reason why no data is appearing in the exported CSV file.
+
+For more information please see: [Export modeled sheet data API documentation](https://knowledge.adaptiveplanning.com/Integration/Managing_Data_Integration/API_Documentation/Metadata_and_Data_Create%2C_Update%2C_and_Read_Methods/exportConfigurableModelData)
+
+### Importing data
+
+The 'Import modeled sheet data' can be used with modeled sheets only. The operation accepts a CSV file to update the specified sheet.
+
+The CSV file needs to use a pipe `|` as the delimiter, and there should be no enclose characters present such as `"`.
+
+If you have a CSV file with a different delimiter and with enclosing quotes you can use the 'CSV Editor' to remove them (note the two steps in the below screenshot to import and export CSV).
+
+Adaptive Insights will return an error if there are any missing or invalid fields.
+
+When specifying the sheet name, there is a boolean to indicate if the sheet is user or level assigned. This should match the sheet settings in the Adaptive Insights instance. If this setting does not match the operation will fail.
+
+Similarly, for the 'Plan or actuals' input field, this should match the type of sheet i.e. either 'Plan' or 'Actuals'.
+
+When importing data, rows in a sheet can be replaced, appended to or replaced only when the Level is the same. Please use the 'Replace existing' field to specify this option.
+
+If successful, the operation will return number of rows processed and if the rows were appended to or replaced.
+
+For more information on the other data import options, see the Adaptive Insights documentation around importing data: [Import data API documentation](https://knowledge.adaptiveplanning.com/Integration/Managing_Data_Integration/API_Documentation/Data_Submission_Methods/01_importConfigurableModelData)
+
+## Example Usage
+
+The example here will demonstrate how to create an account in Adaptive Insights. A parent account needs to be specified. This can be specified in the Parent ID field. You may need to refer to your Adaptive Insights admin to find out the ID of the account you wish the new account to roll up to.
+
+Something important to note with creating accounts is if the 'Is group' box is left un-ticked, the Code field needs to be populated.
+
+After selecting a code (if not a group account), another notable option is 'Proceed with warnings' which, if ticked,will proceed with creating the account despite any unforeseen impacts on existing data. This option should be used with caution.

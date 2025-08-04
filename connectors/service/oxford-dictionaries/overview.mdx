@@ -1,0 +1,112 @@
+---
+title: "Overview"
+description: "Overview of the Oxford Dictionaries connector"
+---
+
+# Overview
+
+## Overview
+
+Oxford English Dictionary features entries in which the earliest ascertainable recorded sense of a word, whether current or obsolete, is presented first, and each additional sense is presented in historical order according to the date of its earliest ascertainable recorded use.
+
+## Authentication
+
+When using the Oxford Dictionaries connector, the first thing you will need to do is go to your Tray.io account page, and select the workflow you wish to work on. Once in the workflow builder itself, search and drag the Oxford Dictionaries connector from the connectors panel (on the left hand side) onto your workflow.
+
+With the new Oxford Dictionaries connector step highlighted, in the properties panel on the right, click on 'New Authentication' which is located under the 'Settings' heading.
+
+This will result in a Tray.io authentication pop-up window. The first page will ask you to name your authentication, and state which type of authentication you wish to create ('Personal' or 'Organisational').
+
+As you can see, the next page asks you for your 'App ID' and 'App Key' credentials.
+
+In order to get these fields, head to your [Oxford Dictionaries platform](https://developer.oxforddictionaries.com/). Click the 'sign in' button in the menu at the top of the page and fill in the required fields with your username and password.
+
+Once you are logged in go to the 'API credentials' button, in the menu at the top of the page
+
+You should see a list of available applications. Click on the relevant name to view the details associated with it.
+
+Here you will be presented with several pieces of data including the necessary 'App ID' and 'App Key'.
+
+Once you have added these fields to your Tray.io authentication popup window, click on the 'Create authentication' button. Go back to your settings authentication field (within the workflow builder properties panel), and select the recently added authentication from the dropdown options now available.
+
+Your connector authentication setup should now be complete.
+
+## Available Operations
+
+The examples below show one or two of the available connector operations in use.
+
+Please see the [Full Operations Reference](#operationsFull) at the end of this page for details on all available operations for this connector.
+
+## Using the Raw HTTP Request ('Universal Operation')
+
+As of **version 1.0**, you can effectively create your own operations.
+
+This is a very powerful feature which you can put to use when there is an endpoint in Oxford Dictionaries which is not used by any of our operations.
+
+To use this you will first of all need to research the endpoint in the [Oxford Dictionaries API documentation v2](https://developer.oxforddictionaries.com/documentation), to *find the exact format* that Oxford Dictionaries will be expecting the endpoint to be passed in.
+
+Note that you will only need to add the suffix to the endpoint, as the base URL will be automatically set (the base URL is picked up from the value you entered when you created your authentication).
+
+The base URL for Oxford Dictionaries is: `https://od-api.oxforddictionaries.com`
+
+For example, say that the 'List registers' operation did not exist in our Oxford Dictionaries connector, and you wanted to use this endpoint, you would use the Oxford Dictionaries API docs to find the relevant endpoint. In this case it is a `GET` request under the heading of 'Utility': `/api/v2/registers/{source_language}`.
+
+So if you know what your method, endpoint and details of your query parameters are, you can get the registers information with the following settings:
+
+Method: `GET`
+
+Endpoint: `/api/v2/registers/{source_language}`
+
+Query parameters: `{source_language}` : `en-us`
+
+Final Example outcome being: **https://od-api.oxforddictionaries.com/api/v2/registers/en-us**
+
+## Example usage
+
+Below is an example of a way in which you could potentially use the Oxford Dictionaries connector, to get a definition for a chosen word, concatenate it into a sentence and then send it into an email.
+
+The steps will be as follows:
+
+1. Setup using a manual trigger and get a list of dictionary entries.
+
+The final outcome should look like this:
+
+### 1 - Setup Trigger & List Entries
+
+Once you have clicked 'Create new workflow' from your main Tray.io dashboard (and named the new workflow), select the Manual trigger from the trigger options available:
+
+After you have been redirected to the Tray.io workflow dashboard, from the connectors panel on the left, add a Oxford Dictionaries connector to your second step. Set the operation to 'List dictionary entries'.
+
+*Feel free to re-name your steps as you go along to make things clearer for yourself and other users.*
+
+Make sure to select both the 'Source language' and the 'Word ID' in order to filter your results.
+
+When run, this workflow should list all the dictionary entries available within the Oxford Dictionaries platform, that are associated with both your chosen language and word ID.
+
+Make sure to verify the results within the Debug panel:
+
+### 2 - Text Helpers - Concatenate
+
+Next, search for the 'Text Helpers' connector within your connector panel, and drag it into your workflow as your next step. Set your operations to 'Concatenate'.
+
+The Text Helpers connector allows you to concatenate (or stitch together) a string and/ or word with any other. In this example, we will use it to concatenate a sentence to the definition of the word 'tech'.
+
+In order to specify the definition you want to concatenate, start by adding two 'Value' fields. In the first field, type in the following (making sure to check that the type selector is set to string: `A`): `The definition for tech is:`. Be sure to include the space at the end.
+
+The second 'Value' field will be auto-generated using the 'Value' mapping icon (found next to the value input field within the properties panel) and the connector-snake.
+
+While hovering over the 'List dictionary entries' step (with the tail end of the connector-snake), select the string for definitions array `A 0` from the list of output properties displayed. This will auto-populate a jsonpath within your 'Definition' input field, and update the type selector to jsonpath.
+
+*For more clarification on the pathways you have available, open the Debug panel to view your step's Input and Output.*
+
+When run, this workflow will get the definition for tech and concatenate it to the custom sentenced that we typed down into the first field for Value in Values.
+
+### 3 - Send Email
+
+Add a Send Email connector underneath the 'Concatenate' step and fill in the email address to the user this email has to get to. Fill in any subject heading as well.
+
+The content sent in this email is the concatenated value that was created in the earlier 'Concatenate' step, which is why the 'Content' field can be auto-generated with the connector-snake once more.
+
+Using the connector-snake once more, assign the 'Content' property to the `Result` option displayed from the previous step.
+
+When run, the workflow will now send an email to the address added in the 'To recipients' fields. See the Debug panel for more details, or better yet, check your emails!

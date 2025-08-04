@@ -1,0 +1,45 @@
+---
+title: "Overview"
+description: "Overview of the Solution Alert Trigger connector"
+---
+
+# Overview
+
+In order to be alerted about any errors that are occurring with Solution Instances / Solutions / Workflows it is possible to build an Alerting Workflow which makes use of the **Solution Alert** Trigger.
+
+This is useful in terms of a 'helicopter view' of the overall health of your projects - which solutions and solution instances are causing problems.
+
+There are two steps to setting up Error Alerting:
+
+1. Create the Solution Alerting Workflow (multiple alerting workflows can be created)
+2. In your Embedded account, set the Solution Alerting Workflow which will be notified when there are any errors occuring within your Projects
+
+Check out this video on How to build a partner/solution alerting workflow from Tray Academy.
+
+Alternatively, you can refer the steps below ->
+
+### Create a Solution Alerting Workflow
+
+First of all, create a new workflow and select the Solution Alert Trigger:
+
+From the above screenshot you will see that one way of creating an alerting workflow is to parse the error output data from the trigger step into a Slack message (you could also, for example, set up an email alert to receive the information). You can manipulate and use the output data in any way you wish, using the Tray connectors and helpers you have at your disposal.
+
+The trigger output can be picked up with the following jsonpath structure:
+
+Note that the above example shows how you can parse the data into a plain text 'Message' box.
+
+To see what output is available from the trigger, you can select the Solution Alert trigger and click on the Output data tab:
+
+The following table gives a breakdown of the output data which is returned by the Solution Alert Trigger:
+
+Your alerting workflow can make use of these fields to provide useful information for debugging.
+
+Workflows with an alerting trigger behave just like any other workflow. You can build any logic you like into your workflow to handle the incoming errors.
+
+### Specify the Solution Alerting Workflow in your account
+
+In your account you can go to profile settings:
+
+To set the alerting workflow which will be handling any errors associated with your Projects, Solutions and Workflows:
+
+Note that only Workflows with a Solution Alert Trigger will appear in this list.

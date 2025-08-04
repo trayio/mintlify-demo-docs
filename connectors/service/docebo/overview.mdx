@@ -1,0 +1,24 @@
+---
+title: "Overview"
+description: "Overview of the Docebo connector"
+---
+
+# Overview
+
+## Overview
+
+Docebo is a Learning Management System that allows you to train employees, partners and customers worldwide.
+
+## Authentication
+
+To create an authentication with Docebo log in to the Docebo app as the **Superadmin** and access the **Admin Menu** from the gear icon in the top right corner and click on **Add New Apps**. Find the **Third Party Integrations** tab, then choose the **API and SSO App**. Then activate the new app from the **My APPS** tab by pressing the **Activate App**.
+
+Once installed, access the **Admin Menu** and click the manage link **Manage** under the **API AND SSO** section. From the **API Credentials** tab click on **Add OAuth2 App** to create a new app.
+
+Use `https://auth.tray.io/oauth2/token` for the **Redirect URI** field.
+
+Use the new app details to create the Authentication on Tray. You will need to provide:
+
+- Domain
+- Client ID
+- Client secret

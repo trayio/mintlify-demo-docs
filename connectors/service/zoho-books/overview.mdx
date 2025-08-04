@@ -1,0 +1,65 @@
+---
+title: "Overview"
+description: "Overview of the Zoho-books connector"
+---
+
+# Overview
+
+## Zoho Books
+
+Zoho Books is an online accounting application that helps manage the financial needs of your business.
+
+### Overview
+
+[Zoho Books](https://go.zoho.com/7aQ) is a cloud-based accounting platform tailored for small and medium-sized businesses to manage invoices, expenses, taxes, and other financial activities.
+
+With the Zoho Books connector in Tray.io, you can seamlessly integrate your accounting data with other applications, automate finance-related workflows, and boost operational eﬃciency.<br/><br/>Refer to the [Zoho Books API](https://go.zoho.com/eFa) documentation for detailed information on authentication, input parameters, and response formats.
+
+### Authentication
+
+Within the builder, click on the Orderful connector to display the connector properties panel. Select the **Authentication** tab and click on the **Create new authentication** button.
+
+In the Tray.io authentication pop-up modal, name your authentication in a way that will quickly identify it within a potentially large list. For example whether it is a Sandbox or Production auth, etc.
+
+Consider who/ how many people will need access to this authentication when choosing where to create this authentication ('Personal' vs 'Organisational').
+
+The next page asks you for your application credentials.
+
+To get these fields, head to the Zoho developer console: [https://accounts.zoho.com/developerconsole](https://accounts.zoho.com/developerconsole). Create an account or log in with your credentials.
+
+After logging in click "Get started", or if you already have an existing oauth app click "add client"
+
+Then select "Server-based Applications"
+
+<br/><br/>Then fill the form and for authorized URIs provide this URL "https://auth.tray.io/oauth2/token"
+
+<br/><br/>After you hit "create" you will get the Client ID and Client Secret. Once you have added these fields to your Tray.io authentication pop-up window click the **Create authentication** button. Your connector authentication setup should now be complete. Please run the simplest operation available to test and make sure you can retrieve data as expected.<br/><br/> The connector requests the following scopes:
+
+- ZohoBooks.accountants.READ
+- ZohoBooks.contacts.ALL
+- ZohoBooks.estimates.ALL
+- ZohoBooks.invoices.ALL
+- ZohoBooks.expenses.ALL
+- ZohoBooks.salesorders.ALL
+- ZohoBooks.settings.ALL
+
+### Examples
+
+1. List contacts<br/>To use this operation, select the organization ID from the dropdown and choose the contact type (Customer or Vendor).
+2. Create contact<br/>To use this operation, select the organization ID from the dropdown, enter the contact name, and choose the contact type (customer or vendor). You may also fill in additional fields such as shipping and billing addresses or contact persons if needed."
+
+### Use Cases
+
+#### Sync Zoho Books Contacts with a CRM (e.g., HubSpot)
+
+- Automatically create or update Zoho Books contacts when a new lead or customer is added to your CRM
+- Sync contact details bi-directionally to keep both platforms up to date.
+
+#### Sync Zoho Books Items Across Platforms (e.g., Shopify)
+
+- Keep product/item details synchronized between Zoho Books and Shopify or storefront systems.
+- Ensure pricing, stock levels, and descriptions are always up to date.
+
+#### Sync Zoho Books Items Across Platforms (e.g., Shopify)
+
+- Automatically log approved marketing or operational expenses from spreadsheet tools into Zoho Books.<br/>

@@ -1,0 +1,35 @@
+---
+title: "Overview"
+description: "Overview of the JSON Web Token (JWT) Helper connector"
+---
+
+# Overview
+
+## Overview
+
+The main purpose of the JSON Web Token connector is to sign and verify JSON Web Tokens.
+
+It is implemented using the NodeJS `jsonwebtoken` library.  This [libraries docs page](https://github.com/auth0/node-jsonwebtoken) can be used for more details about the various advanced options.
+
+## Operations List
+
+- Sign
+- Verify
+
+## Authentication
+
+This connector provides an authentication option that allows you to securely store any key/secret you wish to use to sign/verify the JSON Web Token.  
+
+<br/>By default the key input property will reference the key stored in the authentication, however you can manually override this with a value if you wish to source your key from elsewhere.  Please remember that if you override this key input property, it the value will not be obfuscated in the workflow execution logs.
+
+## Example usage
+
+Using a simple key/secret `abcdef` and the following JSON payload
+
+You can call the `Sign` operation and will receive the following JWT response
+
+If you were to pass this JSON Web Token response into the `Verify` operation, you should receive the same payload back.
+
+## Error Handling
+
+The `Verify` operation supports [Manual Error Handling](#) to take a different path if the token is valid or invalid.  This could be used for example to receive an incoming Webhook payload, verify the payload and respond to the Webhook with different messages depending on the validity of the JWT.

@@ -1,0 +1,104 @@
+---
+title: "Overview"
+description: "Overview of the SendinBlue connector"
+---
+
+# Overview
+
+## Overview
+
+Sendinblue offers cloud-based digital marketing tools to manage email campaigns, send text messages, or save time with automation.
+
+## Authentication
+
+Within the workflow builder, highlight the SendinBlue connector.
+
+In the SendinBlue connector properties panel to the right of the builder, click on the Authenticate tab and the 'Add new authentication' button.
+
+This will result in a Tray.io authentication pop-up modal. The first page will ask you to name your authentication and select the type of authentication you wish to create ('Personal' or 'Organisational').
+
+The next page asks you for your 'API key' credentials.
+
+In order to get these fields, head to the SendinBlue dashboard. Click on your account in the top right and head to the 'SMTP & API' tab.
+
+Once you have added these fields to your Tray.io authentication popup window, click the 'Create authentication' button.
+
+Go back to your settings authentication field (within the workflow builder properties panel), and select the recently added authentication from the dropdown options now available.
+
+Your connector authentication setup should now be complete.
+
+## Available Operations
+
+The examples below show one or two of the available connector operations in use.
+
+Please see the [Full Operations Reference](#operationsFull) at the end of this page for details on all available operations for this connector.
+
+## Using the Raw HTTP Request ('Universal Operation')
+
+As of **version 3.0**, you can effectively create your own operations.
+
+This is a very powerful feature which you can put to use when there is an endpoint in SendinBlue which is not used by any of our operations.
+
+To use this you will first of all need to research the endpoint in the [SendinBlue API documentation v3](https://developers.sendinblue.com/reference), to **find the exact format** that SendinBlue will be expecting the endpoint to be passed in.
+
+Note that you will only need to add the suffix to the endpoint, as the base URL will be automatically set (the base URL is picked up from the value you entered when you created your authentication).
+
+The base URL for SendinBlue is: `https://api.sendinblue.com/v3`
+
+For example, say that the 'List contacts' operation did not exist in our SendinBlue connector, and you wanted to use this endpoint. You would use the SendinBlue API docs to find the relevant endpoint - which in this case is a `GET` request called: `/contacts`.
+
+More details about this endpoint can be found [here](https://developers.sendinblue.com/reference#getcontacts-1).
+
+As you can see there is also the option to include query parameters, should you wish to do so. So if you know what your method, endpoint and details of your query parameters are, you can get the contacts information with the following settings:
+
+Method: `GET`
+
+Endpoint: `/contacts`
+
+Query Parameters: Key: `limit` Value: `50`, Key: `offset` Value: `0`, Key: `sort` Value: `asc`
+
+Final outcome being: **https://api.sendinblue.com/v3/contacts?limit=50&offset=0&sort=asc**
+
+## Example Usage
+
+Below is an example of a way in which you could potentially use the SendinBlue connector, to create a list, add a new contact to it and create a scheduled campaign.
+
+The steps will be as follows:
+
+1. Setup using a manual trigger and create a new list.
+2. Create a new contact to add to this list.
+3. Create a scheduled campaign to send out to your list.
+
+Your completed workflow should look similar to this:
+
+### 1 - Setup Trigger & Create List
+
+Select the manual trigger from the trigger options available.
+
+From the connectors panel on the left, add a SendinBlue connector to your workflow. Set the operation to 'Create list', then provide a suitable name to the list in the 'Name' field. Choose a 'Folder ID' of your choice from the available dropdown options.
+
+Feel free to re-name your steps as you go along to make things clearer for yourself and other users. The operation names themselves often suffice.
+
+This step will create a new list to add contacts to.
+
+### 2 - Create a contact
+
+Next, drag another SendinBlue connector to your workflow and set the operation to 'Create contact'.
+
+Provide suitable values for the 'Email', 'First name', 'Last name', and 'Phone number' fields. Under the 'List IDs' field, select 'Add to List IDs' and use the list mapping icon (found next to the List ID Item input field, within the properties panel) to generate the connector-snake.
+
+While hovering over the 'Create list' step (with the tail end of the connector-snake), select `id` from the list of output properties displayed. This will auto-populate a jsonpath within your List ID Item input field, and update the type selector to jsonpath.
+
+This step will create a new contact and add it to the contacts list you created in step 1.
+
+### 3 - Create email campaign
+
+Finally, drag another SendinBlue connector onto your workflow, this time setting the operation to 'Create email campaign'.
+
+Provide a suitable name in the 'Name' field. Select 'Email and name' as the value for the 'Sender' field from the available dropdown options. Now, provide suitable values for the 'Email' and the 'Name' field.
+
+Make sure to add either the 'Html URL', 'Html Content', or 'Template ID'. For the 'Recipients' input, select 'Add to list IDs' and use drag the connector snake onto the 'Create list' step of your workflow, then select 'id'.
+
+For more clarification on the pathways you have available, open the Debug panel to view your step's Input and Output.
+
+This step will send out your email campaign to all of the contacts included in the list you created in the first step.

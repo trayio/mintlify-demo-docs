@@ -1,0 +1,48 @@
+---
+title: "Block Kits & Modals"
+description: "Block Kits & Modals documentation for Slack connector"
+---
+
+# Block Kits & Modals
+
+****
+
+**Slack Modals** are a way to present interactive elements and rich content directly within Slack's response to a slash command. They allow you to create custom responses using "blocks" which are Slack sections containing text, buttons, images, and other interactive components.
+
+Some suggestions of when you might want to use Slack Modals are presented below:
+
+- **Interactive Responses: **When you want to provide users with interactive options as a response to a slash command, Slash Block Kits are ideal. For example, you can use buttons to trigger actions, select menus for choices, or date pickers for scheduling tasks.
+- **Visual Presentation: **Slash Block Kits let you present information in a structured and visually appealing manner. This is especially useful when displaying data, reports, or survey results in a more user-friendly format.
+- **Multi-Step Workflows: **When your slash command requires users to go through multiple steps or input data, Slash Block Kits can guide them through the process smoothly, step by step.
+
+**Slack Block Kits** help you create your Slack Modal via the use of a visual UI tool which updates in real time. It has previously structured elements and templates to choose from which speed up the creation process.
+
+## Create your Modal
+
+### **Set up your Modal**
+
+1. Head to the [Block Kit Builder](https://app.slack.com/block-kit-builder/T03D4MN7HNV#%7B%22title%22:%7B%22type%22:%22plain_text%22,%22text%22:%22Customer%20Survey%22,%22emoji%22:true%7D,%22submit%22:%7B%22type%22:%22plain_text%22,%22text%22:%22Submit%22,%22emoji%22:true%7D,%22type%22:%22modal%22,%22close%22:%7B%22type%22:%22plain_text%22,%22text%22:%22Cancel%22,%22emoji%22:true%7D,%22blocks%22:%5B%7B%22type%22:%22divider%22%7D,%7B%22type%22:%22input%22,%22element%22:%7B%22type%22:%22plain_text_input%22,%22action_id%22:%22plain_text_input-action%22%7D,%22label%22:%7B%22type%22:%22plain_text%22,%22text%22:%22Email%20address%22,%22emoji%22:true%7D%7D,%7B%22type%22:%22input%22,%22element%22:%7B%22type%22:%22radio_buttons%22,%22options%22:%5B%7B%22text%22:%7B%22type%22:%22plain_text%22,%22text%22:%22Yes%22,%22emoji%22:true%7D,%22value%22:%22value-0%22%7D,%7B%22text%22:%7B%22type%22:%22plain_text%22,%22text%22:%22No%22,%22emoji%22:true%7D,%22value%22:%22value-1%22%7D%5D,%22action_id%22:%22radio_buttons-action%22%7D,%22label%22:%7B%22type%22:%22plain_text%22,%22text%22:%22Do%20you%20like%20our%20product?%22,%22emoji%22:true%7D%7D%5D%7D) dashboard. 
+2. Select a **Surface** you would like to customize from the **Preview Menu**. Since we are working on a Modal, we have selected **Modal Preview**.<br/>
+3. Create a modal using building blocks such as buttons, images, text, etc., available.
+4. Send this modal payload to Slack using the **Send to Slack** button.
+5. You can now preview your modal in slack using the **Open Modal** button.<br/>
+
+### **Decide which connector to use**
+
+#### Interactive Modal
+
+Building an app **using the Slack Block Kit automatically generates a JSON object**. This means you can copy and paste this object directly into a HTTP connector should you choose to do so.
+
+For example we would use the HTTP connector to run the following `POST https://slack.com/api/views.open` call to open a modal in Slack whenever a `/survey` command was triggered:
+
+- URL: `https://slack.com/api/views.open`
+- Header:
+- Body Type: `raw`
+
+For a better understanding on how to work with modals using the HTTP client connector refer our more detailed [template](https://tray.io/documentation/templates/sales/interactive-slack-modal-for-creating-sfdc-account-and-opportunity/). 
+
+#### Non Interactive Modal
+
+When you use Slack's **Send message** operation with modals you need only copy and paste the JSON payload into the **Raw blocks** section. 
+
+This way you can **send the modal as a message**.

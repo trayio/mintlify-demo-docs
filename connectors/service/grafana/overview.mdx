@@ -1,0 +1,82 @@
+---
+title: "Overview"
+description: "Overview of the Grafana connector"
+---
+
+# Overview
+
+## Overview
+
+Grafana is an open source solution for running data analytics, pulling up metrics that make sense of the massive amount of data & to monitor our apps with the help of cool customizable dashboards.
+
+## Authentication
+
+When using the Grafana connector, the first thing you will need to do is go to your Tray.io account page, and select the workflow you wish to work on. Once in the workflow dashboard itself, search and drag the Grafana connector from the connectors panel (on the left hand side) onto your workflow.
+
+With the new Grafana connector step highlighted, in the properties panel on the right, click on 'New Authentication' which is located under the 'Settings' heading.
+
+This will result in a Tray.io authentication pop-up window. The first page will ask you to name your authentication appropriately, and state which type of authentication you wish to make ('Personal' or 'Organisational').
+
+As you can see, the next page asks you for your 'Authentication name', 'API Key' and 'Domain':
+
+To generate an API Key, go to your Grafana account and access the Settings Panel. On the left hand sidebar within the Grafana web app, select the cog wheel icon and under configuration select "API Keys".
+
+Then you will be taken to the Configuration page where you can add a new API key. Click on the "Add API Key" button and give your API key an appropriate name.
+
+You will be presented with a pop-up window where you should copy your API key, and paste it into the Tray.io authentication window (under the 'API Key' field name).
+
+The 'Domain' name can be taken from the URL of your Grafana account. For example if the URL is 'https://connectors.grafana.net/profile', 'connectors' would be the domain name.
+
+Once you have clicked the 'Create authentication' button, go back to your authentication field (within the workflow dashboard properties panel from earlier), and select the recently added authentication from the dropdown options now available.
+
+Your connector authentication setup should now be complete.
+
+## Available Operations
+
+The examples below show one or two of the available connector operations in use.
+
+Please see the [Full Operations Reference](#operationsFull) at the end of this page for details on all available operations for this connector.
+
+## Example usage
+
+This example imagines a scenario whereby the first step is manually triggered. This in turn kicks off the Tray workflow and will get the dashboards in the Grafana account one by one.
+
+The steps will be as follows:
+
+1. Setup your trigger and list the dashboards available from within your Grafana account.
+2. Add Loop collection step to iterate through each board found.
+3. Get the information available relevant for each board, individually.
+
+The final outcome should look like this:
+
+### 1 - Setup Trigger & List Dashboards
+
+Once you have clicked 'Create new workflow' on your main Tray.io dashboard (and named the new workflow), select the Manual trigger from the trigger options available:
+
+After you have been redirected to the Tray.io workflow builder, from the connectors panel on the left, add a Grafana connector to your second step. Set the operation to 'List dashboards'.
+
+*Feel free to re-name your steps as you go along to make things clearer for yourself and other users.*
+
+While 'Page' and 'Limit' are mandatory, they are auto-filled for you as standard, though of course feel free to renumber them as per your own project specifications.
+
+When run, this workflow will list all the dashboards available within your Grafana account.
+
+### 2 - Loop Collection
+
+The Loop Collection allows you to iterate through a list of results. In this example, we will use it to iterate through each user that was returned by the previous step.
+
+Search for 'Loop collection' and drag it into your workflow as your next step. Set the operation to 'Loop List'.
+
+You can specify the list you want to loop through by using the connector-snake and the 'List' input field.
+
+Use the connector-snake to assign this field to the 'results' array, that is produced by the 'List dashboards' step. See below images for more details:
+
+When run, the workflow will now iterate through each of the dashboards listed individually.
+
+### 3 - Get Dashboard
+
+Finally, drag another Grafana connector step *INTO* the Loop collection step itself, and select the operation 'Get dashboard'.
+
+Use the same connector-snake method for auto-generating the jsonpath for the 'Dashboard' ID. This time drag over the loop step previously and select `uid` from within the value array. This is further exemplified once more within the images below:
+
+Now when you run your workflow, you will have the necessary data available for each dashboard displayed within your Debug panel:

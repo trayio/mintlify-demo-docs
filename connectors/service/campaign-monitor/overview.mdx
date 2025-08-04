@@ -1,0 +1,77 @@
+---
+title: "Overview"
+description: "Overview of the Campaign Monitor connector"
+---
+
+# Overview
+
+## Overview
+
+Campaign Monitor is a global technology company that provides an email marketing platform which is easy to use, yet extremely powerful.
+
+## Authentication
+
+When using the Campaign Monitor connector, the first thing you will need to do is go to your Tray.io account page, and select the workflow you wish to work on. Once in the workflow dashboard itself, search and drag the Campaign Monitor connector from the connectors panel (on the left hand side) onto your workflow.
+
+With the new Campaign Monitor connector step highlighted, in the properties panel on the right, click on 'New Authentication' which is located under the 'Settings' heading.
+
+This will result in a Tray.io authentication pop-up window, that should look like this:
+
+Once you named your authentication, click on 'Next step' and make sure you set your permission scopes as appropriate. There are several scopes to choose from so make sure to scroll through to view them all.
+
+Once you click 'Next', you will be presented with a popup login screen for Campaign Monitor and to enter your access credentials.
+
+Once you have clicked the 'Add authentication' button, go to back to your authentication field (within the workflow dashboard properties panel from earlier), and select the recently added authentication from the dropdown options now available.
+
+Your connector authentication setup should now be complete.
+
+## Available Operations
+
+The examples below show one or two of the available connector operations in use.
+
+Please see the [Full Operations Reference](#operationsFull) at the end of this page for details on all available operations for this connector.
+
+## Note on Operations usage
+
+This is created when you set your permissions/ add another person to your Client settings. While you can set your permissions here, be they "Full", "Standard" or "Pick & Choose", you CANNOT get the number here. Only create.
+
+In order to get the number required with the correct permissions, you need to visit the [Campaign Monitor API documentation](https://www.campaignmonitor.com/api/clients/#adding-a-person) and use the permission helper, in order to get the number required.
+
+## Example usage
+
+Below is an example of a way in which you could potentially use the Campaign Monitor connector, to create a new client and add a person to said client.
+
+The steps will be as follows:
+
+1. Set up your manual trigger and your first Campaign Monitor connector to create a client.
+2. Set up your second Campaign Monitor connector to add a person to your client.
+
+The final outcome should look like this:
+
+### 1 - Setup trigger & Create client
+
+Once you have clicked 'Create new workflow' on your main Tray.io dashboard (and named said new workflow), select the Manual trigger from the trigger options available:
+
+When you have been redirected to the Tray.io workflow dashboard, from the connectors panel on the left, add a Campaign Monitor connector to your second step. Set the operation to 'Create client'.
+
+*Feel free to re-name your steps as you go along to make things clearer for yourself and other users.*
+
+Make sure to give a 'Client name' and use the dropdown lists to set your client's country and timezone.
+
+Now when this workflow is run, it will create a client with the given details. You should see your client's ID as a result when you click on your debug panel, and expend the output field.
+
+### 2 - Add person
+
+Once you have added a second Campaign Monitor connector to your third step, set the operation to 'Add person'.
+
+Use the Connector-snake to set the 'Client ID' using the previous Campaign Monitor connector step, by clicking and dragging on the orange circle mapping icon. Alternatively, use the dropdown list to choose the desired client's ID as well.
+
+You will also have to set the 'Email Address', 'Name', 'Access level' and 'Password' of said person within this operation's scope.
+
+While most of the above information should be self explanatory, in order to set the access level correctly, dont forget that you will need the **Custom Client Access Number**.
+
+> 
+
+In this example, 'Custom client access' is displayed along with the generated 'Custom client access' number.
+
+Now when this workflow is run, it will add a person with the given details to your client. You should see the person's email address as a result when you click on your debug panel, and expend the output field.

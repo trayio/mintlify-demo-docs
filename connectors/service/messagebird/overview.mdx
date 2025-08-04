@@ -1,0 +1,68 @@
+---
+title: "Overview"
+description: "Overview of the Messagebird connector"
+---
+
+# Overview
+
+## Overview
+
+MessageBird is an enterprise product offering communication via SMS, Chat and Voice.
+
+## Authentication
+
+To create an authentication with MessageBird log in to the MessageBird app and go to the Developers section. Then click Add access key to create a new key. Use this key when creating your authentication within Tray.
+
+## Basic Operations
+
+- List messages
+- Get message
+- Send message
+
+## Notes on Operations Usage
+
+**LIST MESSAGES**
+
+The **List messages** operation returns a list of all of the messages associated with your account, both sent and received. Messages are returned as a list with the most recent first.
+
+The Offset property allows you to skip over messages. For example, entering 10 here would skip the first 10 messages.
+
+The Limit property allows you to specify the maximum number of messages that should be returned. Get message
+
+**GET MESSAGES**
+
+The **Get message** operation retrieves information about a message.
+
+The Message ID property allows you to specify from which message the operation should retrieve information. The Message ID is a property that belongs to the message object itself therefore it is also contained in each message in the output of the List messages operation. Send message
+
+**SEND MESSAGE**
+
+The **Send message** operation allows you to instantly send a message or schedule it to a date and time by specifying it in the Scheduled date and time property.
+
+The Sender property does not necessarily need to be a phone number, it can also have an alphanumeric value but its length cannot exceed 11 characters.
+
+The Recipients list allows you to specify to who should the message Body be sent to.
+
+The Message type property allows you to specify whether the message should be a regular SMS, Binary, Premium or Flash.
+
+## Example - receive a message
+
+MessageBird allows you to buy a VMN (Virtual Mobile Number) and send the incoming messages to a callback url (which would be the Workflow Public URL). By making use of Webhook it is possible to trigger the workflow when a message is sent to the VMN.
+
+You first need to set up the Webhook by following [this guide](/connectors/triggers/webhook-trigger/) then set up the Flow on MessageBird.
+
+You can either use a VMN that you bought previously or buy a new one.
+
+To buy a new VMN, log in to the MessageBird app and go to the **Numbers** section, then click on **Buy a Number** and follow the instructions. You should then be able to see the new number in the **All Numbers** table. Click on the **Add a new flow** icon on the right side of the icon:
+
+For the next step you will need to grab the Public URL of your Tray Workflow which can be found by clicking on the wheel in the top-left corner of the workflow editor:
+
+In the **Flow Builder** window, click on **Incoming SMS** and select the number you would like to use and click on **Save**. From the **Steps** section, drag the **Forward to URL** step into the flow and place it below the **Incoming SMS** step, use a **GET** Method and paste the Public URL of your Tray Workflow in the **URL** property. Then click **Save** and **Publish changes**:
+
+Once the *Webhook trigger* has been set up on Tray and the *Flow* has been published on MessageBird, you can interact with the data that the *Workflow Public URL* will receive and a message is sent to the VMN you created the flow for.
+
+The query property of the Webhook output will contain the following message properties: **id**, **recipient**, **originator**, **body** and **createdDatetime**.
+
+You can, for example, send the message body to a Slack channel by using the Slack connector and setting its **Message** property value to a **JSONpath** of the Webhook's Request Query Parameters and adding ".body" at the end of the path.
+
+For example, if your WebHook name is trigger then you will use "$.steps.trigger.query" as JSONpath.

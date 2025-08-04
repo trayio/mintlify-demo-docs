@@ -1,0 +1,195 @@
+---
+title: "Notes on using OpenAI"
+description: "Notes on using OpenAI documentation for OpenAI connector"
+---
+
+# Notes on using OpenAI
+
+### Formatting inconsistencies
+
+The** responses generated do not always come in the same format**. This may occur even if you ask for the data to be structured the same within your prompt.
+
+For example: *"For feature 1, write a 1 sentence summary"*:
+
+### Model types
+
+Each operation is based off one of OpenAI's Model types. 
+
+**These 'neural network architecture' types serve different purposes depending on your specific use case**.
+
+For example; if you want OpenAI to artificially create an image based off your given prompt then the Model you would need to select would be **DALL-E**.
+
+Whereas if you need to generate code or text then you would probably use a variant of the **GPT-3.5** Model instead.
+
+**Most of the operations already have their respective Model types pre-selected for you**. However some operations do still give users the ability to change the pre-selected Model type should they wish to do so.
+
+In order **to check or change the Model being used **go to the properties panel. The option will either already be displayed or hidden behind the scenes under **Show advanced properties**.
+
+For more information on what Models are capable of please see OpenAI's [Model Overview](https://platform.openai.com/docs/models/overview) API documentation page.
+
+### Tokens
+
+Tokens can be thought of as counters for 'pieces of words'. The amount of data you want OpenAI to process is calculated through the use of them.
+
+You can think of this feature as having the following basic principals:
+
+- **The larger the dataset (you want OpenAI to iterate through), the greater the amount of Tokens you will need to use in order to process it.**
+
+Let's say the result of your OpenAI calculation is 'two records' returned from a potential list of fifty. You have to base the amount of Tokens you expect to use on the original list of fifty records. The original list is what OpenAI had to iterate through in order to get the end result and that is where the Token usage is calculated.
+
+This is why we recommend you use OpenAI to auto-generate the code you need based on your natural language prompt. You can then use the generated code in a Script connector step** without the Max token limitation applying**.
+
+The process mentioned above is outlined in greater detail in our [Example Usage](https://tray.io/documentation/connectors/service/openai/#example-usage) section below.
+
+### Temperature
+
+Temperature is a parameter of OpenAI, ChatGPT, GPT-3 and GPT-4 models that governs the randomness - and thus the creativity - of the responses given. 
+
+**'Temperature' is always a number between 0 and 1**.
+
+A temperature setting of **around 0.5** is recommended for sentiment analysis. This ensures that the AI can correctly interpret the sentiment of the text and deliver the desired results.
+
+### Prompt warning
+
+Lots of social native forms (such as Linkedin Lead Gen Forms / Facebook) dont allow pick-lists. Which means the list of return options can vary quite a lot. 
+
+Take the state of Texas for example. Here is a sample of the potential return values that could be made:
+
+- Field: `State?`
+- Value Entered: *list of potential values include:*
+
+**You will need to figure out the best prompt to make sure you get something more specific to your use case**. 
+
+For example something along the lines of `‘Convert the input to the known location name of a city, state or country’` would help generate fewer return values:
+
+- Value Entered: *list of potential values include:*
+
+## Basic examples
+
+This section provides simple, step-by-step instructions on how to work with specific operations of the OpenAI connector.
+
+### Create embeddings (Available from v2.0)
+
+The **Create embeddings** operation generates an embedding vector that represents input text. 
+
+The generated embeddings can be stored in any vector database and are valuable for performing [similarity searches](https://www.pinecone.io/learn/what-is-similarity-search/).
+
+For example, the following workflow shows a query coming in through a Webhook and being sent to the OpenAI ‘ text-embedding-ada-002’ model.
+
+The resulting vector has been passed as the 'vector' input to the next step (Retrieve docs matches) in the workflow to perform similarity search.
+
+### Create chat completion (Available from v2.0)
+
+The Create Chat Completion operation is designed to generate responses based on provided prompts and context.
+
+The following example demonstrates one of the use cases for the operation.
+
+It shows a query coming in through a Webhook and being sent to OpenAI to create an embedding vector.  The resulting vector is then passed to a vector database to perform a similarity search. 
+
+The **Create chat completion** operation uses the similarity search result to Create a model response for the received query.
+
+The operation requires information for the following mandatory parameters:
+
+- **Messages: **A list of messages comprising the conversation so far. Every message 
+- **Model: **ID of the model to use. You can choose from the available options. 
+- **Response format - Type: **the format type of the response the model must** **return. 
+
+For more information refer to the [OpenAI's Chat completion](https://platform.openai.com/docs/api-reference/chat/create) endpoint.
+
+**Key Configurations**
+
+**System Message**:
+
+- The system message sets the tone and context for the AI's responses. In this case, the AI is instructed to act as a helpful assistant who answers questions about using Tray.io.
+- The system message includes specific rules and guidelines to ensure that responses are accurate, relevant, and in the desired format. This includes answering in markdown format, providing links to documentation, and adhering to data privacy and security standards.
+
+**User Message**:
+
+- This is where the user’s query is passed to the AI. The query is dynamically fetched from the webhook trigger
+
+### Create moderation (Available from v2.0)
+
+The [moderations](https://platform.openai.com/docs/api-reference/moderations) endpoint is designed to assist in content moderation by helping identify and filter out content that may violate guidelines, contain offensive language, or be deemed inappropriate.
+
+The example output below illustrates the categories within the moderation object. 
+
+If any of these categories are flagged during the operation, the `results.flagged` parameter is set to `true`.
+
+This parameter can be utilized later to check and send an appropriate message response in case of malicious text or content violating guidelines.
+
+## <br/>Detailed Examples
+
+This section presents comprehensive workflows that incorporate the OpenAI connector along with other connectors to demonstrate complex use cases.
+
+### Query classification example
+
+This below example leverages the Chat Completion operation to evaluate and classify if the received query is safe or malicious. 
+
+**System Prompt Configuration**
+
+- The assistant is instructed to identify if a certain query is Malicious or Safe.
+- Sample safe and malicious queries are provided, which you can modify based on your requirements.
+- **Response Guidelines:**
+- **Input Handling: **The query received from the Webhook is provided as an input to the User role for evaluation.
+
+**Example for malicious query:** "Visit this site to download the required software."
+
+**Response:** "Malicious query"
+
+**Example for safe query:** "What are the system requirements for this software?"
+
+**Response:** "Safe"
+
+### External function + chat completion
+
+The below example uses the Open AI connector's Chat Completion operation to provide weather updates via Slack.
+
+The workflow receives a location through the Webhook connector. The location is then passed to the HTTP client connector, which uses a Weather Forecast API to retrieve the weather forecast for the provided location. 
+
+The forecast details are passed to the OpenAI connector to format a message based on the previous step's information.
+
+**Assistant's Prompt Configuration**
+
+**Response Guidelines:**
+
+- The assistant should use bullet lists for weather details and numbered steps for additional information or recommendations.
+- If the assistant is unable to provide a response, it should say: "I'm sorry but I am unable to answer that question."
+
+**Input Handling:**
+
+- The weather forecast data received from the HTTP client connector `{$.steps.http-client-1.response.body} `is used to compose a message for the user.
+
+Finally, the composed message is shared via Slack.
+
+### Deterministic output from AI
+
+By providing clear and unambiguous instructions, you can achieve a deterministic output for similar questions. 
+
+This approach leverages structured instructions and examples to guide the model towards generating consistent responses.
+
+The following is an example of how you can achieve a deterministic JSON output from an AI model based on the provided prompt. 
+
+This example demonstrates one of the ways in which the prompt should be set to get desired deterministic output: 
+
+**System prompt configuration**
+
+This system prompt instructs the AI to:
+
+1. Act as a specialized IT assistant, focusing on technical accuracy and relevance.
+2. Always return answers in a specific JSON format, which is crucial for consistent, parseable outputs. The prompt also includes a sample JSON format for AI's reference.
+3. Cover a wide range of related topics, making it versatile for various technical queries.
+4. Provide not just answers, but also confidence levels, detailed explanations, related topics, and sources.
+5. Include code snippets and examples when appropriate, enhancing the practical value of the responses.
+6. Reference specific documentation, which is vital for maintaining consistency with internal knowledge bases.
+7. Adhere to data privacy and security standards, which is critical while dealing with sensitive data environments.
+8. Handle cases where it cannot provide an answer, ensuring the system always returns a valid JSON response.
+
+This prompt can be further customized based on the specific needs, products, and knowledge bases.
+
+It also contains top 10 vector matches received from the Pinecone step. 
+
+**User Message**
+
+The **User Message** field is set up to classify a question. The response type is set to `JSON Object`, ensuring the output format is structured as a JSON object.
+
+<br/>

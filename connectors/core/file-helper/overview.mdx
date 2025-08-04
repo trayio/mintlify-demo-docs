@@ -1,0 +1,165 @@
+---
+title: "Overview"
+description: "Overview of the File Helpers connector"
+---
+
+# Overview
+
+## Overview
+
+The File Helpers connector is a useful tool for creating file from ready made content, or from URLs themselves. It can also convert the character encoding of a file into UTF-8 format.
+
+> 
+
+## Important notes
+
+### ANSI
+
+If you are unsure of the file encoding, but know it to be ANSI, within the properties panel in the field 'Original encoding', select: `latin-1` from the dropdown options available.
+
+### ASCII
+
+Please be ware that you cannot convert ASCII to UTF-8 format due to the heritage of this type of encoding.
+
+### Mime type
+
+When using certain connectors, like Google Drive, with File Helpers, we need to define the "mime_type." This field describes the type of media. For example, when doing the File Upload operation for Google Drive, the file object that is passed as input requires several fields like mime_type. By default, File Helpers will define mime_type as null, but Google Drive's File Upload operation doesn't accept null value for mime_type.
+
+Therefore, to define mime_type, add a header called "mime_type" and for the value enter in the mime_type (e.g "application/pdf"). It is also important to make sure the filename's extension lines up with what you enter for mime_type (e.g .pdf).
+
+### Create PDF
+
+Please be aware that you can't just encode a pdf. You need to generate it. Unless the content helper has context, just using .pdf won't give you a pdf file.
+
+Below is an example of how you can use the HTTP Client to create a PDF file from some sample HTML. Note that numerous different formats can be used in conjunction with this particular API service. 
+
+## Create File from Object
+
+This example will demonstrate how to create a file from a Salesforce record and then upload the files to an S3 bucket.
+
+The **Create file from content** operation can be used to pull records from services and extract specific data fields in order to create files based on this content.
+
+This example shows the **Create File from Content** operation in action.
+
+The complete workflow (using a Manual Trigger for testing purposes) looks like this:
+
+What we will be doing here is:
+
+- Listing Accounts in Salesforce
+- Looping through each account one-by-one
+- Pulling the required data from each account to create a JSON file based on each account
+- Uploading each account as a file to an S3 bucket
+
+Note that this example is suitable for working with a very small number of records. In a production environment where you might be working with large numbers you will need to use a [pagination](https://tray.io/documentation/tray-uac/building-automations/batching-queueing-data/pulling-data-in-batches-pagination/) system to split the records into manageable batches.
+
+### 1 - List Salesforce Accounts
+
+Please see our [Salesforce documentation](/connectors/service/salesforce/) for instructions on granting Tray access to your Salesforce instance.
+
+With the first **Salesforce** connector, set the operation to **Find Records**, the **Record Type** to **'Account'** and set **'Account ID'** as the **Field** to be returned, as this is what we will use to locate each account in the second Salesforce step:
+
+### 2 - Loop through the Accounts list
+
+For the **Loop connector** set the operation as **Loop List** and then grab the list of records from the first Salesforce step using `$.steps.salesforce-1.records`:
+
+### 3 - Grab the individual Account data from Salesforce
+
+For each Account, use the second **Salesforce** step to pull the data needed to create each file by using the **Find Records** operation. The Record Type is set as **Account** and you can specify the fields to be returned which will make up the file. The key thing here is that you also set the **Condition** so that the **Account ID** is equal to `$.steps.loop-1.value.Id`:
+
+### 4 - Create the File from the Account Data
+
+For the **File Helpers** step set the operation to **Create File from Content**:
+
+In this example we are setting the **Name** of the file to be auto-created using the Account ID. This is done using 'interpolation' where we can keep the field type as String and surround the json path in `{ }`.
+
+This is so that we can append '.json' to the filename.
+
+The full entry is `{$.steps.salesforce-2.records[0].Id}.json`
+
+Note that `records[0].Id` is used here because the output from salesforce-2 is in the format:
+
+So you can see that you are using [0] to get the first record in an array (of one!) and picking **Id** as the value from that record.
+
+### 5 - Upload the file to an S3 bucket
+
+Please see our [AWS S3 documentation](/connectors/service/aws-s3/) for instructions on granting Tray access to your S3 buckets.
+
+For the **AWS S3** step, set the operation to **Put Object (File)** and choose the **Bucket name** you wish to upload to. Set the **Object Key** as the file path including the file name (pulled from file-helpers-1) and set the file as `$.steps.file-helpers-1.file`:
+
+### 6 - Check logs and S3 bucket for uploaded files
+
+Once your workflow is correctly configured, click on 'Run workflow' and then check the 'Debug' tab to see if the run is successful:
+
+Finally you can check in S3 to see the files succesfully uploaded:
+
+## Create File from URL
+
+This example shows the **Create File from URL** operation in action by pulling a CSV file attached to an email.
+
+The **Create file from URL** operation can be used to import a file from a URL and subsequently pass it to another service.
+
+The workflow snippet looks like this:
+
+### 1 - Email Trigger
+
+The workflow is kicked off by an email trigger, whereby you can send an email with a file (such as a CSV) attached to your worflow, as explained in our [Email Trigger](/connectors/triggers/email-trigger/) documentation.
+
+### 2 - Create file from URL
+
+Now, for the File Helpers step you can set the operation to **Create file from url** and use the connector snake to pick up the `$.steps.trigger.attachments[0].url` jsonpath, which will get the file from the temporary url which Tray has made for the attachment:
+
+### 3 - Use the created file
+
+The next step is to start using the created file with our [CSV Editor](#) or [CSV Reader](/connectors/core/csv-reader/).
+
+The **Create CSV from file** operation can use the `$.steps.file-helpers-1.file.url` jsonpath to get the file created by the file helpers step:
+
+For further instructions on how to read and work with CSV files, please see the documentation for our [CSV Editor](#) or [CSV Reader](/connectors/core/csv-reader/).
+
+## Convert to UTF-8 from URL
+
+It is now possible to convert various types of encoded files (such as Base-64), into UTF-8. Below is a good example of how to convert an ANSI encoded file from Google Drive, into a UTF-8 encoded one.
+
+The completed workflow will look similar to the following:
+
+### Step 1 - Setup Manual Trigger & Get URL
+
+Once you have clicked 'Create new workflow' from your main Tray.io dashboard (and named said new workflow), select the Manual trigger from the trigger options available:
+
+This particular File Helpers operation requires a URL for the document you wish to convert to UTF-8.
+
+The easiest way to get this is by using a connector type that is relevant to the source of your document - in this case we are using a Google document, therefore the Google Drive connector will be needed (as this example is showcasing an ANSI encoded file within a Google drive account, that needs to be converted into UTF-8).
+
+By using its available 'Download file' operation we are able to return the URL of the file needed. This should also be true of other Tray.io documentation connectors should you wish to utilise them.
+
+*Note that the  <Content type link TBD>  connector is needed NOT the  <Content type link TBD>  connector. For more details see their relevant docs pages.*
+
+With that said, once you have been redirected to the Tray.io workflow dashboard, from the connectors panel on the left add a Google Drive connector as your second step. Set the operation to 'Download File'.
+
+*Feel free to re-name your steps as you go along to make things clearer for yourself and other users.*
+
+### Step 2 - Collect & Convert File
+
+Once the properties panel for Google Drive is highlighted, add the 'File ID' of the document that needs converting. You can get this from the URL of the file itself.
+
+Open the document you intend to convert in your browser window, and copy the hash displayed within the address bar.
+
+Add a 'File Helpers' connector, as your second step. Set the operation to 'Convert to UTF-8 from URL'
+
+This is an ANSI encoded file, *and because ANSI is a term used to describe a subset of encodings*, for this operation make sure to set the 'Original encoding' field to 'latin-1'. Now lets run the workflow. The 'URL' field can be generated using the connector-snake and jsonpathing methods.
+
+In order to specify the information you want, start by using the 'URL' mapping icon (found next to the list input field, within the properties panel) to generate the connector-snake.
+
+While hovering over the 'Download File' step (with the tail end of the connector-snake), select `URL` from the list of output properties displayed. This will auto-populate a jsonpath within your 'URL' input field, and update the type selector to jsonpath as well.
+
+*For more clarification on the pathways you have available, open the Debug panel to view your step's Input and Output.*
+
+As the rest of the fields are not mandatory you need not worry about filling them in at this stage, though feel free to do so depending on your use case.
+
+### Step 3 - Display Output
+
+Once you have completed setup, run your workflow by clicking on the green button in the bottom right hand corner named 'Run workflow'.
+
+Open the Debug panel to view your results:
+
+Tadah! Through the magic of Tray.io you now have a beautiful flawless newly UTF-8 encoded file!

@@ -1,0 +1,42 @@
+---
+title: "Overview"
+description: "Overview of the Crunchbase connector"
+---
+
+# Overview
+
+## Overview
+
+Crunchbase is a platform for finding business information about private and public companies.
+
+## Authentication
+
+To authenticate with the Crunchbase connector you will need a user key which is emailed to you following registration.
+
+## Using Search operations
+
+The connector has a number of multi purpose operations that allow you to search several endpoints to generate a variety or responses depending on your needs.
+
+As an example we'll look at how you can use the Search Organization endpoint.
+
+### Search for a list of organization summaries
+
+- A basic search operation that will return a list of all organizations on the crunchbase database along with their summaries
+
+### Search for an organization
+
+- Narrow the above search by querying the crunchbase API with a search **query** that could be an alias or a short description
+- For example in the below search we query 'alphabet' which returns a list of 8 potential matches including the organization summary of Google's parent company Alphabet
+
+### Search for information on organization
+
+- To get more detailed information on a company and its relationships we can make a GET request by passing in the organizations permalink (a unique identifier that can be found a previous response). The response will include a list of all the organizations relationships capped at 10 per relationship.
+
+- Note that all other inputs must be excluded
+
+### Search for an organization's relationships
+
+- The crunchbase API also makes it possible to filter the relationships that is returned from the API
+- To do this under the **Filter** input we need to first select 'Search relationships'
+- Then from the drop down you select the relationship(s) for the endpoint you want returned from the API
+- Below we search the orgnizations endpoint that returns a response that contains Tray.io's **Founders** relationship

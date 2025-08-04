@@ -1,0 +1,60 @@
+---
+title: "Overview"
+description: "Overview of the Clubhouse connector"
+---
+
+# Overview
+
+## Overview
+
+Clubhouse is a project management platform for software development. It offers markdown support, deep integration with GitHub, and a well-crafted API that enables you to focus on your work and not the tool.
+
+## Authentication
+
+When using the Clubhouse connector, the first thing you will need to do is go to your Tray.io account page, and select the workflow you wish to work on. Once in the workflow builder itself, search and drag the Clubhouse connector from the connectors panel (on the left hand side) onto your workflow.
+
+With the new Clubhouse connector step highlighted, in the properties panel on the right, click on the Authenticate tab and 'Add new authentication' (located under the 'Authentication' field).
+
+This will result in a Tray.io authentication pop-up window. The first page will ask you to name your authentication, and state which type of authentication you wish to create ('Organization' or 'Personal').
+
+As you can see, the next page asks you for your 'API Token'.
+
+In order to get these fields, head to your Clubhouse dashboard. Go to 'Settings' and click 'API Tokens'
+
+To generate a new API token, enter a 'Token Name' and click 'Generate Token'. A new Clubhouse API token is generated with the name you have chosen, and appears in the list of existing tokens.
+
+You now have the API token that you require to create a new authentication for the Clubhouse connector. Copy and paste this API token to your Tray.io authentication popup, and then click on the 'Create authentication' button.
+
+Go back to your settings authentication field (within the workflow builder properties panel), and select the recently added authentication from the dropdown options now available.
+
+Your connector authentication setup should now be complete.
+
+## Available Operations
+
+The examples below show one or two of the available connector operations in use.
+
+Please see the [Full Operations Reference](#operationsFull) at the end of this page for details on all available operations for this connector.
+
+## Note on Operations Usage
+
+## Using the Raw HTTP Request ('Universal Operation')
+
+As of **version 2.3**, you can effectively create your own operations.
+
+This is a very powerful feature which you can put to use when there is an endpoint in Clubhouse which is not used by any of our operations.
+
+To use this you will first of all need to research the endpoint in the [Clubhouse API documentation v3.0](https://clubhouse.io/api/rest/v3/), to **find the exact format** that Clubhouse will be expecting the endpoint to be passed in.
+
+The base URL for Clubhouse is: `https://api.clubhouse.io/api/v3`
+
+It will be enough to specify the URL 'Endpoint' just by the suffix as the base URL will be automatically set.
+
+For example, imagine that the 'Get project' operation did not exist in our Clubhouse connector, and you wanted to use this endpoint, you would use the Clubhouse API docs to find the relevant endpoint:
+
+Making use of the Base URL that is automatically set, we will send a `GET` request to 'Endpoint': `/projects/{project_id}`.
+
+More details about this endpoint can be found [here](https://clubhouse.io/api/rest/v3/#Get-Project):
+
+Knowing the method, endpoint, and a Project ID `3022` of the project we to know more about, we can get information about this particular project using the following settings:
+
+Final Example outcome being: `https://api.shortcut.io/api/v3/projects/3022`

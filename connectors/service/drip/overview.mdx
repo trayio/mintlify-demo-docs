@@ -1,0 +1,112 @@
+---
+title: "Overview"
+description: "Overview of the Drip connector"
+---
+
+# Overview
+
+## Overview
+
+Drip is a marketing automation platform built for E-commerce - utilizing email, SMS, and tight 3rd-party integrations to help businesses drive revenue.
+
+## Authentication
+
+Within the workflow builder, highlight the Drip connector.
+
+In the Drip connector properties panel to the right of the builder, click on the Authenticate tab and the 'New authentication' button.
+
+This will result in a Tray.io authentication pop-up modal. The first page will ask you to name your authentication and select the type of authentication you wish to create ('Personal' or 'Organisational').
+
+The next page doesn't ask you for extra permissions to set the Drip service. So click the 'Create authentication' button.
+
+Upon clicking 'Create authentication', you will be prompted to sign in to your Drip account.
+
+After you have logged in with your Drip account, you will be asked to confirm the access you are granting to Tray.io. Once you have reviewed the permissions, click 'Authorize'.
+
+Go back to your settings authentication field (within the workflow builder properties panel), and select the recently added authentication from the dropdown options now available.
+
+Your connector authentication setup should now be complete.
+
+## Available Operations
+
+The examples below show one or two of the available connector operations in use.
+
+Please see the [Full Operations Reference](#operationsFull) at the end of this page for details on all available operations for this connector.
+
+## Using the Raw HTTP Request ('Universal Operation')
+
+As of **version 1.0**, you can effectively create your own operations.
+
+This is a very powerful feature which you can put to use when there is an endpoint in Drip which is not used by any of our operations.
+
+To use this you will first of all need to research the endpoint in the [Drip API documentation v1.0](https://developer.drip.com), to **find the exact format** that Drip will be expecting the endpoint to be passed in.
+
+Note that you will only need to add the suffix to the endpoint, as the base URL will be automatically set (the base URL is picked up from the value you entered when you created your authentication).
+
+The base URL for Drip is: `https://api.getdrip.com/v2`
+
+For example, say that the 'List campaigns' operation did not exist in our Drip connector, and you wanted to use this endpoint. You would use the Drip API docs to find the relevant endpoint - which in this case is a `GET` request called: `/:account_id/campaigns`.
+
+More details about this endpoint can be found [here](https://developer.drip.com/?shell#list-all-campaigns).
+
+As you can see, there is also the option to include a query parameter, should you wish to do so. So if you know what your method, endpoint, and details of your query parameters are, you can list all the conversations from your account with the following settings:
+
+Method: `GET`
+
+Endpoint: `/:account_id/campaigns`
+
+Query Parameter:
+
+- Key: `status` Value: `active`
+- Key: `sort` Value: `created_at`
+- Key: `direction` Value: `asc`
+
+Body Type : none : `{ "none" : null }`
+
+Final outcome being: **<Content type link TBD>**
+
+## Example Usage
+
+Below is an example of a way in which you could potentially use the Drip connector, to retrieve the details of a campaign.
+
+The steps will be as follows:
+
+1. Setup using a manual trigger and list all the campaigns registered to an account.
+2. Loop through the received list of campaigns.
+3. Retrieve the details of each campaign.
+
+Your completed workflow should look similar to this:
+
+### 1 - Setup Trigger & List Campaigns
+
+Select the manual trigger from the trigger options available. From the connectors panel on the left, add a Drip connector to your workflow. Set the operation to 'List campaigns'.
+
+Feel free to re-name your steps as you go along to make things clearer for yourself and other users. The operation names themselves often suffice.
+
+Go to the 'Authenticate' section in the properties panel on the right-hand side to authenticate the service, then go to the 'input data' property and select your account ID from the drop-down list.
+
+Upon completion, you will have set up the manual trigger and fetched a list of all the campaigns.
+
+### 2 - Loop collection
+
+Next, search for the Loop collection connector within your connector panel, and drag it into your workflow as your next step. Set your operations to 'Loop Collection'.
+
+The Loop Collection connector allows you to iterate through a list of results. In this example, we will use it to iterate through the data found within the previous 'List campaigns' connector step.
+
+In order to specify the list you want to loop through, start by using the list mapping icon (found next to the list input field, within the properties panel) to generate the connector-snake.
+
+While hovering over the 'List campaigns' step (with the tail end of the connector-snake), select `campaigns` from the list of output properties displayed. This will auto-populate a jsonpath within your list input field, and update the type selector to jsonpath.
+
+For more clarification on the pathways you have available, open the Debug panel to view your step's Input and Output.
+
+Now, you will be able to loop through the list of the campaigns you have fetched in the first step.
+
+### 3 - Get campaign details
+
+The last step is to drag a Drip connector **inside** of the Loop Collection step itself. Set the operation to 'Get campaign'. As you can see from the Drip API docs, the 'Account ID' and 'Campaign ID' fields are required in the resource path.
+
+Click on the circle next to 'Campaign ID' and drag the connector snake, hover over the 'loop' step, and select 'id' from the list of displayed output properties.
+
+Click on 'Debug' at the top of the page and you can see your workflow execution. You will see the connector looping through the list of campaigns.
+
+If you click on each execution of 'Get Campaign', you will be able to see the results of each loop.

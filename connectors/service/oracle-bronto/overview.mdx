@@ -1,0 +1,32 @@
+---
+title: "Overview"
+description: "Overview of the Oracle Bronto connector"
+---
+
+# Overview
+
+## Overview
+
+The Oracle Bronto connector allows you to create contacts, fields and mail lists, update contacts, and list various resources.
+
+## Authentication
+
+Before using the Oracle Bronto connector, you will need your **API Key**, which can be created and accessed inside the Bronto web app by navigating to **Settings** > **Platform Settings** > **Data Exchange**.
+
+Once you have a working API key, add an Oracle Bronto step inside a workflow and click on 'New Authentication' in the step editor.
+
+In the window that appears, name your authentication and then add your API Key:
+
+Click 'Add authentication' and you will then be set up and ready to go.
+
+## Filter
+
+For **List** operations, there is a filter object which allows you to filter resources according to particular fields:
+
+In the List operations for the **fields**, **mail lists**, and **segments** resources, there is a 'filter type' which tells the API to only return resources that fulfill all criteria (the **And** type), or just one criterion specified (the **Or** type).
+
+Some filter objects have operator fields, which allow you to be more specific in the filter criteria:
+
+Other filter objects contain just a string; in these cases, the operator is **Equal To** (i.e., return only resources that exactly match the criterion specified):
+
+All filter objects are arrays, meaning that multiple filters on the same field can be specified; for example, you can filter according to multiple email addresses:

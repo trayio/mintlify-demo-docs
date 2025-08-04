@@ -1,0 +1,145 @@
+---
+title: "Overview"
+description: "Overview of the Logic Helper connector"
+---
+
+# Overview
+
+## Overview
+
+The Logic Helper provides a set of operations to help evaluate logical expressions.
+
+## Available Operations
+
+The examples below show one or two of the available connector operations in use.
+
+Please see the [Full Operations Reference](https://tray.io/documentation/connectors/helpers/logic-helper/operations/) at the end of this page for details on all available operations for this connector.
+
+- Truthy
+- Logical XOR/XNOR
+- Evaluation
+
+## Truthy
+
+The Truthy operation takes any JSON value as an input and returns the corresponding boolean to their truthy value. All values are truthy unless they are defined as one of these falsy values:
+
+- false
+- 0
+- ""
+- null
+
+## Example 1
+
+Giving any of the falsy values as an input, the returned value will be false, In this case the input value is an empty string which will return **false**.
+
+Any other input will return **true**.
+
+## Logical XOR/XNOR
+
+The Logical XOR/XNOR operation takes two values as input, finds the truthy value of both inputs, and applies XOR or XNOR. The returned value is a boolean.
+
+## Example 2
+
+In this case the Logical XOR/XNOR returns **false** using XOR as a condition.
+
+In this case the Logical XOR/XNOR returns **true** using XNOR as a condition:
+
+## Evaluation
+
+The Evaluation operation will evaluate two values, and/or a group of evaluations according to the condition and conjunction given, returning either true or false. Evaluation is also directly linked to the Logical XOR/XNOR operation where the input values are in turn directly linked to the Truthy operation.
+
+## Groups in Evaluation
+
+- Initial Condition
+- Further Conditions
+- Conjunctions
+
+## Initial Condition
+
+An object with four keys: Value1, Condition, Value2, and Not. Value1 and Value2 are the values to be compared, the Not will apply a logical Not to the result if checked, and Condition will be the comparison you want to make. Condition can have the following values:
+
+- === : Strict equality.
+- !== : Not equal to.
+- > : Greater than.
+- >= : Greater than or equal to.
+- < : Less than.
+- <= : Less than or equal to.
+- in : Evaluates if Value1 is in Value2, where Value2 is a list/array.
+- not in : Evaluates if Value1 is not in Value2.
+
+## Conjunctions
+
+Conjunction is the comparison to be made between the result of Initial Condition and Further conditions.
+
+- AND: And.
+- OR: Or.
+- NAND: Not and. (Evaluates like "AND" but with a logical not)
+- NOR: Not or. (Evaluates like "OR" but with a logical not) Gives a true output only when both inputs are false.
+- XOR: Not equal to.
+- XNOR: Equal to.
+
+## Further Conditions
+
+Further conditions is an array of objects with five keys: *Conjunction, Value1, Condition, Value2* and *Not*. *Value1* and **Value2** are the values to be compared, *Not* will allow you to flip the result if checked and *Condition* is the comparison you want to make, and it has the following values.
+
+## Example 3
+
+In this example the expression will be represented by the schema.
+
+Initial condition will be represented as follows:
+
+In the example below you can see how truthy evaluates the two initial values:
+
+You have a "not" operator enclosing the evaluation, what makes the final result false.
+
+`!( "tray" !== "tra" ) // This expression returns false.`
+
+Further conditions will be represented as follows:
+
+In the example below you can see how truthy evaluates the two further conditions values:
+
+For further conditions you do not have a "not" operator so the result does not change.
+
+`( 3 > 0 ) // This expression returns true.`
+
+Having both Initial condition and Further conditions represents the Initial group that has a conjunction which evaluates Initial condition and Further conditions:
+
+In the example below you can see how truthy evaluates the Initial condition and Further conditions values:
+
+The evaluation for the whole group has a "not" operation in front, which will now return true.
+
+The final representation of Initial group is:
+
+`!(!( "tray" !== tra ) && ( 3 > 0 )) // The initial group returns true.`
+
+If more evaluations are needed you can add Further groups, that will also contain an Initial condition and Further conditions.
+
+In the example below you can see how truthy evaluates the Initial condition values for Further groups:
+
+The evaluation has a "not" operator in front, which makes the final result false.
+
+`!( "test" in ["test"] ) // This expression returns false.`
+
+Further conditions inside further groups, being represented on the same way.
+
+In the example below you can see how truthy evaluates the further conditions values:
+
+This expression does not have a "not" operator so the result will not change, the final result is false.
+
+`( 13 < 7 ) // This expression returns false.`
+
+Having both Initial condition and Further conditions inside Further Groups also has a conjunction which evaluates Initial condition and Further conditions:
+
+In the example below you can see how truthy evaluates the Initial condition and Further conditions values inside Further groups:
+
+How the not operator encloses the whole further group the final result is now true.
+
+The final representation of Further groups will be:
+
+`!(!( "test" in ["test"] ) && ( 13 < 7 )) // Further group returns true.`
+
+Now the Conjunction at the beginning of Further groups is what will make the evaluation of Initial group and Further groups.
+
+This will be the final expression for the whole Evaluation helper.
+
+`(!(!( "tray" !== "tra" ) && ( 3 > 0 )) XNOR (!(!( "test" in ["test"] ) && ( 13 < 7 ))) // This expression returns TRUE.`

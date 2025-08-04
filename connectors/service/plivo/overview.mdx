@@ -1,0 +1,102 @@
+---
+title: "Overview"
+description: "Overview of the Plivo connector"
+---
+
+# Overview
+
+## Overview
+
+Plivo's Message API is a simple REST interface for sending and receiving SMS and MMS messages to and from more than 200 countries across the globe.
+
+## Authentication
+
+Within the builder, click on the Plivo connector to display the connector properties panel. Select the 'Authentication' tab and click on the 'New authentication' button.
+
+In the Tray.io authentication pop-up modal name the authentication in a way that will easily identify it within a potentially large list. For example, whether it is a Sandbox or Production auth, etc.
+
+Consider who/ how many people will need access to this authentication when choosing where to create this authentication ('Personal' or 'Organisational').
+
+The second page asks you for your 'Auth ID' and 'Auth Token' credentials.
+
+In order to get these fields, login into your Plivo account and click on the ellipses icon from the left-hand side menu, that takes you to the Plivo dashboard.
+
+Here you will find your 'Auth ID' and 'Auth Token' which are needed for the authentication.
+
+Once you have added these fields to your Tray.io authentication pop-up window, click the 'Create authentication' button.
+
+Your connector authentication setup should now be complete.
+
+## Available Operations
+
+The examples below show a few available connector operations in use.
+
+Please see the [Full Operations Reference](#operationsFull) at the end of this page for details on all available operations for this connector.
+
+## Using the Raw HTTP Request ('Universal Operation')
+
+As of **version 1.0**, you can effectively create your own operations.
+
+This is a very powerful feature which you can put to use when there is an endpoint in Plivo which is not used by any of our operations.
+
+To use this you will first of all need to research the endpoint in the [Plivo API documentation](https://www.plivo.com/docs/sms/api/overview/), to **find the exact format** that Plivo will be expecting the endpoint to be passed in.
+
+Note that you will only need to add the suffix to the endpoint, as the base URL will be automatically set (the base URL is picked up from the value you entered when you created your authentication).
+
+The base URL for Plivo is: `https://api.plivo.com/v1/Account/{auth_id}`. The 'auth ID' will be taken from the authentication.
+
+For example, say that the 'Send an SMS' operation did not exist in our Plivo connector, and you wanted to use this endpoint. You would use the Plivo API docs to find the relevant endpoint - which in this case is a `POST` request called: `/Message/`.
+
+More details about this endpoint can be found [here](https://www.plivo.com/docs/sms/api/message#send-a-message).
+
+As you can see there is also the option to include a body for the request, should you wish to do so. So if you know what your method, endpoint and details of your query parameters are, you can send messages with the following settings:
+
+Method: `POST`
+
+Endpoint: `/Message/`
+
+Body Type : Raw : `{ "src" : "01234567", "dst": "+4471234567", "text": "Hello" }`
+
+Final outcome being: **https://api.plivo.com/v1/Account/12345678901234/Message/**
+
+## Example Usage
+
+Below is an example of a way in which you could potentially use the Plivo connector, to send a message to a phone number and then send a confirmation Slack message.
+
+The steps will be as follows:
+
+1. Setup using a Manual trigger and Send an SMS using the Plivo connector
+2. Add a Text Helpers connector
+3. Add a Slack connector
+
+Your completed workflow should look similar to this:
+
+### 1 - Setup Trigger & Send an SMS
+
+With your trigger in place (be it [Manual](/connectors/triggers/manual-trigger/), [Scheduled](/connectors/triggers/scheduled-trigger/), [Callable](/connectors/triggers/callable-trigger/) etc) add a Plivo connector. Set the operation to 'Send an SMS'.
+
+Feel free to re-name your steps as you go along to make things clearer for yourself and other users. The operation names themselves often suffice.
+
+When run this step, will send a message to the phone number specified in the 'Destination' field.
+
+### 2 - Concatenate Message
+
+Next, search for the Text Helpers connector and drag it into your workflow as your next step. Set your operation to 'Concatenate'.
+
+If needed, you can grab the Message UUID from the previous step using the connector-snake.
+
+While hovering over the 'Value' field in the 'Text Helpers' step (with the tail end of the connector-snake), select `A 0 inside the message_uuid array` from the list of output properties displayed. This will auto-populate a jsonpath within your list input field and update the type selector to jsonpath.
+
+For more clarification on the pathways you have available, open the Debug panel to view your step's Input and Output.
+
+You can concatenate any message next to the Message UUID in this step.
+
+### 3 - Send a Slack message
+
+Next, add a Slack connector to the workflow. Set the operation to 'Send message'. As you can see, the 'Channel' and 'Message' fields are required.
+
+You will need to create an authentication for the Slack connector as well.
+
+The connector-snake can be used again to grab the message created in the 'Text Helpers' step. Just hover over the 'Message' field in the 'Slack' step (with the tail end of the connector-snake), select `result` from the list of output properties displayed.
+
+When run, this will send a message to the channel that was added in the connector input fields containing the data from the previous steps.

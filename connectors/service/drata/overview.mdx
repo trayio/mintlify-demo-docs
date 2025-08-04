@@ -1,0 +1,67 @@
+---
+title: "Overview"
+description: "Overview of the Drata connector"
+---
+
+# Overview
+
+## Overview
+
+Drata is* *the world’s most advanced security and compliance automation platform with the mission to help companies earn and keep the trust of their users, customers, partners and prospects.
+
+## **API Information **
+
+The Base URL used for the Drata connector is **https://public-api.drata.com**. More information can be found on their main [API documentation](https://developers.drata.com/docs/) site.
+
+## Authentication
+
+Within the builder, click on the Drata connector to display the connector properties panel. Select the **Auth** tab and click on the **New authentication** button.
+
+In the Tray.io authentication pop-up modal name your authentication in a way that will quickly identify it within a potentially large list. For example, whether it is a Sandbox or Production auth, etc.
+
+Consider who/ how many people will need access to this authentication when choosing where to create this authentication ('Personal' vs 'Organisational').
+
+The next page asks you for your API key credentials.
+
+To create and edit API keys, head to the Drata dashboard. Click on your account name in the bottom left corner, and then click 'API Keys'.
+
+You can see any current API keys in this view. You can also edit properties of your existing API keys, such as scopes and expiration. Click on the API key entry to bring up the edit window.
+
+You won't be able to view the entire API key after it has been created. If you do not know the value of your API key, you can generate a new one by clicking on 'Create API Key'.
+
+Once you have added these fields to your Tray.io authentication pop-up window click the **Create authentication** button. 
+
+Your connector authentication setup should now be complete. Please run the simplest operation available to test and make sure you can retrieve data as expected.
+
+## Available Operations
+
+The examples below show one or two of the available connector operations in use.
+
+Please see the [Full Operations Reference](#operationsFull) at the end of this page for details on all available operations for this connector.
+
+## Notes on using Drata
+
+### File upload operations
+
+***Please note that there is a 500mb file size limit for the file upload operations.***
+
+## Using the Raw HTTP Request ('Universal Operation')
+
+As of **version 1.0**, you can effectively create your own operations.
+
+This is a powerful feature that you can use when there is an endpoint in Drata that is not used by any of our operations.
+
+To use this, you will, first of all, need to research the endpoint in the [Drata API documentation](https://developers.drata.com/docs/) to **find the exact format** that Drata will be expecting the endpoint to be passed in.
+
+For example, say that we want to find a list of controls. You would use the Drata API docs to find the relevant endpoint - which in this case is a **GET** request called:** **`/public/controls`**.**
+
+More details about this endpoint can be found [here](https://developers.drata.com/docs/openapi/reference/operation/GRCPublicController_getControls/).
+
+Based on the information provided in the above API call doc, you need to configure the following attributes on your Tray platform:
+
+- **Method:** `GET`
+- **URL: **
+- **Query parameters: **
+- **Body Type: **`none`
+
+Once the API call is executed successfully,  your output should be similar to what is displayed below:

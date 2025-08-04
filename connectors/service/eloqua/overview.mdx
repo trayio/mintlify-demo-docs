@@ -1,0 +1,42 @@
+---
+title: "Overview"
+description: "Overview of the Eloqua connector"
+---
+
+# Overview
+
+## Overview
+
+Eloqua can be used to manage large databases of potential and existing customers. It can personalise emails, automate campaigns based on behaviour and can also be connected to tools such as Salesforce.
+
+## Authentication
+
+Once you have added an Eloqua connector as part of your workflow, the first step in using it is creating an authentication. This can be done by pressing the New Authentication button.
+
+You then need to add your Eloqua credentials to create your authentication:
+
+To follow our examples and test the Eqloqua connector you can create a test workflow with a Manual Trigger and an Eloqua Connector:
+
+## Example - List Campaigns
+
+This example will walk you through how to list your Eloqua campaigns.
+
+First you can choose the `List Campaigns' Operation:
+
+You can filter and sort by the parameters above.
+
+Clicking 'Run Workflow Now' will then give you a result which you can inspect by clicking on the 'Debug' Tab
+
+## Example - Create Contact
+
+This example will walk you through how to create a contact in Eloqua.
+
+First you can choose the `Create Contact' Operation:
+
+The above example demonstrates very simply how to create a contact with certain attributes.
+
+In a live situation, however, you will most probably be using output data from other services (Salesforce, Eventbrite etc.) to create the attributes for a new contact in Eloqua.
+
+So - in accordance with our [basic working with data guide](/platform/working-with-data/basic-data-guide/) - for fields such as **Industry** above you may use something like:
+
+It is also likely that you will need to make use of our [Loop Helper](/connectors/core/loop/) in order to go through contacts one-by-one in order to add them to Eloqua. And use of our [Data Mapper](/connectors/core/data-mapper/) and [Script Helper](/connectors/core/script/) in order to map results and fields and make sure everything is in the correct format for input to Eloqua.

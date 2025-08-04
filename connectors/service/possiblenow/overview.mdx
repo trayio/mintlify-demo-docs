@@ -1,0 +1,63 @@
+---
+title: "Overview"
+description: "Overview of the PossibleNow connector"
+---
+
+# Overview
+
+## Overview
+
+PossibleNow brings strategic thinking and expertise around zero-party data.
+
+## **API Information **
+
+The Base URL used for the possiblenow connector is **https://pmstg.mypreferences.com/Profiles**. More information can be found on their main [PossibleNow API](https://pmstg.mypreferences.com/Profiles/Help) site.
+
+## Authentication
+
+Within the builder, click on the possiblenow connector to display the connector properties panel. Select the 'Auth' tab and click on the 'New authentication' button.
+
+In the Tray.io authentication pop-up modal, name the authentication in a way that will quickly identify it within a potentially large list. For example, whether it is a Sandbox or Production auth, etc.
+
+Consider who/ how many people will need access to this authentication when choosing where to create this authentication ('Personal' or 'Organisational').
+
+The second page asks you for your '**Client name**' and '**User ID**'  and '**Key**' credentials.
+
+To get these fields, head to the possiblenow dashboard. Click on the user profile dropdown on the top right.
+
+You should be able to acquire the **Client name** from the above section. The **User ID **should be the same as you login user name.
+
+To get the key please contact PossibleNOW support.
+
+Once you have added these fields to your Tray.io authentication pop-up window, click the 'Create authentication' button. 
+
+Your connector authentication setup should now be complete.
+
+## Available Operations
+
+The examples below show one or two of the available connector operations in use.
+
+Please see the [Full Operations Reference](#operationsFull) at the end of this page for details on all available operations for this connector.
+
+## Using the Raw HTTP Request ('Universal Operation')
+
+As of **version V.1**, you can effectively create your own operations.
+
+This is a powerful feature that you can use when there is an endpoint in  that is not used by any of our operations.
+
+To use this, you will first of all need to research the endpoint in the [PossibleNow API](https://pmstg.mypreferences.com/Profiles/Help) API documentation v1 to **find the exact format** that possiblenow will be expecting the endpoint to be passed in.
+
+For example, say that the **'Get AddressTypes'** operation did not exist in our possiblenow connector, and you wanted to use this endpoint. You would use the
+
+possiblenow API docs to find the relevant endpoint - ***which in this case is a ***`**GET**`*** request called: ***`/{clientId}/AddressTypes`***.***
+
+More details about this endpoint can be found [here](https://pmstg.mypreferences.com/Profiles/swagger/ui/index#!/Config/Config_GetAddressTypes ).
+
+Based on the information provided in the above API call doc, you need to configure the following attributes on your Tray platform:
+
+- **Method:** `GET`
+- **URL: **
+
+- **Body Type: **`None`
+
+Once the API call is executed successfully,  you should get the following results:

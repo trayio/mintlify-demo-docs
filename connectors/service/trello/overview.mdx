@@ -1,0 +1,123 @@
+---
+title: "Overview"
+description: "Overview of the Trello connector"
+---
+
+# Overview
+
+## Overview
+
+Trello is a web-based, Kanban-style, list-making application that is designed to enable you to organise and prioritise your projects in a flexible and structured way.
+
+## Authentication
+
+When using the Trello connector, the first thing you will need to do is go to your Tray.io account page, and select the relevant workflow. Once in the workflow dashboard itself, search and drag the Trello connector from the connectors panel (on the left hand side) onto your workflow.
+
+With the new Trello connector step highlighted, in the properties panel on the right, click on 'New Authentication' which is located under the 'Settings' heading.
+
+This will result in a Tray.io authentication pop-up window, that should look like this:
+
+Name your authentication and then click 'Add authentication'. A popup window will then open, asking you first whether you wish to authorise Tray.io to use your Trello account, and will then ask you to log in.
+
+Assuming your login is successful, the popup window will close and you will be ready to use the Trello connector.
+
+## Trello trigger
+
+The 'Trello trigger' enables users to have their workflow launched whenever an action is applied to a particular Trello 'model' (this could be a member, board, card, or any other resource that actions can take place on).
+
+### Trigger operations available:
+
+- Webhook
+
+### Webhook setup
+
+To initialise a new workflow with the Trello trigger, click 'Create new workflow' and then, in the 'Add a trigger connector' window that appears, select `Trello`:
+
+Despite this being separate from the Trello connector, the trigger itself uses the exact same authentication process. When your new workflow launches, either select a previous authentication or create a new one as instructed above.
+
+In order to initialise the Webhook you will need to find your **Model ID**. This can be found by going to the board you wish to utilise, and copying the URL.
+
+Paste said URL into the address bar of a new tab, and **ADD  .json  to the end of it**. Once you press enter, you will be redirected to the JSON page which contains the model ID.
+
+The fastest way to search through this large data file is to do a search for `idlist`, (use `cmd + f` for Macs or `ctl + f` for Windows, and paste in `idlist`).
+
+You should get something similar to what is displayed below:
+
+Finally copy and paste the list ID into your 'Model ID' field within your trigger's properties panel.
+
+You can also enter an optional description for the Webhook as you would any connector step.
+
+Now, whenever an action is performed on the selected model, your workflow will run.
+
+## Available Operations
+
+The examples below show one or two of the available connector operations in use.
+
+Please see the [Full Operations Reference](#operationsFull) at the end of this page for details on all available operations for this connector.
+
+## Example Usage - Create Card
+
+Below is an example of a way in which you could potentially use the Trello trigger and connector, in order to sync between your Salesforce leads and Trello board. In this use case, each time a Trello card is created in the "To contact" list, the tray.io workflow will run a check to see if the name on this card is already within the company's Salesforce account leads. If yes, then the card itself will automatically update with all the contact information there is for them on file.
+
+The steps will be as follows:
+
+1. Set up the Trello trigger
+2. Get lead records from your Salesforce account.
+3. Check if record has a matching name.
+4. If yes, update the Trello card with
+
+The final outcome should look like this:
+
+### 1 - Setup trigger
+
+First go to your Tray.io dashboard, click on the 'Create new workflow' button in the top right corner, and name your project workflow. Select Trello as your trigger.
+
+> 
+
+Select your Trello authentication in your Settings -> 'Authentication' field.
+
+Set your operation to 'Webhook' and in your 'Model ID' input field, follow the instructions above in the trigger authentication section to complete setup.
+
+### 2 - Get records
+
+The next step is to get the records from your associated Salesforce accounts. Drag a Salesforce connector step the the next stage of your workflow, set the authentication appropriately and the operation to 'Find records'.
+
+Your record type in this case will be 'Lead'. The 'Fields' section refers to the information you wish to return i.e display on your Trello card if found. Click the 'Add Field' option to add as many as you deem appropriate.
+
+> 
+
+Once you have added several fields, you will need to set the conditions. These conditions make sure that if the name on the card matches the Salesforce full name field, it will return the fields listed earlier.
+
+This means your conditions setup should look similar to this:
+
+Conditions -> Condition -> Field -> `Full Name`
+
+Conditions -> Condition -> Operator -> `Equal to`
+
+Conditions -> Condition -> Value -> `$.steps.trigger.action.data.card.name`
+
+In order to generate the above jsonpath, use the connector-snake as outlined below as this will ensure that the record which gets returned is the one from the trigger.
+
+In the end your Salesforce 'Find records' connector setup should look similar to this:
+
+ 
+
+### 3 - Check for associated name
+
+Here we need to check if the name on the new Trello card matches the associated field within the Salesforce leads account records.
+
+In this case, we will set it up so that should the name on the new card match a full name within our Salesforce lead records account, the Salesforce connector previously will activate and return the information associated with the fields that were set up earlier.
+
+We do this using a Boolean Condition connector. Select and drag the Boolean Condition connector to the next step of your workflow. Using the connector-snake once more, set the 1st value to the "Total count" of the first record found from the last connector: `$.steps.salesforce-1.total`. Set the Comparison Type to `Greater or equal than` and the 2nd Value to `0`. *Make sure your type selectors are accurate here else your condition will fail*.
+
+### 4 - Create Trello Card
+
+Our final step is to update the original Trello card with the associated data should the boolean condition return true.
+
+Add a Trello connector on to the TRUE branch of the boolean condition. Set the operation to 'Update card'. Set the 'Card ID' using jsonpath's once more (associated with the trigger) and add a name if you wish.
+
+This demo includes interpolation in order to display the information returned on the Trello card itself.
+
+Here's what the final product in Trello will look like:
+
+ANd here is what the output would look like in your final step - as you can see, the "desc" field contains the information we want:

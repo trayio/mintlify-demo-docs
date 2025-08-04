@@ -1,0 +1,84 @@
+---
+title: "Overview"
+description: "Overview of the Microsoft Calendar connector"
+---
+
+# Overview
+
+## Overview
+
+Microsoft Calendar is fully integrated with email, contacts, and other features of your Outlook account. Just as you write in a notebook, you can click any time slot in the Outlook Calendar and start typing.
+
+## API Information
+
+The Microsoft Calendar connector has the following Base URL: **https://graph.microsoft.com/v1.0**. More information can be found on their main [API documentation (v1)](https://docs.microsoft.com/en-us/graph/api/resources/calendar?view=graph-rest-1.0) site. Details regarding their API limitations can be found [here](https://learn.microsoft.com/en-us/graph/paging?context=graph%2Fapi%2F1.0&view=graph-rest-1.0).
+
+## Authentication
+
+Within the builder, click on the Microsoft Calendar connector to display the connector properties panel. Select the 'Authentication' tab and click on the 'New authentication' button.
+
+In the Tray.io authentication pop-up modal name the authentication in a way that will easily identify it within a potentially large list. For example whether it is a Sandbox or Production auth, etc.
+
+Consider who/ how many people will need access to this authentication when choosing where to create this authentication ('Personal' or 'Organisational').
+
+The second page requires several credentials and check boxes:
+
+Set your 'API version' to 'v2.0'. This refers to the Token URL version that Microsoft Calendar uses.
+
+In order to get the rest of these fields, head to your Microsoft Azure dashboard.
+
+Click on the 'App registrations' option.
+
+Here you will see a list of 'Owned applications'. Select the one you wish to integrate with Tray.io
+
+Your 'Application (client) ID' is what Tray.io refers to as your **'Client ID'**.
+
+Your 'Directory (tenant) ID' is the **'Tenant ID'**.
+
+Copy and paste both the above values into your Tray.io authentication model.
+
+Your **'Client secret'** can be found under the sub-heading 'Certificates & secrets'. This is on the left hand navigation.
+
+You need to copy the **Client secret VALUE** field. As stated above this cannot be revealed twice.
+
+**Please create a new client secret if you cannot access the current client secret value**.
+
+The 'Https://graph.microsoft.com/.default' credential refers to the **pre-configured scopes** of the application.
+
+These can be viewed by heading to the left hand navigation once more, and selecting 'API permissions'.
+
+Finally, **'Offline_access'** automatically refreshes the authentication token behind the scenes, once it expires.
+
+Once you have added these fields to your Tray.io authentication pop-up window, click the 'Create authentication' button.
+
+Your connector authentication setup should now be complete.
+
+## Available Operations
+
+Please see the [Full Operations Reference](#operationsFull) at the end of this page for details on all available operations for this connector.
+
+## Using the Raw HTTP Request ('Universal Operation')
+
+As of **version 1.0**, you can effectively create your own operations.
+
+This is a very powerful feature which you can put to use when there is an endpoint in Microsoft Calendar which is not used by any of our operations.
+
+To use this you will first of all need to research the endpoint in the [Microsoft Calendar API documentation v1.0](https://docs.microsoft.com/en-us/graph/api/overview?view=graph-rest-1.0), to **find the exact format** that Microsoft Calendar will be expecting the endpoint to be passed in.
+
+Note that you will only need to add the suffix to the endpoint, as the base URL will be automatically set (the base URL is picked up from the value you entered when you created your authentication).
+
+The base URL for Microsoft Calendar is: `https://graph.microsoft.com/v1.0`
+
+For example, say that the 'List calendars' operation did not exist in our Microsoft Calendar connector, and you wanted to use this endpoint. You would use the Microsoft Calendar API docs to find the relevant endpoint - which in this case is a `GET` request called: `/me/calendars`.
+
+More details about this endpoint can be found [here](https://docs.microsoft.com/en-us/graph/api/user-list-calendars?view=graph-rest-1.0&tabs=http).
+
+As you can see there is also the option to include a query parameter, should you wish to do so. So if you know what your method, endpoint and details of your query parameters are, you can get a list of calendar information with the following settings:
+
+Method: `GET`
+
+Endpoint: `/me/calendars`
+
+Body Type : Raw
+
+Final outcome being: **https://graph.microsoft.com/v1.0/me/calendars**

@@ -1,0 +1,66 @@
+---
+title: "Overview"
+description: "Overview of the Snowflake connector"
+---
+
+# Overview
+
+## Overview
+
+Snowflake makes it easy to amass all your data, enable rapid analytics, and derive data-driven insights for all your business users.
+
+**If you are not using a Network Policy, then your database is publicly accessible.**
+
+If you *have* enabled a Network Policy, then you will need to enable Tray to connect to your database by **white listing ALL the Tray public IP addresses** based on your region.
+
+Refer to the [Tray public IPs](https://tray.io/documentation/tray-uac/connectivity/connecting-to-on-prem-systems/tray-public-ips/) document for complete list of the Tray public IP addresses.
+
+Please also be aware of our other [on-prem options](https://tray.io/documentation/tray-uac/connectivity/connecting-to-on-prem-systems/choosing-an-on-prem-option/).
+
+## Authentication
+
+When operating in the context of ACCOUNTADMIN within your Snowflake account dashboard, you will need to have run a sequence of commands such as follows:
+
+**Please note that the privileges granted are to a warehouse, then to the databases, then their schemas and individual tables.**
+
+**This must be done to allow access to the tables**. *The exact table permissions (select, insert etc.) can be set according to what tasks you wish to carry out with the Tray connector.*
+
+When using the Snowflake connector, the first thing you will need to do is go to your Tray account page, and select the relevant workflow. Once in the workflow dashboard itself, search and drag the Snowflake connector from the connectors panel (on the left hand side) onto your workflow.
+
+With the new Snowflake connector step highlighted, in the properties panel on the right, click on 'Create new authentication' which is located under the 'Authentication' heading.
+
+This will result in a Tray authentication pop-up window. The first page will ask you to name your authentication appropriately, and state which type of authentication you wish to make ('Personal' or 'Organisational').
+
+As you can see, the next page asks you for your 'Account', 'Username' and 'Unencrypted Private Key' credentials, which are required. You will also be asked for your 'Warehouse', 'Database', 'Schema', 'Role', and 'Access URL' values should you choose to provide them.
+
+### Account and Access URL
+
+There are two ways you could fill in the 'Account' and 'Access URL' authentication fields within the authentication modal.
+
+#### Preferred 
+
+- **Account: **The preferred method is '`<organisation_name>-<account_name>'`. <br/>Note that when using this format you do not need to provide an access URL, but should use a global, region-less URL if providing one.<br/>For SQL commands/operations the format is '`<org_name>.<account_name>'`. You can view more information on these endpoints [here](https://docs.snowflake.com/en/developer-guide/sql-api/about-endpoints).
+- **Access URL: **Providing an access URL should not be required, but if providing one the preferred URL format is a global region-less format, '`https://<org_name-account_name>.snowflakecomputing.com'.`
+
+#### Legacy
+
+For accounts created before the release of 'Organizations'.
+
+- **Account: **The use of 'Account locators' continue to be supported, but this is no longer the preferred method. <br/>For regions other than AWS US West (Oregon), the format is '`<account_locator>'.`<br/>For all other regions, the format is '`<account_locator>.<region>'` or '`<account_locator>.<region>.<cloud>'.`<br/>You can view more information on this [here](https://docs.snowflake.com/en/user-guide/admin-account-identifier#non-vps-account-locator-formats-by-cloud-platform-and-region).
+- **Access URL: **Where ‘account locator’ is used in the account name, the format for AWS US West (Oregon) is '`https://<account>.snowflakecomputing.com'` though this will be automatic so providing it is not required.<br/>For all other regions, the format is '`https://<account>.<region>.snowflakecomputing.com'.` 
+
+### Other authentication inputs
+
+The 'Username' and the 'Password' are the same as the username and password for your Snowflake account.
+
+There are several other authentication settings you can set up, while most are use case specific, **be sure to set a default Warehouse** for your authentication, as this needs to be picked up automatically when you are running Snowflake operations.
+
+*A Warehouse in Snowflake terms is a set of computing resources you have assigned to manage your databases and tables, which can be adjusted depending on the power and capacity that is required.*
+
+If you set a default 'Database' and 'Schema' then you can run queries and statements by directly referencing the table themselves:
+
+If you *do not* set a default 'Database' and 'Schema' then you will need to enter them "fully-qualified", something in the form of the following: `<db_id>.<schema_id>.<object_id>`:
+
+Once you have clicked the 'Create authentication' button, go to back to your authentication field (within the workflow dashboard properties panel from earlier), and select the recently added authentication from the dropdown options now available, if not already selected.
+
+Your connector authentication setup should now be complete.

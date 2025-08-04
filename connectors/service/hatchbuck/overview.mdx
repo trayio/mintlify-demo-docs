@@ -1,0 +1,32 @@
+---
+title: "Overview"
+description: "Overview of the Hatchbuck connector"
+---
+
+# Overview
+
+## Overview
+
+The tray.io Hatchbuck connector allows you to manage contacts and campaigns in Hatchbuck.
+
+## Authentication
+
+When using the Hatchbuck connector, the first thing you will have to do is click on 'New Authentication' in the step editor:
+
+Enter the API key for your account which you can find under Account Settings > Data > API:
+
+## Available Operations
+
+The examples below show one or two of the available connector operations in use.
+
+Please see the [Full Operations Reference](#operationsFull) at the end of this page for details on all available operations for this connector.
+
+## Example
+
+The following workflow has been created using a Manual Trigger and three operations from the Hatchbuck connector.
+
+Use the **Start campaign** operation to start a campaign for a contact in your account (note we have switched to the **Debug** tab to view the output) entering an email address in your Contacts and a Campaign that has already been created:
+
+We can now use the **List campaigns** operation to see that the campaign has been started for the user, as the output will show the name of the campaign we started:
+
+We can then stop the campaign with the **Stop campaigns** operation by using the same email address and campaign name:

@@ -1,0 +1,66 @@
+---
+title: "Overview"
+description: "Overview of the Google Adwords connector"
+---
+
+# Overview
+
+## Overview
+
+Google Adwords is an online advertising platform developed by Google, where advertisers pay to display brief advertisements, service offerings, product listings, video content, and generate mobile application installs within the Google Adwords network to web users.
+
+## Google Adwords vs Google Ads
+
+The original SOAP API (Google Adwords) is so different from the new REST API, that it is enough to merit Google re-branding their own product.
+
+It is for these reasons that Tray.io separates these "two connectors", despite the fact that they are in fact representations of the same product.
+
+Please bare the above in mind when choosing between the two.
+
+## Authentication
+
+When using the Google Adwords connector, the first thing you will need to do is go to your Tray.io account page, and select the workflow you wish to work on. Once in the workflow builder itself, search and drag the Google Adwords connector from the connectors panel (on the left hand side) onto your workflow.
+
+With the new Google Adwords connector step highlighted, in the properties panel on the right, click on 'New Authentication' which is located under the 'Settings' heading.
+
+This will result in a Tray.io authentication pop-up window. The first page will ask you to name your authentication, and state which type of authentication you wish to create ('Personal' or 'Organisational').
+
+As you can see, the next page asks you for your confirmation whether this authentication is based off a manager account (see: 'Is Manager Account?' tick box); for your 'Client Customer ID' credentials and your 'Developer Token'. The 'Manage Google Adwords' box is automatically checked for you. You may also wish to add extra scopes should you choose to but these are not mandatory. If you don't see all these fields display try scrolling down for clarity.
+
+In order to get these fields, head to your Google Adwords dashboard. Click on the help icon in the top right corner (looks like a `?`). You should find your customer ID at the bottom of the dropdown menu - *this can be entered with or without the hyphens*:
+
+To retrieve your developer token, sign in to your Manager Account. You must be signed-in to a Google Adwords **Manager Account** before continuing. You will not be able to retrieve your developer token otherwise as you will not have the necessary permissions.
+
+Navigate to the 'Tools & Settings' icon in the top right hand corner. Select 'Setup' followed by 'API Center' from the dropdown options presented.
+
+Once you have added these fields to your Tray.io authentication popup window, click on the 'Create authentication' button. Go back to your settings authentication field (within the workflow builder properties panel), and select the recently added authentication from the dropdown options now available.
+
+Your connector authentication setup should now be complete.
+
+## Notes on using Google Adwords
+
+### List report fields
+
+The list report fields operation doesn't do anything in your Google Adwords account by itself, but it can be useful if you are writing reports using the `Report (Raw Query)` operation.
+
+It lets you choose a report, and returns information about all the fields you have access to with that report. For example, here you can see it showing all the fields for Ad Performance Reports:
+
+### Downloading Files
+
+As the [Google Drive](/connectors/service/google-drive/) connector holds most of the permissions available for downloading Google files (regardless of type) - it is recommended to try revising your workflow to include this connector, should you face any Google file downloading issues.
+
+### Creating user lists
+
+When creating a user list, two operations are involved.
+
+First, a list will need to be created with the 'Create user list' operation. This should be followed by 'Update user list members'.
+
+The first creates an empty list, and the second takes a JSON array of objects in order to supply the user details to the empty list.
+
+Therefore, when using the 'Update user list members' operations, users must make sure that they correctly **jsonpath to the object containing the array of users, rather than that of the array itself**.
+
+Also please be aware that depending on the list size, Google Adwords will most likely display `"uploadStatus": "IN_PROCESS"` within the output panel, even on a 'successful' run.
+
+Make sure to check the Google Adwords audience list UI for further status reports.
+
+Note that the 'Update user list' operation is used to update the properties or metadata of a list, rather than alter anything to do with the list members (list name, status, etc).

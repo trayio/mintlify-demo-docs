@@ -1,0 +1,50 @@
+---
+title: "Overview"
+description: "Overview of the Monday connector"
+---
+
+# Overview
+
+## Overview
+
+The Monday connector enables the manipulation, searching and viewing of data held within the Monday platform.
+
+The latest version of the connector manipulates a GraphQL API to allow updating of multiple column values of an item.
+
+## API Information
+
+The Monday connector has the following Base URL: **https://api.monday.com/v2**. More information can be found on their main [API documentation (v2)](https://developer.monday.com/api-reference/docs) site. Details regarding their API limitations can be found [here](https://developer.monday.com/api-reference/docs/rate-limits).
+
+## Authentication
+
+To use the Monday connector, you will need an API key that you can find by logging into your Monday instance going to Admin settings, and then to the API panel.
+
+After dragging the Monday connector into the workflow you can add your authentication by pressing the New Authentication button inside the right panel. Input your API key and your set to go.
+
+## Example 1 - Creating a board
+
+To create a board select the *Create board* operation from the dropdown. Provide a board name and set the state to either Public, Private or Shared. Running the workflow should create a new board! Let's see that new board on our Monday account.
+
+ 
+
+## Example 2 - Creating an column
+
+To create a column select the *Create column* operation from the dropdown. Provide a board name using the dropdown menu and give your column a name. You can select one of the various types of columns using the dropdown menu. For this example we will create Numbers, Text, Email and Phone Number columns.
+
+ 
+
+ 
+
+## Example 3 - Updating column values
+
+The Monday API allows us to update multiple columns. We can do this by selecting the Update Multiple Columns operation and adding the 4 columns we created as an input along with an item or row to update. Select the column you want and the type of Column that you are updating and finally run the worklow to see the board update.
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 

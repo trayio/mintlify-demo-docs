@@ -1,0 +1,108 @@
+---
+title: "Overview"
+description: "Overview of the Veeva connector"
+---
+
+# Overview
+
+## Overview
+
+Veeva is a service connector, Veeva is a cloud-based content management platform and suite of applications that provides life sciences companies a single source of truth to reduce complexity and increase business agility. It not only manages regulated documents, but also tracks critical information from product development to commercialization. Managing this unique combination of documents and data, organizations improve efficiency and gain deeper insight.
+
+## Authentication
+
+When using the Veeva connector, the first thing you will need to do is go to your Tray.io account page, and select the workflow you wish to work on. Once in the workflow builder itself, search and drag the Veeva connector from the connectors panel (on the left hand side) onto your workflow.
+
+With the new Veeva connector step highlighted, in the properties panel on the right, click on the ‘Authenticate’ panel followed by ‘Add new Authentication’ (located under the Authentication input field).
+
+This will result in a Tray.io authentication pop-up window. The first page will ask you to name your authentication, and state which type of authentication you wish to create ('Personal' or 'Organisational').
+
+As you can see, the next page asks you for your 'Username', 'Password', as well as your 'Vault domain name'.  The username and password are the same credentials that you use to log in to the Veeva UI.
+
+The vault domain is the vault URL that you use to log into Veeva and must be prepended with `https://`. For example, if your vault domain name is `your-vault-domain.veevavault.com`, you must enter `https://your-vault-domain.veevavault.com`.
+
+Once you have added these fields to your Tray.io authentication popup window, click on the 'Create authentication' button. Go back to your settings authentication field (within the workflow builder properties panel), and select the recently added authentication from the dropdown options now available.
+
+Your connector authentication setup should now be complete.
+
+## Available Operations
+
+The examples below show one or two of the available connector operations in use.
+
+Please see the [Full Operations Reference](#operationsFull) at the end of this page for details on all available operations for this connector.
+
+## Using the Raw HTTP Request ('Universal Operation')
+
+Using the Raw HTTP request, you can effectively create your own operations.
+
+This is a very powerful feature which you can put to use when there is an endpoint in Veeva which is not used by any of our operations.
+
+To use this you will first of all need to research the endpoint in the [Veeva API documentation v20.2](https://developer.veevavault.com/api/20.2), to **find the exact format** that Veeva will be expecting the endpoint to be passed in.
+
+Note that you will only need to add the suffix to the endpoint, as the base URL will be automatically set (the base URL is picked up from the value you entered when you created your authentication).
+
+The base URL for Veeva is your vault domain name prepended with `https://` and appended with `/api/v20.2`.
+
+For example, say that the 'List documents' operation did not exist in our Veeva connector, and you wanted to use this endpoint, you would use the Veeva API docs to find the relevant endpoint - which in this case is a `GET` request called: `/objects/documents`.
+
+More details can be found [here](https://developer.veevavault.com/api/20.2/#retrieve-all-documents).
+
+As you can see there is also the option to include a query parameter, should you wish to do so. In this example, we will include the query parameter called `named_filter` set to `My Documents`. This will retrieve only documents that you have created. So if you know what your method, endpoint and details of your query parameters are, you can get retrieve the list of documents.
+
+Method: `GET`
+
+Endpoint: `/objects/documents`
+
+Query Parameter: Key: `named_filter` Value: `My Documents`
+
+Body Type : `none`
+
+Final Example outcome being: **https://your-vault-domain.com/api/v20.2/objects/documents?named_filter=My%20Documents**
+
+## Example Usage
+
+Below is an example of a way in which you could potentially use the Veeva connector, to retrieve a list of documents, loop through each document, and retrieve the corresponding list of fields associated.
+
+The steps will be as follows:
+
+1. Setup using a manual trigger and set up the veeva connector to retrieve a list of documents.
+2. Loop through the list of documents.
+3. For each document, retrieve the fields associated with it.
+
+The final outcome should look like this:
+
+### 1 - Setup Trigger & Retrieve List of Documents
+
+Once you have clicked 'Create new workflow' from your main Tray.io dashboard named it, select the Manual trigger from the trigger options available:
+
+After you have been redirected to the Tray.io workflow dashboard, from the connectors panel on the left, add a Veeva connector to your second step. Set the operation to 'List documents'.
+
+Feel free to re-name your steps as you go along to make things clearer for yourself and other users.
+
+After you have completed this step, you will have retrieved your list of documents.
+
+### 2 - Loop Through Documents
+
+Next, search for the 'Loop collection' connector within your connector panel, and drag it into your workflow as your next step. Set your operations to 'Loop list'.
+
+The Loop Collection connector allows you to iterate through a list of results. In this example, we will use it to iterate through the data found within the previous Veeva connector step.
+
+In order to specify the list you want to loop through, start by using the 'List' mapping icon (found next to the list input field, within the properties panel) to generate the connector-snake.
+
+While hovering over the 'List documents' step (with the tail end of the connector-snake), select `documents` from the list of output properties displayed. This will auto-populate a jsonpath within your 'List' input field, and update the type selector to jsonpath.
+
+For more clarification on the pathways you have available, open the Debug panel to view your step's Input and Output.
+
+Upon finishing this step, you will have enabled your workflow to loop through the list of documents retrieved in the previous step.
+
+### 3 - List Document Fields
+
+The last step is to drag a Veeva connector **inside** of the Loop Collection step itself. Set the operation to 'List document fields'. As you can see, the 'Document ID' field is required.
+
+Once again, use the connector snake and hover over the 'Loop Collection' step (with the tail end of the connector-snake), scroll down and select `id` from the list of output properties displayed.
+
+You can now run the workflow by clicking run in the bottom right hand corner of the workflow builder. If everything has completed correctly, all steps in the debug panel should show as green and your output will display something similar to below:
+
+You can now run the workflow by clicking run in the bottom right hand corner of the workflow builder. If you click on Debug at the top of the page, you can see your workflow execution. If everything has completed correctly, all steps in the debug panel should show as green.
+
+As you can see, the connector loops through the list of documents as provided by step 1. If you click on each execution of 'List document fields', you will be able to see the results of each loop.

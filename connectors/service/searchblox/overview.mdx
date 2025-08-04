@@ -1,0 +1,100 @@
+---
+title: "Overview"
+description: "Overview of the SearchBlox connector"
+---
+
+# Overview
+
+## Overview
+
+SearchBlox was created to provide customers with simple, affordable solutions for their data management needs including web-based administration and integrated data connectors to index enterprise and web content.
+
+## Authentication
+
+When using the SearchBlox connector, the first thing you will need to do is go to your Tray.io account page, and select the workflow you wish to work on. Once in the workflow builder itself, search and drag the SearchBlox connector from the connectors panel (on the left hand side) onto your workflow.
+
+With the new SearchBlox connector step highlighted, in the properties panel on the right, click on 'New Authentication' which is located under the 'Settings' heading.
+
+This will result in a Tray.io authentication pop-up window. The first page will ask you to name your authentication, and state which type of authentication you wish to create ('Personal' or 'Organisational').
+
+As you can see, the next page asks you for your 'API Key' and 'Domain' credentials.
+
+In order to get these fields, head to your SearchBlox dashboard. Click on the Admin tab. Copy and paste the key from the SearchBlox web app into the API key field in the above Tray authentication model.
+
+Your 'Domain' name can be found in your URL as the section between the `https://` and before the `.com`. Copy it into the Tray.io authentication field as necessary.
+
+Once you have added these fields to your Tray.io authentication popup window, click on the 'Create authentication' button. Go back to your settings authentication field (within the workflow builder properties panel), and select the recently added authentication from the dropdown options now available.
+
+Your connector authentication setup should now be complete.
+
+## Available Operations
+
+The examples below show one or two of the available connector operations in use.
+
+Please see the [Full Operations Reference](#operationsFull) at the end of this page for details on all available operations for this connector.
+
+## Using the Raw HTTP Request ('Universal Operation')
+
+As of **version 1.0**, you can effectively create your own operations.
+
+This is a very powerful feature which you can put to use when there is an endpoint in SearchBlox which is not used by any of our operations.
+
+To use this you will first of all need to research the endpoint in the [ SearchBlox API documentation v2.0](https://developer.searchblox.com/docs/rest-api) , to **find the exact format** that SearchBlox will be expecting the endpoint to be passed in.
+
+Note that you will only need to add the suffix to the endpoint, as the base URL will be automatically set (the base URL is picked up from the value you entered when you created your authentication).
+
+The base URL for SearchBlox is: `https://{DOMAIN}/searchblox`
+
+For example, say that the 'Create collection' operation did not exist in our SearchBlox connector, and you wanted to use this endpoint, you would use the SearchBlox API docs to find the relevant endpoint - which in this case is a `POST` request called: `Add collection`.
+
+More details can be found [ here](https://developer.searchblox.com/docs/rest-api#add-collection) .
+
+As you can see there is also the option to include a body parameter, should you wish to do so. So if you know what your method, endpoint and details of your body parameters are, you can create a collection with the following settings:
+
+Method: `POST`
+
+Endpoint: `/rest/v2/api/coladd`
+
+Body Type : Raw : `{ "document" : { "colname" : "Tray collection","coltype" : "custom", "language" : "en" } }`
+
+Final Example outcome being: **https://{DOMAIN}/searchblox/rest/v2/api/coladd**
+
+## Example Usage
+
+Below is an example of a way in which you could potentially use the SearchBlox connector, to add a document to a custom collection.
+
+The steps will be as follows:
+
+1. Setup using a manual trigger and create a custom collection.
+2. Add a document to the custom collection.
+3. Get the details of the document.
+
+The final outcome should look like this:
+
+### 1 - Setup Trigger & Create Collection
+
+Once you have clicked 'Create new workflow' from your main Tray.io dashboard named it, select the Manual trigger from the trigger options available:
+
+After you have been redirected to the Tray.io workflow dashboard, from the connectors panel on the left, add a SearchBlox connector to your second step. Set the operation to 'Create collection'.
+
+Make sure to create a 'Collection name' and 'Language' for your new collection.
+
+Feel free to re-name your steps as you go along to make things clearer for yourself and other users.
+
+When this workflow is run, it will create a collection with the given details. You should see the verification message as a result when you click on your debug panel, once you expand the output field:
+
+### 2 - Add Document
+
+Add a second SearchBlox connector to your workflow and set the operation to 'Add/Update document'.
+
+Once more made sure to set the 'Collection name' and 'Location' of the document. While this operation may look similar to the one before, the location here is key as it is based off a URL you will need to provide.
+
+Now when the workflow is run, it will add this document to the new collection. Check your Debug panel just to be sure:
+
+### 3 - Get Document Status
+
+Once you have added a third and final SearchBlox connector to your workflow, set the operation to 'Get document status'.
+
+Make sure to set the 'Collection name' and 'UID' of the document (otherwise know as the Unique Document Identifier). You can use the location of the document aka the URL from the previous step, as the UID to save time:
+
+Now when this workflow is run, it will create a new collection, add a document to said collection and finally retrieve the details of this document.

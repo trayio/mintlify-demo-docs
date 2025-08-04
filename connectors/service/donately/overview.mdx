@@ -1,0 +1,99 @@
+---
+title: "Overview"
+description: "Overview of the Donately connector"
+---
+
+# Overview
+
+## Overview
+
+Donately is a platform that improves the donation experience through donation forms, fundraising pages and text messages to enable the collection of donations digitally. It enables integration with other web applications and improves donation revenue through its peer-to-peer fundraising pages, and recurring donations feature.
+
+## **API Information **
+
+The Base URL used for the Donately connector is **https://api.donately.com/v2**. More information can be found on their main [API documentation (v2019-03-15)](https://docs-api-v20190315.donately.com/) site.
+
+## Authentication
+
+Within the builder, click on the Donately connector to display the connector properties panel. Select the 'Auth' tab and click on the 'New authentication' button.
+
+In the Tray.io authentication pop-up modal, name the authentication in a way that will quickly identify it within a potentially large list. For example, whether it is a Sandbox or Production auth, etc.
+
+Consider who/ how many people will need access to this authentication when choosing where to create this authentication ('Personal' or 'Organisational').
+
+The second page asks you for your 'Account ID' and 'API Token' credentials.
+
+To get these fields, head to the Donately dashboard. Click on [the API integrations page](https://dash.donately.com/integrations/api).
+
+Here you can see your 'Account Id'.
+
+Click on the  'Show API Token' button to get the API Token.
+
+Once you have added these fields to your Tray.io authentication pop-up window, click the 'Create authentication' button. 
+
+Your connector authentication setup should now be complete.
+
+## Donately Trigger
+
+The Donately trigger allows you to receive notifications and trigger workflows when given events occur associated with the selected trigger operation.
+
+### Trigger Operations available:
+
+- Webhook
+
+### Webhook Setup
+
+Follow the instructions above to authenticate your trigger. Select 'Webhook' as the event you wish your trigger to listen to in order to set off the workflow itself.
+
+Make sure to also specify the 'Event' you want the webhook to listen out for and respond to:<br/>In this example, the events selected are '**account**', '**fundraiser**', '**create**', '**success**'. Now, when the workflow is enabled (in the account the trigger is authenticated to), a webhook will be sent and this workflow will be triggered.
+
+## Available Operations
+
+The examples below show one or two of the available connector operations in use.
+
+Please see the [Full Operations Reference](#operationsFull) at the end of this page for details on all available operations for this connector.
+
+## Using the Raw HTTP Request ('Universal Operation')
+
+As of **version 1.0**, you can effectively create your own operations.
+
+This is a powerful feature that you can use when there is an endpoint in Donately that is not used by any of our operations.
+
+To use this, you will first of all need to research the endpoint in the Donately [API documentation v2019-03-15 ](https://docs-api-v20190315.donately.com/)to **find the exact format** that Donately will be expecting the endpoint to be passed in.
+
+For example, say that the **List donations** operation did not exist in our Donately connector, and you wanted to use this endpoint. You would use the , Donately API docs to find the relevant endpoint - ***which in this case is a `GET` request called: `/donations`****.*`* *`
+
+More details about this endpoint can be found [here](https://docs-api-v20190315.donately.com/#616c0fb2-97b8-4548-8ba9-951ae8a46d4c).
+
+Based on the information provided in the above API call doc, you need to configure the following attributes on your Tray platform:
+
+- **Method:** GET
+- **URL: *** *
+- **Headers:  **None
+- **Query parameters: **
+
+          Donately-Version: 2020-11-03
+
+          account_id : <account Id>
+
+- **Body Type: **none
+
+Once the API call is executed successfully,  you should get the following results:
+
+## Example Usage
+
+Below is an example of a way in which you could potentially use the Donately connector, to update a list of campaigns.
+
+The overall logic of the workflow is:
+
+1. Setup using a manual trigger.
+2. It gets a list of campaigns belonging to an account.
+3. Loops through the campaigns.
+4. Updates the campaign descriptions.
+5. Lists the updated campaigns.
+
+Your completed workflow should look similar to this:
+
+**
+
+### Step-by-step Explanation

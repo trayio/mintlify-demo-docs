@@ -1,0 +1,102 @@
+---
+title: "Overview"
+description: "Overview of the Campaign Monitor Commerce connector"
+---
+
+# Overview
+
+## Overview
+
+Previously known as Conversio, the Campign Monitor Commerce connector works in conjunction with Campaign Monitor itself. It is designed for ecommerce businesses that want to use automated campaigns throughout the customer lifestyle, in order to help increase conversions and grow a trustworthy brand.
+
+## Authentication
+
+When using the Campaign Monitor Commerce connector, the first thing you will need to do is go to your Tray.io account page, and select the workflow you wish to work on. Once in the workflow dashboard itself, search and drag the Campaign Monitor Commerce connector from the connectors panel (on the left hand side) onto your workflow.
+
+With the new Campaign Monitor Commerce connector step highlighted, in the properties panel on the right, click on 'New Authentication' which is located under the 'Settings' heading.
+
+This will result in a Tray.io authentication pop-up window. The first page will ask you to name your authentication appropriately, and state which type of authentication you wish to make ('Personal' or 'Organisational').
+
+As you can see, the next page asks you to set your permission scopes as appropriate. There are several scopes to choose from so make sure to scroll through and view them all before making any final decisions.
+
+Once you click 'Create authentication', you will be presented with a popup login screen where you will need to enter in your Campaign Monitor Commerce account details.
+
+Click 'Log In' and you will be presented with a secondary popup authentication request screen, where you will need to give Tray.io restricted access based on the permission scopes that were set earlier.
+
+Once you click 'Authorize', you will be redirected to the workflow dashboard. Go back to your settings authentication field (within the workflow builder properties panel), and select the recently added authentication from the dropdown options now available.
+
+Your connector authentication setup should now be complete.
+
+## Available Operations
+
+The examples below show one or two of the available connector operations in use.
+
+Please see the [Full Operations Reference](#operationsFull) at the end of this page for details on all available operations for this connector.
+
+## Using the Raw HTTP Request ('Universal Operation')
+
+As of **version 1.0**, it is now possible to effectively create your own operations.
+
+This is a very powerful feature which you can put to use when there is an endpoint in XXXXXX which is not used by any of our operations.
+
+To use this you will first of all need to research the endpoint in the [ Campaign Monitor Commerce API documentation v1.0](http://api-docs.conversio.com/#authentication) , to *find the exact format* that Campaign Monitor Commerce will be expecting the endpoint to be passed<br/>in.
+
+Note that you will only need to add the suffix to the endpoint, as the base URL will be automatically set (the base URL is picked up from the value you entered when you created your authentication).
+
+The base URL for Campaign Monitor Commerce is: `https://app.conversio.com/api/v1`
+
+For example, say that the 'List customer lists' operation did not exist in our Campaign Monitor Commerce connector, and you wanted to use this endpoint, you would use the Campaign Monitor Commerce API docs to find the relevant endpoint - which in this case is a `GET` request called 'Get Customer Lists' - at the following [ URL](http://api-docs.conversio.com/#get-customer-lists) .
+
+So if you know what your method and endpoint are, you can get a list of customer lists, with the following settings:
+
+Method: `GET`
+
+Endpoint: `/customer-lists`
+
+Final Example outcome being: **https://app.conversio.com/api/v1/customer-lists**
+
+As a result, this will return a list of customer lists as requested.
+
+## Example usage
+
+Below is an example of a way in which you could potentially use the Campaign Monitor Commerce connector, to get a list of your subscribers, from each contact list.
+
+The steps will be as follows:
+
+1. Set up your Manual trigger and and generate a list of available customer lists.
+2. Add a Loop connector to iterate through your lists.
+3. Set up your second Campaign Monitor Commerce connector to get a list of subscribers from your customer lists.
+
+The final outcome should look like this:
+
+### 1 - Setup Trigger & List Customer Lists
+
+*REMOVE this note  IF  you have a trigger associated with this service connector, or if you are using another type of trigger altogether*
+
+Once you have clicked 'Create new workflow' from your main Tray.io dashboard (and named said new workflow), select the Manual trigger from the trigger options available:
+
+After you have been redirected to the Tray.io workflow dashboard, from the connectors panel on the left, add a Campaign Monitor Commerce connector to your second step. Set the operation to 'List customer lists'.
+
+*Feel free to re-name your steps as you go along to make things clearer for yourself and other users.*
+
+When this workflow is run it will pull a list, of customer's lists, linked to your Campaign Monitor Commerce account. You should be able to view the data received when you click through your Debug panel, and expend the output field:
+
+### 2 - Loop through Lists
+
+Next, we add a Loop connector to the workflow and set the operation to 'Loop contacts'.
+
+Use the connector-snake to generate the jsonpath you will need, by clicking and dragging on the orange circle/ mapping icon, left of the 'List' field name.
+
+Once you have dragged it over to your first Campaign Monitor Commerce step, you will see a dropdown list of options appear. Select `results` from the options available. Your output should be similar to: `$.steps.campaign-monitor-commerce-4.results`.
+
+This step enables us to iterate over the list of customer lists, and perform operations for each one should we choose to, during each loop cycle.
+
+### 3 - List Subscribers
+
+Finally, drag another Campaign Monitor Commerce connector step into the Loop Collection itself, and set the operation to 'List subscribers of contact list'.
+
+Use the same connector-snake method for generating the jsonpath to get the 'List Id' field, only this time it will be taken from the loop step, and `id` itself is to be selected.
+
+Use the dropdown menu to select 'Who to send back'.
+
+Congratulations! you have completed the Campaign Monitor Commerce connector tutorial.

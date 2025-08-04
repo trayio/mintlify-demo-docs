@@ -1,0 +1,56 @@
+---
+title: "Overview"
+description: "Overview of the Tiktok Shop connector"
+---
+
+# Overview
+
+## Overview
+
+TikTok Shop helps you integrate with TikTok and improve operational efficiency.
+
+## **API Information **
+
+The TikTok Shop connector has the following Base URL: [**https://open-api.tiktokglobalshop.com/api**](https://open-api.tiktokglobalshop.com/api). More information can be found on their main API [documentation site](https://partner.tiktokshop.com/doc/page/63fd743c715d622a338c4e54).
+
+## Authentication
+
+Within the builder, click on the TikTok Shop connector to display the connector properties panel. Select the **Auth** tab and click on the '**New authentication'** button.
+
+In the Tray authentication pop-up modal name your authentication in a way that will quickly identify it within a potentially large list. For example whether it is a Sandbox or Production auth, etc.
+
+Consider who/ how many people will need access to this authentication when choosing where to create this authentication ('Personal' vs 'Organisational').
+
+The next page asks you for your **Service ID**, **App Key**, **App Secret** and **Region** credentials.
+
+To get these fields, head to the TikTok partners dashboard. Click on the App & Service section. If you don't have an app created please do that first more info can be found on the [TikTok partners documentation](https://partner.tiktokshop.com/doc/page/63fd743d715d622a338c4e69).<br/><br/>To get the App Key, App Secret** **click on the app and the details should be available
+
+To get the Service ID copy the last part of the authorization link.
+
+To ensure that the authentication redirects back to please set the app Redirect URL to **https://auth.tray.io/oauth2/token**
+
+Once you have added these fields to your Tray.io authentication pop-up window click the **Create authentication** button. This should redirect you to the TikTok seller dashboard where you'll need to choose the region & login.
+
+Your connector authentication setup should now be complete. Please run the simplest operation available to test and make sure you can retrieve data as expected.
+
+## Using the Raw HTTP Request ('Universal Operation')
+
+As of **version 1.0**, you can effectively create your own operations.
+
+This is a powerful feature that you can use when there is an endpoint in TikTok Shop that is not used by any of our operations.
+
+To use this, you will first of all need to research the endpoint in the [TikTok partners ](https://partner.tiktokshop.com/doc)API documentation to **find the exact format** that TikTok Shop will be expecting the endpoint to be passed in.
+
+For example, say that the **'List category rules'** operation did not exist in our TikTok Shop connector, and you wanted to use this endpoint. You would use the
+
+TikTok partners API docs to find the relevant endpoint - which in this case is a **GET** request called:** `/products/categories/rules`.**`** **`
+
+More details about this endpoint can be found [here]( https://partner.tiktokshop.com/doc/page/63fd742c715d622a338c4bdd?external_id=63fd742c715d622a338c4bdd#Back%20To%20Top).
+
+Based on the information provided in the above API call doc, you need to configure the following attributes on your Tray platform:
+
+- **Method:** GET
+- **URL:**
+- **Query parameters: **version
+
+Once the API call is executed successfully,  you should get the following results:

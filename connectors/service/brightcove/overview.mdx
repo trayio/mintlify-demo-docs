@@ -1,0 +1,89 @@
+---
+title: "Overview"
+description: "Overview of the Brightcove connector"
+---
+
+# Overview
+
+## Overview
+
+Brightcove is a video communication platform that allows individuals and businesses to share, stream and host. It helps them engage their audiences, monetize content and convert prospects with industry leading reliability, scalability and security.
+
+## **API Information **
+
+The Base URL used for the Brightcove connector is **https://cms.api.brightcove.com/v1**.  More information can be found on their main [API Documentation(v1)](https://apis.support.brightcove.com/cms/index.html) site.
+
+## Authentication
+
+Within the builder, click on the Brightcove connector to display the connector properties panel. Select the 'Auth' tab and click the 'New authentication' button.
+
+In the Tray.io authentication pop-up modal, name the authentication in a way that will quickly identify it within a potentially large list. For example, whether it is a Sandbox or Production auth, etc.
+
+Consider who/ how many people will need access to this authentication when choosing where to create this authentication ('Personal' or 'Organisational').
+
+The second page asks you for your 'Client ID', 'Client Secret' and 'Account ID' credentials.
+
+To get these fields, head to the Brightcove dashboard. Click on the gear icon available on the bottom left.
+
+<br/>Here you can see the 'Account ID' on the 'Account Information' page.
+
+To get the 'Client Secret' and 'Account ID', select 'API Authentication' from the left navigation panel. 
+
+The 'API Authentication' page will open displaying your current client registrations.
+
+Click  'Register New Application'.  Enter a 'Name' and 'Description' for the client registration.
+
+Select one or more of your accounts based on your requirement for authorization.
+
+Select the required API(s) and permission(s) to enable this registration.
+
+Click 'Save'.
+
+A 'Client ID' and 'Client Secret**'** will be returned. Copy the 'Client Secret' and store it in a secure location as the client secret **will not** be displayed again.
+
+Once you have added these fields to your Tray.io authentication pop-up window, click the 'Create authentication' button. 
+
+Your connector authentication setup should now be complete.
+
+## Available Operations
+
+The examples below show one or two of the available connector operations in use.
+
+Please see the [Full Operations Reference](#operationsFull) at the end of this page for details on all available operations for this connector.
+
+## Using the Raw HTTP Request ('Universal Operation')
+
+As of **version 1.0**, you can effectively create your own operations.
+
+This is a powerful feature that you can use when there is an endpoint in Brightcove that is not used by any of our operations.
+
+To use this, you will first of all need to research the endpoint in the [Brightcove API documentation](https://apis.support.brightcove.com/player-management/references/index.html) to **find the exact format** that Brightcove will be expecting the endpoint to be passed in.
+
+For example, say that the **'**Get a list of players**'** operation did not exist in our Brightcove connector, and you wanted to use this endpoint. You would use the
+
+Brightcove API docs to find the relevant endpoint - ***which in this case is a 'GET' request called: '*****/v2/accounts/{account_id}/players'*****.***`*** ***`
+
+More details about this endpoint can be found [here](https://apis.support.brightcove.com/player-management/references/reference.html#tag/Players/operation/GetPlayers).
+
+Based on the information provided in the above API call doc, you need to configure the following attributes on your Tray platform:
+
+- **Method:** GET
+- **URL: **
+- **Body Type: **`none`
+
+Once the API call is executed successfully,  you should get the following results:
+
+## Example Usage
+
+Below is an example of a way in which you could potentially use the Brightcove connector to list all the playlists from the selected account.  Loop through each playlist's ID to get a list of videos from that playlist.
+
+The overall logic of the workflow is:
+
+1. Workflow is triggered using the Manual trigger.
+2. Using the 'List Playlist' operation the Brightcove connector lists all the playlists for the selected account.
+3. It then loops through all the playlist IDs received from the previous step.
+4. At the end using the 'List videos in playlist' operation the Brightcove connector gets the list of songs from each playlist.
+
+Your completed workflow should look similar to this:
+
+### Step-by-step Explanation

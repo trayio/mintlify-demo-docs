@@ -1,0 +1,70 @@
+---
+title: "Overview"
+description: "Overview of the Amplitude connector"
+---
+
+# Overview
+
+## Overview
+
+Whether you want to understand how users are navigating through your application, which features engage them the most, or how to improve long-term user retention, Amplitude helps you answer questions critical to your product development strategy. It’s also the only analytics solution built to meet the needs of modern product teams, with real-time analytics, cross-platform tracking, powerful behavioural analytics, and Enterprise-level security and customer support.
+
+## Authentication
+
+Within the builder, click on the Amplitude connector to display the connector properties panel. Select the 'Auth' tab and click on the 'New authentication' button.
+
+In the Tray.io authentication pop-up modal, name the authentication in a way that will quickly identify it within a potentially large list. For example, whether it is a Sandbox or Production auth, etc.
+
+Consider who/ how many people will need access to this authentication when choosing where to create this authentication ('Personal' or 'Organisational').
+
+The second page asks you for your 'API key' and 'Regional endpoint' credentials.
+
+The 'Regional endpoint' refers to the environment you wish to access the API in.<br/>Please refer to the[ latest API documentation](https://www.docs.developers.amplitude.com/analytics/apis/http-v2-api/) for more information.
+
+To get the 'API key' head to the Amplitude dashboard. Click on the 'Settings' tab in the menu bar on the left-hand side of your screen.
+
+Next, head to the projects page and click on your project title.
+
+<br/>The 'API key' can be found under the 'General' section.
+
+Once you have added these fields to your Tray.io authentication pop-up window, click the 'Create authentication' button. 
+
+Your connector authentication setup should now be complete.
+
+## Available Operations
+
+The examples below show one or two of the available connector operations in use.
+
+Please see the [Full Operations Reference](#operationsFull) at the end of this page for details on all available operations for this connector.
+
+## Example usage - Create or update user
+
+In the API docs this operation can be found under 'Identify API'.
+
+This operation will update an existent user but if you send a request with a user ID that is not in the Amplitude system yet, then the user tied to the user ID will not be marked new until their first event.
+
+The following screenshot shows how you would create or update a user using jsonpaths such as `$.steps.trigger.body.user-id` which pull in data from a previous step in your workflow.
+
+In this case the workflow has been triggered by a [webhook event](/connectors/triggers/webhook-trigger/) so we are able to pull in the required values for creating/updating the user:
+
+If the data was not being pulled in from the trigger, but from a previous service connector step such as Segment, the datapath might be something like `$.steps.segment-1.country`
+
+Use the 'Debugger' by clicking the 'Debug' button at the top of the page to check if the operation was successful.
+
+## Example usage - Create attribution event
+
+In the Amplitude API docs this operation can be found under 'Attribution API'.
+
+An attribution event can be created either for IOS or Android. Just fill in the input fields and click the 'Run workflow' button.
+
+## Example usage - Batch create events
+
+In the API docs this operation is named 'Batch Event Upload API'.
+
+The Batch Event Upload endpoint can be used to send data directly from your server. This endpoint is recommended for Customers that want to send large batches of data at a time, for example through scheduled jobs, rather than in a continuous realtime stream. Due to the higher rate of data that is permitted to this endpoint, data sent to this endpoint may be delayed based on load.
+
+Please see our [guide to using batch update operations](/platform/standard-best-practices/pagination/batch-updates/) for suggestions on using our CSV Reader to manage your batches of data.
+
+The properties panel for the operation shows the fields that need to be populated for each event:
+
+Use the 'Debugger' by clicking the 'Debug' button at the top of the page to check if the operation was successful.

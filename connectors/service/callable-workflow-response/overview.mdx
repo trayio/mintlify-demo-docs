@@ -1,0 +1,67 @@
+---
+title: "Overview"
+description: "Overview of the Callable response connector"
+---
+
+# Overview
+
+## Overview
+
+When using the Tray Platform there will be occasions when you need to send data to a callable workflow, and you wish that workflow to respond - perhaps with a confirmation message, or with some data retrieved via a processing mechanism - before continuing with the main workflow.
+
+The **Callable Workflow response** connector can help you manage these situations.
+
+The steps involved in using callable workflow response are:
+
+1. Create a workflow with a **callable trigger** (operation set to **Trigger and respond**) and a **callable workflow response** step (when using 'Fire and wait for response' this workflow will now be available to select from the drop-down of callable workflows)
+2. Create a main workflow which generates data (via interaction with service connectors and core/helper connectors) and pulls the data into a **Call workflow (operation set to 'Fire and wait for response')** step which calls the workflow created in step 1
+3. Return to the workflow created in step 1 to configure the processing actions and set the data to be sent back to the main workflow via the **callable workflow response** step
+
+Please see our page on [Using Callable Workflows](#) for more detailed guidance on when to use Callable Workflows, and how to follow best practices.
+
+## Basic setup
+
+## Setting input and output schema to control data structure
+
+In order to make sure that the data being passed between your main and callable workflow adheres to a strict structural format, in the workflow being called you can:
+
+1. Set the **Input Schema** for the **Trigger**. This links back to the main workflow and can force the structure and properties of the data being gathered and passed by the main workflow
+2. Set the **Output Schema** for the **Callable Workflow Response** step. This can be used to make sure that you always send back the requisite data to the original workflow, in the correct structure
+
+Taking the above example of customer data, we could imagine a scenario where the data for a **single customer** is being sent and we wish to make sure that only certain data is sent, and only certain data is sent back.
+
+### Setting the input schema
+
+First off, for the **Callable trigger** we can click on **Edit input schema**:
+
+And then add the properties to the schema and set the data type (short-text, array etc.):
+
+Each property has an **Advanced settings** drop-down whereby you can specify that it is 'required':
+
+If you return to the main workflow this will be reflected in the properties panel for the **Call workflow** step:
+
+### Editing input schema and updating dependent workflows
+
+If you edit the input schema you will be presented with a warning saying 'you might affect the following workflows when you apply changes'.
+
+This will also include links to any of the dependent workflows:
+
+You should open any dependent workflows in new tabs and then update them after confirming the new / updated fields in your schema. 
+
+As you can see any new or edited fields will appear in the callable step, with no [jsonpath](#) entered. 
+
+So you will need to map or re-map the jsonpath to ensure your workflow pulls in the necessary data to send to the callable:
+
+### Setting the output schema
+
+Then for the **Callable workflow response** step we can click on **Edit output schema**. In this example it may be that we want to use the customer's email to find their entry in a Google Sheet which has a list of customers' emails and favorite colors.
+
+In this example it is done by pulling in the email from the trigger and using the Google Sheets 'Find row' operation:
+
+Then we can click on **Edit output schema** for the **callable workflow response** step:
+
+And we can use the dialog to set the required data structure to be sent back each time the workflow is called:
+
+As for the input schema each can be set as required using the advanced settings.
+
+Returning to the workflow you can then see that the schema is reflected in the required fields:

@@ -1,0 +1,26 @@
+---
+title: "Example use cases"
+description: "Example use cases documentation for Marketo connector"
+---
+
+# Example use cases
+
+### Create / Update: Singular vs Batch 
+
+There are essentially two variations of the 'create / update' (i.e. **Upsert**) operations. One is **singular** and the other processes data in **batches**. Both will either add information to the Marketo database or update the fields if they already already exist.
+
+#### Singular
+
+Operations that individually cycle through each object use more calls and rate limits need to be taken into account. 
+
+Regardless they have their advantages as you can use validation methods.
+
+Checking the associated email of your lead / campaign / etc before adding the information to your Marketo database means that you are less likely to insert incorrect information. If you don't have complete control over the source you must standardise and validate 
+
+#### Batch
+
+Batch (or bulk) operations reduces the number of calls needed in order to insert large amounts of data to your Marketo database.
+
+You must make sure the formatting is correct in order to 
+
+## 

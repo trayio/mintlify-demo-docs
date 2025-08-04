@@ -1,0 +1,81 @@
+---
+title: "Overview"
+description: "Overview of the Sailthru connector"
+---
+
+# Overview
+
+## Overview
+
+Sailthru offers a complete, unified, and integrated marketing solution. The software personalizes individual customer experiences across various digital communication channels such as email, website and mobile applications with the promise of 1:1 marketing. Sailthru-powered email, web, and mobile experiences have been cited to help drive higher revenue and improving overall 'customer lifetime' value within businesses.
+
+## Authentication
+
+Add a Sailthru connector step to your workflow. Click on the 'New Authentication' option now available in the right hand panel and name it as appropriate.
+
+In order to complete your Sailthru authentication, you will need an 'Api Key' and a 'Secret':
+
+Both can be obtained through your Sailthru account, in the settings panel. Click 'Setup' and select the 'API & Postbacks' option.
+
+Click on the lock icon as displayed below:
+
+Copy the information provided:
+
+Back in the Tray authentication window, paste the obtained keys from your Sailthru admin UI.
+
+Add authentication. Setup is now complete.
+
+## Available Operations
+
+The examples below show one or two of the available connector operations in use.
+
+Please see the [Full Operations Reference](#operationsFull) at the end of this page for details on all available operations for this connector.
+
+## Example Usages
+
+These two short tutorials will demonstrate how to use both the **Create list** and **List lists** operations.
+
+## 1 - Create List
+
+First to note is that there are two types of lists that can be created:
+
+1. **Natural list**
+2. **Smart list**
+
+*Natural Lists* are a main repository for your users who are typically added to these lists deliberately upon acquisition, on your import from another system. They can also be added through one-time Audience Builder queries with users sourced from existing Natural Lists.
+
+A *Smart List* is a dynamic list that updates its user membership in real time, based on any criteria that you set in Audience Builder or through the API itself. Each Smart List exists as a 'Query', dynamically including or excluding users when they meet or fail to meet the list’s criteria.
+
+The criteria array contains a type of matching 'to do' and determines what other query parameters need to be provided. Please check the API docs to see which 'other fields are required' when choosing a certain criteria value from the 'Criteria' dropdown.
+
+Wherever the 'Timerange' parameter is required, it uses the 'Value' field to include more information about what time range to query for. Please check the API docs for the 'Value' date types for each 'Timerange' parameter value.
+
+#### To Create a list:
+
+Choose the 'Create list' operation in the right hand input panel and select either 'Natural list' or 'Smart list'.
+
+Populate the input fields as required then press the 'Run workflow' button.
+
+> 
+
+This operation should result in creating a new list.
+
+After clicking on 'Run Workflow', use the 'Debug' tab to inspect your results.
+
+## 2 - List lists
+
+There are two ways a person can decide to retrieve their lists, either all at once, or singularily by name. In both cases you should be able to extract relevant vairables should you so wish.
+
+#### To retrieve all the lists at once:
+
+Select the 'List lists' operation in theright hand input panel, then press 'Run workflow'.
+
+#### To retrieve a singular list by name:
+
+Select the 'List lists' operation in the input panel. Add the relevant list name in the 'List name input field'. Click 'Run workflow' to retrive your list.
+
+#### Retrieving variables:
+
+In order to retrieve the variables from a list, add the value 1 in the 'Fields' -> 'Variables' input field:
+
+## Operations Complete

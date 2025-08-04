@@ -1,0 +1,121 @@
+---
+title: "Overview"
+description: "Overview of the Opal connector"
+---
+
+# Overview
+
+## Overview
+
+Opal is a marketing platform that enables brands to achieve exceptional results by working better, together, to plan and execute winning brand experiences that stand out in the feed and compel your audience to action.
+
+## Authentication
+
+When using the Opal connector, the first thing you will need to do is go to your Tray.io account page, and select the workflow you wish to work on. Once in the workflow dashboard itself, search and drag the Opal connector from the connectors panel (on the left hand side) onto your workflow.
+
+With the new Opal connector step highlighted, in the properties panel on the right, click on 'New Authentication' which is located under the 'Settings' heading.
+
+This will result in a Tray.io authentication pop-up window. The first page will ask you to name your authentication appropriately, and state which type of authentication you wish to make ('Personal' or 'Organisational').
+
+As you can see, the next page asks you for your 'Client ID', 'Client Secret' and 'Base URL'.
+
+The 'Base URL' is the base URL for your Opal account, and the authentication itself is set up so you could submit the entirety of your URL if need be. For example: `http://{your-domain-name}.ouropal.com/`. Some customers may not have the same "latter half" of the domain, so please do check with your Opal team for more details.
+
+In order to get the rest of the fields necessary, you will need to register your Tray.io application with the Opal integrations team.
+
+- Application name
+- Logo URI
+- Redirect URI
+
+In return you'll be sent the 'Client ID' and 'Client Secret'. Paste these into the appropriate fields.
+
+Once you have clicked the 'Create authentication' button, go back to your authentication field (within the workflow dashboard properties panel from earlier), and select the recently added authentication from the dropdown options now available.
+
+Your connector authentication setup should now be complete.
+
+## Available Operations
+
+The examples below show one or two of the available connector operations in use.
+
+Please see the [Full Operations Reference](#operationsFull) at the end of this page for details on all available operations for this connector.
+
+## Using the Raw HTTP Request ('Universal Operation')
+
+As of **version 1.0**, it is now possible to effectively create your own operations.
+
+This is a very powerful feature which you can put to use when there is an endpoint in Opal which is not used by any of our operations.
+
+Once you have access to the documentation, you can look up the desired endpoint and *find the exact format* that the Opal API will be expecting the endpoint to be passed in.
+
+Note that you will only need to add the suffix to the endpoint, as the base URL will be automatically set (the base URL is picked up from the value you entered when you created your authentication).
+
+The base URL for Opal is: `http://{your-domain-name}.ouropal.com/`
+
+For example, say that the 'list labels' operation did not exist in our Opal connector, and you wanted to use this endpoint, you would use the Opal API docs to find the relevant endpoint - which in this case is a `GET` request called - at the following URL:
+
+So if you know what your doamin, endpoint, and brand ID is, you can get the list of labels with the following settings:
+
+Method: `GET`
+
+Base URL: `http://example.ouropal.com/`
+
+Endpoint: `/labels/v2`
+
+Query parameters: brand_id: `1`
+
+Final Example outcome being: **http://example.ouropal.com/labels/v2?brand_id=1**
+
+As a result, this will return the labels for the brand ID provided, as requested.
+
+## Example usage
+
+Below is an example of a way in which you could potentially use the Opal connector, to upload an asset to your Opal account from a file saved in Google Drive and then give the asset a reference.
+
+The steps will be as follows:
+
+1. Create a workflow with a manual trigger and configure a Google Drive connector to return a file ID.
+2. Configure a Google Drive connector to download the file into the workflow.
+3. Configure an Opal connector to upload the file.
+4. Configure a second Opal connector to give this asset a reference.
+
+The final outcome should look like this:
+
+### 1 - Setup Trigger & Get File
+
+Once you have clicked 'Create new workflow' from your main Tray.io dashboard (and named said new workflow), select the Manual trigger from the trigger options available:
+
+After you have been redirected to the Tray.io workflow dashboard, from the connectors panel on the left, add a Google Drive connector to your second step. Set the operation to 'List files'.
+
+If you don't already have a file on your Google Drive account which you would like to upload to Opal, you'll need to add one, and do this using the Google Drive website. A good example would be a simple text file i.e. README.txt. Then back in the Tray.io workflow enter 'README' (or the desired filename) into 'Filter by name' input field in the input panel.
+
+### 2 - Download File
+
+From the connectors panel on the left, add another Google Drive as the third step. Set the operation to 'Download file'.
+
+Note that the 'File ID' is a mandatory field, and in this case returned by the previous step.
+
+To specify the data you want to reference, use the mapping icon available next to the 'File ID' property, in conjunction with the connector-snake. Hover over your previous Google Drive step to see the list of options available. Select the option `id` when is appears.
+
+Your input field should automatically pre-populate for you with a jsonpath, similar to the following: `$.steps.drive-1.files[0].id`.
+
+*For better clarification of the pathways you have available, use the Debug panel.*
+
+The Google Drive step labelled 'Download File' is now configured to download the File located by the previous Google Drive step (labelled 'List File').
+
+### 3 - Upload File
+
+From the connectors panel on the left, drag the Opal connector into your workflow as your fourth and final step. Set the operation to 'Upload asset'.
+
+The 'Filename' field can be set by once again using the connector-snake method. Hover over your previous Google Drive connector (aka the 'Download File' step) to see the list of options available. Select the option `name` when is appears. Do the same again for your 'File' field, this time selecting `file`. You should notice that the list of options changes depending on the field you are working with.
+
+### 4 - Create Asset Reference
+
+From the connectors panel on the left, add an Opal connector as your fifth and final step. Set the operation to 'Create asset reference'.
+
+You will notice that 'Asset UUID', 'Filename', 'Filesize' and 'Full URL' are all mandatory field names and must be filled in.
+
+The 'Attributes' fields can be set by once again using the connector-snake method. Hover over your previous Opal connector (aka the 'Upload asset' step) to see the list of options available.
+
+For 'Asset UUID' select the option `id`. For 'Filename' the option will be `file_name` and for 'Filesize' choose `bytes`. Finally select `url` for 'Full URL'.
+
+Once you have finished adding information, you can run the workflow and go the Debug panel to check the outcome. If everything executed correctly all steps should show as green, and you should have an asset uploaded and a new asset reference created in your Opal account.

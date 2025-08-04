@@ -1,0 +1,114 @@
+---
+title: "Overview"
+description: "Overview of the ZoomInfo connector"
+---
+
+# Overview
+
+## Overview
+
+ZoomInfo is a leading B2B database that provides access to information about business people and companies, putting sales and marketing professionals in position to identify, connect, and engage with qualified prospects.
+
+## Authentication
+
+When using the ZoomInfo connector, the first thing you will need to do is go to your Tray.io account page, and select the workflow you wish to work on. Once in the workflow dashboard itself, search and drag the ZoomInfo connector from the connectors panel (on the left hand side) onto your workflow.
+
+With the new ZoomInfo connector step highlighted, in the properties panel on the right, click on 'New Authentication' which is located under the 'Settings' heading.
+
+This will result in a Tray.io authentication pop-up window. The first page will ask you to name your authentication appropriately, and state which type of authentication you wish to make ('Personal' or 'Organisational').
+
+As you can see, the next page asks you for your 'Username' and 'Password'.
+
+The 'Username' and 'Password' are the same as what you would use to sign into your ZoomInfo account.
+
+Once you have clicked the 'Create authentication' button, go back to your authentication field (within the workflow dashboard properties panel from earlier), and select the recently added authentication from the dropdown options now available.
+
+Your connector authentication setup should now be complete.
+
+## Available Operations
+
+The examples below show one or two of the available connector operations in use.
+
+Please see the [Full Operations Reference](#operationsFull) at the end of this page for details on all available operations for this connector.
+
+## Note on Operations usage
+
+Please note that there is a slight deviation from the naming conventions used within the [ ZoomInfo API documentation](https://documenter.getpostman.com/view/7012197/SVYwLGXM?version=latest) , vs the naming conventions used at Tray.io.
+
+Within the ZoomInfo API docs there are some endpoints that use the term "Enrich". Where used, these endpoints have been renamed to "Get" within Tray.io's own service connector operations.
+
+This was done to provide better clarity for our end users as to what the operation's purpose is, and in order to be consistent with our company naming convention guidelines.
+
+## Using the Raw HTTP Request ('Universal Operation')
+
+As of **version 1.0**, it is now possible to effectively create your own operations.
+
+This is a very powerful feature which you can put to use when there is an endpoint in ZoomInfo which is not used by any of our operations.
+
+To use this you will first of all need to research the endpoint in the [ ZoomInfo API documentation v1.0](https://documenter.getpostman.com/view/7012197/SVYwLGXM?version=latest) , to *find the exact format* that ZoomInfo will be expecting the endpoint to be passed in.
+
+Note that you will only need to add the suffix to the endpoint, as the base URL will be automatically set (the base URL is picked up from the value you entered when you created your authentication).
+
+The base URL for ZoomInfo is: `https://api.zoominfo.com/`
+
+For example, say that the 'Get location' operation did not exist in our ZoomInfo connector, and you wanted to use this endpoint, you would use the ZoomInfo API docs to find the relevant endpoint - which in this case is a `POST` request under the heading of "Location Enrich":
+
+So now you know your method, endpoint, and as shown in the API docs - the company ID, you can then retrieve all location information with the following settings:
+
+Method: `POST`
+
+Endpoint: `/enrich/location`
+
+Body Type : Raw : `{ "companyId" : "344589814" }`
+
+Final Example outcome being: **https://api.zoominfo.com/enrich/location**
+
+As a result, this will return company location details as requested.
+
+## Example usage
+
+Below is an example of a way in which you could potentially use the ZoomInfo connector, to search all the companies based on certain criteria and retrieve detailed information about them.
+
+The steps will be as follows:
+
+1. Setup using a manual trigger and search for all the companies available.
+2. Loop collection through your collection of companies retrieved.
+3. Get the company details of each.
+
+The final outcome should look like this:
+
+### 1 - Setup Trigger & Search Companies
+
+Once you have clicked 'Create new workflow' from your main Tray.io dashboard (and named said new workflow), select the Manual trigger from the trigger options available:
+
+After you have been redirected to the Tray.io workflow dashboard, from the connectors panel on the left, add a ZoomInfo connector to your second step. Set the operation to 'Search company'.
+
+*Feel free to re-name your steps as you go along to make things clearer for yourself and other users.*
+
+Select all the necessary search criteria to suit your project needs. In this example: 'Company type' is set to `Education`, 'State' is set to `California`, and 'Results per page' is `25`.
+
+When run, the workflow will retrieve names and IDs of 25 educational institutions from California.
+
+### 2 - Loop Collection
+
+In order to iterate over this collection of companies, drag a Loop Collection connector into your workflow as your next step and set the operation to 'Loop list'.
+
+Using the connector-snake, make sure to drag the 'List' field mapping icon from the properties panel over your previous ZoomInfo connector step 'Search companies'. From the dropdown list available, select `data`.
+
+This should automatically generate a jsonpath that looks similar to: `$.steps.zoominfo-1.data`.
+
+Now when this workflow is run, the Loop Collection step will iterate through the each item found within the previously created list.
+
+### 3 - Get Company
+
+The final step is to drag a final ZoomInfo connector *INSIDE* of the actual Loop Collection step itself. Set the operation to 'Get company'. As you can see, the 'Match company input' field is required.
+
+First click on the greyed out 'Add company matcher' button (beneath the 'Match company input' field). You will see a new field input displayed called 'Company matcher'. Click on the new greyed out 'Add Input field' button. In the 'Field' dropdown options select 'Company ID'.
+
+In the 'Value' field use the connector-snake once more and assign it to the `id` value, produced by the Loop Collection connector from the previous step.
+
+**Make sure that the 'Value' input type is set as  integer**, to correspond to the type of ID values found in the response of the previous step.
+
+When run, this workflow will now retrieve detailed information about each of the companies found.
+
+You can view the information more closely by expanding the output panel like so:

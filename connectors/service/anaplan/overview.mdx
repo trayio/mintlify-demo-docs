@@ -1,0 +1,72 @@
+---
+title: "Overview"
+description: "Overview of the Anaplan connector"
+---
+
+# Overview
+
+## Overview
+
+Anaplan is a cloud-based, enterprise SaaS platform that makes business planning and decision making easier through Connected Planning. Users can take advantage of predictive algorithms, multi-dimensional scenario modelling, and both high-level and granular data analysis to plan for a wide range of eventualities in their business.
+
+## Authentication
+
+When using the Anaplan connector, the first thing you will need to do is go to your Tray.io account page, and select the workflow you wish to work on. Once in the workflow builder itself, search and drag the Anaplan connector from the connectors panel (on the left hand side) onto your workflow.
+
+With the new Anaplan connector step highlighted, in the properties panel on the right, click on 'New Authentication' which is located under the 'Settings' heading.
+
+This will result in a Tray.io authentication pop-up window. The first page will ask you to name your authentication, and state which type of authentication you wish to create ('Personal' or 'Organisational').
+
+As you can see, the next page asks you for your 'Username' and 'Password' credentials. This are the same username and password that you use to log in to your Anaplan dashboard.
+
+Once you have added these fields to your Tray.io authentication popup window, click on the 'Create authentication' button. Go back to your settings authentication field (within the workflow builder properties panel), and select the recently added authentication from the dropdown options now available.
+
+Your connector authentication setup should now be complete.
+
+## Available Operations
+
+The examples below show one or two of the available connector operations in use.
+
+Please see the [Full Operations Reference](#operationsFull) at the end of this page for details on all available operations for this connector.
+
+## Example usage
+
+Below is an example of a way in which you could potentially use the Anaplan connector, to retrieve a list of imports and then get the metadata for each import.
+
+The steps will be as follows:
+
+1. Setup using a manual trigger and add an Anaplan step using the operation 'List imports'.
+2. Loop through the list of imports collected.
+3. Add another Anaplan step with the operation 'Get import metadata'.
+
+The final outcome should look like this:
+
+### 1 - Setup Trigger & List imports
+
+Once you have clicked 'Create new workflow' from your main Tray.io dashboard (and named the new workflow), select the Manual trigger from the trigger options available:
+
+After you have been redirected to the Tray.io workflow dashboard, from the connectors panel on the left, add a Anaplan connector to your second step. Set the operation to 'List imports', and select the Workspace ID and Model ID that you want to query.
+
+Feel free to re-name your steps as you go along to make things clearer for yourself and other users.
+
+Now, when run, this workflow will retrieve a list of imports from your Anaplan account.
+
+### 2 - Loop Collection
+
+Next, search for the 'Loop collection' connector within your connector panel, and drag it into your workflow as your next step. Set your operations to 'Loop list'.
+
+The Loop Collection connector allows you to iterate through a list of results. In this example, we will use it to iterate through the data found within the previous Anaplan connector step.
+
+In order to specify the list you want to loop through, start by using the 'List' mapping icon (found next to the list input field within the properties panel) to generate the connector-snake.
+
+While hovering over the 'List imports' step (with the tail end of the connector-snake), and select `imports` from the list of output properties displayed. This will auto-populate a jsonpath within your 'List' input field, and update the type selector.
+
+*For more clarification on the pathways you have available, open the Debug panel to view your step's Input and Output.*
+
+Now, after retrieving the list of imports, the workflow will iterate through each import in turn, but it won't do anything with them yet.
+
+### 3 - Get import metadata
+
+To get the metadata associated with each import, drag an Anaplan step inside your Loop Collection. Select the same Workspace ID and Model ID as you did for the 'List imports' step, and then for Import ID, use the connector-snake to import the `id` value from the Loop Collection.
+
+Now, when this workflow is run, it will first retrieve a list of imports from your Anaplan account, and then, for each import, it will return the metadata associated with it.

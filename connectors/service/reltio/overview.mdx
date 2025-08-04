@@ -1,0 +1,54 @@
+---
+title: "Overview"
+description: "Overview of the Reltio connector"
+---
+
+# Overview
+
+## Overview
+
+Reltio is a cloud-native, multi-tenant, multi-domain MDM platform that delivers data and relevant insights that provide companies with efficiency.
+
+## Authentication
+
+Within the builder, click on the Reltio connector to display the connector properties panel. Select the 'Authentication' tab and click on the 'New authentication' button.
+
+In the Tray.io authentication pop-up modal name the authentication in a way that will easily identify it within a potentially large list. For example whether it is a Sandbox or Production auth, etc.
+
+Consider who/ how many people will need access to this authentication when choosing where to create this authentication ('Personal' or 'Organisational').
+
+The second page asks you for your Reltio 'Token', 'Username', 'Password' and 'Tenant URL' credentials.
+
+Once you have added these fields to your Tray.io authentication pop-up window, click the 'Create authentication' button.
+
+Your connector authentication setup should now be complete.
+
+## Available Operations
+
+Please see the [Full Operations Reference](#operationsFull) at the end of this page for details on all available operations for this connector.
+
+## Using the Raw HTTP Request ('Universal Operation')
+
+As of **version 1.0**, you can effectively create your own operations.
+
+This is a very powerful feature which you can put to use when there is an endpoint in Reltio which is not used by any of our operations.
+
+To use this you will first of all need to research the endpoint in the [Reltio API documentation v1.0](https://docs.reltio.com/index.html), to **find the exact format** that Reltio will be expecting the endpoint to be passed in.
+
+Note that you will only need to add the suffix to the endpoint, as the base URL will be automatically set (the base URL is picked up from the value you entered when you created your authentication).
+
+The base URL for Reltio is: `{{YourTenantURL}}`
+
+For example, say that the 'List entities' operation did not exist in our Reltio connector, and you wanted to use this endpoint. You would use the Reltio API docs to find the relevant endpoint - which in this case is a `GET` request called: `/entities`
+
+More details about this endpoint can be found [here](https://docs.reltio.com/index.html).
+
+In the documentation you will see there is also the option to include a query parameter, should you wish to do so. So if you know what your method, endpoint and details of your query parameters are, you can get the list of entities with the following settings:
+
+Method: `GET`
+
+Endpoint: `/entities`
+
+Query Parameter: Key: `order` Value: `asc`
+
+Final outcome being: **{{YourTenantURL}}/entities?order=asc**

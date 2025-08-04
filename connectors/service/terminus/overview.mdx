@@ -1,0 +1,102 @@
+---
+title: "Overview"
+description: "Overview of the Terminus connector"
+---
+
+# Overview
+
+## Overview
+
+Terminus helps high-performing marketing teams drive more pipeline and revenue with their target accounts.
+
+## Authentication
+
+Within the builder, click on the Terminus connector to display the connector properties panel. Select the 'Authentication' tab and click on the 'New authentication' button.
+
+In the Tray.io authentication pop-up modal name the authentication in a way that will easily identify it within a potentially large list. For example whether it is a Sandbox or Production auth, etc.
+
+Consider who/ how many people will need access to this authentication when choosing where to create this authentication ('Personal' or 'Organisational').
+
+The second page asks you for your 'API Key'.
+
+In order to get these fields, head to the Terminus dashboard. Then, from the top navigation, click on Account Settings in the dropdown.
+
+Then go to the API Keys tab.
+
+Then create a new API Key by clicking on Add an API Key button and specify the name of the key for your reference. Once you are done click 'Save'.
+
+Once you have the API Key copy it somewhere safe. Please note that if you lose your API key, you not be able to recover it. If that happens, you'll have to create another API key and delete the older one.
+
+Once you have added the API key to your Tray.io authentication pop-up window, click the 'Create authentication' button.
+
+Your connector authentication setup should now be complete.
+
+## Available Operations
+
+The examples below show one or two of the available connector operations in use.
+
+Please see the [Full Operations Reference](#operationsFull) at the end of this page for details on all available operations for this connector.
+
+## Using the Raw HTTP Request ('Universal Operation')
+
+As of **version 1.0**, you can effectively create your own operations.
+
+This is a very powerful feature which you can put to use when there is an endpoint in Terminus connector which is not used by any of our operations.
+
+To use this you will first of all need to research the endpoint in the [Terminus API documentation v1.0](https://www.terminusapp.com/apidocs/#introduction), to **find the exact format** that Terminus will be expecting the endpoint to be passed in.
+
+Note that you will only need to add the suffix to the endpoint, as the base URL will be automatically set (the base URL is picked up from the value you entered when you created your authentication).
+
+The base URL for Terminus is: `https://api.terminusapp.com`
+
+For example, say that the 'List projects' operation did not exist in our Terminus connector, and you wanted to use this endpoint. You would use the Terminus API docs to find the relevant endpoint - which in this case is a `GET` request called: `/v1/projects/`.
+
+More details about this endpoint can be found [here](https://www.terminusapp.com/apidocs/#introduction).
+
+As you can see there is also the option to include a query parameter, should you wish to do so. So if you know what your method, endpoint and details of your query parameters are, you can get the project's information with the following settings:
+
+Method: `GET`
+
+Endpoint: `/v1/projects/`
+
+Query Parameter: Key: `items` Value: `1`
+
+Final outcome being: **https://api.terminusapp.com/v1/projects/**
+
+## Example Usage
+
+Below is an example of a way in which you could potentially use the Terminus connector, to iterate through the Parameter formats stored within your Terminus app.
+
+The steps will be as follows:
+
+1. Setup using a manual trigger and List parameter formats operation.
+2. Add a Loop connector to iterate through the Parameter formats.
+3. Get each parameter formats's information details individually.
+
+Your completed workflow should look similar to this:
+
+### 1 - Setup Trigger & List parameter formats
+
+With your trigger in place (be it [Manual](/connectors/triggers/manual-trigger/), [Scheduled](/connectors/triggers/scheduled-trigger/), [Callable](/connectors/triggers/callable-trigger/) etc) add a Terminus connector. Set the operation to 'List parameter formats'.
+
+Feel free to re-name your steps as you go along to make things clearer for yourself and other users. The operation names themselves often suffice.
+
+When run, this workflow will list all the Parameter formats available within your Terminus account.
+
+### 2 - Loop Collection
+
+Next, search for the 'Loop collection' connector within your connector panel, and drag it into your workflow as your next step. Set your operations to 'Loop list'.
+
+The Loop connector allows you to iterate through a list of results. In this example, we will use it to iterate through the data found within the previous Terminus connector step.
+
+While hovering over the 'List' field in the 'List parameter formats' step (with the tail end of the connector-snake), select `data` from the list of output properties displayed. This will auto-populate a jsonpath within your list input field, and update the type selector to jsonpath.
+
+For more clarification on the pathways you have available, open the Debug panel to view your step's Input and Output.
+
+When run, this workflow will iterate through the list of Parameter formats provided be the earlier step.
+
+### 3 - Get a parameter format
+
+The last step is to drag a Terminus connector **inside** the Boolean connector step itself. Set the operation to 'Get a parameter format'. As you can see, the 'Project ID' and 'Parameter format ID' fields are required.
+
+When run, the workflow will now iterate through the list of Parameter formats provided and get each Parameter format individual details. See the Debug panel for more details.

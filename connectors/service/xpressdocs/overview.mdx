@@ -1,0 +1,59 @@
+---
+title: "Overview"
+description: "Overview of the Xpressdocs connector"
+---
+
+# Overview
+
+## Overview
+
+Xpressdocs' Automated Direct Mail (ADM) system is a unique direct mail automation platform that removes many of the barriers of traditional commercial printing systems, like the overhead of managing individual print jobs. It also allows personalized messages and keeps you informed of the status of each order.
+
+## Authentication
+
+Within the workflow builder, highlight the Xpressdocs connector.
+
+In the Xpressdocs connector properties panel to the right of the builder, click on the Authenticate tab and the 'Add new authentication' button.
+
+This will result in a Tray.io authentication pop-up modal. The first page will ask you to name your authentication and select the type of authentication you wish to create ('Personal' or 'Organisational').
+
+The next page asks you for your 'Auth Key'.
+
+Once you have added this field to your Tray.io authentication popup window, click the 'Create authentication' button.
+
+Go back to your settings authentication field (within the workflow builder properties panel), and select the recently added authentication from the dropdown options now available.
+
+Your connector authentication setup should now be complete.
+
+## Available Operations
+
+The examples below show one or two of the available connector operations in use.
+
+Please see the [Full Operations Reference](#operationsFull) at the end of this page for details on all available operations for this connector.
+
+## Using the Raw HTTP Request ('Universal Operation')
+
+As of **version 1.0**, you can effectively create your own operations.
+
+This is a very powerful feature which you can put to use when there is an endpoint in Xpressdocs which is not used by any of our operations.
+
+Note that you will only need to add the suffix to the endpoint, as the base URL will be automatically set (the base URL is picked up from the value you entered when you created your authentication).
+
+The base URL for Xpressdocs is: `https://c3.amazingmail.com/v3`
+
+For example, say that the 'Simple Post' operation did not exist in our Xpressdocs connector, and you wanted to use this endpoint. So if you know what your method and endpoint are, you can request a print record with the following settings:
+
+Method: `POST`
+
+Endpoint: `/printRequests/submitSimple`
+
+Body Type : form-urlencoded :
+
+- Key: `ProofType` Value: `PDF`
+- Key: `DesignId` Value: `1234567`
+- Key: `First` Value: `Tester`
+- Key: `Last` Value: `Tray`
+- Key: `Address1` Value: `Main Street`
+- Key: `PostalCode` Value: `78739`
+
+Final outcome being: **https://c3.amazingmail.com/v3/printRequests/submitSimple**

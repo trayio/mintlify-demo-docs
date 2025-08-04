@@ -1,0 +1,22 @@
+---
+title: "Overview"
+description: "Overview of the Break loop connector"
+---
+
+# Overview
+
+## Overview
+
+The Break Loop connector is always used in conjunction with the [Loop connector](/connectors/core/loop/).
+
+It is a vital tool which enables you to break a loop when certain conditions are met.
+
+## Example - breaking a loop when the last customer has been processed
+
+For example you might be looping through a list of customers and each time you need to make a boolean check to see if you have just processed the last customer. If so then the loop should be broken so that your workflow can continue on to the next stage.
+
+The following workflow gives a very simplified version of this (with any of the actual data processing actions stripped out):
+
+The boolean **More customers?** step makes use of the fact that, for each customer, Stripe returns a **has_more** value.
+
+A more detailed look into this can be found in the [Updating missing customer info](/platform/standard-best-practices/pagination/updating-missing-customer-info/) tutorial in our section on pagination techniques.

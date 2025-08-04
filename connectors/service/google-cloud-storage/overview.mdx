@@ -1,0 +1,118 @@
+---
+title: "Overview"
+description: "Overview of the Google Cloud Storage connector"
+---
+
+# Overview
+
+## Overview
+
+Google Cloud Storage provides worldwide, highly durable object storage that scales to exabytes of data. You can access data instantly from any storage class, integrate storage into your applications with a single unified API, and easily optimize price and performance.
+
+## Authentication
+
+> 
+
+### Obtaining a Service Account JSON file
+
+The Service Account json file is generated via the Google Cloud Storage Console, and contains a cryptographic key that allows an external service (i.e. the Tray.io platform) to have programmatic access to the resources that you specify. _Further documentation can be found at [ Google Cloud Storage - Service Accounts Overview](https://cloud.google.com/iam/docs/understanding-service-accounts) ._
+
+First, log into your Google Cloud Storage Console. from the dashboard presented, navigate to "IAM & Admin" via the left hand navigation panel
+
+Next select "Service Accounts". Here you will be presented with a list of Service Accounts that have been generated for your project. To begin creation of a new Service Account, click "Create Service Account".
+
+You will be redirected to a helper, which will guide you through the process of creating a Service Account. The first stage asks you to specify the Service Account details. Proceed to fill out the fields. When you are ready to continue, click "Create".
+
+The second stage is where you specify the Service Account permissions. Here, you can click on "Add Another Role" and select the access roles you wish to apply to this Service Account, in order to control what the role can and cannot access. When you are ready to move onto the next stage, click "Continue".
+
+The final stage allows you to specify some final details before creating your Service Account. If you require the ability to restrict access to this Service Account to a particular set of users attached to said project, you can fill in the optional fields here.
+
+The "Create Key" option is the most important part of this page. This button downloads a Google Cloud Storage Service Account json file, which is crucial to the Tray.io authentication process.
+
+Once you click "Create Key" a side panel will pop out to ask which format you wish to download your key in. For the Tray.io Google Cloud Storage connector, make sure to select "JSON" and then click "Create".
+
+Your browser will then download the json file. Once the file has been downloaded locate the file on your computer and open it.
+
+### Authenticating with Tray.io
+
+When using the Google Cloud Storage connector, the first thing you will need to do is go to your Tray.io account page, and select the workflow you wish to work on. Once in the workflow dashboard itself, search and drag the Google Cloud Storage connector from the connectors panel (on the left hand side) onto your workflow.
+
+With the new Google Cloud Storage connector step highlighted, in the properties panel on the right, click on 'New Authentication' which is located under the 'Settings' heading.
+
+This will result in a Tray.io authentication pop-up window. The first page will ask you to name your authentication appropriately, and state which type of authentication you wish to make ('Personal' or 'Organisational').
+
+As you can see, the on the next page you are presented with a window that requires you to paste the entire contents of your Service Account json file into the input field.
+
+Your filled in credentials should look similar to the below. Remember that you can expand the input field by dragging on the bottom right hand corner of the box should you need to.
+
+Once you have clicked the 'Add authentication' button, go to back to your authentication field (within the workflow dashboard properties panel from earlier), and select the recently added authentication from the dropdown options now available.
+
+Your connector authentication setup should now be complete.
+
+### Troubleshooting Permission Issues
+
+Due to the granular and bespoke nature of the Google Cloud Storage, you may run into issues with the Service Account not having the correct access privileges etc. This will normally be indicated to you within the error message itself. If you do receive a a permissions related error and your auth is still failing, you will need to go back to the Service Account configuration page on the Google Cloud Storage, and adjust the roles and permissions you created for that Service Account accordingly.
+
+If you are still encountering permission issues that you require assistance with, please reach out to a member of our Tray.io support team who will be more than happy to assist with configuration.
+
+## Available Operations
+
+The examples below show one or two of the available connector operations in use.
+
+Please see the [Full Operations Reference](#operationsFull) at the end of this page for details on all available operations for this connector.
+
+## Note on Operations usage
+
+As the [Google Drive](/connectors/service/google-drive/) connector holds most of the permissions available for downloading Google files (regardless of type) - it is recommended to try revising your workflow to include this connector, should you face any Google file downloading issues.
+
+## Example usage
+
+Below is an example of a way in which you could potentially use the Google Cloud Storage connector, to create a storage space to upload a newly downloaded CSV file to.
+
+The steps will be as follows:
+
+1. Setup trigger and create a new storage space for your files.
+2. Download your chosen CSV file.
+3. Upload said file to the storage device created earlier.
+
+The final outcome should look like this:
+
+### 1 - Setup trigger & Create a new Bucket
+
+Once you have clicked 'Create new workflow' on your main Tray.io dashboard (and named said new workflow), select the Manual trigger from the trigger options available:
+
+Once you have been redirected to the Tray.io workflow dashboard, from the connectors panel on the left, add a Google Cloud Storage connector to your second step. Set the operation to 'Create new Bucket'.
+
+> 
+
+You will note that there are several required fields here, including 'Bucket name', Location type', 'Location' and Storage class'.
+
+While most are self explanatory it is important to note the difference between 'Location type' and 'Location': the former is regional based (be it multi, dual or singular); whereas the latter refers to regional areas in order to help optimize latency and network bandwidth for data consumers.
+
+*Feel free to re-name your steps as you go along to make things clearer for yourself and other users.*
+
+### 2 - Download File
+
+Add a new Google Drive connector step to your workflow and set the operation to 'Download file'.
+
+In order to obtain your file ID, you can either manually insert it into the input field, or (as a safer and more scalable option) create a variable in the config settings. By using this method, it means that in the future should you change the file you wish to download, you need only go back to the configurable data field, and update the ID. The actual workflow properties can remain untouched!
+
+In english - this means going to the settings icon in the top left corner of the builder, and selecting 'Workflow settings'.
+
+Once the pop-up appears, click on 'Configurable data'. Give your variable a name (as this is for a file ID its best to make it obvious), and add your ID into the relevant input field. Save your changes.
+
+Now that you are back in the builder, making sure that the Drive connector is highlighted, in the 'File ID' field input the following: `$.config.file_id`. You should see the ID highlighted subtly in grey beside the jsonpath as a confirmation of the data being picked up.
+
+### 3 - Upload File
+
+Add a final Google Cloud Platform connector to your workflow and set the operation to 'Upload file'.
+
+To get the 'Bucket name' use the connector-snake to hover over the first Google Cloud Platform step, and select `name` from within the `metadata` list of options.
+
+The same applies for the 'File' reference, only this time hover over the Google Drive connector and select `file`.
+
+Set your 'File name' to be either new or the same as the name of the file you originally downloaded for consistency's sake.
+
+There are several other options that you can set should you wish to in order to better tailor your upload experience, so please feel free to do as you see best for your project.
+
+And there you have it! Run your workflow to see the fruits for your labour both in your Google Cloud Platform account and in your debug panels:

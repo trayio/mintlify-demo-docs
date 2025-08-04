@@ -1,0 +1,114 @@
+---
+title: "Overview"
+description: "Overview of the Mailjet connector"
+---
+
+# Overview
+
+## Overview
+
+Mailjet provides a sophisticated SMTP relay in addition to highly flexible APIs, allowing developers to easily integrate its solutions within their apps or services. The company’s cloud-based infrastructure is scalable to any business size and its proprietary technology ensures that emails arrive in the inbox.
+
+## Authentication
+
+When using the Mailjet connector, the first thing you will need to do is go to your Tray.io account page, and select the workflow you wish to work on. Once in the workflow builder itself, search and drag the Mailjet connector from the connectors panel (on the left hand side) onto your workflow.
+
+With the new Mailjet connector step highlighted, in the properties panel on the right, click on the Authenticate tab and 'Add new authentication' (located under the 'Authentication' field).
+
+This will result in a Tray.io authentication pop-up window. The first page will ask you to name your authentication, and state which type of authentication you wish to create ('Personal' or 'Organisational').
+
+As you can see, the next page asks you for your 'API key' and 'API secret' credentials.
+
+In order to get these fields, head to your Mailjet dashboard. Click on the user name and the 'Account settings'.
+
+To get the credentials, on the 'Account Information' page head to 'Master API Key & Sub API key management'.
+
+To see or create the 'API key' and 'API secret', head to the 'API Key Management' page.
+
+Once you have added these fields to your Tray.io authentication popup window, click on the 'Create authentication' button. Go back to your settings authentication field (within the workflow builder properties panel), and select the recently added authentication from the dropdown options now available.
+
+Your connector authentication setup should now be complete.
+
+## Available Operations
+
+The examples below show one or two of the available connector operations in use.
+
+Please see the [Full Operations Reference](#operationsFull) at the end of this page for details on all available operations for this connector.
+
+## Note on Operations Usage
+
+### ASCII Reference
+
+Mailjet uses [HTML ASCII Reference](https://www.w3schools.com/charsets/ref_html_ascii.asp) when passing query in the URL. This affects your usage of the 'Raw HTTP Request' operation if your input is an email address in the URL.
+
+The ASCII standard uses `%40` instead of `@` so whenever your URL input contains an email address, write it as `foo%40bar.com` instead of `foo@bar.com`. We automatically update this for you in other operations.
+
+## Using the Raw HTTP Request ('Universal Operation')
+
+As of **version 1.0**, you can effectively create your own operations.
+
+This is a very powerful feature which you can put to use when there is an endpoint in Mailjet which is not used by any of our operations.
+
+To use this you will first of all need to research the endpoint in the [Mailjet API documentation v3.0](https://dev.mailjet.com/), to **find the exact format** that Mailjet will be expecting the endpoint to be passed in.
+
+Note that you will only need to add the suffix to the endpoint, as the base URL will be automatically set (the base URL is picked up from the value you entered when you created your authentication).
+
+The base URL for Mailjet is: `https://api.mailjet.com`
+
+For example, say that the 'Get contact' operation did not exist in our Mailjet connector, and you wanted to use this endpoint, you would use the Mailjet API docs to find the relevant endpoint - which in this case is a `GET` request called: `/v3/REST/contact/{contact_ID}`.
+
+More details can be found [here](https://dev.mailjet.com/email/reference/contacts/contact#v3_get_contact_contact_ID).
+
+As you can see there is also the option to include a query parameter, should you wish to do so. So if you know what your method, endpoint and details of your query parameters are, you can get the 'Contact' information with the following settings:
+
+Method: `GET`
+
+Endpoint: `/v3/REST/contact/ale%40test.io`
+
+Body Type: none
+
+Final Example outcome being: **https://api.mailjet.com/v3/REST/contact/ale%40test.io**
+
+## Example Usage
+
+Below is an example of a way in which you could potentially use the Mailjet connector, to get the contact information for a specific email address.
+
+The steps will be as follows:
+
+1. Setup using a manual trigger and list contacts in your account.
+2. Add the Loop collection connector to iterate over each individual contact.
+3. Gather the information available for each contact.
+
+The final outcome should look like this:
+
+### 1 - Setup Trigger & List contacts
+
+Once you have clicked 'Create new workflow' from your main Tray.io dashboard named it, select the Manual trigger from the trigger options available:
+
+After you have been redirected to the Tray.io workflow dashboard, from the connectors panel on the left, add a Mailjet connector to your second step. Set the operation to 'List contacts'.
+
+You will notice that there are a lot of additional configuration fields that you can set on this operation ('List ID', 'Campaign ID', 'Is excluded from campaigns', etc). While none of these are mandatory, please feel free to add them according to your project needs.
+
+Please note that the 'Limit' and 'Offset' fields are already pre-filled for you, so you need not worry about it at this stage.
+
+Feel free to re-name your steps as you go along to make things clearer for yourself and other users.
+
+Now when this workflow is run, it will retrieve a list of contacts from the Mailjet API.
+
+### 2 - Add a loop collection
+
+Next, search for the 'Loop collection' connector within your connector panel, and drag it into your workflow as your next step. Set your operations to 'Loop list'.
+
+The Loop Collection connector allows you to iterate through a list of results. In this example, we will use it to iterate through the data found within the previous Mailjet connector step.
+
+In order to specify the list you want to loop through, start by using the 'List' mapping icon (found next to the list input field, within the properties panel) to generate the connector-snake.
+
+While hovering over the 'List contacts' step (with the tail end of the connector-snake), select `Data` from the list of output properties displayed. This will auto-populate a jsonpath within your 'List' input field, and update the type selector to jsonpath.
+
+This will enable us to iterate over the list of contacts, and perform operations for each one, during each loop cycle.
+
+### 3 - Get contact
+
+The last step is to drag a Mailjet connector **inside** of the Loop Collection step itself. Set the operation to 'Get contact'. As you can see, the 'Contact identifier' field is required. Use the same connector-snake method for generating the JSON path to get the 'ID'.
+
+Now when this workflow is run, you will be able to gather the information available for each contact. This means you will be able to view the contact's details when you click through your debug panel and expand the output.

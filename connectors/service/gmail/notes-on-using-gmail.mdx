@@ -1,0 +1,54 @@
+---
+title: "Notes on using Gmail"
+description: "Notes on using Gmail documentation for Gmail connector"
+---
+
+# Notes on using Gmail
+
+### Sending one email to multiple inboxes
+
+There may be an occasion where you will wish to send one email to multiple email addresses. 
+
+In this use case you have three options to choose from. You **don't need to know the exact number of email addresses you will need to send your email to**, for any of them before setting up.
+
+This is based on the fact that the list of multiple email addresses you create will be **returned as an array** and array can be populated with one or several items.
+
+Your options are as follows:
+
+1. **Via the Property Panel**: Pass the data direct to the highest property of the properties panel - as long as you format the data correctly.
+2. **Use Connector Helpers**: If you pass an array to either of them then they will return a string version of the listed email address.
+3. **JSONata**: Solution:
+
+### Downloading file attachments
+
+If you want to download an attachment from an email note that the download will get saved in a file format
+
+You will need to use the [File helper](https://tray.io/documentation/connectors/helpers/file-helper/) to download the attachment properly (and in the desired format).
+
+### List threads
+
+The operation returns the thread ID, which can be used for various other operations. For instance, the thread ID can be utilized to receive notifications when a message is added to a particular thread, using the Gmail trigger's Thread Message operation.
+
+The List thread operation returns a list of all conversation threads in your Gmail inbox. 
+
+You can filter the list using the Query parameter in the properties panel.
+
+In the below example we have filtered the thread for the emails with subject line as `Product_delivery_details.`
+
+As a result the operation returns the thread ID, which can be used for various other operations. 
+
+For instance, the thread ID can be utilized to receive notifications when a message is added to a particular thread, using the [Gmail trigger's Thread Message operation](https://tray.io/documentation/connectors/service/gmail/gmail-trigger/#thread-message-notification).
+
+## Example 1 - Sending an email
+
+This example will walkthrough how to send an email using the Gmail connector.
+
+The first step is to select the `Send email` operation.
+
+Here, a subject and an email body has been defined. This has been done using the `subject` and `body` input fields.
+
+The next step is to configure the address that will be sending the email, and the address that will be receiving the email.
+
+The email is now ready to be sent. To do so, the workflow is ran and as can be seen it has been successful in sending the email.
+
+Below, you can also see the email that was sent on an email client.

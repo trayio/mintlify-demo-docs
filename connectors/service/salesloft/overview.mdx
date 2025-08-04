@@ -1,0 +1,153 @@
+---
+title: "Overview"
+description: "Overview of the SalesLoft connector"
+---
+
+# Overview
+
+## Overview
+
+With SalesLoft you can build stronger relationships, have better insight into customer needs, and generate more revenue.
+
+From finding and qualifying prospects to closing new customers to growing and renewing accounts, SalesLoft allows you to engage authentically, at scale.
+
+## Salesloft templates
+
+Please note that we have the following Salesloft templates available:
+
+These will give you pre-configured best practice ways of working with Salesloft and integrating it with other connectors.
+
+However, please continue to at least read the Authentication and Trigger setup instructions on this page to enable you to get started with using Salesloft.
+
+## Authentication
+
+When adding a SalesLoft connector step, the first thing you will have to do is authenticate your account:
+
+You will then be asked to enter your email and password:
+
+And then confirm:
+
+## SalesLoft Trigger
+
+If you wish your workflow to be kicked off by a particular action in SalesLoft, you can use the SalesLoft Trigger.
+
+The SalesLoft trigger allows you to receive notifications and trigger workflows when given events occur associated with the selected trigger operation.
+
+### Trigger operations available:
+
+- Webhook
+
+### Webhook Setup
+
+When creating a new workflow, click the 'Create new workflow' button in the top right hand corner of your main Tray dashboard. When the trigger popup window opens, search and select the Salesloft trigger. Wait to be redirected to your new workflow and the workflow dashboard itself.
+
+With the new Salesloft trigger step highlighted, in the properties panel on the right, click on 'New Authentication' which is located under the 'Settings' heading.
+
+This will result in two Tray authentication pop-up windows. The latter states that no more authentication credentials are needed:
+
+Select 'Webhook' as the operation. You must then specify a 'Callback token' (made up of letters and/ or numbers). *A callback token is what is used to authenticate the payload.*
+
+Make sure to also specify the 'Event type' you want the webhook to listen out for and respond to:
+
+In this example, the event type selected is 'Cadence created'. Now, when a new cadence is created (in the account the trigger is authenticated to), a webhook will be sent and this workflow will be triggered.
+
+Make sure to click 'Enable' in the bottom-right corner of your workflow, in order to activate your workflow in time for any incoming events you want your trigger to pick up on.
+
+## Available Operations
+
+The examples below show one or two of the available connector operations in use.
+
+Please see the [Full Operations Reference](#operationsFull) at the end of this page for details on all available operations for this connector.
+
+## Using the Raw HTTP Request ('Universal Operation')
+
+As of **version 2.0**, it is now possible to effectively create your own operations.
+
+This is a very powerful feature which you can put to use when there is an endpoint in SalesLoft which is not used by any of our operations.
+
+To use this you will first of all need to research the endpoint in the [ SalesLoft API documentation v2](https://developers.salesloft.com/api.html) , to *find the exact format* that SalesLoft will be expecting the endpoint to be passed in.
+
+Note that you will only need to add the suffix to the endpoint, as the base URL will be automatically set.
+
+The base URL for SalesLoft is: `https://api.salesloft.com`
+
+For example, say that the 'Get user' operation did not exist in our SalesLoft connector, and you wanted to be able to to return details of a user. You would use the SalesLoft API docs to find the 'Fetch a user' endpoint for it does this very thing. *In this case Tray has renamed the operation within the connector itself, in order to clarify things for our end users*. Note that it is a `GET` request at the following URL:
+
+`/v2/users/{id}.json`
+
+So if you know the User ID (e.g. `12345`), you can fetch the user with the following settings:
+
+Method: `GET`
+
+Endpoint: `/v2/users/12345`
+
+Final outcome is a GET request made out to: **https://api.salesloft.com/v2/users/12345**
+
+As a result, this will return details of the user with the specified User ID as requested.
+
+## Example usage - a lead's Hubspot score triggers creating a person and adding them to a SalesLoft Cadence
+
+The workflow we will be taking you through here imagines a scenario where you are using Hubspot's Lead Scoring capabilities to track the viability of a lead and want to add them to a Cadence in SalesLoft when their Hubspot score reaches a certain value.
+
+The steps involved are:
+
+1. You have a [Hubspot trigger](/connectors/service/hubspot/#the-hubspot-trigger) based on a Hubspot webhook which trigger your workflow when a Hubspot contact is updated
+2. You pull the hubspot score from the webhook and check if it is above a certain value
+3. Salesforce is the source of truth for stored details on all leads and contacts, so you use the Salesforce Lead ID (stored as a custom value in Hubspot) to find the lead in Salesforce and pull extra information stored about the lead, including the owner of the lead account
+4. You create a SalesLoft account for the lead's company, using the company name and website pulled from Salesforce
+5. You create a Salesoft person using the details pulled from Salesforce (including assigning an owner based on pulling a custom 'SalesloftId' value stored in Salesforce)
+6. You add this new person to a specific SalesLoft Cadence
+
+In order to keep this guide to a reasonable length, a few assumptions have been made:
+
+1. You have set up a Hubspot webhook to act as your workflow trigger
+2. When leads have been created, they have been added to both Salesforce and Hubspot, and Hubspot has a custom **salesforce_lead_id** to connect the accounts
+3. You have a list of internal SalesLoft user ids, and Salesforce has a custom **SalesloftId** so that the Salesforce lead owner can be mapped to SalesLoft when a person is created. This has been allocated to all your internal Salesforce users
+
+## Step 1 - Extract Hubspot score from the Hubspot Trigger
+
+When a lead is updated in Hubspot, it will send a very detailed payload to your workflow trigger, including the hubspot score in the following format:
+
+So for the boolean **Hubspot Score >= 7 ?** step, you can pick up the score using the `$.trigger.body.properties.hubspotscore.value` jsonpath and set the operation to 'Greater or equal to' 7
+
+## Step 2 - Get lead info from Salesforce
+
+The get lead info step then uses the **Find Records (Lead)** operation and the `$.steps.trigger.properties.salesforce_lead_id.value` jsonpath to get the Hubspot custom field and find the lead as recorded in Salesforce:
+
+It also specifies the exact lead information to be extracted:
+
+## Step 3 - Get lead owner from Salesforce
+
+The **Get lead owner** step then uses the **Find Records (User)** operation and the `$.steps.salesforce-1.records[0].OwnerId` jsonpath to retrieve the owner of the lead and get their **SalesloftId**:
+
+## Step 4 - Create SalesLoft Account (company)
+
+The **Create SalesLoft Account** step then uses the **Create account** operation and uses `$.steps.salesforce-1.records[0].` jsonpaths to pick up Company and Website:
+
+It also picks up 'industry':
+
+## Step 5 - Create SalesLoft Person
+
+The **Create SalesLoft person** step uses the **Create person** operation and `$.steps.salesforce-1.records[0].` jsonpaths to pick up
+
+It also picks up their mobile phone:
+
+And their job title:
+
+It also then gets the Id of the Account/Company that was created in Step 4, to add them as a contact to it. And it gets the SalesLoft owner ID (note that Salesforce custom objects have a **__c** suffix).
+
+## Step 6 - Add person to Cadence
+
+The **Add person to Cadence** step then uses the **Create cadence membership** to add the new person to a specific cadence. It uses the `$.steps.salesloft-3.data.id` jsonpath to get the ID of the person create in Step 5 and `$.steps.salesforce-2.records[0].SalesloftId__c` to set the owner:
+
+Note that to keep this example simple we have hardcoded a Cadence ID - taken from the url of a SalesLoft cadence:
+
+In a real world scenario you would make use of the **List cadences** operation in combination with a boolean connector, based on industry, job title etc. to decide what cadence you wish somebody to go in.
+
+When your workflow is triggered it will result in transferring a lead in Salesforce:
+
+To an account in SalesLoft:
+
+And a person:
+
+Who is added to a cadence:

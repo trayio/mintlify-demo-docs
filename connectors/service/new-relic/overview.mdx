@@ -1,0 +1,111 @@
+---
+title: "Overview"
+description: "Overview of the New Relic connector"
+---
+
+# Overview
+
+## Overview
+
+With New Relic, you can bring all your data together and consolidate data from across your technology stack so you can see it in one place and analyze your data: Get all your data at your fingertips (whether it's metrics, events, logs, or traces) to find the root causes of problems and optimize your systems.
+
+## Authentication
+
+When using the New Relic connector, the first thing you will need to do is go to your Tray.io account page, and select the workflow you wish to work on. Once in the workflow builder itself, search and drag the New Relic connector from the connectors panel (on the left hand side) onto your workflow.
+
+With the new New Relic connector step highlighted, in the properties panel on the right, click on 'New Authentication' which is located under the 'Settings' heading.
+
+This will result in a Tray.io authentication pop-up window. The first page will ask you to name your authentication, and state which type of authentication you wish to create ('Personal' or 'Organisational').
+
+As you can see, the next page asks you for your 'API key' and 'Region'. The 'Region' is needed only if you have a EU region account. The 'Region' is not needed for an US account.
+
+In order to get the API key, head to your New Relic dashboard. After logging into your account click on the 'Insights' tab in the menu.
+
+This will take you to the 'Insights' page where you can click on 'Manage data' button on the left hand side of the page and then on the 'API keys' button at the top.
+
+Here you will be able to create your API keys by clicking the plus button next to 'Insert keys' or 'Query keys'.
+
+Now that your API key was created you can click 'Save your notes' button to save the API key.
+
+Once you have added these fields to your Tray.io authentication popup window, click on the 'Create authentication' button. Go back to your settings authentication field (within the workflow builder properties panel), and select the recently added authentication from the dropdown options now available.
+
+Your connector authentication setup should now be complete.
+
+## Available Operations
+
+The examples below show one or two of the available connector operations in use.
+
+Please see the [Full Operations Reference](#operationsFull) at the end of this page for details on all available operations for this connector.
+
+## Using the Raw HTTP Request ('Universal Operation')
+
+As of **version 1.0**, you can effectively create your own operations.
+
+This is a very powerful feature which you can put to use when there is an endpoint in New Relic which is not used by any of our operations.
+
+To use this, you will first of all need to research the endpoint in the [ New Relic API documentation v1](https://docs.newrelic.com/docs/data-ingest-apis/get-data-new-relic/metric-api/report-metrics-metric-api) , to 
+
+<u>find the exact format</u>
+
+ that New Relic will be expecting the endpoint to be passed in.
+
+Note that you will only need to add the suffix to the endpoint, as the base URL will be automatically set (the base URL is picked up from the value you entered when you created your authentication).
+
+The base URL for New Relic US accounts is: `https://metric-api.newrelic.com` The base URL for New Relic EU accounts is: `https://metric-api.eu.newrelic.com`
+
+For example, say that the 'Create report metrics' operation did not exist in our New Relic connector, and you wanted to use this endpoint, you would use the New Relic API docs to find the relevant endpoint - which in this case is a `POST` request called: `/metric/v1`. More details can be found [ here](https://docs.newrelic.com/docs/data-ingest-apis/get-data-new-relic/metric-api/report-metrics-metric-api) .
+
+As you can see this post operation requires a HTTP request body to be provided. So if you know what your method, endpoint and details of your query parameters or the HTTP request body are, you can send custom metrics to the New Relic platform with the following settings:
+
+Method: `POST`
+
+Endpoint: `/metric/v1`
+
+Body Type : Raw : `[{ "metrics": [{ "name": "temperature", "type": "gauge", "value": 15,"timestamp": 1592835600000,}]}]`
+
+Final Example outcome being: **https://metric-api.newrelic.com/metric/v1** or
+
+**https://metric-api.eu.newrelic.com/metric/v1** depending on the region of the account.
+
+## Example usage
+
+Below is an example of a way in which you could potentially use the New Relic connector, to send custom metrics to the New Relic platform.
+
+The steps will be as follows:
+
+1. Setup using a manual trigger and Create report metrics operation
+2. Add a Gauge metric type
+3. Add a Count metric type
+4. Add a Summary metric type
+
+The final outcome should look like this:
+
+### 1 - Setup Trigger & Create report metrics operation
+
+Once you have clicked 'Create new workflow' from your main Tray.io dashboard (and named said new workflow), select the Manual trigger from the trigger options available:
+
+After you have been redirected to the Tray.io workflow dashboard, from the connectors panel on the left, add a New Relic connector to your second step.
+
+Set the operation to 'Create report metrics' and click first on the 'Add field' button and then on the 'Add metric' button to start adding values in the requested input fields.
+
+To send custom metrics to the New Relic platform first choose the type of the metric that you want to send. The metric types available are: **Gauge**, **Count** and **Summary**.
+
+You can send an individual metric by choosing one metric type from the dropdown in the 'Metrics' array, or multiple metric types, by clicking the 'Add metric' button if another type of metric is needed.
+
+In the below steps you will be shown examples of how to do each of the above metrics types. Bear in mind that they will vary depending on your personal use case and that some of the options displayed may not be available to you as a result.
+
+### 2 - Gauge Metric
+
+Select the Gauge metric type from the dropdown and fill in the required fields with the appropriate values.
+
+### 3 - Count Metric
+
+Select the Count metric type from the dropdown and fill in the required fields with the appropriate values depending on your use case.
+
+### 4 - Summary Metric
+
+Select the Count metric type from the dropdown and fill in the required fields with the appropriate values.
+
+If you want to include a set of attributes on multiple metrics (and not add the same attributes for each metric), you can use the common block.
+
+When run, this will send multiple attributes to the metrics added above in the workflow but values in the common section will be overridden if the same key exists on a metric data point.

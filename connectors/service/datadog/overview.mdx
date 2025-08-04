@@ -1,0 +1,142 @@
+---
+title: "Overview"
+description: "Overview of the Datadog connector"
+---
+
+# Overview
+
+## Overview
+
+Datadog is a data analytics platform that enables easy monitoring of services, databases, and cloud-based applications, at any scale.
+
+## Authentication
+
+When using the Datadog connector, the first thing you will need to do is go to your Tray account page, and select the workflow you wish to work on. Once in the workflow dashboard itself, search and drag the Datadog connector from the connectors panel (on the left hand side) onto your workflow.
+
+With the new Datadog connector step highlighted, in the properties panel on the right, click on 'New Authentication' which is located under the 'Settings' heading.
+
+This will result in a Tray authentication pop-up window. You will first need to name your authentication and choose your authentication type. On the next page you will need to specify the 'Region' where your Datadog account is located (US or EU), and provide an 'API Key' alongside an 'Application Key':
+
+To find your API and application keys login to your Datadog account, and in the sidebar, click "Integrations" followed by "APIs".
+
+On the page that appears, expand the boxes titled "API Keys" and "Application Keys". Here, you will be able to create new keys, and copy existing ones.
+
+Once you have both keys, copy and paste them into the Tray authentication window, and click 'Add authentication'.
+
+Once you have clicked the 'Add authentication' button, go to back to your authentication field (within the workflow dashboard properties panel from earlier), and select the recently added authentication from the dropdown options now available.
+
+Your connector authentication setup should now be complete.
+
+## Datadog Trigger
+
+If you wish your workflow to be kicked off by a particular action in Datadog, you can use the Datadog Trigger.
+
+The Datadog trigger allows you to receive notifications and trigger workflows when a metric alert is triggered inside your Datadog account.
+
+### Trigger operations available:
+
+- Webhooks
+
+### Webhook Setup
+
+When creating a new workflow, click the 'Create new workflow' button in the top right hand corner of your main Tray dashboard. When the trigger popup window opens, search and select the Datadog trigger. Wait to be redirected to your new workflow and the workflow dashboard itself.
+
+If you have already set up an authentication for the Datadog connector, you can use that same authentication here. With the new Datadog trigger step highlighted, in the properties panel on the right, simply select your existing authentication under the 'Settings' heading.
+
+Otherwise, click on 'New Authentication':
+
+This will result in a Tray authentication pop-up window, that should look like this:
+
+Follow the instructions above to authenticate your trigger, and select 'Webhook' as the event you want your trigger to listen to (aka the operation), in order to set off the workflow itself:
+
+For this you will need to create a webhook in your Datadog account. In order to do this, head to the [ Datadog](https://www.datadoghq.com/) website and log into your account. In the sidebar, click on 'Integrations' and then, in the menu<br/>that appears, click 'Integrations' again.
+
+In the page that appears, search for 'webhooks', and select the 'Webhooks' integration.
+
+In the window that appears, scroll down to the list of webhooks, and click 'New'.
+
+You will then see a configuration appear, like this:
+
+You will need to supply a webhook name and URL.
+
+In order to retrieve the URL, return to the workflow builder and click on 'Workflow settings' in the menu in the top-left corner.
+
+In the window that appears, copy the 'Workflow public URL' field.
+
+Return to Datadog and paste that URL in the 'Workflow URL' field.
+
+Once you are happy with your webhook configuration, click 'Save'. Your webhook will now be set up, and your workflow will now be triggered when events occur in your Datadog account.
+
+## Available Operations
+
+The examples below show one or two of the available connector operations in use.
+
+Please see the [Full Operations Reference](#operationsFull) at the end of this page for details on all available operations for this connector.
+
+## Using the Raw HTTP Request ('Universal Operation')
+
+As of **version 1.1**, it is now possible to effectively create your own operations.
+
+This is a very powerful feature which you can put to use when there is an endpoint in Datadog which is not used by any of our operations.
+
+To use this you will first of all need to research the endpoint in the [ Datadog API documentation v1.0 & v2.0](https://docs.datadoghq.com/api/) , to *find the exact format* that Datadog will be expecting the endpoint to be passed in.
+
+Note that you will only need to add the suffix to the endpoint, as the base URL will be automatically set (the base URL is picked up from the value you entered when you created your authentication).
+
+The base URL for Datadog is: `https://api.datadoghq.{TLD}/api/v{x}/`,
+
+The TLD refers to the top-level domain, denoting the region your account is in (`.com` for United States or `.eu` for Europe).
+
+For example, say that the 'List users' operation did not exist in our Datadog connector, and you wanted to use this endpoint, you would use the Datadog API docs to find the [ 'List all users' endpoint](https://docs.datadoghq.com/api/v2/users/#list-all-users) . Note that it is a `GET` request at the following URL:
+
+So now that you know what your endpoint should look like, you should be able to get the information you need with the following settings:
+
+Method: `GET`
+
+Endpoint: `/api/v2/users`
+
+Final outcome being: **https://api.datadoghq.eu/api/v2/users** (In this example, we are using an EU account; if you were to use a US account, the final outcome would be
+
+**https://api.datadoghq.com/api/v2/users**.)
+
+This setup will now return the user details as requested.
+
+## Example usage
+
+Below is an example of a way in which you could potentially use the Datadog connector, to list all of the users in your organization and what permissions they have.
+
+The steps will be as follows:
+
+1. Setup your trigger and list users the users available.
+2. Loop through said collection.
+3. Create a 'get user permissions' step for each user.
+
+The final outcome should look like this:
+
+### 1 - Setup trigger & add 'List users' step
+
+Once you have clicked 'Create new workflow' on your main Tray dashboard (and named said new workflow), select the Manual trigger from the trigger options available:
+
+Once you have been redirected to the Tray workflow dashboard, from the connectors panel on the left, add a Datadog connector to your second step. Set the operation to 'List users'.
+
+When run, this workflow will list all of the users associated with your Datadog organization.
+
+*Feel free to re-name your steps as you go along to make things clearer for yourself and other users.*
+
+### 2 - Add Loop Collection
+
+The Loop Collection allows you to iterate through a list of results. In this example, we will use it to iterate through each user that was returned by the previous step.
+
+Search for 'Loop collection' in your connectors panel and drag it into your workflow as the next step.
+
+Here you will need to specify the list you want to loop through, using the 'List' input field. Use the connector-snake to assign this field to the `data` array that is produced by the 'List users' step:
+
+When run, this workflow will iterate through the list of users provided. However, at the moment it doesn't do anything with that list.
+
+### 3 - Get user permissions
+
+We are now going to use the Loop Collection to list the permissions associated with each user.
+
+First, add a new Datadog connector step *inside* the Loop Collection. Next, configure it with the right user ID. Use the connector-snake once more to assign the 'User ID' field to the `id` value output by the Loop Collection
+
+Now, when this workflow is run, it will first list every user, and then for each individual user, it will list details about the permissions they are associated with.

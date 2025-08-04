@@ -1,0 +1,48 @@
+---
+title: "Overview"
+description: "Overview of the Trigger Event Reply connector"
+---
+
+# Overview
+
+## Overview
+
+The Trigger Event Reply is used when a response is required for your workflow trigger. It signals to the trigger that it should conclude its current activities, cease waiting, and process the reply data sent to it from the Trigger Event Reply.
+
+For instance, after executing multiple steps to process the data received via the webhook trigger, you might want to respond with a 200 status and a "Successfully Recorded" message in the body.
+
+Or, in the event of an unsuccessful boolean check for a user or valid URL, responding with a 404 'not found' message is feasible.
+
+Moreover, the Trigger Event Reply can function as a redirect by utilizing a 301 Status and including a Location URL in the headers section of the response.
+
+## Important note on using the Webhook Trigger
+
+When using the Webhook Trigger in conjunction with the Trigger Event Reply connector, you must select the **Await workflow and respond** operation, in order to activate the settings in the Trigger Event Reply connector:
+
+## Creating Responses
+
+### Response size limit
+
+If the total size of the 'status,' 'body,' and 'header' in a trigger event reply step exceeds 1MB, the request will fail, leading to the following message:
+
+`{"message": "Unfortunately, we encountered an internal error. Please contact us if the problem persists. Error ID: 81a6941aae"}`
+
+This situation will trigger multiple retries, eventually resulting in a 504 error, as the retries extend beyond the 5-minute timeframe.
+
+### Respond with 200 status
+
+<br/>Acknowledge with a 200 status by sending a simple "ok" or a more detailed success message with additional information in the body. 
+
+Another option is to utilize the [Auto respond with HTTP 200 operation](https://tray.io/documentation/connectors/triggers/webhook-trigger/#auto-respond-with-http-200) of the Webhook trigger.
+
+### Respond with 400 status
+
+You can send a 400 status, for example. After making a boolean check, such as validating a user or URL, you could set a Trigger Event reply on the false path of the boolean. 
+
+Use it to send a 404 status code along with a body message indicating that the user was not found.
+
+### Set a 302 Redirect
+
+You can use Trigger Event Reply feature to establish a 302 redirect by specifying the Location in the Headers section. 
+
+**Note:** Accessing the Headers option requires clicking on 'Advanced Settings'. 

@@ -1,0 +1,106 @@
+---
+title: "Overview"
+description: "Overview of the Grade.us connector"
+---
+
+# Overview
+
+## Overview
+
+Grade.us is a service connector. With Grade.us, users can easily generate, monitor and market online reviews on the sites important to businesses.
+
+## Authentication
+
+When using the Grade.us connector, the first thing you will need to do is go to your Tray.io account page, and select the workflow you wish to work on. Once in the workflow builder itself, search and drag the Grade.us connector from the connectors panel (on the left hand side) onto your workflow.
+
+With the new Grade.us connector step highlighted, in the properties panel on the right, click on the Authenticate tab and 'Add new authentication' (located under the 'Authentication' field).
+
+This will result in a Tray.io authentication pop-up window. The first page will ask you to name your authentication, and state which type of authentication you wish to create ('Personal' or 'Organisational').
+
+The next page asks you for your 'API Token'.
+
+In order to get these fields, head to your Grade.us dashboard. Click on the Account icon in the top right corner of the page.
+
+You will be taken to the 'My Account' page. Here, you will find your API token.
+
+Once you have added these fields to your Tray.io authentication popup window, click on the 'Create authentication' button. Go back to your settings authentication field (within the workflow builder properties panel), and select the recently added authentication from the dropdown options now available.
+
+Your connector authentication setup should now be complete.
+
+## Available Operations
+
+The examples below show two of the available connector operations in use, as well as the Raw HTTP request.
+
+Please see the [Full Operations Reference](#operationsFull) at the end of this page for details on all available operations for this connector.
+
+## Using the Raw HTTP Request ('Universal Operation')
+
+With the Raw HTTP Request, you can effectively create your own operations.
+
+This is a very powerful feature which you can put to use when there is an endpoint in Grade.us which is not used by any of our operations.
+
+To use this you will firstly need to research the endpoint in the [Grade.us API documentation v4](https://api.grade.us/chapters/1), to **find the exact format** that Grade.us will be expecting the endpoint to be passed in.
+
+Note that you will only need to add the suffix to the endpoint, as the base URL will be automatically set (the base URL is picked up from the value you entered when you created your authentication).
+
+The base URL for Grade.us is: `https://grade.us/api/v4`
+
+For example, say that the 'List profiles' operation did not exist in our Grade.us connector, and you wanted to use this endpoint, you would use the Grade.us API docs to find the relevant endpoint - which in this case is a `GET` request called: `/profiles`.
+
+More details can be found [here](https://api.grade.us/chapters/5#get-recipients).
+
+So if you know what your method and endpoint are, you can get the recipents information with the following settings:
+
+Method: `GET`
+
+Endpoint: `/profiles`
+
+Body Type : `None`
+
+Final Example outcome being: **https://grade.us/api/v2/profiles**
+
+## Example Usage
+
+Below is an example of a way in which you could potentially use the Grade.us connector to list the profiles in your account and then list the reviews associated with each profile.
+
+The steps will be as follows:
+
+1. Setup using a manual trigger and list profiles
+2. Loop through the profiles
+3. Retrieve the reviews for each profile
+
+The final outcome should look like this:
+
+### 1 - Setup Trigger & List Profiles
+
+Once you have clicked 'Create new workflow' from your main Tray.io dashboard named it, select the Manual trigger from the trigger options available:
+
+After you have been redirected to the Tray.io workflow dashboard, from the connectors panel on the left, add a Grade.us connector to your second step. Set the operation to 'List profiles'.
+
+Feel free to re-name your steps as you go along to make things clearer for yourself and other users.
+
+Upon completing this step, you will be able to retrieve the list of profiles associated with your account.
+
+### 2 - Loop Through Profiles
+
+Next, search for the Loop collection connector within your connector panel, and drag it into your workflow as your next step. Set your operations to 'Loop list'.
+
+The Loop Collection connector allows you to iterate through a list of results. In this example, we will use it to iterate through the data found within the previous Grade.us connector step.
+
+In order to specify the list you want to loop through, start by using the 'List' mapping icon (found next to the list input field, within the properties panel) to generate the connector-snake.
+
+While hovering over the 'List profiles' step (with the tail end of the connector-snake), select `profiles` from the list of output properties displayed. This will auto-populate a jsonpath within your 'List' input field, and update the type selector to jsonpath.
+
+For more clarification on the pathways you have available, open the Debug panel to view your step's Input and Output.
+
+Upon completion of this step, you will have enabled our Grade.us connector to loop through each of the profiles you retrieved in the previous step.
+
+### 3 - List Reviews
+
+The last step is to drag a Grade.us connector **inside** of the Loop Collection step itself. Set the operation to 'List reviews'. As you can see, the 'Profile ID' field is required.
+
+Once again, use the connector snake an hover over the 'Loop Collection' step (with the tail end of the connector-snake), select `id` from the list of output properties displayed.
+
+You can now run the workflow by clicking run in the bottom right hand corner of the workflow builder. If you click on 'Debug' at the top of the page, you can see your workflow execution. If everything has completed correctly, all steps in the debug panel should show as green.
+
+As you can see, the connector loops through the list of profiles as provided by step 1. If you click on each execution of 'List reviews', you will be able to see the results of each loop.

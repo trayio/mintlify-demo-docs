@@ -1,0 +1,156 @@
+---
+title: "Overview"
+description: "Overview of the Mindbody connector"
+---
+
+# Overview
+
+## Overview
+
+Mindbody is a cloud-based club management and appointment scheduling solution designed for the needs of small to midsize businesses. The product is primarily used by gyms, fitness and personal training centers, salons, spas and massage centers, wellness centers, dance schools and yoga studios.
+
+## Authentication
+
+When using the Mindbody connector you'll need to sign up for a developer account through Mindbody. To sign up for your developer account you can follow the detailed steps found here on the [ Mindbody website.](https://developers.mindbodyonline.com/PublicDocumentation/V6#mindbody-public-api-v6-0)
+
+There are a few steps with this process.
+
+First you will sign up for the account using the link shown in the screenshot below.
+
+Once you've signed up for your developer account then you can make the request to 'take your application live' by following the steps below which are found [ here](https://developers.mindbodyonline.com/PublicDocumentation/V6#taking-application-live) .
+
+You will need the 'Site ID' from your business account to complete the next steps. To find your 'Site ID' log in to your staff account and scroll to the bottom of the page. At the bottom of the page you will see your 'Site ID'. The screenshot below shows you where to find the 'Site ID'.
+
+Once your application has been approved and you've entered you're payment information you have one last step to access your data.
+
+You need to link your developer account to your business account.
+
+Follow the steps shown below, which are found on the [ Mindbody website](https://developers.mindbodyonline.com/PublicDocumentation/V6#accessing-business-data) 
+
+Once you've completed those steps then all you need to do is authenticate your account with Tray and you can start building.
+
+Start by creating a new workflow and adding a Mindbody connector to the builder page.
+
+With the new Mindbody connector step highlighted, in the properties panel on the right, click on 'Add new authentication' which is located in the 'Authenticate' tab.
+
+This will result in a Tray.io authentication pop-up window. The first page will ask you to name your authentication, and state which type of authentication you wish to create ('Personal' or 'Organisational').
+
+As you can see, the next page asks you for your 'API Key', 'Site ID', 'App Name', 'Username', 'Password'.
+
+To get your 'API Key' head to your Mindbody developer account and log in. Once there navigate to the Account tab at the top of the page and then the API credentials tab on the left hand side of the page. You can see these tabs highlighted below.
+
+Once there click on the 'Create new API Key' link.
+
+You can enter in anything for the App Name field but labelling it Tray might help keep track if you have multiple integrations. Make a note of the 'App Name' used as we will need this in Tray to authenticate. Make sure that the 'Active?' box is checked and then click 'Create'. Once created you can click the 'Show' button and copy down your Api Key
+
+The 'Site ID' you should already have from the steps above.
+
+The 'App Name' is the name you used when creating the 'Api Key'.
+
+Your 'Username' and 'Password' are the same ones you use to log in to your Mindbody business account as staff.
+
+Once you have added these fields to your Tray.io authentication popup window, click on the 'Create authentication' button. Go back to your settings authentication field (within the workflow builder properties panel), and select the recently added authentication from the dropdown options now available.
+
+Your connector authentication setup should now be complete.
+
+## Available Operations
+
+The examples below show one or two of the available connector operations in use.
+
+Please see the [Full Operations Reference](#operationsFull) at the end of this page for details on all available operations for this connector.
+
+## Using the Raw HTTP Request ('Universal Operation')
+
+As of **version 1.0**, you can effectively create your own operations.
+
+This is a very powerful feature which you can put to use when there is an endpoint in Mindbody which is not used by any of our operations.
+
+To use this you will first of all need to research the endpoint in the [ Mindbody API documentation v6.0](https://developers.mindbodyonline.com/PublicDocumentation/V6#endpoints) , to<br/>**find the exact format** that Mindbody will be expecting the endpoint to be passed in.
+
+Note that you will only need to add the suffix to the endpoint, as the base URL will be automatically set (the base URL is picked up from the value you entered when you created your authentication).
+
+The base URL for Mindbody is: `https://api.mindbodyonline.com/public/v6`
+
+For example, say that the 'Get Classes' operation did not exist in our Mindbody connector, and you wanted to use this endpoint, you would use the Mindbody API docs to find the relevant endpoint - which in this case is a `GET` request called: `/class/classes`.
+
+More details can be found [ here](https://developers.mindbodyonline.com/PublicDocumentation/V6#get-classes) .
+
+As you can see there is also the option to include a query parameter, should you wish to do so. So if you know what your method, endpoint and details of your query parameters are, you can get the list of classes information with the following settings:
+
+Method: `GET`
+
+Endpoint: `/class/classes`
+
+Final Example outcome being: **https://api.mindbodyonline.com/public/v6/class/classes**
+
+## Example Usage
+
+Below is an example of a way in which you could potentially use the Mindbody connector, to create a sign up form for a class.
+
+The steps will be as follows:
+
+1. Setup up a form trigger so clients can submit their email and the name of the class they want to sign up for.
+2. Look up the client and using their provided email address to get their client ID.
+3. Look up the class that the client wants to sign up for by listing all classes and filtering for the class requested.
+4. Filter out the results to get the class ID for the requested class.
+5. Use the class ID and client ID to sign the client up to the class.
+
+The final outcome should look like this:
+
+### 1 - Setup Form Trigger
+
+Once you have clicked 'Create new workflow' from your main Tray.io dashboard and named it, select the Form Trigger from the trigger options available:
+
+Set up the fields to ask the client for their email and the name of the class they would like to sign up for.
+
+You can see from this image how to set up the email field. You can add another field and do the same thing for Class Name.
+
+Now we have a form that clients can submit to sign up for classes.
+
+To get the form URL, click on the menu icon at the top left of the page and then 'Workflow settings'.
+
+Once inside there you will see the option for your 'Workflow public URL'. It is this URl that you use to submit your form.
+
+Open it in a new page to confirm this before moving on:
+
+### 2 - Find Client
+
+From the connectors panel on the left, add a Mindbody connector to your second step. Set the operation to 'List Clients'.
+
+We only need to set up the 'Search text' field to point to the email address submitted through the form trigger.
+
+While hovering over the 'trigger' step (with the tail end of the connector-snake), select `email` from the list of output properties displayed. This will auto-populate a jsonpath within your 'Search text' input field, and update the type selector to jsonpath.
+
+Feel free to re-name your steps as you go along to make things clearer for yourself and other users.
+
+Here we are passing in the email that was submitted from the form into the 'Search text' field. This will allow us to look up the client so we can get that persons client ID which we'll use in a subsequent step.
+
+### 3 - List Classes
+
+Go to the connector panel and drag another Mindbody connector onto the canvas. Set the operation to 'List Classes'.
+
+In this step we don't need to fill out any input properties as we want to have all classes returned to us so we can look for the class that the client wanted to sign up for in the next step.
+
+Here we're returning all classes so that we can then filter for the requested class based on the name provided. If you have a lot of locations you could also ask the client to provide a location which we could use to narrow the search.
+
+### 4 - Get Class ID
+
+Drag a List Helper connector onto the canvas which we'll use to find the requested class. Set the operation to 'Find object in list'. First lets select the list we want to filter from. While hovering over the 'List Classes' step (with the tail end of the connector-snake), select `Classes` from the list of output properties displayed to populate the 'list' input field.
+
+For the Conditions field we want to set the key to ClassDescription. This is because the class names exist within a sub property of a Class titled ClassDescription. We'll set the data type of the value to object. Now that it's set to object we can add in the field that we want to look for inside of ClassDescription. Click on the 'Add property to Value' button and enter Name in the pop up.
+
+The value of 'Name' will be the output of the trigger form question 'email'. Use the connector snake as you did before to hover over the trigger step and select 'email' from the list displayed.
+
+This step will look through our list of classes and return us the class that matches the name of class requested by the client. We need the Class ID from this output to sign the client up to the class.
+
+### 5 - Enroll Client In Class
+
+The last step is to drag one more Mindbody connector onto the canvas and set the operation to 'Add client to class'.
+
+We need to now use the information that we gathered previously to sign up the client.
+
+To set up the 'Client ID' field drag a snake connector onto the 'Find Client' step. Inside of the 'Clients' property select the 'id' property.
+
+For the 'Class ID' field we will use the snake connector and drag it over the 'Get Class ID' step. Select the 'Id' property from the result.
+
+Optionally you can select the 'Send email' field if you want to send a notification email to the client. Note this will only work if automatic emails has been set up.

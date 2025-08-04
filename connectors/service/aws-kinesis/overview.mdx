@@ -1,0 +1,26 @@
+---
+title: "Overview"
+description: "Overview of the AWS Kinesis connector"
+---
+
+# Overview
+
+## Overview
+
+The AWS Kinesis connector currently allows you to load data onto a Kinesis firehose.
+
+## Authentication
+
+To use the Kinesis firehose operations you need to create a user with the following permissions to put records onto the firehose:
+
+## Adding records to a Kinesis firehose
+
+An AWS Kinesis firehose allows you to send data into other AWS services, such as S3, Lambda and Redshift, at high scale. The Kinesis connector includes 2 operations that allow you to either send a single item of data (Put Record) or send multiple items (Put Batch Record) to a Kinesis firehose.
+
+To get started with a Kinesis firehose, its recommended that you follow the [AWS guide to setting one up](http://docs.aws.amazon.com/firehose/latest/dev/basic-create.html).
+
+## Putting Records
+
+Using the put record operations is as simple as setting an AWS region, choosing a delivery stream and then sending some raw text content.
+
+The raw text content can be of any type, but usually depends on how you have setup your firehose. For example if you want to load your data directly into redshift the content can be a comma seperated list of column values. Alternatively you may want to copy raw JSON into redshift.

@@ -1,0 +1,48 @@
+---
+title: "Overview"
+description: "Overview of the SurveyMonkey connector"
+---
+
+# Overview
+
+## Overview
+
+SurveyMonkey is a cloud-based survey tool that helps users create, send and analyze surveys.
+
+Below is an example of a way in which you could potentially use the SurveyMonkey connector, to list all of your contact lists and list contacts from each list retrieved.
+
+The steps will be as follows:
+
+1. Setup using a manual trigger and list contact lists.
+2. Loop through the list of contact lists.
+3. List contacts in each contact list.
+
+Your completed workflow should look similar to this:
+
+### 1 - Setup Trigger & List Contact Lists
+
+Select the manual trigger from the trigger options available. From the connectors panel on the left, add a SurveyMonkey connector to your workflow. Set the operation to 'List contact lists'.
+
+Feel free to re-name your steps as you go along to make things clearer for yourself and other users. The operation names themselves often suffice.
+
+Upon completion of this first step, a list of contact lists from your account will have been retrieved.
+
+### 2 - Loop Through the List of Contact Lists
+
+Next, search for the Loop collection connector within your connector panel, and drag it into your workflow as your next step. Set your operations to 'Loop list'.
+
+The Loop Collection connector allows you to iterate through a list of results. In this example, we will use it to iterate through the data found within the previous SurveyMonkey connector step.
+
+In order to specify the list you want to loop through, start by using the list mapping icon (found next to the list input field, within the properties panel) to generate the connector-snake.
+
+While hovering over the 'List contact lists' step (with the tail end of the connector-snake), select `data` from the list of output properties displayed. This will auto-populate a jsonpath within your list input field, and update the type selector to jsonpath.
+
+For more clarification on the pathways you have available, open the Debug panel to view your step's Input and Output.
+
+Once this step has been set up, you will be able to loop through the list of contact lists you retrieved in step 1.
+
+### 3 - List Contacts From Each List
+
+The last step is to drag a SurveyMonkey connector **inside** of the Loop Collection step itself. Set the operation to 'List contacts'. As you can see, the 'contact list ID' field is required. This can be obtained by using the connector snake once again to hover over the 'Loop Collection' step and selecting `id` from the list of output properties displayed.
+
+With this last step completed, you will have successfully retrieved the list of contacts associated to each contact list available in your account.<br/>

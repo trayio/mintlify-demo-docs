@@ -1,0 +1,177 @@
+---
+title: "Overview"
+description: "Overview of the Gong.io connector"
+---
+
+# Overview
+
+## Overview
+
+Gong.io is a Conversation Intelligence platform built predominantly for sales.
+
+Gong.io helps sales teams by automatically recording, transcribing, and analysing every sales conversation. So you can replicate successful sales conversations, coach your reps, and ramp new hires faster.
+
+## API Information
+
+The Base URL used for the Gong connector is [https://api.gong.io](https://api.gong.io/). In order to view the [API documentation (v2.0)](https://app.gong.io/settings/api/documentation#overview) you must already be signed into your Gong account and have the right access level. Details regarding their API limitations can be found [here](https://us-9847.app.gong.io/settings/api/documentation#overview).
+
+## Authentication
+
+Within the builder click on the Gong.io connector to display the connector properties panel. Select the '**Auth**' tab and click on the '**New authentication' **button.
+
+In the Tray.io authentication pop-up modal make sure you **name the authentication in a way that will quickly identify it within a potentially large list**. For example whether it is a Sandbox or Production auth, etc.
+
+Next **consider who / how many people will need access to this authentication** when choosing where to create this authentication ('Personal' or 'Organisational').
+
+In the authentication window you will then need to add your Gong.io **Access Key** and **Access Key Secret**.
+
+These can be obtained from the Gong.io workspace dashboard.
+
+Click through to your workspace settings page and under the 'Ecosystem' heading select 'API'. Here you will be able to create the keys you need to integrate with Tray.io.
+
+Another way to access these credentials would be to go via your company API page (once you have signed into your Gong.io account): `https://app.gong.io/company/api` .
+
+Once you have added these fields to your Tray.io authentication pop-up window, click the 'Create authentication' button. 
+
+Your connector authentication setup should now be complete.
+
+## Available Operations
+
+The examples below show one or two of the available connector operations in use.
+
+Please see the [Full Operations Reference](#operationsFull) at the end of this page for details on all available operations for this connector.
+
+## Notes on using Gong.io
+
+### Integrations & Email domains
+
+Even if you were using Sandbox environments** if the latter half of your email domains are the same your calls will error**.
+
+For example say the email domain associated with your Gong.io account was `test@`**`tray.io`**. Should the Salesforce account you wish to work with also have the same end of email domain name i.e. `example@`**`tray.io`** you would not be able to successfully integrate.
+
+### Reporting system
+
+The **Reporting System** is the **name of the trigger connector**. 
+
+For example if you connected DocuSign to Gong.io then the 'Reporting System' would be 'DocuSign'.
+
+### API docs
+
+You must be signed into your Gong.io account in order to view the Gong.io API documentation.
+
+### CRM Context
+
+This field is not required but can be found under 'Advanced Properties' as one of several options.
+
+### Create new call
+
+Please note that **you must have at least two** `call participants` **minimum**.
+
+At least one participant must be a non-company participant. 
+
+This would be **a participant that doesn't have** a **User ID** but **does have a Name**.
+
+### List interaction stats
+
+Returns interaction statistics for users based on **calls that have Whisper turned on**. It will not work for calls that don't.
+
+## Example use cases
+
+### Capturing competitor mentions
+
+### Using Create Content Action
+
+====================================
+
+====================================
+
+====================================
+
+#### Example - capturing competitor mentions and updating Salesforce opportunities
+
+This example works with a scenario whereby you are using Gong.io's automated conversation transcription API which can parse the transcript of your sales calls to a Tray.io workflow, and you are wanting to automate the process of recording any of your competitors mentioned in the Gong.io call in the relevant 'Main Competitors' box in the Salesforce Opportunity details page.
+
+The full workflow looks like this:
+
+#### Assumptions
+
+The following asumptions are made in this workflow:
+
+- You have synchronized the recording of opportunities in Salesforce and Gong.io such that Gong.io contains the ID of your Salesforce opportunities
+- You are making use of the Gong.io transcription API, including use of 'trackers' to capture and record mention of your competitors
+- You have set up a [webhook trigger](#) to receive the notification of Gong.io call events
+
+#### Workflow summary
+
+The main points in this workflow are:
+
+1. The workflow is kicked off by a webhook which receives notification of a call taking place by Gong.io
+2. The call transcript is retrieved from Gong.io
+3. The competitors mentioned are pulled from the call transcript
+4. The competitors are looped through and formatted into a single line list
+5. The Salesforce opportunity ID is pulled from the Gong.io webhook trigger
+6. The Salesforce entry for that opportunity is then updated with the competitors in the relevant 'Main Competitors' field
+
+#### 1 - The Webhook Trigger
+
+The workflow is kicked off by a Gong.io [webhook trigger](#). The following is example output from such a trigger:
+
+The data from the trigger can be accessed by subsequent steps in your workflow using `$.steps.trigger.body.` jsonpaths
+
+#### 2 - Check the context of the Sales call
+
+Before beginning you may need to run a check on the 'context' of the call. In this case we are using a boolean connector to check that it is not empty:
+
+An example webhook output shows that the context may have been set as a Salesforce account:
+
+#### 3 - Get the call transcript from Gong.io
+
+Then, on the 'true' branch, - to get the details of the call we use the **List call by date or call IDs** operation, with the **Call ID** filter set to pick up the ID from the webhook with the `$.steps.trigger.body.metaData.id` jsonpath
+
+We can also set an 'Extended' **Context** for the call details, so as to pick up granular details of the call:
+
+Of key importance in this example is that we added **Trackers**, as this is what will include the mention of competitors.
+
+#### 4 - Filter competitor mentions from the call
+
+We then add a **List Helpers connector** and use the **Filter** operation which can be used to extract objects from nested json data, by specifying the name of the object as **Filter Criteria**
+
+The **Competitors** object is within the **content.trackers** array:
+
+So we use the `$.steps.gongio-1.calls[0].content.trackers` jsonpath (we use [0] here because the call is a single result in a zero-indexed array of calls).
+
+And the **Filter Criteria** is set as 'Competitors' (note that it must be capitalized to exactly match the format in the call output)
+
+#### 5 - Loop through competitors mentioned
+
+Now we want to start building a list of the competitors mentioned. To start the process, we need to grab them one-by-one by using a Loop Connector with the jsonpath set to `$.steps.list-helpers-1.result[0].phrases`
+
+This gets at the result from the List Helpers step:
+
+#### 6 - Add each competitor to a list
+
+The next stage is slightly tricky - as you can see from the List Helpers output, each competitor is returned as an object in the list/array of 'phrases' and it has 2 pieces of data - 'count' and 'phrase'.
+
+We want to extract only the 'phrase' from each object and add it to a list. To do this we will use the **Append to List** operation of the [Data Storage connector](#).
+
+From the above screenshot you will see that, in the **Key** box we have called the list 'competitors' and used the `$.steps.loop-1.value.phrase`. Crucially, we have also ticked the box which says 'If the list to append to does not yet exist, it will be created with the given value'.
+
+#### 7 - Filter opportunity to get Salesforce ID
+
+Similar to step 4, we can use the List Helpers connector to extract the 'Opportunity' object from the trigger, which will make the Salesforce opportunity ID easily accessible:
+
+#### 8 - Get the competitors list
+
+We can now retrieve the competitors list using the Data Storage **Get Value** operation for the **competitors** list compiled in steps 5 and 6:
+
+#### 9 - Concatenate the competitors list
+
+Now we use the Text Helpers **Concatenate** operation to format the list into a single line of text. Note that we use `,` in the **Separator** box to make sure each competitor is separated correctly with a comma and a space.
+
+#### 10 - Add mentioned competitors to Opportunity in Salesforce
+
+The final step is to add a [Salesforce connector](#) using the **Update Record** operation. The **Record Type** is set as 'Opportunity' and the **Record ID** picks up the Opportunity Id from the Filter opportunity List Helpers step using `$.steps.list-helpers-2.result[0].objectId`
+
+And, to update the 'Main Competitors' field, the `$.steps.text-helpers-2.result` jsonpath is used.
+
+On successful completion of a workflow run, the Salesforce opportunity will be updated with the competitors:

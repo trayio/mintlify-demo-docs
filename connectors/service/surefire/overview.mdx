@@ -1,0 +1,37 @@
+---
+title: "Overview"
+description: "Overview of the Surefire connector"
+---
+
+# Overview
+
+## Overview
+
+Surefire's Uploader API enables the automated upload of Loan Files & Loan Data to Surefire.
+
+## Authentication
+
+When using the Surefire connector, the first thing you will have to do is click on 'New Authentication' in the step editor:
+
+In order to create a new authentication two keys are required. An APIKey and a ClientKey. Instructions on how to create an API key and Client Key for your account can be found here: `https://surefirehelp.zendesk.com/hc/en-us/articles/115009241247-Upload-Data-via-API`.
+
+You can then enter your Surefire credentials to link to your account:
+
+## Note on Operations usage
+
+The maximum file size that can be uploaded using the Upload file operation is 990MB.
+
+## Example Usage - Upload a file to your Surefire account using the File helper connector
+
+This short example will demonstrate the **Upload file** operation.
+
+1. Create a file object using the File Helper connector. *Note- A file object can also be created by other connectors available at Tray.io*
+2. Upload the file to the Surefire account.
+
+## 1 - Create a file object
+
+A new file object is created here using an URL.
+
+## 2 - Upload a file
+
+File object is inputted to the "Upload file" operation of the Surefire connector using the json path ready to be uploaded to the Surefire account.

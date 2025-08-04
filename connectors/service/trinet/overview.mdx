@@ -1,0 +1,100 @@
+---
+title: "Overview"
+description: "Overview of the TriNet connector"
+---
+
+# Overview
+
+## Overview
+
+TriNet is a service connector, has all the HR tools that make managing your people easy, from streamlined onboarding and easy PTO tracking to org charts, performance reviews, and so much more.
+
+## Authentication
+
+When using the TriNet connector, the first thing you will need to do is go to your Tray.io account page, and select the workflow you wish to work on. Once in the workflow builder itself, search and drag the TriNet connector from the connectors panel (on the left hand side) onto your workflow.
+
+With the new TriNet connector step highlighted, in the properties panel on the right, click on 'New Authentication' which is located under the 'Settings' heading.
+
+This will result in a Tray.io authentication pop-up window. The first page will ask you to name your authentication, and state which type of authentication you wish to create ('Personal' or 'Organisational').
+
+As you can see, the next page asks you for your 'Client ID' and 'Client secret' credentials.
+
+In addition to the above, you will need to tick the relevant scopes from the list of scopes to again the correct access to retrieve information from your TriNet account.
+
+Once you have added these fields to your Tray.io authentication popup window, click on the 'Create authentication' button. Go back to your settings authentication field (within the workflow builder properties panel), and select the recently added authentication from the dropdown options now available.
+
+Your connector authentication setup should now be complete.
+
+## Available Operations
+
+The examples below show one or two of the available connector operations in use.
+
+Please see the [Full Operations Reference](#operationsFull) at the end of this page for details on all available operations for this connector.
+
+## Using the Raw HTTP Request ('Universal Operation')
+
+As of **version 1.0**, it is now possible to effectively create your own operations.
+
+This is a very powerful feature which you can put to use when there is an endpoint in TriNet which is not used by any of our operations.
+
+To use this you will first of all need to research the endpoint in the TriNet[ API documentation](https://api.zenefits.com/docs/)(v1), to *find the exact format* that TriNet will be expecting the endpoint to be passed in.
+
+Note that you will only need to add the suffix to the endpoint, as the base url will be automatically set (the base url is picked up from the value you entered when you created your authentication).
+
+The base url is in the format of `https://api.zenefits.com/core/`
+
+For example, say that the 'List people' operation did not exist in our TriNet connector, and you wanted to use this endpoint, you would use the TriNet API docs to find that the 'List people' endpoint is a get request at the following url:
+
+So if you know what your endpoint and company ID is, you can get a list of people, with the following settings:
+
+Endpoint: `/companies/{:company_id}/people`
+
+E.g. company_id: `123456`
+
+Final outcome: **https://api.zenefits.com/core/companies/123456/people**
+
+This will now return information about a company's employees details.
+
+## Example usage
+
+Below is an example of a way in which you could potentially use the TriNet connector, to list installations and update the installation status of a selected installation.
+
+The steps will be as follows:
+
+1. Set up your manual trigger and first TriNet connector step.
+2. Add a Loop connector to iterate through your installations.
+3. Add a step to update the installation status.
+
+The final outcome should look like this:
+
+### 1 - Setup trigger & List Installations
+
+Once you have clicked 'Create new workflow' on your main Tray.io dashboard (and named said new workflow), select the 'Manual Trigger' from the trigger options available:
+
+Once you have been redirected to the Tray.io workflow dashboard, from the connectors panel the left, add an 'TriNet' connector to your second step. Set the operation to 'List installations'.
+
+This operation returns information about the installations for companies who have added your application. You can specify the number of results returned using the `Limit` parameter. Default value is set to 100 results.
+
+*Feel free to re-name your steps as you go along to make things clearer for yourself and other users.*
+
+Now when this workflow is run, it will retrieve all installations for companies who have added your application. This means you will be able to view them when you click through your debug panel, and expend the output field.
+
+### 2 - Add a Loop step
+
+Next, we add a 'Loop Collection' connector to the workflow.
+
+Use the connector-snake to generate the JSON path you will need, by clicking and dragging on the orange circle mapping icon, left of the 'List operation' itself.
+
+.
+
+Once you have dragged it over to the first TriNet step, you will see a dropdown list of options appear. Select the `id` output.
+
+This will enable us to iterate over the list of installations, and perform operations for each one, during each loop cycle.
+
+### 3 - Update Installation Status
+
+Finally, drag another TriNet connector step into the Loop collection itself, and select the operation 'Update installation status'. This operation updates TriNet when your application is ready to begin working for a company.
+
+Use the same connector-snake method for generating the JSON path to get the 'value' field from the Loop connector.
+
+Your 'Installation ID' should be along the lines of `$.steps.loop-1.value`, and the 'Status' (i.e. what to update the installation status to) you can choose from the drop down options: `OK` or `Not Enrolled`.

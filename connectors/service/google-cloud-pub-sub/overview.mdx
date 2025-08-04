@@ -1,0 +1,70 @@
+---
+title: "Overview"
+description: "Overview of the Google Cloud Pub/Sub connector"
+---
+
+# Overview
+
+## Overview
+
+Google Cloud Pub/Sub provides messaging between applications reliably and asynchronously by sending publishing messages to a topic and subscribing to that topic to receive messages.
+
+## **API Information **
+
+The Base URL used for the Google Cloud Pub/Sub connector is **https://pubsub.googleapis.com/v1. **More information can be found on their main [API documentation (v1.0)](https://cloud.google.com/pubsub/docs/apis) site.
+
+## Authentication
+
+Within the builder, click on the Google Cloud Pub/Sub connector to display the connector properties panel. Select the 'Authentication' tab and click on the 'New authentication' button.
+
+In the Tray.io authentication pop-up modal, name the authentication in a way that will quickly identify it within a potentially large list. For example, whether it is a Sandbox or Production auth, etc.
+
+Consider who/ how many people will need access to this authentication when choosing where to create this authentication ('Personal' or 'Organisational').
+
+The second page asks you for your 'Service Account' credentials.
+
+To create a service account, head to the Google Cloud Pub/Sub [dashboard](https://console.cloud.google.com/projectselector/iam-admin/serviceaccounts/create?supportedpurview=project) and create a new service account for your selected project. Once created, please copy and paste the entire contents of your service account JSON file. For more information and advice on authenticating with a service account please refer to the Google Cloud documentation [here.](https://cloud.google.com/pubsub/docs/reference/libraries)
+
+Once you have added these fields to your Tray.io authentication pop-up window, click the 'Create authentication' button. 
+
+Your connector authentication setup should now be complete.
+
+## Google Cloud Pub/Sub Trigger
+
+The Google Cloud Pub/Sub trigger allows you to receive notifications and trigger workflows when messages are published to a topic that has an associated subscription.
+
+### Trigger Operations available:
+
+- Subscribe
+
+### Subscribe Setup
+
+Select the Google Cloud Pub/Sub trigger. This can be done at the create new workflow stage or updated within the workflow builder itself.
+
+Highlight the Google Cloud Pub/Sub trigger. In the Google Cloud Pub/Sub trigger properties panel to the right of the builder, click on the Authenticate tab and the 'Add new authentication' button.
+
+The Google Cloud Pub/Sub trigger authentication follows the same steps as the connector. Follow the instructions above to authenticate your trigger. Select 'Subscribe' to create a subscription to a given topic in Google Cloud Pub/Sub.
+
+As you can see, the 'Subscription', 'Project' and 'Topic' fields are required in order to subscribe to a topic.
+
+## Available Operations
+
+The examples below show one or two of the available connector operations in use.
+
+Please see the [Full Operations Reference](#operationsFull) at the end of this page for details on all available operations for this connector.
+
+## Notes on using Google Cloud Pub/Sub
+
+### Publish/Subscribe
+
+In order to use the trigger in conjunction with the connector, please ensure that the topic subscribed in the trigger matches the topic published in the connector.
+
+## Example Usage
+
+Below is an example of a way in which you could use the Google Cloud Pub/Sub connector to publish a message to a topic and trigger a workflow that has subscribed to the same topic to receive messages.
+
+The overall workflow would look like so:
+
+As you can see the 'Topic' is required and matches the Topic passed in the trigger. The message additionally must be provided and encoded as a base64 string.
+
+Once published, this will trigger the workflow we added the Google Cloud Pub/Sub trigger to with the data we published.

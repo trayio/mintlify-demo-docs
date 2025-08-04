@@ -1,0 +1,83 @@
+---
+title: "Overview"
+description: "Overview of the ReSci Retention Science connector"
+---
+
+# Overview
+
+## Overview
+
+ReSci is an AI-powered marketing platform revolutionizing the way brands communicate with their customers. ReSci helps marketers make sense of complex data to uncover customer trends, and automates marketing campaigns that adapt to customer behavior.
+
+## Authentication
+
+When using the ReSci connector, the first thing you will need to do is go to your Tray.io account page, and select the workflow you wish to work on. Once in the workflow dashboard itself, search and drag the ReSci connector from the connectors panel (on the left hand side) onto your workflow.
+
+With the new ReSci connector step highlighted, in the properties panel on the right, click on 'New Authentication' which is located under the 'Settings' heading.
+
+This will result in a Tray.io authentication pop-up window, that should look like this:
+
+As you can see, besides from naming your authentication appropriately, you will need your API key.
+
+In order to get these fields, head to your ReSci dashboard. Click on the dropdown menu in the upper right hand corner.
+
+To get the API key, head to API settings, and click to reveal the key. Use this key to authenticate in Tray.
+
+Once you have clicked the 'Add authentication' button, go to back to your authentication field (within the workflow dashboard properties panel from earlier), and select the recently added authentication from the dropdown options now available.
+
+Your connector authentication setup should now be complete.
+
+## Available Operations
+
+The examples below show one or two of the available connector operations in use.
+
+Please see the [Full Operations Reference](#operationsFull) at the end of this page for details on all available operations for this connector.
+
+## Using the Raw HTTP Request ('Universal Operation')
+
+As of **version 1.0**, it is possible to effectively create your own operations.
+
+This is a very powerful feature which you can put to use when there is an endpoint in ReSci which is not used by any of our operations.
+
+To use this you will first of all need to research the endpoint in the [ ReSci API documentation v3.0](https://developer.retentionscience.com/?data/v3.0.0) , to *find the exact format* that ReSci will be expecting the endpoint to be passed in.
+
+Note that you will only need to add the suffix to the endpoint, as the base url will be automatically set (the base url is picked up from the value you entered when you created your authentication).
+
+The base url is in the format of `https://data.retentionscience.com/v3/`
+
+For example, say that the 'Get user by ID' operation did not exist in our ReSci connector, and you wanted to use this endpoint, you would use the ReSci API docs to find that the 'Get user by ID' endpoint is a GET request at the following url:
+
+`/users/email/{email}`
+
+So if you know what the email address of the user is, you can retrieve the user details with the following settings:
+
+## Note on Operations usage
+
+The `Update/Create User` operation will update a user by ID or email. If user does not exist, the API will create a new user. The ID of the user is the record of the in your system of record. If none is provided, the API will create an ID, which will be an MD5 hash of the user's email in lowercase.
+
+At the minimum, to create a new user, an email is required. For updating a user's attributes outside of email, you can omit the ID field. However, to update a user's email, an ID is required.
+
+## Example usage
+
+In this example we will create a new user and retrieve retrieve the user information by ID.
+
+The steps will be as follows:
+
+1. Setup trigger and create a new user.
+2. Get said user's ID information.
+
+The final outcome should look like this:
+
+### 1 - Setup trigger & Create a New User
+
+Once you have clicked 'Create new workflow' on your main Tray.io dashboard (and named said new workflow), select the Manual trigger from the trigger options available:
+
+Once you have been redirected to the Tray.io workflow dashboard, from the connectors panel on the left, add a ReSci connector to your second step. Set the operation to 'Create/update user' and fill in the input fields appropriately. *Note that there are more field options than displayed in the below image*.
+
+### 2 - Get User ID
+
+Add an additional ReSci connector and place it as your next step. Choose 'Get user by ID' to retrieve user information.
+
+The first ReSci step of our workflow ('Create/Update user') returns a payload which contains identifying data regarding the account you just created. You can use the connector snake in line with this step, to seamlessly link to the correct jsonpath to retrieve the ID of the user.
+
+Finally, run the workflow. To view the output, click on the Debug option at the top of the builder>

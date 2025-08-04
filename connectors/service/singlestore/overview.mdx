@@ -1,0 +1,48 @@
+---
+title: "Overview"
+description: "Overview of the SingleStore connector"
+---
+
+# Overview
+
+## Overview
+
+SingleStore is a proprietary, cloud-native database designed for data-intensive applications.
+
+## **API Information **
+
+The connector uses the host URL which is provided at the point of creating authentication as its base URL More information can be found on their main API documentation (v8.2) [site](https://docs.singlestore.com/cloud/reference/data-api/access-the-data-api/). Details regarding their API limitations can be found [here](https://docs.singlestore.com/cloud/reference/configuration-reference/system-limits/).
+
+## Authentication
+
+Within the builder, click on the SingleStore connector to display the connector properties panel. Select the **Auth** tab and click on the **New authentication** button.
+
+In the Tray.io authentication pop-up modal name your authentication in a way that will quickly identify it within a potentially large list. For example, whether it is a Sandbox or Production auth, etc.
+
+Consider who/ how many people will need access to this authentication when choosing where to create this authentication ('Personal' vs 'Organisational').
+
+The next page asks you for your **Username**, **Password**, and **Host** credentials.
+
+To get these fields, head to the SingleStore dashboard. On the left tab, you will find a button labeled "Create New Workspace Group." Click on this button. 
+
+This action should take you to a new screen or form where you can fill in the required fields to create a new workspace group. Complete the necessary information in the form to create your new workspace group.
+
+After clicking the "Create New Workspace Group" button, you will be redirected to a new page where you can create a new workspace group. 
+
+On this page, you will be prompted to create a new workspace within the workspace group you just created.
+
+It's worth noting that the Username is always "**Admin". **Return to the main dashboard. On the left panel, select the "Cloud" tab. Click on the specific group you are interested in.
+
+Inside the group, click on "Workspaces". Locate your workspace in the list of workspaces. On the right, click on the triple dots (ellipsis) to open a menu. From the menu, select "Connect directly." 
+
+In the new popup, you will find a password that has been automatically generated for you. Just below the password, there should be an option to select "CLI Client". 
+
+In the dropdown menu that appears, select "SingleStore Endpoints". The **Host URL** will then be displayed, and you can make a note of it for your use.
+
+Once you have added these fields to your Tray.io authentication pop-up window click the **Create authentication** button. 
+
+Your connector authentication setup should now be complete. Please run the simplest operation available to test and make sure you can retrieve data as expected.
+
+## Available Operations
+
+Please see the [Full Operations Reference](#operationsFull) at the end of this page for details on all available operations for this connector.

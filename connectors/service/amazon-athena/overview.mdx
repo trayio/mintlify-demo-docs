@@ -1,0 +1,34 @@
+---
+title: "Overview"
+description: "Overview of the Amazon Athena connector"
+---
+
+# Overview
+
+## Overview
+
+Amazon Athena is a service that enables a data analyst to perform interactive queries in the Amazon Web Services public cloud on data stored in Amazon Simple Storage Service (S3). Because Athena is a serverless query service, an analyst doesn't need to manage any underlying compute infrastructure to use it.
+
+## Authentication
+
+Within the workflow builder, highlight the Amazon Athena connector.
+
+In the Amazon Athena connector properties panel to the right of the builder, click on the Authenticate tab and the 'Add new authentication' button.
+
+This will result in a Tray.io authentication pop-up modal. The first page will ask you to name your authentication and select the type of authentication you wish to create ('Personal' or 'Organisational').
+
+The next page asks you for your 'AWS Access Key' and 'AWS Secret Key' credentials.
+
+Users receive the required AWS Access and Secret key when they add a new user to the AWS console. See below for more details.
+
+If you don't have these security credentials (AWS access and secret key) already saved somewhere, then you will need to generate new credentials for the user you wish to authenticate with.
+
+To create a new access key, head to your AWS console and navigate to the 'Identity and Access Management (IAM)' page. On this page, under the 'Security credentials' tab, create a new key using the 'Create access key' button.
+
+Once you click on the 'Create access key' button, follow along with the said instructions.
+
+Once you have added these fields to your Tray.io authentication pop-up window, click the 'Create authentication' button.
+
+Go back to your settings authentication field (within the workflow builder properties panel), and select the recently added authentication from the dropdown options now available.
+
+Your connector authentication setup should now be complete.

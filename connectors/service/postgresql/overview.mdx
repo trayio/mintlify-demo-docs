@@ -1,0 +1,39 @@
+---
+title: "Overview"
+description: "Overview of the PostgreSQL connector"
+---
+
+# Overview
+
+## Overview
+
+### Connecting to your Postgres instance
+
+To allow tray to connect to your Postgres database, you'll need to either make your database publicly accessible or you can white list ALL of the following static IP addresses for access:
+
+- 52.40.200.248
+- 52.39.10.61
+- 52.26.59.155
+
+**Note:** it is **extremely important** that your Postgres database is only accessible with a strong username and password combination when white listing these IP addresses, as they will be used by anyone using the connector in a Tray workflow.
+
+### Authentication
+
+Assuming the PostgreSQL database is set up and accessible, and the access settings mentioned above have been correctly configured, we can now proceed with the authentication process.
+
+When using the PostgreSQL connector for the first time, you need to create a new authentication.
+
+Name your authentication and specify the type ('Personal' or 'Organizational').
+
+The next page asks you for `Host`, `Port`, `Database`, `Schema`, `User`, and `Password.`
+
+- **Host**: The domain name of the PostgreSQL server.
+- **Port**: The port number where PostgreSQL is running (the default is `5432`).
+- **Database**: The name of the PostgreSQL database you want to connect to.
+- **Schema**: Usually public unless your database has multiple schemas. 
+- **User**: The username to authenticate with PostgreSQL.
+- **Password**: The password for the user.
+
+Once you have added these fields to your Tray.io authentication popup window, click on the 'Create authentication' button. Go back to your settings authentication field (within the workflow builder properties panel), and select the recently added authentication from the dropdown options now available.
+
+Your connector authentication setup should now be complete.

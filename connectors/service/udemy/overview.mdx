@@ -1,0 +1,54 @@
+---
+title: "Overview"
+description: "Overview of the Udemy connector"
+---
+
+# Overview
+
+## Overview
+
+Udemy is an online learning platform which gives a consumer-first on-demand learning solution. Udemy is a leading global marketplace for teaching and learning, connecting millions of students to the skills they need to succeed.
+
+## Example Usage
+
+Below is an example of a way in which you could potentially use the Udemy connector, to list the courses available on the Udemy platform and return course specific details about each one.
+
+The steps will be as follows:
+
+1. Setup using a manual trigger and list the courses available on Udemy.
+2. Add a Loop connector to iterate through all of the courses found.
+3. Get the course details for each course found.
+
+Your completed workflow should look similar to this:
+
+### 1 - Setup Trigger & list courses
+
+With your trigger in place (be it [Manual](/connectors/triggers/manual-trigger/), [Scheduled](/connectors/triggers/scheduled-trigger/), [Callable](/connectors/triggers/callable-trigger/) etc) add a Udemy connector. Set the operation to 'List courses'.
+
+Here we only use the term 'IT' when asking the API to return our potential list of courses. However in a real use case scenario it is highly recommended that you add as many parameters as possible.
+
+As there are literally thousands of courses available on Udemy you will need to do this in order to get back the most relevant results. As you can see from the properties panel, there are numerous options to help you filter down your results.
+
+Feel free to re-name your steps as you go along to make things clearer for yourself and other users. The operation names themselves often suffice.
+
+### 2 - Add a Loop connector
+
+Next, search for the Loop connector within your connector panel, and drag it into your workflow as your next step. Set your operation to 'Boolean condition'.
+
+The Loop connector allows you to iterate through a list of results. In this example, we will use it to iterate through the data found within the previous Udemy connector step.
+
+In order to specify the list you want to loop through, start by using the list mapping icon (found next to the list input field, within the properties panel) to generate the connector-snake.
+
+While hovering over the 'List courses' step (with the tail end of the connector-snake), select `results` from the list of output properties displayed. This will auto-populate a jsonpath within your list input field, and update the type selector to jsonpath.
+
+For more clarification on the pathways you have available, open the Debug panel to view your step's Input and Output.
+
+This step will iterate through each course found.
+
+### 3 - Lorem Ipsum
+
+The last step is to drag a Udemy connector **inside** the Loop connector step itself. Set the operation to 'Get course'. As you can see, the 'Course ID' field is required.
+
+Set this using the same method as mentioned above only this time use the results from the 'Loop list' step to help you automatically generate the ID field for each course.
+
+Now when your workflow runs, it will gather all the courses available that fit your parameters and loop through that list. The details for each course are then gathered as seen in the Output panel.

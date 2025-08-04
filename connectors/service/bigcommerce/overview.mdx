@@ -1,0 +1,32 @@
+---
+title: "Overview"
+description: "Overview of the BigCommerce connector"
+---
+
+# Overview
+
+## Overview
+
+The tray.io BigCommerce connector allows you to manage your BigCommerce store.
+
+## Authentication
+
+When using the BigCommerce connector, the first thing you will have to do is click on 'New Authentication' in the step editor:
+
+You will need to enter the *Client ID*, *Access token* and *Store hash*.
+
+- Log into your store and select **Advanced Settings**
+- Select **Api Accounts**
+- Select **Create API Account**
+- Insert any name and the scopes (permissions) to allow the operations to be executed.
+- Select **Save**
+
+You will then use the generated Client ID and Access token in your Tray authentication alongside with the Store hash (e.g. If your store url is `https://store-hi1234.mybigcommerce.com` then you will enter `hi1234`).
+
+## Example
+
+In this example we will build a simple workflow to retrieve a list of products from a BigCommerce store.
+
+Create a new workflow with a **Manual Trigger**, and add a step from the **BigCommerce** connector, with the operation set to **List products**. You can either run the workflow immediately or specify some filters, such as *Availability* or *Type*.
+
+The output will be an object with a list of products.

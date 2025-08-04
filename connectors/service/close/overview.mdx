@@ -1,0 +1,54 @@
+---
+title: "Overview"
+description: "Overview of the Close connector"
+---
+
+# Overview
+
+## Overview
+
+Close is a powerful all-in-one customer relationship management service which offers a fleet of services including calling, email automation, predictive dialers, and more. It is a powerful set of tools to support and strengthen your sales teams.
+
+## Authentication
+
+Add a Close connector step to your workflow. Click on the 'New Authentication' option now available in the right hand panel and name as appropriate.
+
+In order to fully authenticate with Tray.io and Close, you will need a Close 'API Key' which can be accessed by following the steps displayed below:
+
+1. Log into your Close account and select 'Settings' on the side panel.
+
+1. Select 'API Keys' from the Integrations section of the interior side panel.
+
+1. Click the '+ New API Key' button.
+
+1. Give your API Key a name and click 'Create API Key'.
+
+1. Click the copy to clipboard button. It's worth noting that the API Key will not be displayed again. Make sure to store it safely.
+
+1. Paste the API Key into the Api key section of your new authentication and click the 'Add authentication' button.
+
+1. You have now successfully authenticated your Close account in the Tray platform.
+
+## Available Operations
+
+The examples below show one or two of the available connector operations in use.
+
+Please see the [Full Operations Reference](#operationsFull) at the end of this page for details on all available operations for this connector.
+
+## Example usage - Listing contacts, Looping through the list and Getting each contact
+
+Create a new workflow with a Manual Trigger, a Close connector, a Loop Collection and a second Close connector.
+
+Select the Close connector, authenticate as above and choose the **List contacts** operation.
+
+If you were to run the finished workflow, the log from a successful output would show that this operation returns a **data** array containing the contacts objects.
+
+Then set the Loop Collection connector to **Loop List** and enter `$.steps.close-1.data` as the **List** in order to grab the above contacts one-by-one.
+
+You will note from the output from **List contacts** that each contact object has an `id` output field. You can then, for each contact that is fed by the loop, grab the `id` and pass it into the second Close connector.
+
+The **Get contact** operation is chosen and `$.steps.loop-1.value.id` gets the `id` of the contact from the Loop connector to enter it as the **Contact** to pull the contact from Close.
+
+Once the workflow is set up, click 'Run Workflow' and then click on the 'Debug' tab to look through all the inputs and outputs of a successful run of the workflow.
+
+In real life situations, you will likely be dealing with large numbers of records - dozens, hundreds or thousands. In this case you should make use of pagination tokens returned by the operation, and build a more complex loop as described in our [pagination documentation](https://tray.io/documentation/platform/standard-best-practices/pagination/intro-to-pagination/).

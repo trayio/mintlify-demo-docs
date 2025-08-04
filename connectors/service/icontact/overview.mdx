@@ -1,0 +1,74 @@
+---
+title: "Overview"
+description: "Overview of the iContact connector"
+---
+
+# Overview
+
+## Overview
+
+The iContact connector on Tray allows you to interact with the data in your iContact account in any way you choose.
+
+The following functionality is supported:
+
+- Client Folders
+- Contacts
+- Custom Fields
+- Lists
+- Segments
+- Subscriptions
+
+Tray currently supports version 2.2 of the iContact API.
+
+## Authentication
+
+Before being able to use the iContact connector, an authentication will need to be created. To do so, add the iContact connector to the workflow and click the `New Authentication` button found in the input panel.
+
+The dialog allows you to name the authentication as well as supply the following required information:
+
+- `API-AppId` - Obtained when you register the API application. This identifier is used to uniquely identify your application integration.
+- `API-Username` - The iContact username for logging into your iContact account. If you are using the sandbox for testing, this is your sandbox environment username.
+- `API-Password` - The API application password set when the application integration was registered. This password is not the same as the password you use to log in to iContact.
+- `Account ID` - The ID of your iContact account obtained from the integration settings of the iContact website when logged in.
+
+To obtain these values, you will need to follow the iContact `Getting Started` guide at https://www.icontact.com/developerportal/documentation/start-building
+
+Follow the first three steps in the guide to allow Tray to integrate with your iContact account.
+
+Once you have named the authentication and provided the authentication values, click the `Add authentication` button.
+
+## Example 1 - List contacts
+
+This example will walk-through how to get information about the registered contacts in your iContact account. The first step is to add the iContact connector to the workflow.
+
+To use this operation, select the `List contacts` operation in the input panel. Then select a client folder from the dropdown. By default, this operation will return the first 20 contacts in your account.
+
+### Searching for contacts
+
+You may have thousands of contacts in your iContact account so it is useful to be able to filter the search results by certain criteria. To do this, you may add multiple search criteria, one at a time.
+
+In the `Search criteria` section of the input panel, click `Add item`. This will allow you to select a search field from the drop down and enter a search value to search for. The example below will search for contacts registered in the city of London:
+
+Note: Each search field can only be filtered by one search value at a time.
+
+Search values support wild cards, so you could search for all contacts whose first name begins with Jo by entering `Jo*` as the search value.
+
+### Sorting contacts
+
+You can order the search results by providing `Order by` criteria in the input panel. Each field can be sorted either ascending or descending (alpha-numerically).
+
+In the following example, the contacts will be listed firstly by the name of the city that they live in (from Z to A) and secondly by their first name (A to Z):
+
+### Paginating results
+
+Finally, when there are many results to handle, you may specify which part of the result set to return and how many results.
+
+There are two fields in the input panel that handle pagination:
+
+`Limit` specifies the number of results to return (for example, you might have 1000 possible results but only want the first 50). The default will return 20 results.
+
+`Offset` specifies which results should be returned (for example, if there are 1000 total results and you would like to see the last 50, the offset would be 950 and the limit would be 50). The default offset is zero.
+
+The following example would return contacts 50 through 74 of the total:
+
+For guidelines and best practices on how to use pagination in Tray please see the [intro to pagination](https://tray.io/documentation/platform/standard-best-practices/pagination/intro-to-pagination).

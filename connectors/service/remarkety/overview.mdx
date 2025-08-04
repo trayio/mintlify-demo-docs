@@ -1,0 +1,122 @@
+---
+title: "Overview"
+description: "Overview of the Remarkety connector"
+---
+
+# Overview
+
+## Overview
+
+Remarkety is based on eCommerce big-data and accumulative knowledge from thousands of retailers, Remarkety's AI and ML engine constantly offers marketing recommendations for launching new campaigns and smart ideas on how to optimize existing ones. It's like having the most knowledgeable dedicated marketing professional, who is focused solely on marketing to your customers, constantly analyzing data and coming up with new ideas.
+
+## Authentication
+
+When using the Remarkety connector, the first thing you will need to do is go to your Tray.io account page, and select the workflow you wish to work on. Once in the workflow builder itself, search and drag the Remarkety connector from the connectors panel (on the left hand side) onto your workflow.
+
+With the new Remarkety connector step highlighted, in the properties panel on the right, click on the Authenticate tab and 'Add new authentication' (located under the 'Authentication' field).
+
+This will result in a Tray.io authentication pop-up window. The first page will ask you to name your authentication, and state which type of authentication you wish to create ('Personal' or 'Organisational').
+
+As you can see, the next page asks you for your 'API key', and if you are using version 2, for your 'Store ID'.
+
+In order to get these fields, head to your Remarkety dashboard. Click on the 'settings' tab on the left hand side and then 'API Keys'. On this page you can create a new API token and give it a name.
+
+## Version 2.0
+
+### Remarkety Connector Version 2.0
+
+For version 2.0 of the Remarkety connector you will need your 'Store ID'. You can find your 'Store ID' on the same page as the 'API Key'.
+
+## Version 1.0
+
+### Remarkety Connector Version 1.0
+
+If you are using version 1.0 of the Remarkety connector, please make a note of your 'Store ID' as well. You will need it for the subsequent steps.
+
+Once you have added these fields to your Tray.io authentication popup window, click on the 'Create authentication' button. Go back to your settings authentication field (within the workflow builder properties panel), and select the recently added authentication from the dropdown options now available.
+
+Your connector authentication setup should now be complete.
+
+## Available Operations
+
+The examples below show one or two of the available connector operations in use.
+
+Please see the [Full Operations Reference](#operationsFull) at the end of this page for details on all available operations for this connector.
+
+## Note on Operations Usage
+
+## Using the Raw HTTP Request ('Universal Operation')
+
+As of **version 1.0**, you can effectively create your own operations.
+
+This is a very powerful feature which you can put to use when there is an endpoint in Remarkety which is not used by any of our operations.
+
+To use this you will first of all need to research the endpoint in the [Remarkety API documentation v1.0](https://api-docs.remarkety.com/reference), to **find the exact format** that Remarkety will be expecting the endpoint to be passed in.
+
+Note that you will only need to add the suffix to the endpoint, as the base URL will be automatically set.
+
+The base URL for Remarkety is: `https://app.remarkety.com/api/v2`
+
+For example, say that the 'Get customer' operation did not exist in our Remarkety connector, and you wanted to use this endpoint, you would use the Remarkety API docs to find the relevant endpoint - which in this case is a `GET` request called: `/stores/store_id/customers/hash`.
+
+More details can be found [here](https://api-docs.remarkety.com/reference#get_-store-id-customers-hash).
+
+So if you know what your method, endpoint and details of your path parameters are you can get customer information with the following settings:
+
+Method: `GET`
+
+Endpoint: `/stores/YOUR_STORE_ID_HERE/customers/YOUR_CUSTOMER_HASH_HERE`
+
+Body Type : none
+
+Final Example outcome being: **https://app.remarkety.com/api/v2/stores/YOUR_STORE_ID_HERE/customers/YOUR_CUSTOMER_HASH_HERE**
+
+## Example Usage
+
+Below is an example of a way in which you could potentially use the Remarkety connector, to list out customers and get each individual customer.
+
+The steps will be as follows:
+
+1. Setup using a manual trigger and Remarkety connector
+2. Loop over the returned customers
+3. Grab information for each individual customer
+
+The final outcome should look like this:
+
+### 1 - Setup Trigger
+
+Once you have clicked 'Create new workflow' from your main Tray.io dashboard named it, select the Manual trigger from the trigger options available:
+
+After you have been redirected to the Tray.io workflow dashboard, from the connectors panel on the left, add a Remarkety connector to your second step. Set the operation to 'List customers'.
+
+Set the store ID to the ID of the store you wish to list customers for. You can get the store ID from the settings page of your Remarkety account as discussed above.
+
+We wont set any filter parameters because we don't want to limit the results.
+
+The Page parameter we can leave at the default 1 which will return the first page of results. The limit parameter for the purpose of this example you will set to 10 but you can set this limit up to the maximum of 100.
+
+Here we've setup our trigger and will now make a request to Remarkety for a list of customers.
+
+### 2 - Loop customers
+
+Next, search for the Loop collection connector within your connector panel, and drag it into your workflow as your next step. Set your operations to 'Loop list'.
+
+The Loop Collection connector allows you to iterate through a list of results. In this example, you will use it to iterate through the data found within the previous Remarkety connector step.
+
+In order to specify the list you want to loop through, start by using the 'List' mapping icon (found next to the list input field, within the properties panel) to generate the connector-snake.
+
+While hovering over the 'remarkety-1' step (with the tail end of the connector-snake), select `customers` from the list of output properties displayed. This will auto-populate a jsonpath within your 'List' input field, and update the type selector to jsonpath.
+
+For more clarification on the pathways you have available, open the Debug panel to view your step's Input and Output.
+
+Now we have the loop connector set up we can handle each customer individually.
+
+### 3 - Get customer
+
+Start by dragging a Remarkety connector on to the builder page and placing it 'inside' your loop connector. Set this step to 'Get customer'.
+
+We want to use the customer hash of the customer that we are currently iterating over in our loop step. To do this we'll once again use the connector snake, this time from the 'Hash' input of your new connector, and use it to select the 'hash' property from the output of the 'loop-1' connector.
+
+Now with every iteration of the loop you will retrieve the details of each customer in our list of customers. You can see the information we get back with each loop in the following image.
+
+With this information we can transfer the customer data to another platform or maybe modify that customer data based on other inputs.

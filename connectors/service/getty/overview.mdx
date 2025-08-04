@@ -1,0 +1,90 @@
+---
+title: "Overview"
+description: "Overview of the Getty connector"
+---
+
+# Overview
+
+## Overview
+
+Getty is a supplier of stock images, editorial photography, video and music for business and consumers with an archive of over 200 million assets.
+
+## Authentication
+
+When using the Getty connector, the first thing you will need to do is go to your Tray.io account page, and select the workflow you wish to work on. Once in the workflow builder itself, search and drag the Getty connector from the connectors panel (on the left hand side) onto your workflow.
+
+With the new Getty connector step highlighted, in the properties panel on the right, click on 'Add new authentication' which is located under the 'Settings' icon.
+
+This will result in a Tray.io authentication pop-up window. The first page will ask you to name your authentication, and state which type of authentication you wish to create ('Personal' or 'Organisational').
+
+As you can see, the next page asks you for the 'Username' and 'Password' to your Getty account.
+
+Once you have added these fields to your Tray.io authentication popup window, click on the 'Create authentication' button. Go back to your settings authentication field (within the workflow builder properties panel), and select the recently added authentication from the dropdown options now available.
+
+Your connector authentication setup should now be complete.
+
+## Available Operations
+
+The examples below show one or two of the available connector operations in use.
+
+Please see the [Full Operations Reference](#operationsFull) at the end of this page for details on all available operations for this connector.
+
+## Using the Raw HTTP Request ('Universal Operation')
+
+As of **version 1.0**, you can effectively create your own operations.
+
+This is a very powerful feature which you can put to use when there is an endpoint in Getty which is not used by any of our operations.
+
+To use this you will first of all need to research the endpoint in the [Getty API documentation v3.0](https://api.gettyimages.com/swagger/index.html), to **find the exact format** that Getty will be expecting the endpoint to be passed in.
+
+Note that you will only need to add the suffix to the endpoint, as the base URL will be automatically set (the base URL is picked up from the value you entered when you created your authentication).
+
+The base URL for Getty is: `https://api.gettyimages.com/v3`
+
+For example, say that the 'List collection codes' operation did not exist in our Getty connector, and you wanted to use this endpoint, you would use the Getty API docs to find the relevant endpoint - which in this case is a `GET` request called: `/collections`.
+
+More details can be found [here](https://api.gettyimages.com/swagger/index.html).
+
+So now that you know what your endpoint should look like, you should be able to get the information you need with the following settings:
+
+Method: `GET`
+
+Endpoint: `/collections`
+
+Final Example outcome being: **https://api.gettyimages.com/v3/collections**
+
+## Example Usage
+
+Below is an example of a way in which you could potentially use the Getty connector, to search for images and then download an image. Additionally, in the example below we will upload the image to Google Drive.
+
+The steps will be as follows:
+
+1. Setup using a manual trigger and search for images
+2. Download an image
+3. Upload downloaded image to Google Drive
+
+The final outcome should look like this:
+
+### 1 - Setup Trigger & Search images
+
+Once you have clicked 'Create new workflow' from your main Tray.io dashboard named it, select the Manual trigger from the trigger options available:
+
+After you have been redirected to the Tray.io workflow dashboard, from the connectors panel on the left, add a Getty connector to your second step. Set the operation to 'Search images'. You can also choose to rename your step at this point for clarity.
+
+For next step we can run the operation without providing any input parameters or we can configure the available input properties to filter our search results.
+
+In the step above we use the Collection codes input to only return images that are part of 'Getty Images Entertainment' collection.
+
+### 2 - Download an image
+
+In this step similar to the previous one, drag another Getty connector onto the workflow. This time set the operation to 'Download image'.
+
+In this step 'Image ID' is a required field and we use the `$.steps.getty-1.images[0].id` jsonpath to pull the Image ID of the first image returned from search results.
+
+### 3 - Upload Image to Drive
+
+In the final step we upload the image to Google Drive. This time search for and drag the Google Drive connector onto the workflow. Set the operation to 'Upload image'.
+
+In this step the 'File' parameter is required and once again we can use jsonpath to set the value. Here we set it to `$.steps.getty-2.file`.
+
+Congratulations! You just created a fully functional workflow. Click 'Run workflow' to see your results.

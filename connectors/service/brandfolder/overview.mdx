@@ -1,0 +1,50 @@
+---
+title: "Overview"
+description: "Overview of the Brandfolder connector"
+---
+
+# Overview
+
+## Overview
+
+Store, share, and showcase your assets in one place with Brandfolder, the world's most powerfully simple digital asset management software.
+
+## Authentication
+
+When using the brandfolder connector, the first thing you will have to do is click on 'New Authentication' in the step editor:
+
+An API key is required:
+
+Find your API key at https://brandfolder.com/profile#integrations.
+
+Click the icon to the right of your key to copy it to your clipboard.
+
+Paste the key into the token field.
+
+## Example - Moving existing digital assets into Brandfolder
+
+This example will demonstrate the **Create assets** operation.
+
+In this example we want to import images from an FTP server into Brandfolder.
+
+### 1 - List files
+
+Using the FTP connector. Set the operation to **FTP list files**.
+
+Set the **Path** to path of where the images are located.
+
+### 2 - Loop through files
+
+Using the Loop collection helper set the operation to **Loop list** and set the list to the output of the list files operation.
+
+### 3 - Download file
+
+Using the FTP connector set the Operation to **FTP download** and the set the **FilePath** to the output of the Loop collection helper.
+
+### 4 - Create asset
+
+Using the Brandfolder connector set the operation to **Create Assets**.
+
+Select the **type** of asset you want to create.
+
+Add an **Asset** and an **Attachment**, set the **Name**, **URL** and **Filename** to output of the previous step.

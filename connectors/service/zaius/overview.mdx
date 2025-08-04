@@ -1,0 +1,96 @@
+---
+title: "Overview"
+description: "Overview of the Zaius connector"
+---
+
+# Overview
+
+## Overview
+
+Zaius combines a Customer Data Platform (CDP) that consolidates and understands all of your customer data, a layer of sophisticated analytics that segments your audiences, and the campaign features that deliver the ultimate user experience in marketing, service, and commerce.
+
+## Authentication
+
+When using the Zaius connector, a new authentication has to be created in the step editor. Drag a Zaius connector in the workflow, click on the 'New Authentication' button and add the API key from the Zaius account in the required field.
+
+To be able to authenticate into Zaius and get the API key, follow the next steps:
+
+- login into your Zaius account
+- go to Account Setting
+- go to APIs in the left-hand side navigation
+- copy the API key that has been provided for you and add it in the authentication window to the Tray.io workflow
+
+Descriptive pictures below:
+
+## Available Operations
+
+The examples below show one or two of the available connector operations in use.
+
+Please see the [Full Operations Reference](#operationsFull) at the end of this page for details on all available operations for this connector.
+
+## Using the Raw HTTP Request ('Universal Operation')
+
+As of **version 1.1**, you can effectively create your own operations.
+
+This is a very powerful feature which you can put to use when there is an endpoint in Zaius which is not used by any of our operations.
+
+To use this you will first of all need to research the endpoint in the [Zaius API documentation](https://docs.developers.zaius.com/api/), to find the exact format that Zaius will be expecting the endpoint to be passed in.
+
+Note that you will only need to add the suffix to the endpoint, as the base URL will be automatically set within the Tray app.
+
+The base URL for Zaius is: `https://api.zaius.com/v3`
+
+For example, say that the 'List lists' operation did not exist in our Zaius connector, and you wanted to use this endpoint, you would use the Zaius API docs to find the relevant endpoint - which in this case is a `GET` request called: `/lists`.
+
+More details can be found [here](https://docs.developers.zaius.com/api/rest-api/lists).
+
+As you can see, there are no additional parameters required for this endpoint. So, if you know your method and endpoint you can get a list of all lists associated with a Zaius account with the following settings:
+
+Method: `GET`
+
+Endpoint: `/lists`
+
+Body Type: `none`
+
+Final Example outcome being: `https://api.zaius.com/v3/lists`
+
+## Example usage
+
+### Create a new list
+
+This short example will demonstrate how to **Create a list**
+
+Just add the name of the new list that needs to be created and press 'Run workflow' and a new list will be created in the Zaius platform. This operation can only be used for creating a new list so the name of the list has to be unique.
+
+To check that had a successful result click the 'Debug' button at the top of the page and check the logs on the left hand side.
+
+### List subscriptions
+
+This short example will demonstrate how to **List subscriptions**.
+
+To be able to **List subscriptions**, an 'Email address' has to be provided.
+
+If no 'List IDs' are added into the next input field, the operation will return all the list names. To filter the result you can choose from the dropdown section lists to be included in the response, or lists to be excluded from it.
+
+Another way to get the IDs of the lists for the 'List IDs to include' or 'List IDs to exclude' input fields is to retrieve them from the 'List lists' operation with the Connector Snake. Possible steps to follow:
+
+- add a Zaius connector to your workflow
+- set the operation name to **List lists**
+- add one more Zaius connector to your workflow
+- set the operation name to **List subscriptions**
+- add the email address in the required field in the **List subscriptions** step
+- if you need to include only one list in the response you can use the Connector Snake and select a 'List ID' from the **List lists** operation and add it in the 'List IDs to include' input field
+
+ 
+
+ 
+
+To check the result of the operations click the 'Debug' button and navigate through the results on the left hand side of the page.
+
+### Update subscriptions
+
+This short example will demonstrate how to **Update subscriptions**.
+
+To be able to **Update a subscription** the 'List ID' needs to be added in the List ID input field either from the dropdown provided or with the help of the Connector Snake. Also fill in the rest of the required fields and press the 'Run workflow' button.
+
+Check the response by clicking the 'Debug' button and accessing the logs.

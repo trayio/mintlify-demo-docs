@@ -1,0 +1,88 @@
+---
+title: "Use cases"
+description: "Use cases documentation for Salesforce connector"
+---
+
+# Use cases
+
+In each of these examples, 
+
+- Data transformation, mapping, and filtering are crucial. 
+- The [Boolean](https://tray.io/documentation/connectors/core/boolean-condition/) and [Branch](https://tray.io/documentation/connectors/core/branch/) connectors are often used for decision-making and data filtering. 
+- The [Script](https://tray.io/documentation/connectors/core/script/) connector or [JSON Transformer](https://tray.io/documentation/connectors/core/json-transformer/) can be used for more complex data transformations. 
+- When dealing with large datasets, consider using the bulk operations ([`bulk_update_records`](https://tray.io/documentation/connectors/service/salesforce/notes-on-using-salesforce/#batch-update--batch-create), [`bulk_upsert_records`](https://tray.io/documentation/connectors/service/salesforce/notes-on-using-salesforce/#bulk-upsert)) for better performance.
+
+### **Lead Scoring and Prioritization** 
+
+**Objective:** Automatically score and prioritize leads based on their attributes and activities. 
+
+**Steps:**
+
+1. **Trigger: **Use the `record_create_update `trigger for the Lead object.
+2. **Fetch Lead Data: **Use the `find_records `operation to get full lead details.
+3. **AI-Powered Scoring: **Use the Merlin functions connector with the `classify text `operation to analyze lead description and assign a category.
+4. **Data Enrichment: **Use an external data enrichment service to get additional company information.
+5. **Calculate Score: **Use a Script connector to calculate the final lead score based on AI classification and enriched data.
+6. **Update Lead: **Use the `update_record `operation to update the lead's score and priority in Salesforce.
+
+This example leverages AI for lead classification while combining it with traditional data processing for a comprehensive lead scoring system.
+
+### **Customer Support Ticket Triage** 
+
+**Objective:** Automatically categorize and route customer support tickets. 
+
+**Steps:**
+
+1. **Trigger: **Use the `record_create `trigger for the Case object.
+2. **Fetch Case Details: **Use the `find_records `operation to get full case details.
+3. **AI Sentiment Analysis: **Use the Merlin functions connector with the `sentiment analysis `operation to analyze the case description.
+4. **AI Categorization: **Use the Merlin functions connector with the `classify text `operation to categorize the case.
+5. **Determine Priority: **Use a Boolean connector to set priority based on sentiment and category.
+6. **Update Case: **Use the `update_record `operation to update the case with the category, sentiment, and priority.
+7. **Route Case: **Use the `update_record `operation to assign the case to the appropriate team based on the category.
+
+This example uses AI for both sentiment analysis and categorization to improve the efficiency of ticket routing.
+
+### **Automated Sales Pipeline Management** 
+
+**Objective:** Keep the sales pipeline up-to-date by automatically moving opportunities through stages. 
+
+**Steps:**
+
+1. **Trigger: **Use the `record_fields_change `trigger for the Opportunity object, watching for changes in specific fields like "Last Activity Date".
+2. **Fetch Opportunity Data: **Use the `find_records `operation to get full opportunity details.
+3. **Check Conditions: **Use Boolean connectors to check if the opportunity meets criteria for stage advancement.
+4. **Update Stage: **If conditions are met, use the `update_record `operation to move the opportunity to the next stage.
+5. **Create Tasks: **Use the `create_record `operation to create follow-up tasks for the sales team.
+
+This example doesn't use AI but showcases how to automate sales processes based on data changes in Salesforce.
+
+### **AI-Assisted Content Personalization** 
+
+**Objective:** Personalize email content for marketing campaigns based on customer data. 
+
+**Steps:**
+
+1. **Trigger: **Use a Scheduled trigger to run the workflow periodically.
+2. **Fetch Contacts: **Use the `find_records `operation to get a list of contacts for the campaign.
+3. **Segment Contacts: **Use Boolean and Branch connectors to segment contacts based on their attributes.
+4. **Generate Personalized Content: **For each segment, use the Merlin functions connector with the `generate text `operation to create personalized email content.
+5. **Update Campaign: **Use the `update_record `operation to update the campaign with the generated content.
+6. **Create Campaign Members: **Use the `batch_create_records `operation to add contacts as campaign members.
+
+This example uses AI to generate personalized content while leveraging Salesforce data for segmentation and campaign management.
+
+### **Data Quality Management** 
+
+**Objective:** Maintain high-quality data in Salesforce by identifying and correcting inconsistencies. 
+
+**Steps:**
+
+1. **Trigger: **Use a Scheduled trigger to run the workflow daily.
+2. **Fetch Records: **Use the `find_records `operation to get a batch of records (e.g., Accounts, Contacts).
+3. **Data Validation: **Use Boolean connectors and regular expressions to check for data quality issues (e.g., formatting, missing fields).
+4. **AI-Powered Correction: **For certain fields (e.g., company descriptions), use the Merlin functions connector with the `generate text `operation to suggest corrections or completions.
+5. **Update Records: **Use the `batch_update_records `operation to apply corrections to the records in Salesforce.
+6. **Report Generation: **Use the `create_record `operation to log a summary of changes made in a custom object for auditing purposes.
+
+This example combines traditional data validation techniques with AI-powered text generation for more complex data corrections.

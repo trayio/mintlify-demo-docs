@@ -1,0 +1,44 @@
+---
+title: "Overview"
+description: "Overview of the Hootsuite connector"
+---
+
+# Overview
+
+## Overview
+
+Hootsuite is the leading social media dashboard allowing you to manage multiple networks and profiles and measure your campaign results.
+
+## Authentication
+
+When using the Hootsuite connector, the first thing you will have to do is click on 'New Authentication' in the step editor:
+
+You will be given the choice of two authentication environments. Choose the 'Default OAuth2.0 App' environment. Ensure you have successfully signed into your Hootsuite account using the pop-up, otherwise operations will not be able to run correctly.
+
+As of version 2.0, the Hootsuite connector now supports the Organization App custom grant authentication.<br/>In this authentication environment, the grant type is set to 'organization_app'.<br/>To authenticate with this authentication environment, again click the 'New Authentication' button in the workflow properties panel.
+
+After naming your authentication and choosing your workspace, you can select either the 'Default' or 'Custom' OAuth2 app environment. Select 'Custom OAuth2.0 App'.
+
+Enter your values for 'Client ID', 'Client Secret', and 'Organization ID'. To get these values, go to your Hootsuite developer portal. Select your app.
+
+You should see the 'REST Client ID' and 'REST Client Secret' fields.
+
+If you do not see these fields, you have not been granted API access by Hootsuite yet. You can request access from Hootsuite, or find more information on finding these credentials [here](https://developer.hootsuite.com/docs/getting-started-with-the-rest-api).<br/>Note that the Organization ID must be for a Hootsuite Organization that has your App installed.
+
+## Available Operations
+
+The examples below show one or two of the available connector operations in use.
+
+Please see the [Full Operations Reference](#operationsFull) at the end of this page for details on all available operations for this connector.
+
+## Example
+
+1. Create a new workflow with a **Manual Trigger** and add a **Hootsuite** connector.
+
+1. Select the `List social profiles` operation:
+
+1. Click Run Workflow Now. Then select the Debug tab and you should be able to see a successful run of the workflow to click on and view the successful output of the workflow run:
+
+1. Let's try to get a specific social profile. Add a step from the Hootsuite connector, set to `Get social profile`. Set the `Social profile ID` to the ID of one of the social profiles, by using a JsonPath as shown in the example:
+
+1. Click Run Workflow Now, select the Debug tab and you should be able to see the successful output with the social profile you specifically requested.

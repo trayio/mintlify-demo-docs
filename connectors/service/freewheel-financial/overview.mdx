@@ -1,0 +1,100 @@
+---
+title: "Overview"
+description: "Overview of the Freewheel Financial connector"
+---
+
+# Overview
+
+## Overview
+
+Freewheel Financial is is a provider of comprehensive ad platforms for publishers, advertisers, and media buyers. Powered by premium video content, robust data, and advanced technology, the company is revolutionizing the way publishers and marketers transact across all screens, data types, and sales channels.
+
+## Authentication
+
+When using the Freewheel Financial connector, the first thing you will need to do is go to your Tray.io account page, and select the workflow you wish to work on. Once in the workflow builder itself, search and drag the Freewheel Financial connector from the connectors panel (on the left hand side) onto your workflow.
+
+With the new Freewheel Financial connector step highlighted, in the properties panel on the right, click on the ‘Authenticate’ panel followed by ‘Add new Authentication’ (located under the Authentication input field).
+
+This will result in a Tray.io authentication pop-up window. The first page will ask you to name your authentication, and state which type of authentication you wish to create ('Personal' or 'Organisational').
+
+As you can see, the next page asks you for your 'Application key' and 'Subscription key' credentials.
+
+In order to get these fields, head to your Freewheel Financial dashboard. After you log in click on the 'Profile' in the account menu.
+
+To get the 'Application key', click on "Register application" and submit the review request. After your application will be validated by Strata administrators you will receive your 'Application key'.
+
+To get the 'Subscription key', click on 'Show' next to 'Primary key' or 'Secondary key'.
+
+Once you have added these fields to your Tray.io authentication popup window, click on the 'Create authentication' button. Go back to your settings authentication field (within the workflow builder properties panel), and select the recently added authentication from the dropdown options now available.
+
+Your connector authentication setup should now be complete.
+
+## Available Operations
+
+The examples below show one or two of the available connector operations in use.
+
+Please see the [Full Operations Reference](#operationsFull) at the end of this page for details on all available operations for this connector.
+
+## Using the Raw HTTP Request ('Universal Operation')
+
+As of **version 1.0**, you can effectively create your own operations.
+
+This is a very powerful feature which you can put to use when there is an endpoint in Freewheel Financial which is not used by any of our operations.
+
+To use this you will first of all need to research the endpoint in the [Freewheel Financial API documentation v5.0](https://strataqa.portal.azure-api.net/docs/services/) , to<br/>**find the exact format** that Freewheel Financial will be expecting the endpoint to be passed in.
+
+Note that you will only need to add the suffix to the endpoint, as the base URL will be automatically set (the base URL is picked up from the value you entered when you created your authentication).
+
+The base URL for Freewheel Financial is: `https://strataqa.azure-api.net`
+
+For example, say that the 'List orders' operation did not exist in our Freewheel Financial connector, and you wanted to use this endpoint, you would use the Freewheel Financial API docs to find the relevant endpoint - which in this case is a `GET` request called: `/FinancialBridgeOrders/api/V5/orders/ids`.
+
+More details can be found [here](https://strataqa.portal.azure-api.net/docs/services/FbOrdersApiV5/operations/Order_GetById).
+
+So if you know what your method, endpoint, you can get the orders IDs information with the following settings:
+
+Method: `GET`
+
+Endpoint: `/FinancialBridgeOrders/api/V5/orders/ids`
+
+Final Example outcome being: **https://strataqa.azure-api.net/FinancialBridgeOrders/api/V5/orders/ids**
+
+## Example Usage
+
+Below is an example of a way in which you could potentially use the Freewheel Financial connector, to retrieve detailed information about each order.
+
+The steps will be as follows:
+
+1. Setup using a manual trigger and add 'List orders' step
+2. Add 'Loop collection' step to iterate through your orders
+3. Add 'Get order' step to retrieve specific information about selected orders
+
+The final outcome should look like this:
+
+### 1 - Setup using a manual trigger and add 'List assets' step
+
+Once you have clicked 'Create new workflow' from your main Tray.io dashboard named it, select the Manual trigger from the trigger options available:
+
+After you have been redirected to the Tray.io workflow dashboard, from the connectors panel on the left, add a Freewheel Financial connector to your second step. Set the operation to 'List orders'.
+
+Feel free to re-name your steps as you go along to make things clearer for yourself and other users.
+
+### 2 - Loop Collection
+
+Next, search for the 'Loop collection' connector within your connector panel, and drag it into your workflow as your next step. Set your operations to 'Loop list'.
+
+The Loop Collection connector allows you to iterate through a list of results. In this example, we will use it to iterate through the data found within the previous 'List orders' connector step.
+
+In order to specify the list you want to loop through, start by using the 'List' mapping icon (found next to the list input field, within the properties panel) to generate the connector-snake.
+
+While hovering over the 'List orders' step (with the tail end of the connector-snake), select `results` from the list of output properties displayed. This will auto-populate a jsonpath within your 'List' input field, and update the type selector to jsonpath.
+
+Now when the workflow is run, the Loop Collection step will iterate through the each item found within the previously created list.
+
+### 3 - Get dataset
+
+The final step is to drag a final Freewheel Financial connector *INSIDE* of the actual Loop Collection step itself. Set the operation to 'Get order'. As you can see, the 'Order ID' fields is required.
+
+In the 'Order ID' field use the connector-snake once more and assign it to the `value` field, produced by the Loop Collection connector from the previous step.
+
+When run, this workflow will retrieve detailed information about each of the orders found:

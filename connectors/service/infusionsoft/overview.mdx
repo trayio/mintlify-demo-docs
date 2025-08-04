@@ -1,0 +1,122 @@
+---
+title: "Overview"
+description: "Overview of the Infusionsoft connector"
+---
+
+# Overview
+
+## Overview
+
+Infusionsoft by Keap is a content relationship management platform that enables small businesses to automate their sales and marketing. It makes it easy to produce marketing campaigns and to keep track of leads.
+
+## Authentication
+
+To begin using the connector, add an Infusionsoft connector step to your workflow. With the connector step highlighted, click on the 'New authentication' button that should now be visible in the Properties panel (under 'SETTINGS') on the right hand side:
+
+You will see a new authentication popup window.
+
+Provide a name for your authentication, and then click 'Add authentication'.
+
+A new popup will then appear where you can enter your login details. Enter them and click 'Log In'.
+
+You will then be asked whether you want to authorise Tray.io in your Infusionsoft account.
+
+Click 'Allow' and the popup window will close, and you will be ready to go.
+
+## Infusionsoft Trigger
+
+If you wish your workflow to be kicked off by a particular action in Infusionsoft, you can use the Infusionsoft Trigger.
+
+The Infusionsoft trigger allows you to receive notifications and trigger workflows when given events occur associated with the selected trigger operation.
+
+### Trigger operations available:
+
+- Webhook
+
+### Webhook Setup
+
+This connector uses a webhook as its operation type. Usually this means Tray.io needs to further integrate with Infusionsoft, in order to complete the trigger authentication process. However on this occasion, this aspect has been managed for you via the backend.
+
+This means you can use the same authentication and/ authentication process, for both the connector and the trigger.
+
+Follow the instructions above to authenticate with your trigger, and select 'Webhook' as the event you want your trigger to listen to (aka the operation), in order to set off the workflow itself.
+
+## Available Operations
+
+The examples below show one or two of the available connector operations in use.
+
+Please see the [Full Operations Reference](#operationsFull) at the end of this page for details on all available operations for this connector.
+
+## Using the Raw HTTP Request ('Universal Operation')
+
+As of **version 2.0**, it is now possible to effectively create your own operations.
+
+This is a very powerful feature which you can put to use when there is an endpoint in Infusionsoft which is not used by any of our operations.
+
+To use this you will first of all need to research the endpoint in the [Infusionsoft API documentation](https://developer.infusionsoft.com/docs/rest/#!/Account_Info/getAccountProfileUsingGET), to *find the exact format* that Infusionsoft will be expecting the endpoint to be passed in.
+
+Note that you will only need to add the suffix to the endpoint, as the base url will be automatically set (the base url is picked up from the value you entered when you created your authentication).
+
+The base url is in the format of `https://api.infusionsoft.com/crm/rest/v1`
+
+For example, say that the 'Get campaign' operation did not exist in our Infusionsoft connector, and you wanted to use this endpoint, you would use the Infusionsoft API docs to find that the 'Get campaign' endpoint is a get request at the following url:
+
+**ENDPOINT (GET request)**: 
+
+`/campaigns/[campaignId]`
+
+So if you know what your campaignId is, you can get the campaign details, with the following settings:
+
+**GET**: 
+
+`/campaigns/1234`
+
+That means the final outcome should be a result of:
+
+**GET + BASE**: 
+
+`https://api.infusionsoft.com/crm/rest/v1/campaigns/1234`
+
+The specific campaign details as requested should now be returned.
+
+## Example Usage
+
+Below is a brief example which demonstrates how to iterate through the contacts stored within Infusionsoft.
+
+The steps are outlined as follows:
+
+1. Set up your manual trigger and first Infusionsoft connector step.
+2. Add a Loop connector to iterate through your contacts.
+3. Add a step to get each contact individually.
+
+The end result should look something like this:
+
+### 1 - Setup trigger & List contacts
+
+Once you have created and named your new workflow, select 'Manual Trigger' from the connectors panel on the left, and add a 'Infusionsoft' connector to your second step. Set the operation to 'List contacts'.
+
+The fields that are mandatory are 'Limit' and 'Offset' but as they are already pre-filled for you, you need not worry about them at this stage.
+
+Feel free to name your step to make things clearer for yourself and other users:
+
+Now when this workflow is run, it will pull down a list of contacts from the Infusionsoft API. This means you will be able to view them when you click through your debug panel.
+
+### 2 - Add a Loop step
+
+Next, we add a 'Loop Collection' connector to the workflow.
+
+Use the connector-snake to generate the JSON path you will need, by clicking and dragging on the orange circle mapping icon, left of the 'List operation' itself.
+
+Once you have dragged it over to the first Infusionsoft step, you will see a dropdown list of options appear. Select the `contacts` array.
+
+The Loop input panel should then look something like this.
+
+This will enable us to iterate over the list of contacts, and perform operations for each one, during each loop cycle.
+
+### 3 - Get contact
+
+Finally, drag another Infusionsoft connector step into the Loop collection itself, and select the operation 'Get contact'.
+
+Use the same connector-snake method for generating the JSON path to get the 'ID' field.
+
+From here, you can send the data from each account to another online service, manipulate the data in some way, or change 'Get contact' to 'Update contact' in order to update each account in turn with some new data.

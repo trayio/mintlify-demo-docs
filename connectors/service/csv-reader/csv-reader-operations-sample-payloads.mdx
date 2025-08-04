@@ -1,0 +1,80 @@
+---
+title: "Operations (sample payloads)"
+description: "Operations (sample payloads) documentation for CSV Reader connector"
+---
+
+# Operations (sample payloads)
+
+## Main operations
+
+### Create CSV
+
+Create a CSV instance that can be queried.
+
+**Sample Input**
+
+**Sample Output**
+
+### Delete CSV
+
+Delete a specified CSV.
+
+**Sample Input**
+
+**Sample Output**
+
+### Export CSV file
+
+Export a CSV file with results of a query execution. Query execution needs to be in status "SUCCEEDED" in order to retrieve CSV file.
+
+**Sample Input**
+
+**Sample Output**
+
+### Export split CSV file
+
+Export a CSV file with results of a query execution. CSV can be split into multiple files by file size limit.
+
+**Sample Input**
+
+**Sample Output**
+
+### Get query execution
+
+Retrieve details and status of a query execution
+
+**Sample Input**
+
+**Sample Output**
+
+### Get query results
+
+Retrieve results from a completed query execution
+
+**Sample Input**
+
+**Sample Output**
+
+### Get row count
+
+Returns the numbers of rows in a CSV
+
+**Sample Input**
+
+**Sample Output**
+
+### Start query
+
+Start a query execution against a CSV instance. Returns a query execution ID which can be used in Get Query Results.
+
+**Sample Input**
+
+**Sample Output**
+
+### Start query on rows
+
+Start a query execution against a number of rows in a CSV instance. Returns a query execution ID which can be used in Get Query Results. Note this adds a new column called 'tray_io_row_number' to the CSV. To guarentee consistent results when reading a number of rows, please order by a column whose values are unique for every row.
+
+**Sample Input**
+
+**Sample Output**

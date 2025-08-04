@@ -1,0 +1,42 @@
+---
+title: "Overview"
+description: "Overview of the Adobe Analytics Live Stream connector"
+---
+
+# Overview
+
+## Overview
+
+Adobe Analytics Live Stream allows you to access hit-level, unprocessed data in near real time (30 to 90 seconds), which you can use in live-traffic dashboards.
+
+## Adobe Analytics Live Stream Trigger
+
+### Trigger operations available:
+
+- Live Stream
+
+### Adobe Analytics Live Stream Authentication
+
+First make sure you are already logged into your Adobe account, as this will make the authentication process run more smoothly.
+
+In your Tray.io builder, with the new Adobe Analytics Live Stream trigger step highlighted; in the properties panel on the right click on 'New Authentication' (located under the 'Settings' heading).
+
+This will result in a Tray.io authentication pop-up window. The first page will ask you to name your authentication appropriately, and state which type of authentication you wish to make ('Personal' or 'Organisational').
+
+As you can see, the next page asks you for your 'Service Permissions'. This includes your preference regarding 'Openid' and any 'Extra Scopes' you wish to utilise.
+
+The only scope required is the 'Openid' scope. This scope is the standard scope for accessing Adobe profile information, and is automatically selected for you.
+
+'Extra Scopes' are to be determined by the user on an individual basis. For more information check out the Adobe Analytics Live Stream documentation: [Getting started with Livestream API](https://helpx.adobe.com/uk/analytics/kb/getting-started-with-livestream-api.html).
+
+Once you have clicked the 'Add authentication' button, go to back to your authentication field (within the workflow builder properties panel from earlier), and select the recently added authentication from the dropdown options now available.
+
+Your operation should automatically be set to 'Live Stream', which means that within the properties panel under the input section, you will have a new field called 'Stream URL'.
+
+Instructions on how to gain your stream URL can be found here: [Connect to the Stream](https://github.com/AdobeDocs/analytics-1.4-apis/blob/master/docs/live-stream-api/getting_started.md#contact-customer-care-to-provision-the-stream).
+
+Once you have set this, your trigger authentication setup should be complete. Make sure to test this by "triggering" the workflow and checking the Debug panel for input/ output data.
+
+## Note on Operations usage
+
+When disabling one workflow's Adobe Analytics Live Stream trigger, please wait (approximately 5 minutes) before starting the stream elsewhere, as it takes some time to disable the stream fully.

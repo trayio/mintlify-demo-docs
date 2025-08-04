@@ -1,0 +1,48 @@
+---
+title: "Overview"
+description: "Overview of the Pandadoc connector"
+---
+
+# Overview
+
+## Overview
+
+The tray.io PandaDoc connector allows you to create and send templated documents in PandaDoc.
+
+## Authentication
+
+When using the Pandadoc connector, the first thing you will have to do is click on 'New Authentication' in the step editor:
+
+Ensure you allow Tray read and write access to fully utilise our connector. The Authentication Title will be automatically generated:
+
+## Available Operations
+
+The examples below show one or two of the available connector operations in use.
+
+Please see the [Full Operations Reference](#operationsFull) at the end of this page for details on all available operations for this connector.
+
+## Note on operation usage
+
+### Formatting your Input
+
+It is important to format your input fields correctly when working with Pandadoc. This is especially true when working with the 'List helper'.
+
+The existing implementation signals a type error when you give a list type for sections, which prevents drag and drop connections within the 'List helper' from working correctly.
+
+Please see the following [Pandadoc documentation](https://developers.pandadoc.com/docs/create-doc-from-sheet-example) page for more details on how to correctly format your Pandadoc input fields.
+
+### Template uuid
+
+The ID of a template you want to use. You can copy it from an in app template url such as https://app.pandadoc.com/a/#/templates/{ID}/content. A template ID is also obtained by listing templates.
+
+## Example
+
+The following workflow has been created using a Manual Trigger and three operations from the PandaDoc connector.
+
+Use the **List templates** operation to return an array of templates in your PandaDoc account (note we have switched to the **Debug** tab to view the output):
+
+Use the **ID** field returned in the results as the **Template uuid** property in the **Create document from template** operation:
+
+Use the **ID** field returned in the results of the **Create document from template** operation to query the **Get document status** operation to check whether the document was created:
+
+The **status** field returned in the results should read 'document.draft' if the document was successfully uploaded and created.

@@ -268,25 +268,3738 @@
       {
         "tab": "Developer",
         "pages": [
-            "developer/overview"
+          "developer/overview"
         ]
       },
       {
         "tab": "Connectors",
-        "pages": [
-            "connectors/overview"
+        "groups": [
+          {
+            "group": "Connectors",
+            "pages": [
+              "connectors/overview"
+            ]
+          },
+          {
+            "group": "Connector Documentation",
+            "pages": [
+              {
+                "group": "Service",
+                "pages": [
+                  {
+                    "group": "15Five",
+                    "pages": [
+                      "connectors/service/15-five/overview",
+                      "connectors/service/15-five/operations"
+                    ]
+                  },
+                  {
+                    "group": "2Checkout",
+                    "pages": [
+                      "connectors/service/2checkout/overview",
+                      "connectors/service/2checkout/operations"
+                    ]
+                  },
+                  {
+                    "group": "Accelevents",
+                    "pages": [
+                      "connectors/service/accelevents/overview",
+                      "connectors/service/accelevents/operations"
+                    ]
+                  },
+                  {
+                    "group": "Act-On",
+                    "pages": [
+                      "connectors/service/act-on/overview",
+                      "connectors/service/act-on/operations"
+                    ]
+                  },
+                  {
+                    "group": "ActiveCampaign",
+                    "pages": [
+                      "connectors/service/activecampaign/overview",
+                      "connectors/service/activecampaign/operations"
+                    ]
+                  },
+                  {
+                    "group": "Adaptive Insights",
+                    "pages": [
+                      "connectors/service/adaptive-insights/overview",
+                      "connectors/service/adaptive-insights/operations"
+                    ]
+                  },
+                  {
+                    "group": "AdmitHub",
+                    "pages": [
+                      "connectors/service/admithub/overview",
+                      "connectors/service/admithub/operations"
+                    ]
+                  },
+                  {
+                    "group": "Adobe Experience Manager",
+                    "pages": [
+                      "connectors/service/adobe-experience-manager/overview",
+                      "connectors/service/adobe-experience-manager/operations"
+                    ]
+                  },
+                  {
+                    "group": "Adobe User Management",
+                    "pages": [
+                      "connectors/service/adobe-user-management/overview",
+                      "connectors/service/adobe-user-management/operations"
+                    ]
+                  },
+                  {
+                    "group": "ADP",
+                    "pages": [
+                      "connectors/service/adp/overview",
+                      "connectors/service/adp/operations"
+                    ]
+                  },
+                  {
+                    "group": "Adroll",
+                    "pages": [
+                      "connectors/service/adroll/overview",
+                      "connectors/service/adroll/operations"
+                    ]
+                  },
+                  {
+                    "group": "Affinity",
+                    "pages": [
+                      "connectors/service/affinity/overview",
+                      "connectors/service/affinity/operations"
+                    ]
+                  },
+                  {
+                    "group": "Ahrefs",
+                    "pages": [
+                      "connectors/service/ahrefs/overview",
+                      "connectors/service/ahrefs/operations"
+                    ]
+                  },
+                  {
+                    "group": "Aircall",
+                    "pages": [
+                      "connectors/service/aircall/overview",
+                      "connectors/service/aircall/operations"
+                    ]
+                  },
+                  {
+                    "group": "Airtable",
+                    "pages": [
+                      "connectors/service/airtable/overview",
+                      "connectors/service/airtable/airtable-notes-on-using-airtable",
+                      "connectors/service/airtable/airtable-example-usage",
+                      "connectors/service/airtable/airtable-operations-sample-payloads",
+                      "connectors/service/airtable/operations"
+                    ]
+                  },
+                  {
+                    "group": "Algolia",
+                    "pages": [
+                      "connectors/service/algolia/overview",
+                      "connectors/service/algolia/operations"
+                    ]
+                  },
+                  {
+                    "group": "Alida",
+                    "pages": [
+                      "connectors/service/alida/overview",
+                      "connectors/service/alida/operations"
+                    ]
+                  },
+                  {
+                    "group": "Alteryx",
+                    "pages": [
+                      "connectors/service/alteryx/overview",
+                      "connectors/service/alteryx/operations"
+                    ]
+                  },
+                  {
+                    "group": "Amazon Athena",
+                    "pages": [
+                      "connectors/service/amazon-athena/overview",
+                      "connectors/service/amazon-athena/operations"
+                    ]
+                  },
+                  {
+                    "group": "Amazon Business",
+                    "pages": [
+                      "connectors/service/amazon-business/overview",
+                      "connectors/service/amazon-business/operations"
+                    ]
+                  },
+                  {
+                    "group": "Amazon Marketplace",
+                    "pages": [
+                      "connectors/service/aws-marketplace/overview",
+                      "connectors/service/aws-marketplace/operations"
+                    ]
+                  },
+                  {
+                    "group": "Ambassador",
+                    "pages": [
+                      "connectors/service/ambassador/overview",
+                      "connectors/service/ambassador/operations"
+                    ]
+                  },
+                  {
+                    "group": "Amplitude",
+                    "pages": [
+                      "connectors/service/amplitude/overview",
+                      "connectors/service/amplitude/operations"
+                    ]
+                  },
+                  {
+                    "group": "Amplitude Dashboard",
+                    "pages": [
+                      "connectors/service/amplitude-dashboard/overview",
+                      "connectors/service/amplitude-dashboard/operations"
+                    ]
+                  },
+                  {
+                    "group": "Anaplan",
+                    "pages": [
+                      "connectors/service/anaplan/overview",
+                      "connectors/service/anaplan/operations"
+                    ]
+                  },
+                  {
+                    "group": "AppNeta",
+                    "pages": [
+                      "connectors/service/appneta/overview",
+                      "connectors/service/appneta/operations"
+                    ]
+                  },
+                  {
+                    "group": "ArcGIS",
+                    "pages": [
+                      "connectors/service/arcgis/overview",
+                      "connectors/service/arcgis/operations"
+                    ]
+                  },
+                  {
+                    "group": "Asana",
+                    "pages": [
+                      "connectors/service/asana/overview",
+                      "connectors/service/asana/asana-operations-sample-payloads",
+                      "connectors/service/asana/operations"
+                    ]
+                  },
+                  {
+                    "group": "Atlassian",
+                    "pages": [
+                      "connectors/service/atlassian/overview",
+                      "connectors/service/atlassian/operations"
+                    ]
+                  },
+                  {
+                    "group": "Attentive Mobile",
+                    "pages": [
+                      "connectors/service/attentive-mobile/overview",
+                      "connectors/service/attentive-mobile/operations"
+                    ]
+                  },
+                  {
+                    "group": "Aventri",
+                    "pages": [
+                      "connectors/service/aventri/overview",
+                      "connectors/service/aventri/operations"
+                    ]
+                  },
+                  {
+                    "group": "AWeber",
+                    "pages": [
+                      "connectors/service/aweber/overview",
+                      "connectors/service/aweber/operations"
+                    ]
+                  },
+                  {
+                    "group": "AWS Bedrock",
+                    "pages": [
+                      "connectors/service/aws-bedrock/overview",
+                      "connectors/service/aws-bedrock/awsbedrock-example-usage",
+                      "connectors/service/aws-bedrock/aws-bedrock-operations-sample-payloads",
+                      "connectors/service/aws-bedrock/operations"
+                    ]
+                  },
+                  {
+                    "group": "AWS Cloudfront",
+                    "pages": [
+                      "connectors/service/aws-cloudfront/overview",
+                      "connectors/service/aws-cloudfront/operations"
+                    ]
+                  },
+                  {
+                    "group": "AWS CloudWatch",
+                    "pages": [
+                      "connectors/service/aws-cloudwatch/overview",
+                      "connectors/service/aws-cloudwatch/operations"
+                    ]
+                  },
+                  {
+                    "group": "AWS Cognito",
+                    "pages": [
+                      "connectors/service/aws-cognito/overview",
+                      "connectors/service/aws-cognito/operations"
+                    ]
+                  },
+                  {
+                    "group": "AWS Comprehend",
+                    "pages": [
+                      "connectors/service/aws-comprehend/overview",
+                      "connectors/service/aws-comprehend/operations"
+                    ]
+                  },
+                  {
+                    "group": "AWS Generic Connector",
+                    "pages": [
+                      "connectors/service/aws/overview",
+                      "connectors/service/aws/aws-operations-sample-payloads",
+                      "connectors/service/aws/operations"
+                    ]
+                  },
+                  {
+                    "group": "AWS Kinesis",
+                    "pages": [
+                      "connectors/service/aws-kinesis/overview",
+                      "connectors/service/aws-kinesis/operations"
+                    ]
+                  },
+                  {
+                    "group": "AWS Lambda",
+                    "pages": [
+                      "connectors/service/aws-lambda/overview",
+                      "connectors/service/aws-lambda/operations"
+                    ]
+                  },
+                  {
+                    "group": "AWS Redshift",
+                    "pages": [
+                      "connectors/service/redshift/overview",
+                      "connectors/service/redshift/notes-on-using-redshift",
+                      "connectors/service/redshift/redshift-operations-sample-payloads",
+                      "connectors/service/redshift/redshift-use-cases",
+                      "connectors/service/redshift/operations"
+                    ]
+                  },
+                  {
+                    "group": "AWS S3",
+                    "pages": [
+                      "connectors/service/aws-s3/overview",
+                      "connectors/service/aws-s3/aws-s3-operations-sample-payloads",
+                      "connectors/service/aws-s3/operations"
+                    ]
+                  },
+                  {
+                    "group": "AWS SageMaker",
+                    "pages": [
+                      "connectors/service/aws-sagemaker/overview",
+                      "connectors/service/aws-sagemaker/operations"
+                    ]
+                  },
+                  {
+                    "group": "AWS SQS",
+                    "pages": [
+                      "connectors/service/aws-sqs/overview",
+                      "connectors/service/aws-sqs/aws-sqs-operations-sample-payloads",
+                      "connectors/service/aws-sqs/operations"
+                    ]
+                  },
+                  {
+                    "group": "Azure Active Directory",
+                    "pages": [
+                      "connectors/service/azure/overview",
+                      "connectors/service/azure/azure-active-directory-operations-sample-payloads",
+                      "connectors/service/azure/operations"
+                    ]
+                  },
+                  {
+                    "group": "Azure DevOps",
+                    "pages": [
+                      "connectors/service/azure-devops/overview",
+                      "connectors/service/azure-devops/operations"
+                    ]
+                  },
+                  {
+                    "group": "BambooHR",
+                    "pages": [
+                      "connectors/service/bamboohr/overview",
+                      "connectors/service/bamboohr/bamboohr-use-cases",
+                      "connectors/service/bamboohr/bamboohr-operations-sample-payloads",
+                      "connectors/service/bamboohr/operations"
+                    ]
+                  },
+                  {
+                    "group": "Bevy",
+                    "pages": [
+                      "connectors/service/bevy/overview",
+                      "connectors/service/bevy/operations"
+                    ]
+                  },
+                  {
+                    "group": "BigCommerce",
+                    "pages": [
+                      "connectors/service/bigcommerce/overview",
+                      "connectors/service/bigcommerce/operations"
+                    ]
+                  },
+                  {
+                    "group": "Bing Ads",
+                    "pages": [
+                      "connectors/service/bing-ads/overview",
+                      "connectors/service/bing-ads/operations"
+                    ]
+                  },
+                  {
+                    "group": "Bitbucket Server",
+                    "pages": [
+                      "connectors/service/bitbucket-server/overview",
+                      "connectors/service/bitbucket-server/operations"
+                    ]
+                  },
+                  {
+                    "group": "Bizzabo",
+                    "pages": [
+                      "connectors/service/bizzabo/overview",
+                      "connectors/service/bizzabo/operations"
+                    ]
+                  },
+                  {
+                    "group": "Blueshift",
+                    "pages": [
+                      "connectors/service/blueshift/overview",
+                      "connectors/service/blueshift/operations"
+                    ]
+                  },
+                  {
+                    "group": "Bluesnap",
+                    "pages": [
+                      "connectors/service/bluesnap/overview",
+                      "connectors/service/bluesnap/operations"
+                    ]
+                  },
+                  {
+                    "group": "BMC Remedy",
+                    "pages": [
+                      "connectors/service/bmc-remedy/overview",
+                      "connectors/service/bmc-remedy/operations"
+                    ]
+                  },
+                  {
+                    "group": "Boolean Condition",
+                    "pages": [
+                      "connectors/service/boolean-condition/overview",
+                      "connectors/service/boolean-condition/boolean-condition-operations-sample-payloads",
+                      "connectors/service/boolean-condition/operations"
+                    ]
+                  },
+                  {
+                    "group": "Boostr",
+                    "pages": [
+                      "connectors/service/boostr/overview",
+                      "connectors/service/boostr/operations"
+                    ]
+                  },
+                  {
+                    "group": "Box",
+                    "pages": [
+                      "connectors/service/box/overview",
+                      "connectors/service/box/operations"
+                    ]
+                  },
+                  {
+                    "group": "Braintree",
+                    "pages": [
+                      "connectors/service/braintree/overview",
+                      "connectors/service/braintree/operations"
+                    ]
+                  },
+                  {
+                    "group": "Branch",
+                    "pages": [
+                      "connectors/service/branch/overview",
+                      "connectors/service/branch/branch-operations-sample-payloads",
+                      "connectors/service/branch/operations"
+                    ]
+                  },
+                  {
+                    "group": "Brandfolder",
+                    "pages": [
+                      "connectors/service/brandfolder/overview",
+                      "connectors/service/brandfolder/operations"
+                    ]
+                  },
+                  {
+                    "group": "Braze",
+                    "pages": [
+                      "connectors/service/braze/overview",
+                      "connectors/service/braze/operations"
+                    ]
+                  },
+                  {
+                    "group": "Break loop",
+                    "pages": [
+                      "connectors/service/break-loop/overview",
+                      "connectors/service/break-loop/break-loop-operations-sample-payloads",
+                      "connectors/service/break-loop/operations"
+                    ]
+                  },
+                  {
+                    "group": "Brightcove",
+                    "pages": [
+                      "connectors/service/brightcove/overview",
+                      "connectors/service/brightcove/operations"
+                    ]
+                  },
+                  {
+                    "group": "Bynder",
+                    "pages": [
+                      "connectors/service/bynder/overview",
+                      "connectors/service/bynder/operations"
+                    ]
+                  },
+                  {
+                    "group": "Calendly",
+                    "pages": [
+                      "connectors/service/calendly/overview",
+                      "connectors/service/calendly/operations"
+                    ]
+                  },
+                  {
+                    "group": "Call workflow",
+                    "pages": [
+                      "connectors/service/call-workflow/overview",
+                      "connectors/service/call-workflow/call-workflow-operations-sample-payloads",
+                      "connectors/service/call-workflow/operations"
+                    ]
+                  },
+                  {
+                    "group": "Callable response",
+                    "pages": [
+                      "connectors/service/callable-workflow-response/overview",
+                      "connectors/service/callable-workflow-response/callable-workflow-response-operations-sample-payloads",
+                      "connectors/service/callable-workflow-response/operations"
+                    ]
+                  },
+                  {
+                    "group": "CallRail",
+                    "pages": [
+                      "connectors/service/callrail/overview",
+                      "connectors/service/callrail/operations"
+                    ]
+                  },
+                  {
+                    "group": "Campaign Monitor",
+                    "pages": [
+                      "connectors/service/campaign-monitor/overview",
+                      "connectors/service/campaign-monitor/operations"
+                    ]
+                  },
+                  {
+                    "group": "Campaign Monitor Commerce",
+                    "pages": [
+                      "connectors/service/campaign-monitor-commerce/overview",
+                      "connectors/service/campaign-monitor-commerce/operations"
+                    ]
+                  },
+                  {
+                    "group": "Campaigner",
+                    "pages": [
+                      "connectors/service/campaigner/overview",
+                      "connectors/service/campaigner/operations"
+                    ]
+                  },
+                  {
+                    "group": "Canvas",
+                    "pages": [
+                      "connectors/service/canvas/overview",
+                      "connectors/service/canvas/operations"
+                    ]
+                  },
+                  {
+                    "group": "Capsule",
+                    "pages": [
+                      "connectors/service/capsule/overview",
+                      "connectors/service/capsule/operations"
+                    ]
+                  },
+                  {
+                    "group": "Cascade",
+                    "pages": [
+                      "connectors/service/cascade/overview",
+                      "connectors/service/cascade/operations"
+                    ]
+                  },
+                  {
+                    "group": "Chargback",
+                    "pages": [
+                      "connectors/service/chargeback/overview",
+                      "connectors/service/chargeback/operations"
+                    ]
+                  },
+                  {
+                    "group": "Chargebee",
+                    "pages": [
+                      "connectors/service/chargebee/overview",
+                      "connectors/service/chargebee/operations"
+                    ]
+                  },
+                  {
+                    "group": "Chargify",
+                    "pages": [
+                      "connectors/service/chargify/overview",
+                      "connectors/service/chargify/operations"
+                    ]
+                  },
+                  {
+                    "group": "ChartMogul",
+                    "pages": [
+                      "connectors/service/chartmogul/overview",
+                      "connectors/service/chartmogul/operations"
+                    ]
+                  },
+                  {
+                    "group": "Chat Trayning",
+                    "pages": [
+                      "connectors/service/chat-trayning/overview",
+                      "connectors/service/chat-trayning/operations"
+                    ]
+                  },
+                  {
+                    "group": "Checkout",
+                    "pages": [
+                      "connectors/service/checkout/overview",
+                      "connectors/service/checkout/operations"
+                    ]
+                  },
+                  {
+                    "group": "Clearbit",
+                    "pages": [
+                      "connectors/service/clearbit/overview",
+                      "connectors/service/clearbit/operations"
+                    ]
+                  },
+                  {
+                    "group": "CleverReach",
+                    "pages": [
+                      "connectors/service/clevereach/overview",
+                      "connectors/service/clevereach/operations"
+                    ]
+                  },
+                  {
+                    "group": "ClickUp",
+                    "pages": [
+                      "connectors/service/click-up/overview",
+                      "connectors/service/click-up/operations"
+                    ]
+                  },
+                  {
+                    "group": "Close",
+                    "pages": [
+                      "connectors/service/close/overview",
+                      "connectors/service/close/operations"
+                    ]
+                  },
+                  {
+                    "group": "Clubhouse",
+                    "pages": [
+                      "connectors/service/clubhouse/overview",
+                      "connectors/service/clubhouse/operations"
+                    ]
+                  },
+                  {
+                    "group": "Coda",
+                    "pages": [
+                      "connectors/service/coda/overview",
+                      "connectors/service/coda/operations"
+                    ]
+                  },
+                  {
+                    "group": "Cohere",
+                    "pages": [
+                      "connectors/service/cohere/overview",
+                      "connectors/service/cohere/cohere-examples",
+                      "connectors/service/cohere/cohere-operations-sample-payloads",
+                      "connectors/service/cohere/operations"
+                    ]
+                  },
+                  {
+                    "group": "Confection",
+                    "pages": [
+                      "connectors/service/confection/overview",
+                      "connectors/service/confection/operations"
+                    ]
+                  },
+                  {
+                    "group": "Confluence",
+                    "pages": [
+                      "connectors/service/confluence/overview",
+                      "connectors/service/confluence/operations"
+                    ]
+                  },
+                  {
+                    "group": "ConnectWise",
+                    "pages": [
+                      "connectors/service/connectwise/overview",
+                      "connectors/service/connectwise/operations"
+                    ]
+                  },
+                  {
+                    "group": "Constant Contact",
+                    "pages": [
+                      "connectors/service/constant-contact/overview",
+                      "connectors/service/constant-contact/operations"
+                    ]
+                  },
+                  {
+                    "group": "Conversica",
+                    "pages": [
+                      "connectors/service/conversica/overview",
+                      "connectors/service/conversica/operations"
+                    ]
+                  },
+                  {
+                    "group": "ConvertKit",
+                    "pages": [
+                      "connectors/service/convertkit/overview",
+                      "connectors/service/convertkit/operations"
+                    ]
+                  },
+                  {
+                    "group": "Copper",
+                    "pages": [
+                      "connectors/service/copper/overview",
+                      "connectors/service/copper/operations"
+                    ]
+                  },
+                  {
+                    "group": "Criteo",
+                    "pages": [
+                      "connectors/service/criteo/overview",
+                      "connectors/service/criteo/operations"
+                    ]
+                  },
+                  {
+                    "group": "CRM Trayning",
+                    "pages": [
+                      "connectors/service/crm-trayning/overview",
+                      "connectors/service/crm-trayning/operations"
+                    ]
+                  },
+                  {
+                    "group": "Crossbeam",
+                    "pages": [
+                      "connectors/service/crossbeam/overview",
+                      "connectors/service/crossbeam/operations"
+                    ]
+                  },
+                  {
+                    "group": "CrossCap",
+                    "pages": [
+                      "connectors/service/crosscap/overview",
+                      "connectors/service/crosscap/operations"
+                    ]
+                  },
+                  {
+                    "group": "Crunchbase",
+                    "pages": [
+                      "connectors/service/crunchbase/overview",
+                      "connectors/service/crunchbase/operations"
+                    ]
+                  },
+                  {
+                    "group": "CSV Editor",
+                    "pages": [
+                      "connectors/service/csv-editor/overview",
+                      "connectors/service/csv-editor/csv-operations-sample-payloads",
+                      "connectors/service/csv-editor/operations"
+                    ]
+                  },
+                  {
+                    "group": "CSV Reader",
+                    "pages": [
+                      "connectors/service/csv-reader/overview",
+                      "connectors/service/csv-reader/csv-reader-operations-sample-payloads",
+                      "connectors/service/csv-reader/operations"
+                    ]
+                  },
+                  {
+                    "group": "Cue",
+                    "pages": [
+                      "connectors/service/cue/overview",
+                      "connectors/service/cue/operations"
+                    ]
+                  },
+                  {
+                    "group": "Customer.io",
+                    "pages": [
+                      "connectors/service/customer-io/overview",
+                      "connectors/service/customer-io/operations"
+                    ]
+                  },
+                  {
+                    "group": "Cvent",
+                    "pages": [
+                      "connectors/service/cvent/overview",
+                      "connectors/service/cvent/operations"
+                    ]
+                  },
+                  {
+                    "group": "Data Mapper",
+                    "pages": [
+                      "connectors/service/data-mapper/overview",
+                      "connectors/service/data-mapper/data-mapper-operations-sample-payloads",
+                      "connectors/service/data-mapper/operations"
+                    ]
+                  },
+                  {
+                    "group": "Data tables",
+                    "pages": [
+                      "connectors/service/data-tables/overview",
+                      "connectors/service/data-tables/data-tables-operations-sample-payloads",
+                      "connectors/service/data-tables/operations"
+                    ]
+                  },
+                  {
+                    "group": "Databricks",
+                    "pages": [
+                      "connectors/service/databricks/overview",
+                      "connectors/service/databricks/operations"
+                    ]
+                  },
+                  {
+                    "group": "Datadog",
+                    "pages": [
+                      "connectors/service/datadog/overview",
+                      "connectors/service/datadog/datadog-operations-sample-payloads",
+                      "connectors/service/datadog/operations"
+                    ]
+                  },
+                  {
+                    "group": "Delay",
+                    "pages": [
+                      "connectors/service/delay/overview",
+                      "connectors/service/delay/delay-operations-sample-payloads",
+                      "connectors/service/delay/operations"
+                    ]
+                  },
+                  {
+                    "group": "Delighted",
+                    "pages": [
+                      "connectors/service/delighted/overview",
+                      "connectors/service/delighted/operations"
+                    ]
+                  },
+                  {
+                    "group": "Demandbase",
+                    "pages": [
+                      "connectors/service/demandbase/overview",
+                      "connectors/service/demandbase/operations"
+                    ]
+                  },
+                  {
+                    "group": "Docebo",
+                    "pages": [
+                      "connectors/service/docebo/overview",
+                      "connectors/service/docebo/operations"
+                    ]
+                  },
+                  {
+                    "group": "DocuSign",
+                    "pages": [
+                      "connectors/service/docusign/overview",
+                      "connectors/service/docusign/docusign-operations-sample-payloads",
+                      "connectors/service/docusign/operations"
+                    ]
+                  },
+                  {
+                    "group": "Domo",
+                    "pages": [
+                      "connectors/service/domo/overview",
+                      "connectors/service/domo/operations"
+                    ]
+                  },
+                  {
+                    "group": "Donately",
+                    "pages": [
+                      "connectors/service/donately/overview",
+                      "connectors/service/donately/operations"
+                    ]
+                  },
+                  {
+                    "group": "Dotdigital",
+                    "pages": [
+                      "connectors/service/dotdigital/overview",
+                      "connectors/service/dotdigital/operations"
+                    ]
+                  },
+                  {
+                    "group": "Drata",
+                    "pages": [
+                      "connectors/service/drata/overview",
+                      "connectors/service/drata/operations"
+                    ]
+                  },
+                  {
+                    "group": "Drift",
+                    "pages": [
+                      "connectors/service/drift/overview",
+                      "connectors/service/drift/operations"
+                    ]
+                  },
+                  {
+                    "group": "Drip",
+                    "pages": [
+                      "connectors/service/drip/overview",
+                      "connectors/service/drip/operations"
+                    ]
+                  },
+                  {
+                    "group": "Dropbox",
+                    "pages": [
+                      "connectors/service/dropbox/overview",
+                      "connectors/service/dropbox/dropbox-operations-sample-payloads",
+                      "connectors/service/dropbox/operations"
+                    ]
+                  },
+                  {
+                    "group": "Dynamo",
+                    "pages": [
+                      "connectors/service/dynamo/overview",
+                      "connectors/service/dynamo/operations"
+                    ]
+                  },
+                  {
+                    "group": "Easypromos",
+                    "pages": [
+                      "connectors/service/easypromos/overview",
+                      "connectors/service/easypromos/operations"
+                    ]
+                  },
+                  {
+                    "group": "Ellucian Ethos",
+                    "pages": [
+                      "connectors/service/ellucian-ethos/overview",
+                      "connectors/service/ellucian-ethos/operations"
+                    ]
+                  },
+                  {
+                    "group": "Eloqua",
+                    "pages": [
+                      "connectors/service/eloqua/overview",
+                      "connectors/service/eloqua/operations"
+                    ]
+                  },
+                  {
+                    "group": "Emarsys",
+                    "pages": [
+                      "connectors/service/emarsys/overview",
+                      "connectors/service/emarsys/operations"
+                    ]
+                  },
+                  {
+                    "group": "Emma",
+                    "pages": [
+                      "connectors/service/emma/overview",
+                      "connectors/service/emma/operations"
+                    ]
+                  },
+                  {
+                    "group": "Entrata",
+                    "pages": [
+                      "connectors/service/entrata/overview",
+                      "connectors/service/entrata/operations"
+                    ]
+                  },
+                  {
+                    "group": "eTermin",
+                    "pages": [
+                      "connectors/service/etermin/overview",
+                      "connectors/service/etermin/operations"
+                    ]
+                  },
+                  {
+                    "group": "Eventbrite",
+                    "pages": [
+                      "connectors/service/eventbrite/overview",
+                      "connectors/service/eventbrite/operations"
+                    ]
+                  },
+                  {
+                    "group": "EventGeek",
+                    "pages": [
+                      "connectors/service/eventgeek/overview",
+                      "connectors/service/eventgeek/operations"
+                    ]
+                  },
+                  {
+                    "group": "Everhour",
+                    "pages": [
+                      "connectors/service/everhour/overview",
+                      "connectors/service/everhour/operations"
+                    ]
+                  },
+                  {
+                    "group": "Facebook",
+                    "pages": [
+                      "connectors/service/facebook/overview",
+                      "connectors/service/facebook/facebook-operations-sample-payloads",
+                      "connectors/service/facebook/operations"
+                    ]
+                  },
+                  {
+                    "group": "Firebase",
+                    "pages": [
+                      "connectors/service/firebase/overview",
+                      "connectors/service/firebase/operations"
+                    ]
+                  },
+                  {
+                    "group": "FirstRain",
+                    "pages": [
+                      "connectors/service/firstrain/overview",
+                      "connectors/service/firstrain/operations"
+                    ]
+                  },
+                  {
+                    "group": "Fixer",
+                    "pages": [
+                      "connectors/service/fixer/overview",
+                      "connectors/service/fixer/operations"
+                    ]
+                  },
+                  {
+                    "group": "Float",
+                    "pages": [
+                      "connectors/service/float/overview",
+                      "connectors/service/float/operations"
+                    ]
+                  },
+                  {
+                    "group": "Formstack",
+                    "pages": [
+                      "connectors/service/formstack/overview",
+                      "connectors/service/formstack/operations"
+                    ]
+                  },
+                  {
+                    "group": "Freewheel Financial",
+                    "pages": [
+                      "connectors/service/freewheel-financial/overview",
+                      "connectors/service/freewheel-financial/operations"
+                    ]
+                  },
+                  {
+                    "group": "Freshdesk",
+                    "pages": [
+                      "connectors/service/freshdesk/overview",
+                      "connectors/service/freshdesk/operations"
+                    ]
+                  },
+                  {
+                    "group": "FreshSales",
+                    "pages": [
+                      "connectors/service/freshsales/overview",
+                      "connectors/service/freshsales/operations"
+                    ]
+                  },
+                  {
+                    "group": "FreshService",
+                    "pages": [
+                      "connectors/service/fresh-service/overview",
+                      "connectors/service/fresh-service/operations"
+                    ]
+                  },
+                  {
+                    "group": "Front",
+                    "pages": [
+                      "connectors/service/front/overview",
+                      "connectors/service/front/operations"
+                    ]
+                  },
+                  {
+                    "group": "Frontify",
+                    "pages": [
+                      "connectors/service/frontify/overview",
+                      "connectors/service/frontify/operations"
+                    ]
+                  },
+                  {
+                    "group": "Fulcrum",
+                    "pages": [
+                      "connectors/service/fulcrum/overview",
+                      "connectors/service/fulcrum/operations"
+                    ]
+                  },
+                  {
+                    "group": "Fullstory",
+                    "pages": [
+                      "connectors/service/fullstory/overview",
+                      "connectors/service/fullstory/operations"
+                    ]
+                  },
+                  {
+                    "group": "G-Suite",
+                    "pages": [
+                      "connectors/service/g-suite/overview",
+                      "connectors/service/g-suite/g-suite-operations-sample-payloads",
+                      "connectors/service/g-suite/operations"
+                    ]
+                  },
+                  {
+                    "group": "Gainsight",
+                    "pages": [
+                      "connectors/service/gainsight/overview",
+                      "connectors/service/gainsight/operations"
+                    ]
+                  },
+                  {
+                    "group": "GatherUp",
+                    "pages": [
+                      "connectors/service/gatherup/overview",
+                      "connectors/service/gatherup/operations"
+                    ]
+                  },
+                  {
+                    "group": "Gemini",
+                    "pages": [
+                      "connectors/service/gemini/overview",
+                      "connectors/service/gemini/operations"
+                    ]
+                  },
+                  {
+                    "group": "GetResponse",
+                    "pages": [
+                      "connectors/service/getresponse/overview",
+                      "connectors/service/getresponse/operations"
+                    ]
+                  },
+                  {
+                    "group": "Getty",
+                    "pages": [
+                      "connectors/service/getty/overview",
+                      "connectors/service/getty/operations"
+                    ]
+                  },
+                  {
+                    "group": "Giphy",
+                    "pages": [
+                      "connectors/service/giphy/overview",
+                      "connectors/service/giphy/operations"
+                    ]
+                  },
+                  {
+                    "group": "GitHub",
+                    "pages": [
+                      "connectors/service/github/overview",
+                      "connectors/service/github/github-operations-sample-payloads",
+                      "connectors/service/github/operations"
+                    ]
+                  },
+                  {
+                    "group": "GitLab",
+                    "pages": [
+                      "connectors/service/gitlab/overview",
+                      "connectors/service/gitlab/operations"
+                    ]
+                  },
+                  {
+                    "group": "Gmail",
+                    "pages": [
+                      "connectors/service/gmail/overview",
+                      "connectors/service/gmail/gmail-trigger",
+                      "connectors/service/gmail/notes-on-using-gmail",
+                      "connectors/service/gmail/gmail-operations-sample-payloads",
+                      "connectors/service/gmail/operations"
+                    ]
+                  },
+                  {
+                    "group": "Gong.io",
+                    "pages": [
+                      "connectors/service/gongio/overview",
+                      "connectors/service/gongio/operations"
+                    ]
+                  },
+                  {
+                    "group": "Google Ad Manager",
+                    "pages": [
+                      "connectors/service/google-ad-manager/overview",
+                      "connectors/service/google-ad-manager/operations"
+                    ]
+                  },
+                  {
+                    "group": "Google Ads",
+                    "pages": [
+                      "connectors/service/google-ads/overview",
+                      "connectors/service/google-ads/operations"
+                    ]
+                  },
+                  {
+                    "group": "Google Adwords",
+                    "pages": [
+                      "connectors/service/google-adwords/overview",
+                      "connectors/service/google-adwords/operations"
+                    ]
+                  },
+                  {
+                    "group": "Google Analytics",
+                    "pages": [
+                      "connectors/service/google-analytics/overview",
+                      "connectors/service/google-analytics/deprecations",
+                      "connectors/service/google-analytics/operations"
+                    ]
+                  },
+                  {
+                    "group": "Google BigQuery",
+                    "pages": [
+                      "connectors/service/google-bigquery/overview",
+                      "connectors/service/google-bigquery/bigquery-operations-sample-payloads",
+                      "connectors/service/google-bigquery/operations"
+                    ]
+                  },
+                  {
+                    "group": "Google Calendar",
+                    "pages": [
+                      "connectors/service/google-calendar/overview",
+                      "connectors/service/google-calendar/calendar-operations-sample-payloads",
+                      "connectors/service/google-calendar/operations"
+                    ]
+                  },
+                  {
+                    "group": "Google chat",
+                    "pages": [
+                      "connectors/service/google-chat/overview",
+                      "connectors/service/google-chat/operations"
+                    ]
+                  },
+                  {
+                    "group": "Google Cloud Pub/Sub",
+                    "pages": [
+                      "connectors/service/google-cloud-pub-sub/overview",
+                      "connectors/service/google-cloud-pub-sub/operations"
+                    ]
+                  },
+                  {
+                    "group": "Google Contacts",
+                    "pages": [
+                      "connectors/service/google-contacts/overview",
+                      "connectors/service/google-contacts/operations"
+                    ]
+                  },
+                  {
+                    "group": "Google Docs",
+                    "pages": [
+                      "connectors/service/google-docs/overview",
+                      "connectors/service/google-docs/google-docs-operations-sample-payloads",
+                      "connectors/service/google-docs/operations"
+                    ]
+                  },
+                  {
+                    "group": "Google Drive",
+                    "pages": [
+                      "connectors/service/google-drive/overview",
+                      "connectors/service/google-drive/drive-operations-sample-payloads",
+                      "connectors/service/google-drive/operations"
+                    ]
+                  },
+                  {
+                    "group": "Google Meet",
+                    "pages": [
+                      "connectors/service/google-meet/overview",
+                      "connectors/service/google-meet/google-meet-operations-sample-payloads",
+                      "connectors/service/google-meet/operations"
+                    ]
+                  },
+                  {
+                    "group": "Google Search Console",
+                    "pages": [
+                      "connectors/service/google-search-console/overview",
+                      "connectors/service/google-search-console/operations"
+                    ]
+                  },
+                  {
+                    "group": "Google Sheets",
+                    "pages": [
+                      "connectors/service/google-sheets/overview",
+                      "connectors/service/google-sheets/notes-on-using-google-sheets",
+                      "connectors/service/google-sheets/use-cases",
+                      "connectors/service/google-sheets/sheets-operations-sample-payloads",
+                      "connectors/service/google-sheets/operations"
+                    ]
+                  },
+                  {
+                    "group": "Google Slides",
+                    "pages": [
+                      "connectors/service/google-slides/overview",
+                      "connectors/service/google-slides/operations"
+                    ]
+                  },
+                  {
+                    "group": "Google Tasks",
+                    "pages": [
+                      "connectors/service/google-tasks/overview",
+                      "connectors/service/google-tasks/operations"
+                    ]
+                  },
+                  {
+                    "group": "Google Vision",
+                    "pages": [
+                      "connectors/service/google-vision/overview",
+                      "connectors/service/google-vision/operations"
+                    ]
+                  },
+                  {
+                    "group": "GoToMeeting",
+                    "pages": [
+                      "connectors/service/gotomeeting/overview",
+                      "connectors/service/gotomeeting/operations"
+                    ]
+                  },
+                  {
+                    "group": "GoToWebinar",
+                    "pages": [
+                      "connectors/service/gotowebinar/overview",
+                      "connectors/service/gotowebinar/operations"
+                    ]
+                  },
+                  {
+                    "group": "Grade.us",
+                    "pages": [
+                      "connectors/service/grade-us/overview",
+                      "connectors/service/grade-us/operations"
+                    ]
+                  },
+                  {
+                    "group": "Grafana",
+                    "pages": [
+                      "connectors/service/grafana/overview",
+                      "connectors/service/grafana/operations"
+                    ]
+                  },
+                  {
+                    "group": "GraphQL Client",
+                    "pages": [
+                      "connectors/service/graphql/overview",
+                      "connectors/service/graphql/graphql-client-operations-sample-payloads",
+                      "connectors/service/graphql/operations"
+                    ]
+                  },
+                  {
+                    "group": "Greenbits",
+                    "pages": [
+                      "connectors/service/greenbits/overview",
+                      "connectors/service/greenbits/operations"
+                    ]
+                  },
+                  {
+                    "group": "Greenhouse",
+                    "pages": [
+                      "connectors/service/greenhouse/overview",
+                      "connectors/service/greenhouse/greenhouse-use-cases",
+                      "connectors/service/greenhouse/greenhouse-operations-sample-payloads",
+                      "connectors/service/greenhouse/operations"
+                    ]
+                  },
+                  {
+                    "group": "Groove",
+                    "pages": [
+                      "connectors/service/groove/overview",
+                      "connectors/service/groove/operations"
+                    ]
+                  },
+                  {
+                    "group": "Gusto",
+                    "pages": [
+                      "connectors/service/gusto/overview",
+                      "connectors/service/gusto/operations"
+                    ]
+                  },
+                  {
+                    "group": "HackerOne",
+                    "pages": [
+                      "connectors/service/hackerone/overview",
+                      "connectors/service/hackerone/operations"
+                    ]
+                  },
+                  {
+                    "group": "Harvest",
+                    "pages": [
+                      "connectors/service/harvest/overview",
+                      "connectors/service/harvest/operations"
+                    ]
+                  },
+                  {
+                    "group": "Hatchbuck",
+                    "pages": [
+                      "connectors/service/hatchbuck/overview",
+                      "connectors/service/hatchbuck/operations"
+                    ]
+                  },
+                  {
+                    "group": "Heap",
+                    "pages": [
+                      "connectors/service/heap/overview",
+                      "connectors/service/heap/operations"
+                    ]
+                  },
+                  {
+                    "group": "HelloSign",
+                    "pages": [
+                      "connectors/service/hellosign/overview",
+                      "connectors/service/hellosign/operations"
+                    ]
+                  },
+                  {
+                    "group": "Help Scout",
+                    "pages": [
+                      "connectors/service/help-scout/overview",
+                      "connectors/service/help-scout/operations"
+                    ]
+                  },
+                  {
+                    "group": "Hive HR",
+                    "pages": [
+                      "connectors/service/hive-hr/overview",
+                      "connectors/service/hive-hr/operations"
+                    ]
+                  },
+                  {
+                    "group": "Hootsuite",
+                    "pages": [
+                      "connectors/service/hootsuite/overview",
+                      "connectors/service/hootsuite/operations"
+                    ]
+                  },
+                  {
+                    "group": "HRAnswerLink",
+                    "pages": [
+                      "connectors/service/hranswerlink/overview",
+                      "connectors/service/hranswerlink/operations"
+                    ]
+                  },
+                  {
+                    "group": "HubSpot",
+                    "pages": [
+                      "connectors/service/hubspot/overview",
+                      "connectors/service/hubspot/authentication",
+                      "connectors/service/hubspot/hubspot-trigger",
+                      "connectors/service/hubspot/notes-on-using-hubspot",
+                      "connectors/service/hubspot/hubspot-examples",
+                      "connectors/service/hubspot/hubspot-notes-for-embedded-customers",
+                      "connectors/service/hubspot/hubspot-operations-sample-payloads",
+                      "connectors/service/hubspot/operations"
+                    ]
+                  },
+                  {
+                    "group": "Huddle",
+                    "pages": [
+                      "connectors/service/huddle/overview",
+                      "connectors/service/huddle/operations"
+                    ]
+                  },
+                  {
+                    "group": "Hunter",
+                    "pages": [
+                      "connectors/service/hunter/overview",
+                      "connectors/service/hunter/operations"
+                    ]
+                  },
+                  {
+                    "group": "IBM MQ",
+                    "pages": [
+                      "connectors/service/ibm-mq/overview",
+                      "connectors/service/ibm-mq/operations"
+                    ]
+                  },
+                  {
+                    "group": "IBM Watson NLU",
+                    "pages": [
+                      "connectors/service/ibm-watson-nlu/overview",
+                      "connectors/service/ibm-watson-nlu/operations"
+                    ]
+                  },
+                  {
+                    "group": "IBM Watson STT",
+                    "pages": [
+                      "connectors/service/ibm-watson-stt/overview",
+                      "connectors/service/ibm-watson-stt/operations"
+                    ]
+                  },
+                  {
+                    "group": "IBM Watson TTS",
+                    "pages": [
+                      "connectors/service/ibm-watson-tts/overview",
+                      "connectors/service/ibm-watson-tts/operations"
+                    ]
+                  },
+                  {
+                    "group": "iContact",
+                    "pages": [
+                      "connectors/service/icontact/overview",
+                      "connectors/service/icontact/operations"
+                    ]
+                  },
+                  {
+                    "group": "Impact.com",
+                    "pages": [
+                      "connectors/service/impact/overview",
+                      "connectors/service/impact/operations"
+                    ]
+                  },
+                  {
+                    "group": "Impartner",
+                    "pages": [
+                      "connectors/service/impartner/overview",
+                      "connectors/service/impartner/operations"
+                    ]
+                  },
+                  {
+                    "group": "Infusionsoft",
+                    "pages": [
+                      "connectors/service/infusionsoft/overview",
+                      "connectors/service/infusionsoft/operations"
+                    ]
+                  },
+                  {
+                    "group": "Instagram",
+                    "pages": [
+                      "connectors/service/instagram/overview",
+                      "connectors/service/instagram/operations"
+                    ]
+                  },
+                  {
+                    "group": "Intercom",
+                    "pages": [
+                      "connectors/service/intercom/overview",
+                      "connectors/service/intercom/intercom-operations-sample-payloads",
+                      "connectors/service/intercom/operations"
+                    ]
+                  },
+                  {
+                    "group": "iOffice",
+                    "pages": [
+                      "connectors/service/ioffice/overview",
+                      "connectors/service/ioffice/operations"
+                    ]
+                  },
+                  {
+                    "group": "Ironclad ",
+                    "pages": [
+                      "connectors/service/ironclad/overview",
+                      "connectors/service/ironclad/operations"
+                    ]
+                  },
+                  {
+                    "group": "Iterable",
+                    "pages": [
+                      "connectors/service/iterable/overview",
+                      "connectors/service/iterable/operations"
+                    ]
+                  },
+                  {
+                    "group": "JDBC Client",
+                    "pages": [
+                      "connectors/service/jdbc-client/overview",
+                      "connectors/service/jdbc-client/operations"
+                    ]
+                  },
+                  {
+                    "group": "Jira",
+                    "pages": [
+                      "connectors/service/jira/overview",
+                      "connectors/service/jira/jira-operations-sample-payloads",
+                      "connectors/service/jira/operations"
+                    ]
+                  },
+                  {
+                    "group": "Jira Cloud",
+                    "pages": [
+                      "connectors/service/jira-cloud/overview",
+                      "connectors/service/jira-cloud/jira-cloud-operations-sample-payloads",
+                      "connectors/service/jira-cloud/operations"
+                    ]
+                  },
+                  {
+                    "group": "Jira Service Desk",
+                    "pages": [
+                      "connectors/service/jira-service-desk/overview",
+                      "connectors/service/jira-service-desk/operations"
+                    ]
+                  },
+                  {
+                    "group": "JotForm",
+                    "pages": [
+                      "connectors/service/jotform/overview",
+                      "connectors/service/jotform/operations"
+                    ]
+                  },
+                  {
+                    "group": "JSON Reader",
+                    "pages": [
+                      "connectors/service/json-reader/overview",
+                      "connectors/service/json-reader/json-reader-operations-sample-payloads",
+                      "connectors/service/json-reader/operations"
+                    ]
+                  },
+                  {
+                    "group": "JSON Transformer",
+                    "pages": [
+                      "connectors/service/json-transformer/overview",
+                      "connectors/service/json-transformer/json-transformer-operations-sample-payloads",
+                      "connectors/service/json-transformer/operations"
+                    ]
+                  },
+                  {
+                    "group": "Jumpcloud",
+                    "pages": [
+                      "connectors/service/jumpcloud/overview",
+                      "connectors/service/jumpcloud/operations"
+                    ]
+                  },
+                  {
+                    "group": "Kafka",
+                    "pages": [
+                      "connectors/service/kafka/overview",
+                      "connectors/service/kafka/operations"
+                    ]
+                  },
+                  {
+                    "group": "Kapost",
+                    "pages": [
+                      "connectors/service/kapost/overview",
+                      "connectors/service/kapost/operations"
+                    ]
+                  },
+                  {
+                    "group": "Kazoo HR",
+                    "pages": [
+                      "connectors/service/kazoo-hr/overview",
+                      "connectors/service/kazoo-hr/operations"
+                    ]
+                  },
+                  {
+                    "group": "Keatext",
+                    "pages": [
+                      "connectors/service/keatext/overview",
+                      "connectors/service/keatext/operations"
+                    ]
+                  },
+                  {
+                    "group": "Kibo",
+                    "pages": [
+                      "connectors/service/kibo/overview",
+                      "connectors/service/kibo/operations"
+                    ]
+                  },
+                  {
+                    "group": "Klaviyo",
+                    "pages": [
+                      "connectors/service/klaviyo/overview",
+                      "connectors/service/klaviyo/operations"
+                    ]
+                  },
+                  {
+                    "group": "Kochava",
+                    "pages": [
+                      "connectors/service/kochava/overview",
+                      "connectors/service/kochava/operations"
+                    ]
+                  },
+                  {
+                    "group": "KROW.ai",
+                    "pages": [
+                      "connectors/service/krow-ai/overview",
+                      "connectors/service/krow-ai/operations"
+                    ]
+                  },
+                  {
+                    "group": "Kudos",
+                    "pages": [
+                      "connectors/service/kudos/overview",
+                      "connectors/service/kudos/operations"
+                    ]
+                  },
+                  {
+                    "group": "Lattice",
+                    "pages": [
+                      "connectors/service/lattice/overview",
+                      "connectors/service/lattice/operations"
+                    ]
+                  },
+                  {
+                    "group": "LaunchDarkly",
+                    "pages": [
+                      "connectors/service/launchdarkly/overview",
+                      "connectors/service/launchdarkly/operations"
+                    ]
+                  },
+                  {
+                    "group": "LeafLink",
+                    "pages": [
+                      "connectors/service/leaflink/overview",
+                      "connectors/service/leaflink/operations"
+                    ]
+                  },
+                  {
+                    "group": "Lemlist",
+                    "pages": [
+                      "connectors/service/lemlist/overview",
+                      "connectors/service/lemlist/operations"
+                    ]
+                  },
+                  {
+                    "group": "Lever",
+                    "pages": [
+                      "connectors/service/lever/overview",
+                      "connectors/service/lever/operations"
+                    ]
+                  },
+                  {
+                    "group": "Levity",
+                    "pages": [
+                      "connectors/service/levity/overview",
+                      "connectors/service/levity/operations"
+                    ]
+                  },
+                  {
+                    "group": "LinkedIn",
+                    "pages": [
+                      "connectors/service/linkedin/overview",
+                      "connectors/service/linkedin/operations"
+                    ]
+                  },
+                  {
+                    "group": "Listrak",
+                    "pages": [
+                      "connectors/service/listrak/overview",
+                      "connectors/service/listrak/operations"
+                    ]
+                  },
+                  {
+                    "group": "LivePerson",
+                    "pages": [
+                      "connectors/service/liveperson/overview",
+                      "connectors/service/liveperson/operations"
+                    ]
+                  },
+                  {
+                    "group": "Liveramp",
+                    "pages": [
+                      "connectors/service/liveramp/overview",
+                      "connectors/service/liveramp/operations"
+                    ]
+                  },
+                  {
+                    "group": "Logic Monitor",
+                    "pages": [
+                      "connectors/service/logic-monitor/overview",
+                      "connectors/service/logic-monitor/operations"
+                    ]
+                  },
+                  {
+                    "group": "Lokalise",
+                    "pages": [
+                      "connectors/service/lokalise/overview",
+                      "connectors/service/lokalise/operations"
+                    ]
+                  },
+                  {
+                    "group": "Looker",
+                    "pages": [
+                      "connectors/service/looker/overview",
+                      "connectors/service/looker/operations"
+                    ]
+                  },
+                  {
+                    "group": "Loop Collection",
+                    "pages": [
+                      "connectors/service/loop/overview",
+                      "connectors/service/loop/loop-operations-sample-payloads",
+                      "connectors/service/loop/operations"
+                    ]
+                  },
+                  {
+                    "group": "Lufthansa",
+                    "pages": [
+                      "connectors/service/lufthansa/overview",
+                      "connectors/service/lufthansa/operations"
+                    ]
+                  },
+                  {
+                    "group": "Mad Mimi",
+                    "pages": [
+                      "connectors/service/mad-mimi/overview",
+                      "connectors/service/mad-mimi/operations"
+                    ]
+                  },
+                  {
+                    "group": "Magento 1",
+                    "pages": [
+                      "connectors/service/magento-1/overview",
+                      "connectors/service/magento-1/operations"
+                    ]
+                  },
+                  {
+                    "group": "Magento 2",
+                    "pages": [
+                      "connectors/service/magento-2/overview",
+                      "connectors/service/magento-2/operations"
+                    ]
+                  },
+                  {
+                    "group": "Mailboxlayer",
+                    "pages": [
+                      "connectors/service/mailboxlayer/overview",
+                      "connectors/service/mailboxlayer/operations"
+                    ]
+                  },
+                  {
+                    "group": "Mailchimp",
+                    "pages": [
+                      "connectors/service/mailchimp/overview",
+                      "connectors/service/mailchimp/mailchimp-operations-sample-payloads",
+                      "connectors/service/mailchimp/operations"
+                    ]
+                  },
+                  {
+                    "group": "MailerLite",
+                    "pages": [
+                      "connectors/service/mailerlite/overview",
+                      "connectors/service/mailerlite/operations"
+                    ]
+                  },
+                  {
+                    "group": "Mailjet",
+                    "pages": [
+                      "connectors/service/mailjet/overview",
+                      "connectors/service/mailjet/operations"
+                    ]
+                  },
+                  {
+                    "group": "ManagerPlus",
+                    "pages": [
+                      "connectors/service/managerplus/overview",
+                      "connectors/service/managerplus/operations"
+                    ]
+                  },
+                  {
+                    "group": "Marketo",
+                    "pages": [
+                      "connectors/service/marketo/overview",
+                      "connectors/service/marketo/notes-on-using-marketo",
+                      "connectors/service/marketo/error-handling",
+                      "connectors/service/marketo/marketo-using-the-raw-http-request-universal-operation",
+                      "connectors/service/marketo/marketo-example-use-cases",
+                      "connectors/service/marketo/marketo-operations-sample-payloads",
+                      "connectors/service/marketo/operations"
+                    ]
+                  },
+                  {
+                    "group": "Merlin Guardian",
+                    "pages": [
+                      "connectors/service/merlin-guardian/overview",
+                      "connectors/service/merlin-guardian/merlin-guardian-operations-sample-payloads",
+                      "connectors/service/merlin-guardian/operations"
+                    ]
+                  },
+                  {
+                    "group": "Merlin Intelligent Document Processing",
+                    "pages": [
+                      "connectors/service/merlin-idp/overview",
+                      "connectors/service/merlin-idp/merlin-extract-operations-sample-payloads",
+                      "connectors/service/merlin-idp/operations"
+                    ]
+                  },
+                  {
+                    "group": "Merlin Text Analysis (Beta)",
+                    "pages": [
+                      "connectors/service/merlin-analysis/overview",
+                      "connectors/service/merlin-analysis/merlin-text-analysis-operations-sample-payloads",
+                      "connectors/service/merlin-analysis/operations"
+                    ]
+                  },
+                  {
+                    "group": "Merlin Text Generation (Beta)",
+                    "pages": [
+                      "connectors/service/merlin-generation/overview",
+                      "connectors/service/merlin-generation/merlin-functions-operations-sample-payloads",
+                      "connectors/service/merlin-generation/operations"
+                    ]
+                  },
+                  {
+                    "group": "Messagebird",
+                    "pages": [
+                      "connectors/service/messagebird/overview",
+                      "connectors/service/messagebird/operations"
+                    ]
+                  },
+                  {
+                    "group": "Microsoft Calendar",
+                    "pages": [
+                      "connectors/service/microsoft-calendar/overview",
+                      "connectors/service/microsoft-calendar/operations"
+                    ]
+                  },
+                  {
+                    "group": "Microsoft Dynamics 365",
+                    "pages": [
+                      "connectors/service/dynamics365/overview",
+                      "connectors/service/dynamics365/microsoft-dynamics-365-use-cases",
+                      "connectors/service/dynamics365/microsoft-dynamics-operations-sample-payloads",
+                      "connectors/service/dynamics365/operations"
+                    ]
+                  },
+                  {
+                    "group": "Microsoft Dynamics GP",
+                    "pages": [
+                      "connectors/service/microsoft-dynamics-gp/overview",
+                      "connectors/service/microsoft-dynamics-gp/operations"
+                    ]
+                  },
+                  {
+                    "group": "Microsoft Intune",
+                    "pages": [
+                      "connectors/service/microsoft-intune/overview",
+                      "connectors/service/microsoft-intune/operations"
+                    ]
+                  },
+                  {
+                    "group": "Microsoft OneDrive",
+                    "pages": [
+                      "connectors/service/microsoft-one-drive/overview",
+                      "connectors/service/microsoft-one-drive/operations"
+                    ]
+                  },
+                  {
+                    "group": "Microsoft Outlook",
+                    "pages": [
+                      "connectors/service/microsoft-outlook/overview",
+                      "connectors/service/microsoft-outlook/operations"
+                    ]
+                  },
+                  {
+                    "group": "Microsoft Teams",
+                    "pages": [
+                      "connectors/service/microsoft-teams/overview",
+                      "connectors/service/microsoft-teams/microsoft-teams-operations-sample-payloads",
+                      "connectors/service/microsoft-teams/operations"
+                    ]
+                  },
+                  {
+                    "group": "Microsoft Text Translate",
+                    "pages": [
+                      "connectors/service/microsoft-text-translate/overview",
+                      "connectors/service/microsoft-text-translate/operations"
+                    ]
+                  },
+                  {
+                    "group": "Mindbody",
+                    "pages": [
+                      "connectors/service/mindbody/overview",
+                      "connectors/service/mindbody/operations"
+                    ]
+                  },
+                  {
+                    "group": "Miro",
+                    "pages": [
+                      "connectors/service/miro/overview",
+                      "connectors/service/miro/operations"
+                    ]
+                  },
+                  {
+                    "group": "Mixpanel",
+                    "pages": [
+                      "connectors/service/mixpanel/overview",
+                      "connectors/service/mixpanel/operations"
+                    ]
+                  },
+                  {
+                    "group": "Monday",
+                    "pages": [
+                      "connectors/service/monday/overview",
+                      "connectors/service/monday/monday-operations-sample-payloads",
+                      "connectors/service/monday/operations"
+                    ]
+                  },
+                  {
+                    "group": "MongoDB",
+                    "pages": [
+                      "connectors/service/mongo-db/overview",
+                      "connectors/service/mongo-db/operations"
+                    ]
+                  },
+                  {
+                    "group": "MongoDB Cloud",
+                    "pages": [
+                      "connectors/service/mongodb-cloud/overview",
+                      "connectors/service/mongodb-cloud/operations"
+                    ]
+                  },
+                  {
+                    "group": "MongoDB Shell",
+                    "pages": [
+                      "connectors/service/mongodb-shell/overview",
+                      "connectors/service/mongodb-shell/operations"
+                    ]
+                  },
+                  {
+                    "group": "Mosaic",
+                    "pages": [
+                      "connectors/service/mosaic/overview",
+                      "connectors/service/mosaic/operations"
+                    ]
+                  },
+                  {
+                    "group": "Musixmatch",
+                    "pages": [
+                      "connectors/service/musixmatch/overview",
+                      "connectors/service/musixmatch/operations"
+                    ]
+                  },
+                  {
+                    "group": "Mustache",
+                    "pages": [
+                      "connectors/service/mustache/overview",
+                      "connectors/service/mustache/mustache-operations-sample-payloads",
+                      "connectors/service/mustache/operations"
+                    ]
+                  },
+                  {
+                    "group": "MySQL",
+                    "pages": [
+                      "connectors/service/mysql/overview",
+                      "connectors/service/mysql/mysql-operations-sample-payloads",
+                      "connectors/service/mysql/operations"
+                    ]
+                  },
+                  {
+                    "group": "Namely",
+                    "pages": [
+                      "connectors/service/namely/overview",
+                      "connectors/service/namely/operations"
+                    ]
+                  },
+                  {
+                    "group": "NASA",
+                    "pages": [
+                      "connectors/service/nasa/overview",
+                      "connectors/service/nasa/operations"
+                    ]
+                  },
+                  {
+                    "group": "Netsuite",
+                    "pages": [
+                      "connectors/service/netsuite/overview",
+                      "connectors/service/netsuite/netsuite-operations-sample-payloads",
+                      "connectors/service/netsuite/operations"
+                    ]
+                  },
+                  {
+                    "group": "NetSuite REST",
+                    "pages": [
+                      "connectors/service/netsuite-rest/overview",
+                      "connectors/service/netsuite-rest/operations"
+                    ]
+                  },
+                  {
+                    "group": "NetSuite SOAP",
+                    "pages": [
+                      "connectors/service/netsuite-soap/overview",
+                      "connectors/service/netsuite-soap/netsuite-soap-operations-sample-payloads",
+                      "connectors/service/netsuite-soap/operations"
+                    ]
+                  },
+                  {
+                    "group": "New Relic",
+                    "pages": [
+                      "connectors/service/new-relic/overview",
+                      "connectors/service/new-relic/operations"
+                    ]
+                  },
+                  {
+                    "group": "News API",
+                    "pages": [
+                      "connectors/service/news-api/overview",
+                      "connectors/service/news-api/operations"
+                    ]
+                  },
+                  {
+                    "group": "NewsCred",
+                    "pages": [
+                      "connectors/service/newscred/overview",
+                      "connectors/service/newscred/operations"
+                    ]
+                  },
+                  {
+                    "group": "Nimble",
+                    "pages": [
+                      "connectors/service/nimble/overview",
+                      "connectors/service/nimble/operations"
+                    ]
+                  },
+                  {
+                    "group": "Notion",
+                    "pages": [
+                      "connectors/service/notion/overview",
+                      "connectors/service/notion/operations"
+                    ]
+                  },
+                  {
+                    "group": "Office365",
+                    "pages": [
+                      "connectors/service/office365/overview",
+                      "connectors/service/office365/office365-operations-sample-payloads",
+                      "connectors/service/office365/operations"
+                    ]
+                  },
+                  {
+                    "group": "Office365 Management",
+                    "pages": [
+                      "connectors/service/office365-management/overview",
+                      "connectors/service/office365-management/operations"
+                    ]
+                  },
+                  {
+                    "group": "Okta",
+                    "pages": [
+                      "connectors/service/okta/overview",
+                      "connectors/service/okta/okta-operations-sample-payloads",
+                      "connectors/service/okta/operations"
+                    ]
+                  },
+                  {
+                    "group": "Omnisend",
+                    "pages": [
+                      "connectors/service/omnisend/overview",
+                      "connectors/service/omnisend/operations"
+                    ]
+                  },
+                  {
+                    "group": "OneLogin",
+                    "pages": [
+                      "connectors/service/onelogin/overview",
+                      "connectors/service/onelogin/operations"
+                    ]
+                  },
+                  {
+                    "group": "Ontraport",
+                    "pages": [
+                      "connectors/service/ontraport/overview",
+                      "connectors/service/ontraport/operations"
+                    ]
+                  },
+                  {
+                    "group": "Ooma",
+                    "pages": [
+                      "connectors/service/ooma/overview",
+                      "connectors/service/ooma/operations"
+                    ]
+                  },
+                  {
+                    "group": "Opal",
+                    "pages": [
+                      "connectors/service/opal/overview",
+                      "connectors/service/opal/operations"
+                    ]
+                  },
+                  {
+                    "group": "OpsGenie",
+                    "pages": [
+                      "connectors/service/opsgenie/overview",
+                      "connectors/service/opsgenie/operations"
+                    ]
+                  },
+                  {
+                    "group": "Optimizely's Content Marketing Platform",
+                    "pages": [
+                      "connectors/service/welcome/overview",
+                      "connectors/service/welcome/operations"
+                    ]
+                  },
+                  {
+                    "group": "OptimoRoute",
+                    "pages": [
+                      "connectors/service/optimoroute/overview",
+                      "connectors/service/optimoroute/operations"
+                    ]
+                  },
+                  {
+                    "group": "Oracle Bronto",
+                    "pages": [
+                      "connectors/service/oracle-bronto/overview",
+                      "connectors/service/oracle-bronto/operations"
+                    ]
+                  },
+                  {
+                    "group": "Oracle Responsys",
+                    "pages": [
+                      "connectors/service/oracle-responsys/overview",
+                      "connectors/service/oracle-responsys/operations"
+                    ]
+                  },
+                  {
+                    "group": "Orderful",
+                    "pages": [
+                      "connectors/service/orderful/overview",
+                      "connectors/service/orderful/operations"
+                    ]
+                  },
+                  {
+                    "group": "Ordway",
+                    "pages": [
+                      "connectors/service/ordway/overview",
+                      "connectors/service/ordway/operations"
+                    ]
+                  },
+                  {
+                    "group": "Outreach",
+                    "pages": [
+                      "connectors/service/outreach/overview",
+                      "connectors/service/outreach/outreach-operations-sample-payloads",
+                      "connectors/service/outreach/operations"
+                    ]
+                  },
+                  {
+                    "group": "Oxford Dictionaries",
+                    "pages": [
+                      "connectors/service/oxford-dictionaries/overview",
+                      "connectors/service/oxford-dictionaries/operations"
+                    ]
+                  },
+                  {
+                    "group": "PagerDuty",
+                    "pages": [
+                      "connectors/service/pagerduty/overview",
+                      "connectors/service/pagerduty/operations"
+                    ]
+                  },
+                  {
+                    "group": "Panaya",
+                    "pages": [
+                      "connectors/service/panaya/overview",
+                      "connectors/service/panaya/operations"
+                    ]
+                  },
+                  {
+                    "group": "Pandadoc",
+                    "pages": [
+                      "connectors/service/pandadoc/overview",
+                      "connectors/service/pandadoc/operations"
+                    ]
+                  },
+                  {
+                    "group": "Pardot",
+                    "pages": [
+                      "connectors/service/pardot/overview",
+                      "connectors/service/pardot/operations"
+                    ]
+                  },
+                  {
+                    "group": "Paylocity",
+                    "pages": [
+                      "connectors/service/paylocity/overview",
+                      "connectors/service/paylocity/operations"
+                    ]
+                  },
+                  {
+                    "group": "Paymo",
+                    "pages": [
+                      "connectors/service/paymo/overview",
+                      "connectors/service/paymo/operations"
+                    ]
+                  },
+                  {
+                    "group": "PayPal",
+                    "pages": [
+                      "connectors/service/paypal/overview",
+                      "connectors/service/paypal/operations"
+                    ]
+                  },
+                  {
+                    "group": "PDK",
+                    "pages": [
+                      "connectors/service/pdk/overview",
+                      "connectors/service/pdk/operations"
+                    ]
+                  },
+                  {
+                    "group": "Pendo",
+                    "pages": [
+                      "connectors/service/pendo/overview",
+                      "connectors/service/pendo/operations"
+                    ]
+                  },
+                  {
+                    "group": "Personio",
+                    "pages": [
+                      "connectors/service/personio/overview",
+                      "connectors/service/personio/operations"
+                    ]
+                  },
+                  {
+                    "group": "Pigment",
+                    "pages": [
+                      "connectors/service/pigment/overview",
+                      "connectors/service/pigment/operations"
+                    ]
+                  },
+                  {
+                    "group": "Pinecone",
+                    "pages": [
+                      "connectors/service/pinecone/overview",
+                      "connectors/service/pinecone/pinecone-operations-sample-payloads",
+                      "connectors/service/pinecone/operations"
+                    ]
+                  },
+                  {
+                    "group": "Pipedrive",
+                    "pages": [
+                      "connectors/service/pipedrive/overview",
+                      "connectors/service/pipedrive/operations"
+                    ]
+                  },
+                  {
+                    "group": "Pipeline",
+                    "pages": [
+                      "connectors/service/pipeline/overview",
+                      "connectors/service/pipeline/operations"
+                    ]
+                  },
+                  {
+                    "group": "Pipeliner",
+                    "pages": [
+                      "connectors/service/pipeliner/overview",
+                      "connectors/service/pipeliner/operations"
+                    ]
+                  },
+                  {
+                    "group": "Pipeliner CRM Cloud",
+                    "pages": [
+                      "connectors/service/pipeliner-crm-cloud/overview",
+                      "connectors/service/pipeliner-crm-cloud/operations"
+                    ]
+                  },
+                  {
+                    "group": "Pitchly",
+                    "pages": [
+                      "connectors/service/pitchly/overview",
+                      "connectors/service/pitchly/operations"
+                    ]
+                  },
+                  {
+                    "group": "PlanSource",
+                    "pages": [
+                      "connectors/service/plansource/overview",
+                      "connectors/service/plansource/operations"
+                    ]
+                  },
+                  {
+                    "group": "Plivo",
+                    "pages": [
+                      "connectors/service/plivo/overview",
+                      "connectors/service/plivo/operations"
+                    ]
+                  },
+                  {
+                    "group": "PortaBilling (PortaOne)",
+                    "pages": [
+                      "connectors/service/portabilling/overview",
+                      "connectors/service/portabilling/operations"
+                    ]
+                  },
+                  {
+                    "group": "PossibleNow",
+                    "pages": [
+                      "connectors/service/possiblenow/overview",
+                      "connectors/service/possiblenow/operations"
+                    ]
+                  },
+                  {
+                    "group": "PostgreSQL",
+                    "pages": [
+                      "connectors/service/postgresql/overview",
+                      "connectors/service/postgresql/notes-on-using-postgresql",
+                      "connectors/service/postgresql/postgresql-operations-sample-payloads",
+                      "connectors/service/postgresql/operations"
+                    ]
+                  },
+                  {
+                    "group": "Postscript",
+                    "pages": [
+                      "connectors/service/postscript/overview",
+                      "connectors/service/postscript/operations"
+                    ]
+                  },
+                  {
+                    "group": "PowerBI",
+                    "pages": [
+                      "connectors/service/powerbi/overview",
+                      "connectors/service/powerbi/operations"
+                    ]
+                  },
+                  {
+                    "group": "Process Street",
+                    "pages": [
+                      "connectors/service/process-street/overview",
+                      "connectors/service/process-street/operations"
+                    ]
+                  },
+                  {
+                    "group": "ProdPad",
+                    "pages": [
+                      "connectors/service/prodpad/overview",
+                      "connectors/service/prodpad/operations"
+                    ]
+                  },
+                  {
+                    "group": "Productboard",
+                    "pages": [
+                      "connectors/service/productboard/overview",
+                      "connectors/service/productboard/operations"
+                    ]
+                  },
+                  {
+                    "group": "Promoter.io",
+                    "pages": [
+                      "connectors/service/promoterio/overview",
+                      "connectors/service/promoterio/operations"
+                    ]
+                  },
+                  {
+                    "group": "Pub / Sub",
+                    "pages": [
+                      "connectors/service/pub-sub/overview",
+                      "connectors/service/pub-sub/pubsub-operations-sample-payloads",
+                      "connectors/service/pub-sub/operations"
+                    ]
+                  },
+                  {
+                    "group": "Pymetrics",
+                    "pages": [
+                      "connectors/service/pymetrics/overview",
+                      "connectors/service/pymetrics/operations"
+                    ]
+                  },
+                  {
+                    "group": "Python",
+                    "pages": [
+                      "connectors/service/python-script/overview",
+                      "connectors/service/python-script/notes-on-using-python",
+                      "connectors/service/python-script/python-script-operations-sample-payloads",
+                      "connectors/service/python-script/operations"
+                    ]
+                  },
+                  {
+                    "group": "Qlik",
+                    "pages": [
+                      "connectors/service/qlik/overview",
+                      "connectors/service/qlik/operations"
+                    ]
+                  },
+                  {
+                    "group": "Qualtrics",
+                    "pages": [
+                      "connectors/service/qualtrics/overview",
+                      "connectors/service/qualtrics/operations"
+                    ]
+                  },
+                  {
+                    "group": "Quickbase",
+                    "pages": [
+                      "connectors/service/quickbase/overview",
+                      "connectors/service/quickbase/operations"
+                    ]
+                  },
+                  {
+                    "group": "QuickBooks",
+                    "pages": [
+                      "connectors/service/quickbooks/overview",
+                      "connectors/service/quickbooks/quickbooks-operations-sample-payloads",
+                      "connectors/service/quickbooks/operations"
+                    ]
+                  },
+                  {
+                    "group": "RabbitMQ",
+                    "pages": [
+                      "connectors/service/rabbitmq/overview",
+                      "connectors/service/rabbitmq/operations"
+                    ]
+                  },
+                  {
+                    "group": "Rare.io",
+                    "pages": [
+                      "connectors/service/rareio/overview",
+                      "connectors/service/rareio/operations"
+                    ]
+                  },
+                  {
+                    "group": "Recurly",
+                    "pages": [
+                      "connectors/service/recurly/overview",
+                      "connectors/service/recurly/operations"
+                    ]
+                  },
+                  {
+                    "group": "Rejoiner",
+                    "pages": [
+                      "connectors/service/rejoiner/overview",
+                      "connectors/service/rejoiner/operations"
+                    ]
+                  },
+                  {
+                    "group": "Reltio",
+                    "pages": [
+                      "connectors/service/reltio/overview",
+                      "connectors/service/reltio/operations"
+                    ]
+                  },
+                  {
+                    "group": "Remarkety",
+                    "pages": [
+                      "connectors/service/remarkety/overview",
+                      "connectors/service/remarkety/operations"
+                    ]
+                  },
+                  {
+                    "group": "ReSci Retention Science",
+                    "pages": [
+                      "connectors/service/resci-retention-science/overview",
+                      "connectors/service/resci-retention-science/operations"
+                    ]
+                  },
+                  {
+                    "group": "Retention Rocket",
+                    "pages": [
+                      "connectors/service/retention-rocket/overview",
+                      "connectors/service/retention-rocket/operations"
+                    ]
+                  },
+                  {
+                    "group": "Rev.io",
+                    "pages": [
+                      "connectors/service/revio/overview",
+                      "connectors/service/revio/operations"
+                    ]
+                  },
+                  {
+                    "group": "Revo 4me",
+                    "pages": [
+                      "connectors/service/revo-4-me/overview",
+                      "connectors/service/revo-4-me/operations"
+                    ]
+                  },
+                  {
+                    "group": "RingCentral",
+                    "pages": [
+                      "connectors/service/ringcentral/overview",
+                      "connectors/service/ringcentral/operations"
+                    ]
+                  },
+                  {
+                    "group": "Ringover",
+                    "pages": [
+                      "connectors/service/ringover/overview",
+                      "connectors/service/ringover/operations"
+                    ]
+                  },
+                  {
+                    "group": "Sage 300",
+                    "pages": [
+                      "connectors/service/sage-300/overview",
+                      "connectors/service/sage-300/operations"
+                    ]
+                  },
+                  {
+                    "group": "Sage Intacct",
+                    "pages": [
+                      "connectors/service/sage-intaact/overview",
+                      "connectors/service/sage-intaact/operations"
+                    ]
+                  },
+                  {
+                    "group": "Sailthru",
+                    "pages": [
+                      "connectors/service/sailthru/overview",
+                      "connectors/service/sailthru/operations"
+                    ]
+                  },
+                  {
+                    "group": "Sales Management Plus",
+                    "pages": [
+                      "connectors/service/sales-management-plus/overview",
+                      "connectors/service/sales-management-plus/operations"
+                    ]
+                  },
+                  {
+                    "group": "Salesforce",
+                    "pages": [
+                      "connectors/service/salesforce/overview",
+                      "connectors/service/salesforce/sf-trigger",
+                      "connectors/service/salesforce/notes-on-using-salesforce",
+                      "connectors/service/salesforce/salesforce-use-cases",
+                      "connectors/service/salesforce/salesforce-notes-for-embedded-customers",
+                      "connectors/service/salesforce/salesforce-operations-sample-payloads",
+                      "connectors/service/salesforce/operations"
+                    ]
+                  },
+                  {
+                    "group": "Salesforce Marketing cloud",
+                    "pages": [
+                      "connectors/service/salesforce-marketing-cloud/overview",
+                      "connectors/service/salesforce-marketing-cloud/operations"
+                    ]
+                  },
+                  {
+                    "group": "SalesLoft",
+                    "pages": [
+                      "connectors/service/salesloft/overview",
+                      "connectors/service/salesloft/salesloft-operations-sample-payloads",
+                      "connectors/service/salesloft/operations"
+                    ]
+                  },
+                  {
+                    "group": "SalesRabbit",
+                    "pages": [
+                      "connectors/service/salesrabbit/overview",
+                      "connectors/service/salesrabbit/operations"
+                    ]
+                  },
+                  {
+                    "group": "SAP Business One",
+                    "pages": [
+                      "connectors/service/sap-business-one/overview",
+                      "connectors/service/sap-business-one/operations"
+                    ]
+                  },
+                  {
+                    "group": "SAP S/4HANA Cloud",
+                    "pages": [
+                      "connectors/service/sap-s4hana-cloud/overview",
+                      "connectors/service/sap-s4hana-cloud/operations"
+                    ]
+                  },
+                  {
+                    "group": "SAP SuccessFactors",
+                    "pages": [
+                      "connectors/service/sap-successfactors/overview",
+                      "connectors/service/sap-successfactors/operations"
+                    ]
+                  },
+                  {
+                    "group": "Sapling",
+                    "pages": [
+                      "connectors/service/sapling/overview",
+                      "connectors/service/sapling/operations"
+                    ]
+                  },
+                  {
+                    "group": "Scoop",
+                    "pages": [
+                      "connectors/service/scoop/overview",
+                      "connectors/service/scoop/operations"
+                    ]
+                  },
+                  {
+                    "group": "Script",
+                    "pages": [
+                      "connectors/service/script/overview",
+                      "connectors/service/script/script-operations-sample-payloads",
+                      "connectors/service/script/operations"
+                    ]
+                  },
+                  {
+                    "group": "SearchBlox",
+                    "pages": [
+                      "connectors/service/searchblox/overview",
+                      "connectors/service/searchblox/operations"
+                    ]
+                  },
+                  {
+                    "group": "Sedna",
+                    "pages": [
+                      "connectors/service/sedna/overview",
+                      "connectors/service/sedna/operations"
+                    ]
+                  },
+                  {
+                    "group": "Segment",
+                    "pages": [
+                      "connectors/service/segment/overview",
+                      "connectors/service/segment/operations"
+                    ]
+                  },
+                  {
+                    "group": "SEMrush",
+                    "pages": [
+                      "connectors/service/semrush/overview",
+                      "connectors/service/semrush/operations"
+                    ]
+                  },
+                  {
+                    "group": "Send Email",
+                    "pages": [
+                      "connectors/service/send-email/overview",
+                      "connectors/service/send-email/send-email-operations-sample-payloads",
+                      "connectors/service/send-email/operations"
+                    ]
+                  },
+                  {
+                    "group": "Sendgrid",
+                    "pages": [
+                      "connectors/service/sendgrid/overview",
+                      "connectors/service/sendgrid/sendgrid-operations-sample-payloads",
+                      "connectors/service/sendgrid/operations"
+                    ]
+                  },
+                  {
+                    "group": "SendinBlue",
+                    "pages": [
+                      "connectors/service/sendinblue/overview",
+                      "connectors/service/sendinblue/operations"
+                    ]
+                  },
+                  {
+                    "group": "Sendlane",
+                    "pages": [
+                      "connectors/service/sendlane/overview",
+                      "connectors/service/sendlane/operations"
+                    ]
+                  },
+                  {
+                    "group": "Sendoso",
+                    "pages": [
+                      "connectors/service/sendoso/overview",
+                      "connectors/service/sendoso/operations"
+                    ]
+                  },
+                  {
+                    "group": "SendPulse",
+                    "pages": [
+                      "connectors/service/sendpulse/overview",
+                      "connectors/service/sendpulse/operations"
+                    ]
+                  },
+                  {
+                    "group": "Servicenow",
+                    "pages": [
+                      "connectors/service/servicenow/overview",
+                      "connectors/service/servicenow/operations"
+                    ]
+                  },
+                  {
+                    "group": "ServiceTitan",
+                    "pages": [
+                      "connectors/service/servicetitan/overview",
+                      "connectors/service/servicetitan/operations"
+                    ]
+                  },
+                  {
+                    "group": "SharePoint",
+                    "pages": [
+                      "connectors/service/sharepoint/overview",
+                      "connectors/service/sharepoint/sharepoint-operations-sample-payloads",
+                      "connectors/service/sharepoint/operations"
+                    ]
+                  },
+                  {
+                    "group": "Shopify",
+                    "pages": [
+                      "connectors/service/shopify/overview",
+                      "connectors/service/shopify/operations"
+                    ]
+                  },
+                  {
+                    "group": "Showpad",
+                    "pages": [
+                      "connectors/service/showpad/overview",
+                      "connectors/service/showpad/operations"
+                    ]
+                  },
+                  {
+                    "group": "Shutterstock",
+                    "pages": [
+                      "connectors/service/shutterstock/overview",
+                      "connectors/service/shutterstock/operations"
+                    ]
+                  },
+                  {
+                    "group": "Sift",
+                    "pages": [
+                      "connectors/service/sift/overview",
+                      "connectors/service/sift/operations"
+                    ]
+                  },
+                  {
+                    "group": "Simpli.fi",
+                    "pages": [
+                      "connectors/service/simpli-fi/overview",
+                      "connectors/service/simpli-fi/operations"
+                    ]
+                  },
+                  {
+                    "group": "SingleStore",
+                    "pages": [
+                      "connectors/service/singlestore/overview",
+                      "connectors/service/singlestore/operations"
+                    ]
+                  },
+                  {
+                    "group": "Sitecore",
+                    "pages": [
+                      "connectors/service/sitecore/overview",
+                      "connectors/service/sitecore/operations"
+                    ]
+                  },
+                  {
+                    "group": "Slack",
+                    "pages": [
+                      "connectors/service/slack/overview",
+                      "connectors/service/slack/trigger",
+                      "connectors/service/slack/app-creation",
+                      "connectors/service/slack/slash-commands",
+                      "connectors/service/slack/block-kits-modals",
+                      "connectors/service/slack/notes-on-using-slack",
+                      "connectors/service/slack/slack-use-cases",
+                      "connectors/service/slack/slack-operations-sample-payloads",
+                      "connectors/service/slack/operations"
+                    ]
+                  },
+                  {
+                    "group": "SmartrMail",
+                    "pages": [
+                      "connectors/service/smartrmail/overview",
+                      "connectors/service/smartrmail/operations"
+                    ]
+                  },
+                  {
+                    "group": "Smartsheet",
+                    "pages": [
+                      "connectors/service/smartsheet/overview",
+                      "connectors/service/smartsheet/operations"
+                    ]
+                  },
+                  {
+                    "group": "Snapchat",
+                    "pages": [
+                      "connectors/service/snapchat/overview",
+                      "connectors/service/snapchat/operations"
+                    ]
+                  },
+                  {
+                    "group": "Snowflake",
+                    "pages": [
+                      "connectors/service/snowflake/overview",
+                      "connectors/service/snowflake/notes-on-using-snowflake",
+                      "connectors/service/snowflake/snowflake-operations-sample-payloads",
+                      "connectors/service/snowflake/operations"
+                    ]
+                  },
+                  {
+                    "group": "Snowflake (Okta)",
+                    "pages": [
+                      "connectors/service/snowflake-okta/overview",
+                      "connectors/service/snowflake-okta/operations"
+                    ]
+                  },
+                  {
+                    "group": "SOAP Client",
+                    "pages": [
+                      "connectors/service/soap-client/overview",
+                      "connectors/service/soap-client/soap-client-operations-sample-payloads",
+                      "connectors/service/soap-client/operations"
+                    ]
+                  },
+                  {
+                    "group": "Sopheon - ProductX",
+                    "pages": [
+                      "connectors/service/sopheon-productx/overview",
+                      "connectors/service/sopheon-productx/operations"
+                    ]
+                  },
+                  {
+                    "group": "Splash",
+                    "pages": [
+                      "connectors/service/splash/overview",
+                      "connectors/service/splash/operations"
+                    ]
+                  },
+                  {
+                    "group": "Spotdraft",
+                    "pages": [
+                      "connectors/service/spotdraft/overview",
+                      "connectors/service/spotdraft/operations"
+                    ]
+                  },
+                  {
+                    "group": "Sprinklr",
+                    "pages": [
+                      "connectors/service/sprinklr/overview",
+                      "connectors/service/sprinklr/operations"
+                    ]
+                  },
+                  {
+                    "group": "Square",
+                    "pages": [
+                      "connectors/service/square/overview",
+                      "connectors/service/square/operations"
+                    ]
+                  },
+                  {
+                    "group": "Storedge",
+                    "pages": [
+                      "connectors/service/storedge/overview",
+                      "connectors/service/storedge/operations"
+                    ]
+                  },
+                  {
+                    "group": "Strava",
+                    "pages": [
+                      "connectors/service/strava/overview",
+                      "connectors/service/strava/operations"
+                    ]
+                  },
+                  {
+                    "group": "Stripe",
+                    "pages": [
+                      "connectors/service/stripe/overview",
+                      "connectors/service/stripe/stripe-operations-sample-payloads",
+                      "connectors/service/stripe/operations"
+                    ]
+                  },
+                  {
+                    "group": "Sugar Market",
+                    "pages": [
+                      "connectors/service/sugarmarket/overview",
+                      "connectors/service/sugarmarket/operations"
+                    ]
+                  },
+                  {
+                    "group": "SugarCRM",
+                    "pages": [
+                      "connectors/service/sugarcrm/overview",
+                      "connectors/service/sugarcrm/operations"
+                    ]
+                  },
+                  {
+                    "group": "Surefire",
+                    "pages": [
+                      "connectors/service/surefire/overview",
+                      "connectors/service/surefire/operations"
+                    ]
+                  },
+                  {
+                    "group": "Survey Sparrow",
+                    "pages": [
+                      "connectors/service/survey-sparrow/overview",
+                      "connectors/service/survey-sparrow/operations"
+                    ]
+                  },
+                  {
+                    "group": "SurveyMonkey",
+                    "pages": [
+                      "connectors/service/survey-monkey/overview",
+                      "connectors/service/survey-monkey/operations"
+                    ]
+                  },
+                  {
+                    "group": "Swoogo",
+                    "pages": [
+                      "connectors/service/swoogo/overview",
+                      "connectors/service/swoogo/operations"
+                    ]
+                  },
+                  {
+                    "group": "Talkdesk",
+                    "pages": [
+                      "connectors/service/talkdesk/overview",
+                      "connectors/service/talkdesk/operations"
+                    ]
+                  },
+                  {
+                    "group": "Terminate",
+                    "pages": [
+                      "connectors/service/terminate/overview",
+                      "connectors/service/terminate/terminate-operations-sample-payloads",
+                      "connectors/service/terminate/operations"
+                    ]
+                  },
+                  {
+                    "group": "Terminus",
+                    "pages": [
+                      "connectors/service/terminus/overview",
+                      "connectors/service/terminus/operations"
+                    ]
+                  },
+                  {
+                    "group": "Thinkific",
+                    "pages": [
+                      "connectors/service/thinkific/overview",
+                      "connectors/service/thinkific/operations"
+                    ]
+                  },
+                  {
+                    "group": "Tiktok Shop",
+                    "pages": [
+                      "connectors/service/tiktok-shop/overview",
+                      "connectors/service/tiktok-shop/operations"
+                    ]
+                  },
+                  {
+                    "group": "Toggl",
+                    "pages": [
+                      "connectors/service/toggl/overview",
+                      "connectors/service/toggl/operations"
+                    ]
+                  },
+                  {
+                    "group": "Totango",
+                    "pages": [
+                      "connectors/service/totango/overview",
+                      "connectors/service/totango/operations"
+                    ]
+                  },
+                  {
+                    "group": "Tradogram",
+                    "pages": [
+                      "connectors/service/tradogram/overview",
+                      "connectors/service/tradogram/operations"
+                    ]
+                  },
+                  {
+                    "group": "Transport For London (TFL)",
+                    "pages": [
+                      "connectors/service/transport-for-london-tfl/overview",
+                      "connectors/service/transport-for-london-tfl/operations"
+                    ]
+                  },
+                  {
+                    "group": "Trello",
+                    "pages": [
+                      "connectors/service/trello/overview",
+                      "connectors/service/trello/operations"
+                    ]
+                  },
+                  {
+                    "group": "TriNet",
+                    "pages": [
+                      "connectors/service/trinet/overview",
+                      "connectors/service/trinet/operations"
+                    ]
+                  },
+                  {
+                    "group": "Twilio",
+                    "pages": [
+                      "connectors/service/twilio/overview",
+                      "connectors/service/twilio/operations"
+                    ]
+                  },
+                  {
+                    "group": "Typeform",
+                    "pages": [
+                      "connectors/service/typeform/overview",
+                      "connectors/service/typeform/operations"
+                    ]
+                  },
+                  {
+                    "group": "Uberflip",
+                    "pages": [
+                      "connectors/service/uberflip/overview",
+                      "connectors/service/uberflip/operations"
+                    ]
+                  },
+                  {
+                    "group": "Udemy",
+                    "pages": [
+                      "connectors/service/udemy/overview",
+                      "connectors/service/udemy/operations"
+                    ]
+                  },
+                  {
+                    "group": "Udemy for Business",
+                    "pages": [
+                      "connectors/service/udemy-for-business/overview",
+                      "connectors/service/udemy-for-business/operations"
+                    ]
+                  },
+                  {
+                    "group": "UltiPro",
+                    "pages": [
+                      "connectors/service/ultipro/overview",
+                      "connectors/service/ultipro/operations"
+                    ]
+                  },
+                  {
+                    "group": "Unbounce",
+                    "pages": [
+                      "connectors/service/unbounce/overview",
+                      "connectors/service/unbounce/operations"
+                    ]
+                  },
+                  {
+                    "group": "Veeva",
+                    "pages": [
+                      "connectors/service/veeva/overview",
+                      "connectors/service/veeva/operations"
+                    ]
+                  },
+                  {
+                    "group": "Velocify",
+                    "pages": [
+                      "connectors/service/velocify/overview",
+                      "connectors/service/velocify/operations"
+                    ]
+                  },
+                  {
+                    "group": "VerticalResponse",
+                    "pages": [
+                      "connectors/service/vertical-response/overview",
+                      "connectors/service/vertical-response/operations"
+                    ]
+                  },
+                  {
+                    "group": "Verve",
+                    "pages": [
+                      "connectors/service/verve/overview",
+                      "connectors/service/verve/operations"
+                    ]
+                  },
+                  {
+                    "group": "Vibes",
+                    "pages": [
+                      "connectors/service/vibes/overview",
+                      "connectors/service/vibes/operations"
+                    ]
+                  },
+                  {
+                    "group": "VideoAsk",
+                    "pages": [
+                      "connectors/service/videoask/overview",
+                      "connectors/service/videoask/operations"
+                    ]
+                  },
+                  {
+                    "group": "Virtuous CRM",
+                    "pages": [
+                      "connectors/service/virtuous-crm/overview",
+                      "connectors/service/virtuous-crm/operations"
+                    ]
+                  },
+                  {
+                    "group": "Vonage",
+                    "pages": [
+                      "connectors/service/vonage/overview",
+                      "connectors/service/vonage/operations"
+                    ]
+                  },
+                  {
+                    "group": "Vtiger",
+                    "pages": [
+                      "connectors/service/vtiger/overview",
+                      "connectors/service/vtiger/operations"
+                    ]
+                  },
+                  {
+                    "group": "Walmart Marketplace",
+                    "pages": [
+                      "connectors/service/walmart-marketplace/overview",
+                      "connectors/service/walmart-marketplace/operations"
+                    ]
+                  },
+                  {
+                    "group": "Webdam",
+                    "pages": [
+                      "connectors/service/webdam/overview",
+                      "connectors/service/webdam/operations"
+                    ]
+                  },
+                  {
+                    "group": "WhatCounts",
+                    "pages": [
+                      "connectors/service/whatcounts/overview",
+                      "connectors/service/whatcounts/operations"
+                    ]
+                  },
+                  {
+                    "group": "Wicket",
+                    "pages": [
+                      "connectors/service/wicket/overview",
+                      "connectors/service/wicket/operations"
+                    ]
+                  },
+                  {
+                    "group": "Widen",
+                    "pages": [
+                      "connectors/service/widen/overview",
+                      "connectors/service/widen/operations"
+                    ]
+                  },
+                  {
+                    "group": "Wolfram|Alpha Full Results",
+                    "pages": [
+                      "connectors/service/wolfram-alpha-full-results/overview",
+                      "connectors/service/wolfram-alpha-full-results/operations"
+                    ]
+                  },
+                  {
+                    "group": "Wolfram|Alpha Short Answers",
+                    "pages": [
+                      "connectors/service/wolfram-alpha-short-answers/overview",
+                      "connectors/service/wolfram-alpha-short-answers/operations"
+                    ]
+                  },
+                  {
+                    "group": "WordPress",
+                    "pages": [
+                      "connectors/service/wordpress/overview",
+                      "connectors/service/wordpress/operations"
+                    ]
+                  },
+                  {
+                    "group": "Workable",
+                    "pages": [
+                      "connectors/service/workable/overview",
+                      "connectors/service/workable/operations"
+                    ]
+                  },
+                  {
+                    "group": "Workday REST",
+                    "pages": [
+                      "connectors/service/workday-rest/overview",
+                      "connectors/service/workday-rest/operations"
+                    ]
+                  },
+                  {
+                    "group": "Workfront",
+                    "pages": [
+                      "connectors/service/workfront/overview",
+                      "connectors/service/workfront/operations"
+                    ]
+                  },
+                  {
+                    "group": "Workplace",
+                    "pages": [
+                      "connectors/service/workplace/overview",
+                      "connectors/service/workplace/operations"
+                    ]
+                  },
+                  {
+                    "group": "Wrike",
+                    "pages": [
+                      "connectors/service/wrike/overview",
+                      "connectors/service/wrike/operations"
+                    ]
+                  },
+                  {
+                    "group": "Wufoo",
+                    "pages": [
+                      "connectors/service/wufoo/overview",
+                      "connectors/service/wufoo/operations"
+                    ]
+                  },
+                  {
+                    "group": "Xero",
+                    "pages": [
+                      "connectors/service/xero/overview",
+                      "connectors/service/xero/operations"
+                    ]
+                  },
+                  {
+                    "group": "XML Decoder",
+                    "pages": [
+                      "connectors/service/xml-decoder/overview",
+                      "connectors/service/xml-decoder/converters-operations-sample-payloads",
+                      "connectors/service/xml-decoder/operations"
+                    ]
+                  },
+                  {
+                    "group": "Xpressdocs",
+                    "pages": [
+                      "connectors/service/xpressdocs/overview",
+                      "connectors/service/xpressdocs/operations"
+                    ]
+                  },
+                  {
+                    "group": "Xverify",
+                    "pages": [
+                      "connectors/service/xverify/overview",
+                      "connectors/service/xverify/operations"
+                    ]
+                  },
+                  {
+                    "group": "Yammer",
+                    "pages": [
+                      "connectors/service/yammer/overview",
+                      "connectors/service/yammer/operations"
+                    ]
+                  },
+                  {
+                    "group": "Yext",
+                    "pages": [
+                      "connectors/service/yext/overview",
+                      "connectors/service/yext/operations"
+                    ]
+                  },
+                  {
+                    "group": "Yotpo",
+                    "pages": [
+                      "connectors/service/yotpo/overview",
+                      "connectors/service/yotpo/operations"
+                    ]
+                  },
+                  {
+                    "group": "Yotpo Loyalty",
+                    "pages": [
+                      "connectors/service/yotpo-loyalty/overview",
+                      "connectors/service/yotpo-loyalty/operations"
+                    ]
+                  },
+                  {
+                    "group": "Zaius",
+                    "pages": [
+                      "connectors/service/zaius/overview",
+                      "connectors/service/zaius/operations"
+                    ]
+                  },
+                  {
+                    "group": "Zelo Pay",
+                    "pages": [
+                      "connectors/service/zelo-pay/overview",
+                      "connectors/service/zelo-pay/operations"
+                    ]
+                  },
+                  {
+                    "group": "Zendesk",
+                    "pages": [
+                      "connectors/service/zendesk/overview",
+                      "connectors/service/zendesk/zendesk-operations-sample-payloads",
+                      "connectors/service/zendesk/operations"
+                    ]
+                  },
+                  {
+                    "group": "Zendesk Sell (formely Base)",
+                    "pages": [
+                      "connectors/service/zendesk-sell/overview",
+                      "connectors/service/zendesk-sell/operations"
+                    ]
+                  },
+                  {
+                    "group": "Zendesk Sunshine",
+                    "pages": [
+                      "connectors/service/zendesk-sunshine/overview",
+                      "connectors/service/zendesk-sunshine/operations"
+                    ]
+                  },
+                  {
+                    "group": "ZeroBounce",
+                    "pages": [
+                      "connectors/service/zerobounce/overview",
+                      "connectors/service/zerobounce/operations"
+                    ]
+                  },
+                  {
+                    "group": "Zoho",
+                    "pages": [
+                      "connectors/service/zoho/overview",
+                      "connectors/service/zoho/zoho-operations-sample-payloads",
+                      "connectors/service/zoho/operations"
+                    ]
+                  },
+                  {
+                    "group": "Zoho Creator",
+                    "pages": [
+                      "connectors/service/zoho-creator/overview",
+                      "connectors/service/zoho-creator/operations"
+                    ]
+                  },
+                  {
+                    "group": "Zoho Desk",
+                    "pages": [
+                      "connectors/service/zoho-desk/overview",
+                      "connectors/service/zoho-desk/operations"
+                    ]
+                  },
+                  {
+                    "group": "Zoho-books",
+                    "pages": [
+                      "connectors/service/zoho-books/overview",
+                      "connectors/service/zoho-books/operations"
+                    ]
+                  },
+                  {
+                    "group": "Zoom",
+                    "pages": [
+                      "connectors/service/zoom/overview",
+                      "connectors/service/zoom/zoom-operations-sample-payloads",
+                      "connectors/service/zoom/operations"
+                    ]
+                  },
+                  {
+                    "group": "ZoomInfo",
+                    "pages": [
+                      "connectors/service/zoominfo/overview",
+                      "connectors/service/zoominfo/operations"
+                    ]
+                  },
+                  {
+                    "group": "Zuora",
+                    "pages": [
+                      "connectors/service/zuora/overview",
+                      "connectors/service/zuora/operations"
+                    ]
+                  }
+                ]
+              },
+              {
+                "group": "Trigger",
+                "pages": [
+                  {
+                    "group": "Adobe Analytics Live Stream",
+                    "pages": [
+                      "connectors/trigger/adobe-analytics-live-stream-trigger/overview",
+                      "connectors/trigger/adobe-analytics-live-stream-trigger/operations"
+                    ]
+                  },
+                  {
+                    "group": "Alerting Trigger",
+                    "pages": [
+                      "connectors/trigger/alerting-trigger/overview",
+                      "connectors/trigger/alerting-trigger/operations"
+                    ]
+                  },
+                  {
+                    "group": "Callable Trigger",
+                    "pages": [
+                      "connectors/trigger/callable-trigger/overview",
+                      "connectors/trigger/callable-trigger/operations"
+                    ]
+                  },
+                  {
+                    "group": "Email Trigger",
+                    "pages": [
+                      "connectors/trigger/email-trigger/overview",
+                      "connectors/trigger/email-trigger/operations"
+                    ]
+                  },
+                  {
+                    "group": "Form Trigger",
+                    "pages": [
+                      "connectors/trigger/form-trigger/overview",
+                      "connectors/trigger/form-trigger/operations"
+                    ]
+                  },
+                  {
+                    "group": "Manual Trigger",
+                    "pages": [
+                      "connectors/trigger/manual-trigger/overview",
+                      "connectors/trigger/manual-trigger/operations"
+                    ]
+                  },
+                  {
+                    "group": "Scheduled Trigger",
+                    "pages": [
+                      "connectors/trigger/scheduled-trigger/overview",
+                      "connectors/trigger/scheduled-trigger/operations"
+                    ]
+                  },
+                  {
+                    "group": "Solution Alert Trigger",
+                    "pages": [
+                      "connectors/trigger/solution-alert-trigger/overview",
+                      "connectors/trigger/solution-alert-trigger/operations"
+                    ]
+                  },
+                  {
+                    "group": "Solution Instance trigger",
+                    "pages": [
+                      "connectors/trigger/solution-instance-trigger/overview",
+                      "connectors/trigger/solution-instance-trigger/operations"
+                    ]
+                  },
+                  {
+                    "group": "Trigger Event Reply",
+                    "pages": [
+                      "connectors/trigger/trigger-event-reply/overview",
+                      "connectors/trigger/trigger-event-reply/trigger-reply-operations-sample-payloads",
+                      "connectors/trigger/trigger-event-reply/operations"
+                    ]
+                  },
+                  {
+                    "group": "Webhook Trigger",
+                    "pages": [
+                      "connectors/trigger/webhook-trigger/overview",
+                      "connectors/trigger/webhook-trigger/operations"
+                    ]
+                  }
+                ]
+              },
+              {
+                "group": "Core",
+                "pages": [
+                  {
+                    "group": "Azure Blob Storage",
+                    "pages": [
+                      "connectors/core/azure-blob-storage/overview",
+                      "connectors/core/azure-blob-storage/operations"
+                    ]
+                  },
+                  {
+                    "group": "Data Storage",
+                    "pages": [
+                      "connectors/core/data-storage/overview",
+                      "connectors/core/data-storage/storage-operations-sample-payloads",
+                      "connectors/core/data-storage/operations"
+                    ]
+                  },
+                  {
+                    "group": "File Helpers",
+                    "pages": [
+                      "connectors/core/file-helper/overview",
+                      "connectors/core/file-helper/file-helpers-operations-sample-payloads",
+                      "connectors/core/file-helper/operations"
+                    ]
+                  },
+                  {
+                    "group": "Filemaker Pro",
+                    "pages": [
+                      "connectors/core/filemaker-pro/overview",
+                      "connectors/core/filemaker-pro/operations"
+                    ]
+                  },
+                  {
+                    "group": "FTP Client",
+                    "pages": [
+                      "connectors/core/ftp-client/overview",
+                      "connectors/core/ftp-client/ftp-client-operations-sample-payloads",
+                      "connectors/core/ftp-client/operations"
+                    ]
+                  },
+                  {
+                    "group": "Google Cloud Storage",
+                    "pages": [
+                      "connectors/core/google-cloud-storage/overview",
+                      "connectors/core/google-cloud-storage/operations"
+                    ]
+                  },
+                  {
+                    "group": "HTTP Client",
+                    "pages": [
+                      "connectors/core/http-client/overview",
+                      "connectors/core/http-client/http-client-operations-sample-payloads",
+                      "connectors/core/http-client/operations"
+                    ]
+                  },
+                  {
+                    "group": "Microsoft SQL Database",
+                    "pages": [
+                      "connectors/core/microsoft-sql-database/overview",
+                      "connectors/core/microsoft-sql-database/notes-on-using-microsoft-sql-database",
+                      "connectors/core/microsoft-sql-database/microsoft-sql-database-operations-sample-payloads",
+                      "connectors/core/microsoft-sql-database/operations"
+                    ]
+                  },
+                  {
+                    "group": "Splunk HTTP Event Collector",
+                    "pages": [
+                      "connectors/core/splunk-http-event-collector/overview",
+                      "connectors/core/splunk-http-event-collector/operations"
+                    ]
+                  }
+                ]
+              },
+              {
+                "group": "Helper",
+                "pages": [
+                  {
+                    "group": "Crypto Helpers",
+                    "pages": [
+                      "connectors/helper/crypto-helpers/overview",
+                      "connectors/helper/crypto-helpers/crypto-helpers-operations-sample-payloads",
+                      "connectors/helper/crypto-helpers/operations"
+                    ]
+                  },
+                  {
+                    "group": "Date & Time Helpers",
+                    "pages": [
+                      "connectors/helper/date-time-helper/overview",
+                      "connectors/helper/date-time-helper/date-time-helpers-operations-sample-payloads",
+                      "connectors/helper/date-time-helper/operations"
+                    ]
+                  },
+                  {
+                    "group": "Encryption Helper",
+                    "pages": [
+                      "connectors/helper/encryption-helper/overview",
+                      "connectors/helper/encryption-helper/encryption-helper-operations-sample-payloads",
+                      "connectors/helper/encryption-helper/operations"
+                    ]
+                  },
+                  {
+                    "group": "HTML Dom Parser Helper",
+                    "pages": [
+                      "connectors/helper/htmldomparser/overview",
+                      "connectors/helper/htmldomparser/html-dom-parser-operations-sample-payloads",
+                      "connectors/helper/htmldomparser/operations"
+                    ]
+                  },
+                  {
+                    "group": "JSON Web Token (JWT) Helper",
+                    "pages": [
+                      "connectors/helper/json-web-token-jwt/overview",
+                      "connectors/helper/json-web-token-jwt/json-web-token-operations-sample-payloads",
+                      "connectors/helper/json-web-token-jwt/operations"
+                    ]
+                  },
+                  {
+                    "group": "Kanban Tool",
+                    "pages": [
+                      "connectors/helper/kanban-tool/overview",
+                      "connectors/helper/kanban-tool/operations"
+                    ]
+                  },
+                  {
+                    "group": "LDAP Client helper",
+                    "pages": [
+                      "connectors/helper/ldap-client/overview",
+                      "connectors/helper/ldap-client/ldap-client-operations-sample-payloads",
+                      "connectors/helper/ldap-client/operations"
+                    ]
+                  },
+                  {
+                    "group": "List Helpers",
+                    "pages": [
+                      "connectors/helper/list-helper/overview",
+                      "connectors/helper/list-helper/list-helpers-operations-sample-payloads",
+                      "connectors/helper/list-helper/operations"
+                    ]
+                  },
+                  {
+                    "group": "Lodash Helper",
+                    "pages": [
+                      "connectors/helper/lodash/overview",
+                      "connectors/helper/lodash/lodash-operations-sample-payloads",
+                      "connectors/helper/lodash/operations"
+                    ]
+                  },
+                  {
+                    "group": "Logic Helper",
+                    "pages": [
+                      "connectors/helper/logic-helper/overview",
+                      "connectors/helper/logic-helper/logic-helpers-operations-sample-payloads",
+                      "connectors/helper/logic-helper/operations"
+                    ]
+                  },
+                  {
+                    "group": "Math Helper",
+                    "pages": [
+                      "connectors/helper/math-helper/overview",
+                      "connectors/helper/math-helper/math-helpers-operations-sample-payloads",
+                      "connectors/helper/math-helper/operations"
+                    ]
+                  },
+                  {
+                    "group": "Object Helpers",
+                    "pages": [
+                      "connectors/helper/object-helper/overview",
+                      "connectors/helper/object-helper/object-helpers-operations-sample-payloads",
+                      "connectors/helper/object-helper/operations"
+                    ]
+                  },
+                  {
+                    "group": "PDF Helpers",
+                    "pages": [
+                      "connectors/helper/pdf-helper/overview",
+                      "connectors/helper/pdf-helper/pdf-helpers-operations-sample-payloads",
+                      "connectors/helper/pdf-helper/operations"
+                    ]
+                  },
+                  {
+                    "group": "Phone Number Helper",
+                    "pages": [
+                      "connectors/helper/phone-number-helper/overview",
+                      "connectors/helper/phone-number-helper/phone-number-helpers-operations-sample-payloads",
+                      "connectors/helper/phone-number-helper/operations"
+                    ]
+                  },
+                  {
+                    "group": "Random Helper",
+                    "pages": [
+                      "connectors/helper/random-helper/overview",
+                      "connectors/helper/random-helper/random-helpers-operations-sample-payloads",
+                      "connectors/helper/random-helper/operations"
+                    ]
+                  },
+                  {
+                    "group": "Text Helpers",
+                    "pages": [
+                      "connectors/helper/text-helper/overview",
+                      "connectors/helper/text-helper/text-helpers-operations-sample-payloads",
+                      "connectors/helper/text-helper/operations"
+                    ]
+                  },
+                  {
+                    "group": "XLSX Helper",
+                    "pages": [
+                      "connectors/helper/xlsx-helper/overview",
+                      "connectors/helper/xlsx-helper/xlsx-helpers-operations-sample-payloads",
+                      "connectors/helper/xlsx-helper/operations"
+                    ]
+                  },
+                  {
+                    "group": "XML Helper",
+                    "pages": [
+                      "connectors/helper/xml-helper/overview",
+                      "connectors/helper/xml-helper/xml-helpers-operations-sample-payloads",
+                      "connectors/helper/xml-helper/operations"
+                    ]
+                  },
+                  {
+                    "group": "Zip Helper",
+                    "pages": [
+                      "connectors/helper/zip-helper/overview",
+                      "connectors/helper/zip-helper/zip-operations-sample-payloads",
+                      "connectors/helper/zip-helper/operations"
+                    ]
+                  }
+                ]
+              },
+              {
+                "group": "Artificial Intelligence",
+                "pages": [
+                  {
+                    "group": "Anthropic (Claude)",
+                    "pages": [
+                      "connectors/artificial-intelligence/anthropic-claude/overview",
+                      "connectors/artificial-intelligence/anthropic-claude/anthropic-operations-sample-payloads",
+                      "connectors/artificial-intelligence/anthropic-claude/operations"
+                    ]
+                  },
+                  {
+                    "group": "OpenAI",
+                    "pages": [
+                      "connectors/artificial-intelligence/openai/overview",
+                      "connectors/artificial-intelligence/openai/notes-on-using-openai",
+                      "connectors/artificial-intelligence/openai/openai-use-cases",
+                      "connectors/artificial-intelligence/openai/openai-operations-sample-payloads",
+                      "connectors/artificial-intelligence/openai/operations"
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
         ]
       },
       {
         "tab": "Library",
         "pages": [
-            "library/overview"
+          "library/overview"
         ]
       },
       {
         "tab": "Help Center",
         "pages": [
-            "help/overview"
+          "help/overview"
         ]
       }
     ]

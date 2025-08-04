@@ -1,0 +1,106 @@
+---
+title: "Overview"
+description: "Overview of the Entrata connector"
+---
+
+# Overview
+
+## Overview
+
+Entrata is a service connector that is a property management software intended to simplify apartments and rent documentation and payment processes.
+
+## Authentication
+
+When using the Entrata connector, the first thing you will need to do is go to your Tray.io account page, and select the workflow you wish to work on. Once in the workflow builder itself, search and drag the Entrata connector from the connectors panel (on the left hand side) onto your workflow.
+
+With the new Entrata connector step highlighted, in the properties panel on the right, click on the Authenticate tab and 'Add new authentication' (located under the 'Authentication' field).
+
+This will result in a Tray.io authentication pop-up window. The first page will ask you to name your authentication, and state which type of authentication you wish to create ('Personal' or 'Organisational').
+
+As you can see, the next page asks you for your 'Base URL', 'Username' and 'Password' as credentials. Your username and password are the same as that of your account when you log into the Entrata UI. The base URL is the domain of your account, e.g. 'https://your-name.entrata.com/'. Please make sure that the URL is pre-pended with 'https://'.
+
+Once you have added these fields to your Tray.io authentication popup window, click on the 'Create authentication' button. Go back to your settings authentication field (within the workflow builder properties panel), and select the recently added authentication from the dropdown options now available.
+
+Your connector authentication setup should now be complete.
+
+## Available Operations
+
+The examples below show one or two of the available connector operations in use.
+
+Please see the [Full Operations Reference](#operationsFull) at the end of this page for details on all available operations for this connector.
+
+## Using the Raw HTTP Request ('Universal Operation')
+
+As of **version 1.0**, you can effectively create your own operations.
+
+This is a very powerful feature which you can put to use when there is an endpoint in Entrata which is not used by any of our operations.
+
+To use this you will first of all need to research the endpoint in the [Entrata API documentation ](https://www.entrata.com/api/v1/documentation/), to **find the exact format** that Entrata will be expecting the endpoint to be passed in.
+
+Note that you will only need to add the suffix to the endpoint, as the base URL will be automatically set (the base URL is picked up from the value you entered when you created your authentication).
+
+The base URL for Entrata is: `https://{{your_entrata_subdomain}}.entrata.com/api/v1`
+
+For example, say that the 'List floor plans' operation did not exist in our Entrata connector, and you wanted to use this endpoint, you would use the Entrata API docs to find the relevant endpoint - which in this case is a `POST` request called: `getFloorPlans`.
+
+More details can be found [here](https://www.entrata.com/api/v1/documentation/getFloorPlans).
+
+Although we are retrieving a list of floorplans, we will be using a `POST` request to conduct this operation. This is due to the way that requests are made to the Entrata API. All requests are `POST` requests and the requests need to be made in the body wrapped in a specified object according to the Entrata API docs. The image below is an example of the raw body in the request to the API to retrieve floor plans.
+
+To perform a raw HTTP request, you will need to construct your own body to include in the request. The information you need to provide to the API lies within the method key in the raw body object. The value for the 'name' key is the name of the method you are using, according to the API docs. In this case the 'name' would be 'getFloorPlans'.
+
+As you can see there is also the option to include a parameter, should you wish to do so. To complete this request, we will need to include a `propertyId` in the body in the `params` object. If your request requires additional parameters, you will need to include them here as well.
+
+Method: `POST`
+
+Endpoint: `/properties`
+
+Body Type : Raw :
+
+Final Example outcome being: **https://your-domain.entrata.com/api/v1/properties**
+
+## Example Usage
+
+Below is an example of a way in which you could potentially use the Entrata connector, to list floor plans and retrieve the units attached to each floorplan.
+
+The steps will be as follows:
+
+1. Setup using a manual trigger and list floorplans
+2. Loop through floorplans
+3. Retrieve a list of units attached to each floorplan
+
+The final outcome should look like this:
+
+### 1 - Setup Trigger & List Floorplans
+
+Once you have clicked 'Create new workflow' from your main Tray.io dashboard named it, select the Manual trigger from the trigger options available:
+
+After you have been redirected to the Tray.io workflow dashboard, from the connectors panel on the left, add a Entrata connector to your second step. Set the operation to 'List floorplans'.
+
+Feel free to re-name your steps as you go along to make things clearer for yourself and other users.
+
+Upon completion, you will have set up the manual trigger and retrieved the floorplans associated with the specified property ID.
+
+### 2 - Loop Collection
+
+Next, search for the Loop collection connector within your connector panel, and drag it into your workflow as your next step. Set your operations to 'Loop list'.
+
+The Loop Collection connector allows you to iterate through a list of results. In this example, we will use it to iterate through the data found within the previous 'List floorplans' connector step.
+
+In order to specify the list you want to loop through, start by using the 'List' mapping icon (found next to the list input field, within the properties panel) to generate the connector-snake.
+
+While hovering over the 'List floorplans' step (with the tail end of the connector-snake), select `FloorPlan` from the list of output properties displayed. This will auto-populate a jsonpath within your 'List' input field, and update the type selector to jsonpath.
+
+For more clarification on the pathways you have available, open the Debug panel to view your step's Input and Output.
+
+Now, you will be able to loop through the floorplans you retrieved in the first step.
+
+### 3 - List Units Availability and Pricing for Each Floorplan
+
+The last step is to drag a Entrata connector **inside** of the Loop Collection step itself. Set the operation to 'List units availability and pricing'. As you can see, the 'property ID' field is required, and there is a field for 'floorplan ID'
+
+Once again, use the connector snake and hover over the 'Loop Collection' step (with the tail end of the connector-snake), select 'ID' value under 'Identification' from the list of output properties displayed.
+
+Click on 'Debug' at the top of the page and you can see your workflow execution. You will see the connector looping through the list of floorplans as provided by step 1.
+
+If you click on each execution of 'List units availability and pricing', you will be able to see the results of each loop.

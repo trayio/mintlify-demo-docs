@@ -1,0 +1,44 @@
+---
+title: "Overview"
+description: "Overview of the Google Ad Manager connector"
+---
+
+# Overview
+
+## Overview
+
+Google Ad Manager offers publishers a complete ad revenue engine, helping publishers streamline operations and capture the most value for every impression.
+
+## Authentication
+
+Authentication for Google Ad Manager (GAM) requires 4 input parameters; a service account email, your Google Ad Manager network code, an arbitrary app name and a private key. We'll discuss how you can aquire all four.
+
+- To get both your service account emails and the private key you'll need to follow the steps outline in Google's docs [here](https://developers.google.com/ad-manager/api/authentication). Please ensure you follow the instructions for creating OAuth2 credentials for 'service account' and **NOT** 'web application'. On completion of the steps you'll be prompted to save the credential via a JSON file to reference later (please store securely).
+- To get your network code, head over to your GAM account and in the LHS panel click on Admin > Global Setting. Under the Network Settings tab you'll see your network code defined in general settings.
+- Finally your app name is entirely up to you and is used by Google to track API calls to ensure proper logging. So for example, 'Tray.io' would make a good app name, it's short and distinctive.
+
+## Note on Operations usage
+
+### GAM operations
+
+GAM operations have unusually long schemas for a connector. After all we are trying to automate an entire ad campaign and as such a multitude of variables need to be set. To successfully build an operation you'll need to consult GAM documentation [here](https://developers.google.com/ad-manager/api/rel_notes). One of the quirks with the GAM connector is the fact that some of the inputs within an operation are dependent to other inputs and as such you'll need to be aware of this, hence it is highly recommended you consult the docs before you start building an operation.
+
+Version 1.0 of the connector uses GAM v201908.
+
+### Downloading Files
+
+As the [Google Drive](/connectors/service/google-drive/) connector holds most of the permissions available for downloading Google files (regardless of type) - it is recommended to try revising your workflow to include this connector, should you face any Google file downloading issues.
+
+### How to use Google Ad Manager docs.
+
+As an example, if you want to create a new Line Item, after following the above link, you would click 'Version v201908' on the LHS panel which will open up all of the GAM 'services' Google offers. You would then scroll down to and click 'LineItemService' which opens up yet another section. Finally, to view all property descriptions in full you would need to click on 'LineItem' about mid-way through the section which will open up the main schema page.
+
+This process can be repeated for operations that use other services e.g. Orders.
+
+### Dependencies
+
+As mentioned above inputs within GAM's operations depend on other inputs. Lets take a look at 'Create line items' since that particular operation has a rather long input schema. For example, if we know we want to use 'Cost Per Day' as a cost type we also need to be aware that only 2 types of line item types support this cost type, Sponsorship and Network.
+
+Again, you will find this information in the docs linked above.
+
+Similarly, it's worthwhile reading each input description to make sure you set the correct inputs. Taking line items as an example again, when setting 'start date time' you can choose to either create a new date object or select the immediate option. This input is tied directly to the next input 'start date time type' and the values must correspond as set out in the table below:

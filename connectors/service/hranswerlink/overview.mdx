@@ -1,0 +1,40 @@
+---
+title: "Overview"
+description: "Overview of the HRAnswerLink connector"
+---
+
+# Overview
+
+## Overview
+
+The tray.io HRAnswerLink connector allows you to manage people and sites in HRAnswerLink.
+
+When using the HRAnswerLink connector, the first thing you will have to do is click on 'New Authentication' in the step editor:
+
+**Environment:** (required) Allows you to choose between a production or a sandbox environment. If sandbox is chosen, the connector points to the sandbox API URL.
+
+**UID:** (required) The UID for your OAuth application given to you by Mammoth.
+
+**Secret key:** (required) The Secret Key for your OAuth application given to you by Mammoth.
+
+## Available Operations
+
+The examples below show one or two of the available connector operations in use.
+
+Please see the [Full Operations Reference](#operationsFull) at the end of this page for details on all available operations for this connector.
+
+## Example
+
+The following workflow has been created using a Manual Trigger and three operations from the HRAnswerLink connector.
+
+Use the **Create affiliate** operation to create an affiliate in your database (note we have switched to the **Debug** tab to view the output):
+
+The **ID** of the created affiliate will be returned in the response as well as the data you have passed in the parameters.
+
+Use the **Create site** operation to create a site in your application, using the **Salesforce ID** and **Affiliate ID** from the above step - this will associate the site to the affiliate:
+
+The **ID** of the created site will be returned in the response as well as the data you have passed in the parameters.
+
+Then in the last step of the workflow create a new user for this affiliate, again using their **Salesforce ID**:
+
+The **ID** of the created user will be returned in the response as well as the data you have passed in the parameters.

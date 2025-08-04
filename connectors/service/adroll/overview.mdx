@@ -1,0 +1,24 @@
+---
+title: "Overview"
+description: "Overview of the Adroll connector"
+---
+
+# Overview
+
+## Overview
+
+The tray.io Adroll connector allows you to manage deliveries in Adroll.
+
+## Authentication
+
+When using the Adroll connector, the first thing you will have to do is click on 'New Authentication' in the step editor:
+
+On the following page proceed to allow Tray access to your account.
+
+## Example
+
+In this example we will build a simple workflow to retrieve a list of domain deliveries from an AdRoll account.
+
+Create a new workflow with a **Manual Trigger**, and add a step from the **AdRoll** connector, with the operation set to **List domain deliveries**. Add two Breakdowns, the first one set to "Entity" and the second set to "Summary". Select an *Advertisable EID* from the dropdown list. Set the *Past days* parameter to a number sufficiently high to capture results. In this case we set the number to 300:
+
+The output will be an object with both "Summary" and "Entity" properties.

@@ -1,0 +1,69 @@
+---
+title: "Overview"
+description: "Overview of the CallRail connector"
+---
+
+# Overview
+
+## Overview
+
+The CallRail platform builds on Call Tracking to provide an entire suite of integrated tools that makes marketing your business and turning leads into loyal customers a cinch. CallRail Call Tracking solution attributes (or matches) incoming phone calls and text messages to your marketing activities.
+
+## **API Information **
+
+The Base URL used for the CallRail connector is **https://api.callrail.com**. More information can be found on their main [API documentation](https://apidocs.callrail.com) site.
+
+## Authentication
+
+Within the builder, click on the CallRail connector to display the connector properties panel. Select the 'Auth' tab and click on the 'New authentication' button.
+
+In the Tray.io authentication pop-up modal, name the authentication in a way that will quickly identify it within a potentially large list. For example, whether it is a Sandbox or Production auth, etc.
+
+Consider who/ how many people will need access to this authentication when choosing where to create this authentication ('Personal' or 'Organisational').
+
+The second page asks you for your '**API Key**' credentials.
+
+To get this field, head to the CallRail dashboard. Click on the Integrations tab, navigate to API Keys from the left menu panel as shown in the below image or make sure you are logged in and then click on this [API Key](https://app.callrail.com/settings/a/170499692/settings/api-keys) link. It will lead you to the same page.<br/>
+
+Once you have added these fields to your Tray.io authentication pop-up window, click the 'Create authentication' button. 
+
+Your connector authentication setup should now be complete.
+
+## Available Operations
+
+The examples below show one or two of the available connector operations in use.
+
+Please see the [Full Operations Reference](#operationsFull) at the end of this page for details on all available operations for this connector.
+
+## Using the Raw HTTP Request ('Universal Operation')
+
+As of **version 1.0**, you can effectively create your own operations.
+
+This is a powerful feature that you can use when there is an endpoint in CallRail that is not used by any of our operations.
+
+To use this, you will first of all need to research the endpoint in the  [API documentation ](https://apidocs.callrail.com/)to **find the exact format** that CallRail will be expecting the endpoint to be passed in.
+
+For example, say that the **'Listing All Conversations'** operation did not exist in our CallRail connector, and you wanted to use this endpoint. You would use the CallRail [API docs](https://apidocs.callrail.com/) to find the relevant endpoint - ***which in this case is a `GET` request called: `*****/v3/a/{account_id}/text-messages.json*****`.***`*** ***`
+
+More details about this endpoint can be found [here](https://apidocs.callrail.com/#listing-all-conversations).
+
+Based on the information provided in the above API call doc, you need to configure the following attributes on your Tray platform:
+
+- **Method:** GET
+- **URL: **
+
+Once the API call is executed successfully,  you should get the following results:
+
+## Example Usage
+
+Below is an example of a way in which you could potentially use the CallRail connector, to iterate through the Parameter formats stored within your Terminus app.
+
+The steps will be as follows:
+
+1. Setup using a manual trigger and List all accounts operations.
+2. Add a Loop connector to iterate through the calls.
+3. Get each account call's information details.
+
+Your completed workflow should look similar to this:
+
+### Step-by-step Explanation

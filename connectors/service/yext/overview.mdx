@@ -1,0 +1,144 @@
+---
+title: "Overview"
+description: "Overview of the Yext connector"
+---
+
+# Overview
+
+## Overview
+
+Yext is a platform that enables business owners to deliver official answers to consumer questions on online services, such as search engines, voice assistants, and others.
+
+## Authentication
+
+When using the Yext connector, the first thing you will need to do is go to your Tray.io account page, and select the workflow you wish to work on. Once in the workflow dashboard itself, search and drag the Yext connector from the connectors panel (on the left hand side) onto your workflow.
+
+With the new Yext connector step highlighted, in the properties panel on the right, click on 'New Authentication' which is located under the 'Settings' heading.
+
+This will result in a Tray.io authentication pop-up window. The first page will ask you to name your authentication appropriately, and state which type of authentication you wish to make ('Personal' or 'Organisational').
+
+As you can see, the next page asks you for your API Key.
+
+In order to get these fields, head to your Yext dashboard. Click on your username in the top-right corner of the page, and then click on 'Developer Console'.
+
+Scroll to the bottom of the page, to the section called 'Your Apps'. Click on 'New App'.
+
+Give your app a name, provide a contact email and phone number, and select which permissions you want your app to have. You can modify the permissions later. When you are done, click 'Create App'.
+
+You will be redirected back to the Developer Console, and you should now see your new app listed in the 'Your Apps' section. Click on 'View App Details'.
+
+On the page that appears, scroll down to the section called 'Credentials & Linking'. Here, you will find a list of your API keys. You can create more if you want.
+
+Copy one of your API keys and head back over to your Tray.io workflow. Paste the key into the 'API Key' field inside the authentication popup, and then click on 'Create authentication'.
+
+Once you have clicked the 'Create authentication' button, go to back to your authentication field (within the workflow dashboard properties panel from earlier), and select the recently added authentication from the dropdown options now available.
+
+Your connector authentication setup should now be complete.
+
+## Yext Trigger
+
+If you wish your workflow to be kicked off by a particular action in Yext, you can use the Yext Trigger.
+
+The Yext trigger allows you to receive notifications and trigger workflows when given events occur associated with the selected trigger operation.
+
+### Trigger Operations available:
+
+- Webhook
+
+### Webhook Setup
+
+When creating a new workflow, click the 'Create new workflow' button in the top right hand corner of your main Tray.io dashboard. When the trigger popup window opens, search and select the Yext trigger. Wait to be redirected to your new workflow and the workflow dashboard itself.
+
+With the new Yext trigger step highlighted, in the properties panel on the right, click on 'New Authentication' which is located under the 'Settings' heading.
+
+This will result in a Tray.io authentication pop-up window. The first page will ask you to name your authentication, and state which type of authentication you wish to create ('Personal' or 'Organisational').
+
+As you can see, the next page asks you for your Yext 'Signing secret' credentials.
+
+In order to get these fields, head to your Yext developer console. Scroll down and click either '+ New App' to create a new app or 'View App Details' if you have an existing one already.
+
+Now from within the app details page, click on 'Manage Webhooks' from the left hand side of the page.
+
+To get the 'Signing secret', click 'Configure Security' in the top right of the page.
+
+A window will appear which will contain your signing secret.
+
+Copy and paste this and head back to the Tray.io workflow. Once you have added this field to your Tray.io authentication popup window, click on the 'Create authentication' button. Go back to your settings authentication field (within the workflow builder properties panel), and select the recently added authentication from the dropdown options now available.
+
+Your connector authentication setup should now be complete.
+
+Follow the instructions above to authenticate your trigger, and select 'Webhook' as the event you want your trigger to listen to (aka the operation), in order to set off the workflow itself:
+
+You will need create webhook from within in your Yext account by adding the Workflow URL from within the developer console. In order to do this, first you must copy the Workflow Public URL. This can be found by clicking the 3 dots in the top left corner of the workflow builder and then selecting 'Workflow settings'.
+
+Here you will copy the public URL of the workflow.
+
+Next head over to your Yext developer console and navigate to the Webhook management page, which is the same place you found the signing secret above. Here you can setup webhooks for different event types. Click 'Configure Webhook' next to the event type you would like to trigger the workflow for.
+
+You will then be able to paste the Workflow URL into the text box that appears. Once done hit 'Save'.
+
+If you wish to test whether the webhook is setup correctly, you can click 'Send Test Message'. Before this will work however, you need to finish setup of the workflow and enable it first.
+
+Head back over to your workflow and with the Yext trigger step highlighted you can configure the output schema from within the input panel.
+
+Add schema types to match the webhooks you have setup on your Yext account. This will dictate the output schema that your trigger will generate - which is based off the Yext webhook request itself. For more details on output schema and the like, see our [jsonpath shortcuts](/platform/working-with-data/jsonpath-shortcuts/#the-dynamic-output-schema) page.
+
+Once this is done, hit 'Enable' and setup is complete. This can now be tested so head back to your Yext webhook dashboard and click 'Send Test Message'.
+
+If everything is setup correctly, a popup should appear saying 'Webhook Test Success' with a response code of '200'.
+
+You can now go back to thw workflow and check the result within the 'Debug panel'.
+
+Your Yext trigger is now all setup. You can setup multiple webhook types from within the Yext webhook console to point to same the workflow URL.
+
+## Available Operations
+
+The examples below show one or two of the available connector operations in use.
+
+Please see the [Full Operations Reference](#operationsFull) at the end of this page for details on all available operations for this connector.
+
+## Example usage
+
+Below is an example of a way in which you could potentially use the Yext connector, to list all the accounts that you have access to, and then list all the entities inside each account.
+
+The steps will be as follows:
+
+1. Add 'List accounts' step
+2. Add Loop Collection
+3. Add 'List entities' step
+
+The final outcome should look like this:
+
+### 1 - Setup trigger & list accounts
+
+Once you have clicked 'Create new workflow' on your main Tray.io dashboard (and named said new workflow), select the Manual trigger from the trigger options available:
+
+Once you have been redirected to the Tray.io workflow dashboard, from the connectors panel on the left, add a Yext connector to your second step. Set the operation to 'List accounts'.
+
+There are no mandatory fields under this operation but feel free to fill them in if you prefer.
+
+*Feel free to re-name your steps as you go along to make things clearer for yourself and other users.*
+
+When run, this workflow will retrieve a list of all the Yext accounts that you have access to.
+
+### 2 - Add Loop Collection
+
+To iterate over this list of accounts, you will need to add to add a Loop Collection connector as your next step. Set the operation to 'Loop List'.
+
+Use the connector-snake to assign the 'List' input parameter to the `accounts` array produced by the previous step.
+
+Your outcome should appear similar to the following jsonpath: `$.steps.yext-1.response.accounts`.
+
+Now, when this workflow is run, a list of accounts will be retrieved and then looped over. The next step is to do something with this data.
+
+### 3 - List entities
+
+Add another Yext step *INSIDE* of the Loop Collection step. Set the operation to 'List entities'.
+
+As you can see, the 'Account ID' is a required field. Assign this input parameter to the `accountId` field output created by the Loop Collection, utilising the connector-snake once more.
+
+*Again, feel free to fill in the rest of the properties should your needs require them.*
+
+Now, when this workflow is run, it will first retrieve a list of all the accounts you have access to and then, for each account, will retrieve a list of the entities inside it.
+
+You can view your results within your Debug panel:

@@ -1,0 +1,208 @@
+---
+title: "Overview"
+description: "Overview of the Notion connector"
+---
+
+# Overview
+
+## Overview
+
+Notion is an application that provides components such as notes, databases, kanban boards, wikis, calendars, and reminders. Users can connect these components to create their own systems for knowledge management, note-taking, data management, project management, among others.
+
+## API Information
+
+The Notion connector has the following Base URL: **https://api.notion.com/v1**. More information can be found on their main [API documentation (v1)](https://developers.notion.com/reference) site. Details regarding their API limitations can be found [here](https://developers.notion.com/reference/request-limits#:~:text=The%20rate%20limit%20for%20incoming,the%20average%20rate%20are%20allowed.).
+
+## Authentication
+
+Within the workflow builder, highlight the Notion connector.
+
+In the Notion connector properties panel to the right of the builder, click on the Authenticate tab and the 'New authentication' button.
+
+This will result in a Tray.io authentication pop-up modal. The first page will ask you to name your authentication and select the type of authentication you wish to create ('Personal' or 'Organisational').
+
+The next page will ask you to choose your 'Service Type'. You can choose to create either a token-based authentication ('API Key') or an OAuth 2.0 authentication ('OAuth2.0').
+
+Token-based authentication is used in internal integrations, and an OAuth 2.0 authentication is required for public integrations. To create a token-based authentication select 'API Key' from the drop-down menu and follow the instructions from the [API Key](#api-key) section below. To create an OAuth 2.0 authentication select 'OAuth2.0' and follow the instructions from the OAuth 2.0 section below.
+
+### API Key
+
+If you select 'API Key' from the drop-down menu you will be asked to enter your API Key. Note that this refers to your Integration API key, otherwise known as the "Internal Integration Token".
+
+Before proceeding, note that **you will need to be an administrator in order to get the API key**.
+
+There are two ways you can access your API key, one is through your [Notion integrations page](https://www.notion.so/my-integrations):
+
+ - images combined!
+
+The other is through the Notion application. Head to 'Settings & Members' > 'Integrations'. Click on the horizontal hamburger icon available on the right-hand corner to display the copy token option.
+
+ - images combined!
+
+Once you have added these fields to your Tray.io authentication pop-up window, click the 'Create authentication' button.
+
+Go back to your settings authentication field (within the workflow builder properties panel), and select the recently added authentication from the drop-down options now available.
+
+Your connector authentication setup should now be complete.
+
+### OAuth 2.0
+
+If you select 'OAuth2.0' from the drop-down menu you will be asked to enter your 'Client ID' and 'Client Secret'.
+
+To find your 'Client ID' and 'Client Secret' visit your [Notion integrations page](https://www.notion.so/my-integrations) and click the public integration for which you are creating an authentication.
+
+Once you have added these fields to your Tray.io authentication pop-up window, click the 'Create authentication' button.
+
+Next, you will be redirected to a Notion pop-up window. Click 'Select pages' to choose which pages to grant access to.
+
+Now you can select the Notion pages you want to allow access to, then click 'Allow access'.
+
+Go back to your settings authentication field (within the workflow builder properties panel), and select the recently added authentication from the drop-down options now available.
+
+Your connector authentication setup should now be complete.
+
+## Available Operations
+
+The examples below show one or two of the available connector operations in use.
+
+Please see the [Full Operations Reference](#operationsFull) at the end of this page for details on all available operations for this connector.
+
+## Notes on using Notion
+
+### Integrations vs Users
+
+End users should take into account that the concepts of a Notion **User** and a Notion **Integration** are extremely similar.
+
+> 
+
+**Integrations:**
+
+- Can be added to workspaces like Users.
+- They have fewer access privileges by design than a normal User. Because of this they must to be given explicit permission to work with any page.
+- When you create an Integration it doesn't actually belong to anyone. Think of it as an account that multiple people can use.
+
+Integrations are in effect the same Users, but with a smaller scope.
+
+#### Get User
+
+This is why in operations such as 'Get user', your dropdown options will list User accounts as well as any Integrations associated with your authentication.
+
+If you are ever confused as to which is which, call the API and check the Output panel. Both User's and Integration's object values will state that they are the same and in effect seen as an`"object": "user"`.
+
+It is their **type** property which will indicate if the call was made to an Integration: `"type": "bot"` or a User: `"type": "person"`.
+
+## Using the Raw HTTP Request ('Universal Operation')
+
+As of **version 1.0**, you can effectively create your own operations.
+
+This is a very powerful feature that you can use when there is an endpoint in Notion that is not used by any of our operations.
+
+To use this you will first of all need to research the endpoint in the [Notion API documentation v2021-05-13](https://developers.notion.com/reference), to **find the exact format** that Notion will be expecting the endpoint to be passed in.
+
+Note that you will only need to add the suffix to the endpoint, as the base URL will be automatically set (the base URL is picked up from the value you entered when you created your authentication).
+
+The base URL for Notion is: `https://api.notion.com/v1`
+
+For example, say that the 'List databases' operation did not exist in our Notion connector, and you wanted to use this endpoint. You would use the Notion API docs to find the relevant endpoint - which in this case is a `GET` request called: `databases`.
+
+More details about this endpoint can be found [here](https://developers.notion.com/reference/get-databases).
+
+As you can see there is also the option to include a query parameter, should you wish to do so. So if you know what your method and endpoint, you can get the list of available databases associated with "this" particular integration with the following settings:
+
+Method: `GET`
+
+Endpoint: `databases`
+
+Body Type : `none`
+
+Final outcome being: **https://api.notion.com/v1/databases**
+
+## Example Usage
+
+Below is an example of a way in which you could potentially use the Notion connector, in order to to create a new page within a Notion Workspace every time a client status is updated to "Customer - Direct". I.e., when a potential client becomes a qualified customer as opposed to a lead or prospect etc.
+
+The steps will be as follows:
+
+1. Setup using a Salesforce trigger and search for the ID of the integration you wish to use.
+2. Using a Notion step, find the ID of the Workspace you wish to utilise.
+3. Find all records whose Account ID is equal to that of a Customer, and return their associated data.
+4. Double check that the field name has indeed been updated as expected.
+5. Create a new notion page that contains the customer information.
+
+Your completed workflow should look similar to this:
+
+### 1 - Setup Salesforce Trigger
+
+Here we are using the [Salesforce Trigger](/connectors/service/salesforce/#salesforce-trigger) but note that you can use any trigger you like. Be it [Manual](/connectors/triggers/manual-trigger/), [Scheduled](/connectors/triggers/scheduled-trigger/), [Callable](/connectors/triggers/callable-trigger/) etc.
+
+For testing purposes, you may wish to swap out the Salesforce Trigger for a Manual one for now, as it will mean you can trigger your runs more easily.
+
+With your trigger in place, set the operation to 'On Record Field Change'. There are two mandatory properties. The first is 'Record type'. In this example, we are only interested in triggering our workflow when an Account record changes, so we set the value to 'Account'.
+
+The second property is 'Field to watch'. This is referring to the specific field name we want our workflow to trigger on. Select 'Account type'. This field is what updates once a lead has become a fully-fledged customer.
+
+Also, make sure to check the box 'Trigger for created records?'. This makes sure we include any new Account records that start off as customers directly.
+
+Now our workflow will only trigger once the field 'Account type' within a (new or old) Account record is updated.
+
+Feel free to re-name your steps as you go along to make things clearer for yourself and other users. The operation names themselves often suffice.
+
+### 2 - Get Workspace ID
+
+Add a Notion connector. Set the operation to 'Search'. As this workflow is designed to create a new page every time a customer has been secured, we need to make sure the page is created under the right workspace. For that we need to find and specify the Workspace ID.
+
+Here we already have a 'Customers' Workspace within Notion that we want to place all the new customer pages within. Select the equivalent in your own workflow. If you have none, create one and refresh the builder to have the new option appear.
+
+Note that there are several sorting properties as well, should you wish to use them.
+
+In order for the builder to be able to view/ query this workspace, make sure that it is already shared with the right User accounts and Integrations.
+
+You can check/ do this through the sharing option (the button in the top right corner of your workspace):
+
+Now when your workflow is triggered, Notion will return the ID of the Customer Workspace you wish to create your pages under.
+
+### 3 - Find records
+
+Next, add another Salesforce connector and set the operation to 'Find records'.
+
+Once more specify the 'Record type' as 'Account'. Next choose the fields you wish to populate your new Notion customer page with. As this is a simple example, we are only going to request the 'Account name' and 'Account type'.
+
+The next section deals with the conditions that need to be met for returning this type of record and data. Here, we demonstrate that we only wish to find records that where the 'Account ID' is 'Equal to' 'Customer - Direct'.
+
+This latter property is being auto-generated via the use of the connector-snake, with information coming in from the trigger.
+
+When your workflow gets to this step all Account records with the 'Account ID' field 'Customer - Direct' (and their associated data) will be returned.
+
+### 4 - Check field name
+
+Search for the Boolean connector within your connector panel, and drag it into your workflow as your next step. Set your operation to 'Boolean condition'.
+
+The Boolean connector allows you to iterate through a list of results. In this example, we will use it to iterate through the list of Account records found within the previous Salesforce connector step ('Find records').
+
+In order to specify the list you want to loop through, start by using the list mapping icon (found next to the list input field, within the properties panel) to generate the connector-snake.
+
+While hovering over the 'Find records' step (with the tail end of the connector-snake), select `Type` from the list of output properties displayed. This will auto-populate a jsonpath within your list input field, and update the type selector to jsonpath.
+
+Set the comparison type as 'Equal to' and the '2nd value' as 'Customer - Direct'. Make sure the 'Strictness' property is set to 'Satisfy ALL conditions'
+
+For more clarification on the pathways you have available, open the Debug panel to view your step's Input and Output.
+
+The point of this step is to double check that the 'Account ID' field really is set to 'Customer - Direct'. This kind of check is always useful because no system is flawless (the API call might fail or another field type might slip by etc).
+
+### 5 - Create page
+
+The last step is to drag a Notion connector **inside** the Boolean connector step itself. Set the operation to 'Raw HTTP Request'.
+
+Set the 'Method' to 'POST' and the 'URL' to 'Endpoint'. This means only the endpoint of the URL will be needed as the base should be set automatically. As we wish to create a page, the endpoint in question is 'pages' (as in accordance with the (Notion API)[https://developers.notion.com/reference/post-page]).
+
+You will need to set your 'Headers' as well. Make sure the 'Key' is 'Content-Type' and the 'Value' is 'application/json'. Both input types are stings.
+
+Set the 'Body Type' to 'raw'. Click on the 'Edit' button to specify the information you wish to populate your new customer page with.
+
+As you can see from the sample code below, we have used interpolation to automatically pull in the Workspace and customer data from the Salesforce records we collected earlier.
+
+Once run, you should be able to see your new customer page within your customer Workspace.
+
+When you open said page, the data from your Salesforce records will also be included.
+
+Congratulations! your workflow is now complete! Every time an Account record (old or new) has its Account ID field updated to Customer - Direct, your workflow will automatically create a new page within your Notion Customer Workspace with all the associated field data specified earlier.

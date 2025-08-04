@@ -1,0 +1,30 @@
+---
+title: "Overview"
+description: "Overview of the Kapost connector"
+---
+
+# Overview
+
+## Overview
+
+The Kapost connector on Tray allows you to interact with the data in your Kapost account in any way you choose. The majority of the API is currently supported on Tray.
+
+## Authentication
+
+You will require an API token and sub domain to create an authentication for Kapost.
+
+The first step is to log in to your Kapost account and access the API key token for your account. Click on `My profile` then `Edit profile` option and you can locate the API token at the bottom of the page.
+
+Your subdomain for your account will be eg. url: `https://test.kapost.com` subdomain: `test`.
+
+Next add the Kapost connector to the workflow and hit the `New Authentication` button found in the input panel. You will see this screen:
+
+Add your API token into the **API token** box, and sub domain in the **Sub domain** box. Click **Add authentication**, and if your details are correct then you will be authenticated.
+
+## Example 1 - List tasks
+
+To use this operation, select the `List tasks` operation in the input panel. Provide the content ID to retrieve the tasks from and click `Run workflow` button.
+
+## Example 2 - Create task
+
+To use this operation, select the `Create task` operation in the input panel. This operation allows you to create a task for a specific content in your Kapost account. Fill out the input fields as required and click `Run workflow` button.

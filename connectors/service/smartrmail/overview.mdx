@@ -1,0 +1,81 @@
+---
+title: "Overview"
+description: "Overview of the SmartrMail connector"
+---
+
+# Overview
+
+## Overview
+
+SmartrMail is an email marketing app for small-to-medium merchants who want to improve their email marketing, but don't have the time or resources.
+
+## Authentication
+
+When using the SmartrMail connector, the first thing you will need to do is go to your Tray.io account page, and select the relevant workflow. Once in the workflow dashboard itself, search and drag the SmartrMail connector from the connectors panel (on the left hand side) onto your workflow.
+
+With the new SmartrMail connector step highlighted, in the properties panel on the right, click on 'New Authentication' which is located under the 'Settings' heading.
+
+This will result in a Tray.io authentication pop-up window, that should look like this:
+
+To create the authentication the API token will have to be provided. This can easily found in your SmartrMail dashboard. Once logged in into your SmartrMail account, click on your account name in the top right corner to access the dropdown. Choose "Settings".
+
+Once you are taken to the settings page, select the 'Integrations' tab. Here you will find the API token that you need to add to your Tray.io authentication window.
+
+Once you have clicked the 'Add authentication' button, go to back to your authentication field (within the workflow dashboard properties panel from earlier), and select the recently added authentication from the dropdown options now available.
+
+Your connector authentication setup should now be complete.
+
+## Available Operations
+
+The examples below show one or two of the available connector operations in use.
+
+Please see the [Full Operations Reference](#operationsFull) at the end of this page for details on all available operations for this connector.
+
+## Using the Raw HTTP Request ('Universal Operation')
+
+As of **version 1.0**, it is now possible to effectively create your own operations.
+
+This is a very powerful feature which you can put to use when there is an endpoint in which is not used by any of our operations.
+
+To use this you will first of all need to research the endpoint in the [SmartrMail API documentation v1.0](https://docs.smartrmail.com/en/articles/636534-api-overview), to *find the exact format* that SmartrMail will be expecting the endpoint to be passed in.
+
+Note that you will only need to add the suffix to the endpoint, as the base url will be automatically set (the base url is picked up from the value you entered when you created your authentication).
+
+The base url is in the format of `https://go.smartrmail.com/api/v1`
+
+For example, say that the 'List Subscribers' operation did not exist in our SmartrMail connector, and you wanted to use this endpoint, you would use the SmartrMail API docs to find that the 'List Subscribers' endpoint is a GET request, at the following url:
+
+`/lists/{list_id}/list_subscribers`
+
+So if you know what your list ID is, you can get the list of subscribers, with the following settings:
+
+Endpoint: `list_subscribers`
+
+List ID: `2pfrlz`
+
+Final outcome: **https://go.smartrmail.com/api/v1/lists/2pfrlz/list_subscribers**
+
+As a result, this will return a list of subscribers for the list identified.
+
+## Example usage
+
+Below is an example of a way in which you could potentially use the SmartrMail connector, to list your lists within your SmartrMail account and also create a new subscribers list.
+
+The steps will be as follows:
+
+1. Set up your manual trigger and use a SmartrMail connector to list your available lists.
+2. Create a subscribers list using a secondary SmartrMail connector.
+
+### 1 - Setup trigger & List lists
+
+Once you have clicked 'Create new workflow' on your main Tray.io dashboard (and named said new workflow), select the Manual trigger from the trigger options available:
+
+Once you have been redirected to the Tray.io workflow dashboard, from the connectors panel on the left, add a SmartrMail connector to your second step. Set the operation to 'List lists'.
+
+### 2 - Create Subscribers List
+
+Add another SmartrMail connector step and set the operation to 'Create subscribers list'.
+
+Take your 'List ID' field name from the previous step by dragging the connector-snake over the previous step, in order to auto-generate the jsonpath needed.
+
+You will also need to include the subscribers you with to create a list for; you will need to click on the grey 'Add subscriber' button in order to add them in individually as demonstrated here.

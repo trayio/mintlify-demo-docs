@@ -1,0 +1,81 @@
+---
+title: "Slash Commands"
+description: "Slash Commands documentation for Slack connector"
+---
+
+# Slash Commands
+
+A Slack slash command is a text-based command that starts with a forward slash ("/") and is used within the Slack messaging platform in order to trigger specific actions or interactions with integrated apps and services. 
+
+They are customizable and extensible, enhance automation and integration and offer a clean user experience.
+
+In Tray **the primary use of Slack Slash Commands is to allow Slack users to manually trigger workflows** which can perform automated tasks. A few examples include:
+
+- Generate access requests
+- Gather Slack user details
+- Create Jira tickets
+- Run HR commands
+
+Below is just a small sample of the different types of fields, kinds of personification and levels you can add to an integrated Slash command.
+
+## Creating Slash Commands
+
+A brief summary for setting up your Slash command is as follows:
+
+1. Create an App (in the Slack UI) to associate your command with.
+2. Name and create your command (in the Slack UI).
+3. Enable your Slash command (in the Slack UI) to send and receive messages.
+4. Build a Tray workflow using a Slack Slash command trigger workflow.
+
+## Setup Notes
+
+There are two approaches to consider when deciding where to host your Slash commands. 
+
+- **1 Slash command per App:** This is the simplest organisational method. This is the methodology outlined in the templates below where they demonstrate using 1 branch in 1 workflow, allocated for a singular incoming command.
+- **Multiple slash commands per App:** This method is slightly more complex. With mulitple Slash commands per App your workflow must be tailored to having several potential incoming commands. 
+
+## Example Walkthrough
+
+Below is a step by step guide which details all relevant aspects of creating a Slash command. 
+
+As is typical of all Slash commands this walkthrough **allows users to invoke their app by typing a relevant command/string into a Slack message box**. The submitted command sends a payload of data from Slack to the associated app. The app then responds (accordingly) to the context provided by the payload.
+
+This particular example uses the '1 Slash command per App' method to collect the contact details of any given Slack user. The logic of the workflow is as follows:
+
+### Prerequisites
+
+Please note that your command is built WITHIN a Slack Application associated with your Slack Account. If you don't already have a Slack App please check out the Slack [App Creation](https://tray.io/documentation/connectors/service/slack/app-creation/) page.
+
+This particular walkthrough requires:
+
+1. **Airtable account (& authentication)**: In this example we are using  [Airtable](https://tray.io/documentation/connectors/service/airtable/?docs_source=search&docs_term=Airtable#authentication) but feel free to use any database service you prefer.
+2. **Pre-populated database**: You will need to have your Airtable/database table set up with some sample data. <br/>
+
+### 1 - Create
+
+1. Head to your chosen App's [App's Management Dashboard](https://api.slack.com/apps). In this case it is known as **Docs Demo** which can be confirmed by looking for the name in the top right corner.<br/><br/>Click the **Slash Commands** feature from the left navigation menu.<br/>
+2. On the page Slash Commands page select **Create New Command**. <br/>
+
+### **2 - Define**
+
+You will need to fill in the following parameters:
+
+1. **Command**: Add the name of the command. This will be the string/ text users will type in order to trigger the action related your command. 
+2. **Request URL**: This is the URL your payload will be sent to when a user invokes the command. 
+3. **Short Description**: Add a short description of what your command actually does.
+4. **Usage hint**: This is displayed to users when they try to invoke the command in case they get stuck. 
+5. **Escape channels, users, and links sent to your app**: This feature will** modify the parameters sent with a command by the user**. 
+
+### 3 - Initiate
+
+Under the **Features** heading on left hand menu click **App Home**. Scroll down to the **Show Tabs** section and check the **Allow users to send Slash commands and messages from the messages tab** field.
+
+### 4 - Build your Tray Workflow
+
+1. Setup begins with a Slack trigger. Please **make sure that the authentication you are using is associated with the Slack account that you built your Slash command in**. <br/><br/>The **On Slash Command** will trigger your workflow whenever you type in `/contact-details` into any Slack message box.<br/><br/>This will return a unique ID for the user in question.<br/>
+2. As you can see in the screenshot below the data received through the trigger comes in the following format: `<@U03XXXKGKNZ|rasikaubgade>. <br/><br/>`Using the **Text helper **allows us to retrieve the text between `<@ `and `|` (which is the only information required): Slack ID: `U03CP6KGKNZ.<br/>`
+3. At this point you would begin to collect any useful user information required. <br/><br/>Here we demo using the Slack connector and **Get user** operation to collect the email address using the Slack ID we retrieved earlier. <br/><br/>This information is particularly useful as email addresses are commonly used across platforms and always unique to the user.<br/>
+4. The **Airtable connector** searches for the Slack user's contact details using their email.<br/>
+5. A **Boolean connector** is used to validates this.<br/>
+6. **TRUE**: If the Contact Number **exists** in the Airtable database then the user's contact information is sent in a response to the user who initiated the Slash command.<br/><br/>It will contain the name of the user and their associated contact number. <br/>
+7. **FALSE**: If the Contact Number **doesn't exist** in the Airtable database then the response message will indicate that the user's contact number is not within the system records.<br/>

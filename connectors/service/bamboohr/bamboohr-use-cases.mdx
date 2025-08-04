@@ -1,0 +1,109 @@
+---
+title: "Use cases"
+description: "Use cases documentation for BambooHR connector"
+---
+
+# Use cases
+
+These examples showcase various ways to utilize the BambooHR connector, incorporating AI where it adds value to the workflow.
+
+Remember that data transformations might be necessary between steps, especially when passing data between different services or preparing it for BambooHR operations. The JSON transformer, Script / Python connectors or Data Mapper could be useful for these transformations.
+
+### New Employee Onboarding Automation
+
+<br/>**Objective:** Streamline the onboarding process for new employees by automating data entry and notifications.<br/>
+
+**Steps:**
+
+1. **Trigger: **Use a Form Trigger or a webhook from your hiring system when a new employee is hired.
+2. **Add Employee: **Use the `add_employee `operation to create a new employee record in BambooHR.
+3. **Data Transformation: **Use JSON Transformer to prepare data for additional operations.
+4. **Add Employee Details: **Use the `update_employee `operation to add more detailed information.
+5. **Create IT Request: **Use an HTTP Client to create a ticket in your IT system for equipment setup.
+6. **Send Welcome Email: **Use an Email connector to send a welcome email to the new employee.
+7. **Slack Notification: **Use a Slack connector to notify the HR team about the new employee.
+
+### Time Off Request Management<br/>
+
+**Objective:** Automate the time off request process and keep relevant teams informed.<br/>
+
+**Steps:**
+
+1. **Trigger: **Use a Scheduled Trigger to run daily and check for new time off requests.
+2. **Fetch Requests: **Use the `get_time_off_requests `operation to retrieve new time off requests.
+3. **Data Filtering: **Use a Loop connector and Boolean conditions to process each request.
+4. **Approval Process: **Use a Branch connector to handle different approval scenarios.
+5. **Update Status: **Use the `change_request_status `operation to update the request status in BambooHR.
+6. **Calendar Update: **Use a Google Calendar connector to add approved time off to a team calendar.
+7. **Notify Managers: **Use an Email connector to inform managers about approved time off.
+
+### Employee Directory Sync with AI-Enhanced Profiles
+
+<br/>**Objective:** Keep an up-to-date employee directory in a database or app, enriched with AI-generated summaries.
+
+<br/>**Steps:**
+
+1. **Trigger: **Use a Scheduled Trigger to run weekly.
+2. **Fetch Employees: **Use the `get_employee_directory `operation to retrieve all employee data.
+3. **Data Transformation: **Use JSON Transformer to prepare data for processing.
+4. **AI Enhancement: **Use the Merlin Functions connector with the `generate_text `operation to create brief professional summaries for each employee based on their role and department.
+5. **Data Masking: **Use the Merlin Guardian `mask_data `operation to obscure sensitive information like personal phone numbers or addresses.
+6. **Sync to Database: **Use a database connector (e.g., PostgreSQL) to upsert the employee data.
+7. **Update Company Wiki: **Use an HTTP Client to update a company wiki or intranet with the latest directory information.
+
+### Automated Employee Performance Review Preparation
+
+<br/>**Objective:** Prepare performance review documents by gathering data from multiple sources.
+
+<br/>**Steps:**
+
+1. **Trigger: **Use a Scheduled Trigger to run quarterly or as needed.
+2. **Fetch Employee List: **Use the `get_employee_directory `operation to get a list of employees due for review.
+3. **Get Employee Details: **Use the `get_employee_by_id `operation in a Loop connector to fetch detailed information for each employee.
+4. **Fetch Performance Data: **Use an HTTP Client to retrieve performance metrics from other systems (e.g., sales data, project management tools).
+5. **AI Analysis: **Use the Merlin Functions `sentiment_analysis `operation to analyze feedback comments.
+6. **Generate Review Draft: **Use an AI connector (e.g., OpenAI) to generate a draft performance review based on the gathered data.
+7. **Create Document: **Use a Google Docs connector to create a new document with the review draft.
+8. **Notify Managers: **Use an Email connector to inform managers that review drafts are ready for their input.
+
+### Company-wide Time Off Analysis<br/>
+
+**Objective:** Analyze time off patterns and generate reports for HR planning.<br/>
+
+**Steps:**
+
+1. **Trigger:**Use a Scheduled Trigger to run monthly.
+2. **Fetch Time Off Data: **Use the `get_time_off_requests `operation to retrieve all time off data for the past month.
+3. **Get Time Off Policies: **Use the `list_time_off_policies `operation to fetch policy details.
+4. **Data Transformation: **Use JSON Transformer to prepare data for analysis.
+5. **AI-Powered Analysis: **Use the Merlin Functions `classify_text `operation to categorize time off reasons if available.
+6. **Generate Insights: **Use an AI connector (e.g., OpenAI) to generate insights and recommendations based on the time off patterns.
+7. **Create Report: **Use a Google Sheets connector to create a spreadsheet with the analysis results.
+8. **Send Report: **Use an Email connector to send the report to HR leadership.
+
+### AI-Powered Employee Sentiment Analysis
+
+<br/>**Objective:** Analyze employee feedback and time off patterns to gauge overall employee sentiment.
+
+<br/>**Steps:**
+
+1. **Trigger: **Use a Scheduled Trigger to run the workflow weekly.
+2. **Fetch time off data: **Use BambooHR's `get_time_off_requests `operation to retrieve recent time off requests.
+3. **Fetch employee feedback: **Use a survey tool like SurveyMonkey to collect recent employee feedback.
+4. **Data masking: **Use Merlin Guardian's `mask_data `operation to obscure any sensitive employee information.
+5. **Sentiment analysis: **Use Merlin Functions' `sentiment_analysis `operation to analyze the masked feedback data.
+6. **Time off pattern analysis: **Use the JSON Transformer to analyze time off patterns from BambooHR data.
+7. **Generate report: **Use Merlin Functions' `generate_text `operation to create a summary report of employee sentiment and time off trends.
+8. **Share insights: **Use Slack's `send_message `operation to share the report with HR leadership.
+
+### Automated Performance Review Process
+
+<br/>**Objective:** Streamline the performance review process by automating data collection and report generation.
+
+<br/>**Steps:**
+
+1. **Trigger: **Use a Scheduled Trigger to initiate the process at the start of the review period.
+2. **Fetch employee data: **Use BambooHR's `get_employee_by_id `operation to retrieve employee information.
+3. **Collect peer feedback: **Use a tool like 15Five to gather peer feedback for each employee.
+4. **Fetch performance data: **Use BambooHR's `get_employee_table `operation to retrieve performance-related data.
+5. **Data compilation: **Use the JSON Transformer to combine data from BambooHR and peer feedback.

@@ -1,0 +1,91 @@
+---
+title: "Overview"
+description: "Overview of the Zoom connector"
+---
+
+# Overview
+
+## Overview
+
+The Zoom connector on Tray allows you to manage and update user information and content for the Zoom account. It enables managing operations at the personal as well as organizational level.
+
+**Note that the Zoom connector requires administrative-level permissions. **
+
+## API Information
+
+The Zoom connector has the following Base URL: **https://api.zoom.us/v2**. More information can be found on their main [API documentation (v2)](https://marketplace.zoom.us/docs/api-reference/introduction) site. Details regarding their API limitations can be found [here](https://developers.zoom.us/docs/api/rest/rate-limits/).
+
+## Authentication
+
+Before you start using the Zoom connector, you will have to create the authentication.
+
+To do so, with the Zoom connector step highlighted, in the properties panel on the right, click the 'Authenticate' tab and 'Add new authentication'.
+
+### Version 3.0+
+
+**Note that if you are using your own OAuth application, that application must have the `user:read:admin` scope.**
+
+The first page will ask you to name your authentication.
+
+In the next step, it asks for your 'Client ID' and 'Client secret'.
+
+To find the above-asked credentials, go to the [Zoom Marketplace](https://marketplace.zoom.us/) site. Click 'Manage' from the top right corner of the screen.
+
+Select your app and then click the 'App Credentials' tab from the left panel.
+
+Use the values for the 'Client ID' and 'Client secret' available on this page.
+
+Once done, click the 'Create authentication' button.
+
+### Version 2.0 and earlier
+
+The first page will ask you to name your authentication. In the next step, it asks to select the 'Environment' of your choice.
+
+Once done, click the 'Create authentication' button. On doing so, you will be prompted to sign in to your Zoom account.
+
+## Zoom trigger
+
+If you wish your workflow to be kicked off by a particular action in Zoom, you can use the Zoom Trigger.
+
+The Zoom trigger allows you to receive notifications and trigger workflows when given events occur associated with the selected trigger operation.
+
+### Trigger operation available:
+
+- Webhook
+
+Instead of using a connector, choose Zoom as your trigger at the 'Create new workflow' section and wait to be redirected to your new workflow.
+
+Use the instructions above to authenticate your trigger, and select from the options available the event you want your trigger to listen to, in order to set off the workflow itself:
+
+## Example 1 - List meetings
+
+To use this operation, select the 'List meetings' operation in the input panel. Select the user ID from the drop down menu. You also have the option to select the meeting type to filter the meetings. Once you have provided the input fields as required click the 'Run workflow' button.
+
+## Example 2 - Get webinar report
+
+To use this operation, select the 'Get webinar report' operation in the input panel. This operation allows you to retrieve a detail report for a specific webinar. Add the webinar ID that you would like to retrieve and click 'Run workflow' button. You can find a list of webinar IDs by using the 'List webinar operation'.
+
+## Uninstalling the Tray Addon
+
+Uninstalling the Tray addon will be done from your Zoom dashboard.
+
+To do this first login to your [ Zoom Account](https://zoom.us/signin) and navigate to the [ Zoom App Marketplace](https://marketplace.zoom.us/) .
+
+Click 'Manage' and select 'Installed Apps'. Find the Tray application and press the 'Uninstall' button.
+
+## Notes for Embedded customers
+
+### Custom OAuth apps
+
+You can create a custom OAuth app in order to [White-label](/embedded/core-topics/whitelabelling/the-config-wizard/) your authentications dialog in during your integrations.
+
+Simply follow the steps outlined below:
+
+### Scopes
+
+Please be aware of the following points when dealing with scopes while using an Embedded account:
+
+- **The scopes you use for your source / master workflow are the scopes that your end users will have when creating the auth**. 
+- You can also override scopes in the solution editor. This will allow you to specify that **only a subset of the scopes set in the master workflow are available to your End Users**. Please reach out to your Tray technical support if you wish to activate this feature.
+
+- When creating an OAuth app in the Zoom UI, you shouldn't set granular scopes. This way, you would have to create a custom OAuth app for every integration that you create for this service to enforce scope limitation.

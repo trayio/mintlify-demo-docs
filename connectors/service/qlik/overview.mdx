@@ -1,0 +1,59 @@
+---
+title: "Overview"
+description: "Overview of the Qlik connector"
+---
+
+# Overview
+
+## Overview
+
+Qlik closes the gaps between data, insights and action with the only cloud platform built for Active Intelligence. 
+
+## **API Information **
+
+The Base URL used for the Qlik connector is** **`**https://{hostname}/api/v1**`. More information can be found on their main API documentation (v1) -[Qlik API docs](https://qlik.dev/apis) site.
+
+## Authentication
+
+Within the builder, click on the Qlik connector to display the connector properties panel. Select the 'Authentication' tab and click on the 'New authentication' button.
+
+In the Tray.io authentication pop-up modal, name the authentication in a way that will quickly identify it within a potentially large list. For example, whether it is a Sandbox or Production auth, etc.
+
+Consider who/ how many people will need access to this authentication when choosing where to create this authentication ('Personal' or 'Organisational').
+
+The second page asks you for your 'API key' and 'Hostname' credentials.
+
+To get these fields, head to the Qlik dashboard. Click on the menu button on the top right corner of the screen.
+
+To get the API key, head to the left panel of the screen then scroll down to integration and click on API keys. 
+
+Once you have added these fields to your Tray.io authentication pop-up window, click the 'Create authentication' button. 
+
+Your connector authentication setup should now be complete.
+
+## Available Operations
+
+The examples below show one or two of the available connector operations in use.
+
+Please see the [Full Operations Reference](#operationsFull) at the end of this page for details on all available operations for this connector.
+
+## Using the Raw HTTP Request ('Universal Operation')
+
+As of **version 1.0**, you can effectively create your own operations.
+
+This is a powerful feature that you can use when there is an endpoint in Qlik that is not used by any of our operations.
+
+To use this, you will first of all need to research the endpoint in the Qlik - [API Documentation](https://qlik.dev/apis) v1 to **find the exact format** that Qlik will be expecting the endpoint to be passed in.
+
+For example, say that the 'Get API key' operation did not exist in our Qlik connector, and you wanted to use this endpoint. You would use the
+
+Qlik API docs to find the relevant endpoint - ***which in this case is a `GET` request called: `/api-keys`.***`*** ***`
+
+More details about this endpoint can be found in the [here](https://qlik.dev/apis/rest/api-keys#%23%2Fentries%2Fapi-keys-get)
+
+Based on the information provided in the above API call doc, you need to configure the following attributes on your Tray platform:
+
+- **Method:** GET
+- **URL: **
+
+Once the API call is executed successfully,  you should get the following results:

@@ -1,0 +1,68 @@
+---
+title: "Overview"
+description: "Overview of the PlanSource connector"
+---
+
+# Overview
+
+## Overview
+
+PlanSource is a human resources and benefits administrations service. It provides a suite of products designed to make the management and integration of benefits and human resources as easy as possible.
+
+## Authentication
+
+Within the workflow builder, highlight the PlanSource connector.
+
+In the PlanSource connector properties panel to the right of the builder, click on the Authenticate tab and the 'New authentication' button.
+
+This will result in a Tray.io authentication pop-up modal. The first page will ask you to name your authentication and select the type of authentication you wish to create ('Personal' or 'Organisational').
+
+The next page asks you for your 'Environment', 'Client ID', 'Client secret', and 'Username' credentials.
+
+In order to get these fields, head to the PlanSource dashboard. From the left panel navigate to 'System Administration' -> 'System' -> 'API Users'.
+
+Here you can get the 'Client ID' if it already exists. If it doesn't, you can create one by clicking the 'Add API User' option available in the top left corner.
+
+To get the 'Client secret', click on the pencil icon available under the 'ACTIONS' column to find the details.
+
+For the 'Environment' field, select the environment of your choice from the available drop-down options.
+
+'Username' is the same username that you used to sign in to the PlanSource account.
+
+Once you have added these fields to your Tray.io authentication pop-up window, click the 'Create authentication' button.
+
+Go back to your settings authentication field (within the workflow builder properties panel), and select the recently added authentication from the drop-down options now available.
+
+Your connector authentication setup should now be complete.
+
+## Available Operations
+
+The examples below show one or two of the available connector operations in use.
+
+Please see the [Full Operations Reference](#operationsFull) at the end of this page for details on all available operations for this connector.
+
+## Using the Raw HTTP Request ('Universal Operation')
+
+As of **version 1.0**, you can effectively create your own operations.
+
+This is a very powerful feature which you can put to use when there is an endpoint in PlanSource which is not used by any of our operations.
+
+To use this you will first of all need to research the endpoint in the [PlanSource API documentation v2.0](https://developer.plansource.com/reference), to **find the exact format** that PlanSource will be expecting the endpoint to be passed in.
+
+Note that you will only need to add the suffix to the endpoint, as the base URL will be automatically set (the base URL is picked up from the value you entered when you created your authentication).
+
+The base URL for PlanSource is: `https://api.plansource.com/admin/v2` for production, and `https://partner-dev-api.plansource.com/admin/v2` for development environments.
+
+For example, say that the 'List Beneficiaries' operation did not exist in our PlanSource connector, and you wanted to use this endpoint. You would use the PlanSource API docs to find the relevant endpoint - which in this case is a `GET` request called: `/beneficiaries`.
+
+More details about this endpoint can be found [here](https://developer.plansource.com/reference#get_beneficiaries-1).
+
+As you can see there is also the option to include a query parameter, should you wish to do so. So if you know what your method, endpoint and details of your query parameters are, you can get the .................. information with the following settings:
+
+Method: `GET`
+
+Endpoint: `/beneficiaries`
+
+Query Parameter: Key: `include_test` Value: `true`
+
+Final outcome being: **https://https://partner-dev-api.plansource.com/admin/v2/beneficiaries?include_test=true**

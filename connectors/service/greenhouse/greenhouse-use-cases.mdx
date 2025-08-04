@@ -1,0 +1,73 @@
+---
+title: "Use cases"
+description: "Use cases documentation for Greenhouse connector"
+---
+
+# Use cases
+
+These examples showcase how Greenhouse can be integrated with various other services to create powerful, automated workflows that enhance the recruitment process. Each integration leverages Greenhouse's operations to fetch and update data, while utilizing other services for tasks like communication, scheduling, data analysis, and reporting.
+
+****
+
+### Automated Candidate Onboarding
+
+<br/>**Objective:** Streamline the onboarding process for new hires by integrating Greenhouse with HR and IT systems.<br/>
+
+**Steps:**
+
+1. **Trigger: **Use a Greenhouse webhook trigger when a candidate's status changes to "Hired".
+2. **Fetch Candidate Data: **Use the Greenhouse `get_candidate `operation to retrieve detailed information about the new hire.
+3. **Create User Accounts:**
+4. **Set Up HR Records: **Use the Workday connector to create an employee record with the data from Greenhouse.
+5. **Notify IT: **Use the Jira connector to create a ticket for IT to prepare necessary equipment.
+6. **Welcome Email: **Use the SendGrid connector to send a personalized welcome email to the new hire.
+
+This integration would require data mapping to ensure information is correctly formatted for each system.
+
+### AI-Powered Candidate Screening
+
+<br/>**Objective:** Enhance the initial screening process using AI to analyze candidate applications.
+
+<br/>**Steps:**
+
+1. **Trigger: **Use the Greenhouse `list_applications `operation on a scheduled basis to fetch new applications.
+2. **Mask Sensitive Data: **Use the Merlin Guardian `mask_data `operation to remove personally identifiable information from the application data.
+3. **Analyze Applications: **Use the Merlin Functions `classify_text `operation to categorize applications based on job fit.
+4. **Sentiment Analysis: **Use the Merlin Functions `sentiment_analysis `operation on the candidate's cover letter or responses to screening questions.
+5. **Update Greenhouse: **Use the Greenhouse `create_candidate_note `operation to add the AI analysis results to the candidate's profile.
+6. **Notify Recruiters: **Use the Slack connector to send a message to the recruiting team with a summary of high-potential candidates.
+
+This integration would require careful data handling and transformation to ensure that the AI analysis is accurately reflected in the Greenhouse notes.
+
+### Automated Interview Scheduling
+
+<br/>**Objective:** Streamline the interview scheduling process by integrating Greenhouse with calendar and communication tools.
+
+<br/>**Steps:**
+
+1. **Trigger: **Use the Greenhouse `list_candidates `operation to identify candidates ready for interviews.
+2. **Fetch Interviewer Availability: **Use the Google Calendar connector to check the availability of potential interviewers.
+3. **Schedule Interviews: **Use the Calendly connector to create interview slots based on the available times.
+4. **Update Greenhouse: **Use the Greenhouse `create_candidate_application `operation to update the candidate's application with the scheduled interview details.
+5. **Send Invitations: **Use the Mailchimp connector to send personalized email invitations to candidates with their interview details.
+6. **Reminder Notifications: **Use the Twilio connector to send SMS reminders to both candidates and interviewers a day before the interview.
+
+This integration would require data transformation to ensure that date and time formats are consistent across all platforms.
+
+### Recruitment Analytics Dashboard
+
+<br/>**Objective:** Create a comprehensive analytics dashboard to monitor and optimize the recruitment process.<br/>
+
+**Steps:**
+
+1. **Data Collection: **Use the Greenhouse `list_applications`, `list_candidates`, and `list_jobs `operations to gather recruitment data
+2. **Data Transformation: **Use Tray's data mapping tools to clean and structure the data for analysis.
+3. **Sentiment Analysis: **Use the Merlin Functions `sentiment_analysis `operation on candidate feedback to gauge overall candidate experience.
+4. **Data Storage: **Use the Snowflake connector to store the processed data in a data warehouse.
+5. **Visualization: **Use the Tableau connector to create visualizations and dashboards from the Snowflake data.
+6. **Automated Reporting: **Use the Google Sheets connector to create and update a recruitment metrics spreadsheet.
+7. **Insights Distribution: **Use the Microsoft Teams connector to automatically share weekly recruitment insights with the leadership team.
+
+This integration would require extensive data transformation and mapping to ensure that the data is properly structured for analysis and visualization.
+
+<br/>

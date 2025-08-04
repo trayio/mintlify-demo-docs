@@ -1,0 +1,22 @@
+---
+title: "Overview"
+description: "Overview of the XML Decoder connector"
+---
+
+# Overview
+
+## Overview
+
+The XML Decoder can be used to convert any kind of XML response into manageable json output, which is then available to be extracted by jsonpaths and used with other connectors.
+
+## Example - decoding XML from a webhook/trigger
+
+A common scenario where you might receive xml which needs decoded is in the data that is sent by a third-party service to your webhook or trigger which kicks off your workflow.
+
+The following workflow shows that it is very simple to set an XML Decoder connector to pick up the appropriate part of the trigger output using a jsonpath such as `$.steps.trigger.body`:
+
+Looking at the debug output for the trigger event step shows a common way in which xml data might be sent by a webhook/trigger. In this case it is contained in the **body** parameter, so our above example of using the `$.steps.trigger.body` jsonpath will work:
+
+Looking at the debug output for the XML decoder step shows that the single line of xml has been successfully converted into a JSON output:
+
+You can then access individual parts of the data via jsonpaths such as `$.steps.converters-1.result.updated_account_notification.account.account_code` to pick up the account code (as per the above example) in order to take any action such as control which workflow [branch](/connectors/core/branch/) to follow, send the account code to a Slack Channel, use to update a Marketo account etc.

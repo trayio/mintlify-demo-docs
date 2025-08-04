@@ -1,0 +1,126 @@
+---
+title: "Overview"
+description: "Overview of the Office365 connector"
+---
+
+# Overview
+
+## Overview
+
+Microsoft Office 365 is a line of subscription services offered by Microsoft. Designed to help achieve more with innovative Office apps, intelligent cloud services, and world-class security.
+
+## Authentication
+
+When using the Office365 connector, the first thing you will need to do is go to your Tray account page, and select the relevant workflow. Once in the workflow dashboard itself, search and drag the Office365 connector from the connectors panel (on the left hand side) onto your workflow.
+
+With the new Office365 connector step highlighted, in the properties panel on the right, click the Authenticate tab and 'Add new authentication'.
+
+This will result in a Tray authentication pop-up window. You will first need to name your authentication and select which type of authentication you wish to set up (personal or organizational). Proceed by clicking 'Next Step'.
+
+On the next page that appears you must choose the scopes that you need.
+
+Once you click 'Create authentication' it will redirect you to login to your Microsoft Azure account. Add your login details and grant permission for the scopes selected in the previous screen.
+
+Finally go to back to your authentication field (within the workflow dashboard properties panel from earlier), and select the recently added authentication from the dropdown options now available.
+
+Your connector authentication setup should now be complete.
+
+## Available Operations
+
+The examples below show one or two of the available connector operations in use.
+
+Please see the [Full Operations Reference](#operationsFull) at the end of this page for details on all available operations for this connector.
+
+## Notes on using Office365
+
+### List worksheets (spreadsheets)
+
+Should you run this operation a second time or more, be sure to update your Office365 Excel worksheet/ spreadsheet name to a new unique name, or even leave it empty; as a repeat run with the same name will cause a failed workflow run.
+
+### Retrieving Workbook IDs
+
+When performing any operations related to Excel worksheet/ spreadsheets, **users will require the Excel spreadsheet's Workbook ID**.
+
+Note that Office365 doesn't display the Workbook ID on its interface. Therefore **users will need to run an API call to retrieve the Workbook ID**.
+
+Luckily you can run the necessary API call using the Office365 connector. Users can either return all their Office365 Workbook IDs simultaneously, or select individual Workbook IDs as per their use case.
+
+To do so, create a new workflow with a Manual Trigger. Add an Office365 connector, and authenticate as usual.
+
+Select the operation 'Raw HTTP Request (Advanced)'.
+
+#### To return all available Office365 Workbook IDs:
+
+Paste in the following URL into the 'Full URL' field:
+
+`https://graph.microsoft.com/v1.0/me/drive/root/search(q='.xlsx')?select=name,id,weburl`
+
+The IDs that come from this request are the IDs of all the workbooks available in your account.
+
+#### To return a singular Office365 Workbook ID:
+
+Using the same URL as above, replace the `ENTER_WORKBOOK_TITLE_HERE.xlsx` section with your selected workbook title.
+
+**Make sure to include the  .xlsx  file extension and the query serach, else the call will fail**.
+
+`https://graph.microsoft.com/v1.0/me/drive/root/search(q='ENTER_WORKBOOK_TITLE_HERE.xlsx')?select=name,id,weburl`
+
+## Using the Raw HTTP Request ('Universal Operation')
+
+As of **version 1.0**, it is now possible to effectively create your own operations.
+
+This is a very powerful feature which you can put to use when there is an endpoint in Office365 which is not used by any of our operations.
+
+To use this you will first of all need to research the endpoint in the [ Microsoft Graph API Documentation v1.0](https://docs.microsoft.com/en-us/graph/overview?view=graph-rest-1.0) , to *find the exact format* that Office365 will be expecting the endpoint to be passed in.
+
+Note that you will only need to add the suffix to the endpoint, as the base URL will be automatically set (the base URL is picked up from the value you entered when you created your authentication).
+
+The base URL for Office365 is: `https://graph.microsoft.com/v1.0`.
+
+For example, say that the 'List worksheets' operation did not exist in our Office365 connector, and you wanted to use this endpoint, you would use the Microsoft Graph API docs to find that relevant endpoint. - which in this case is a `GET` request at the [ following URL](https://docs.microsoft.com/en-us/graph/api/workbook-list-worksheets?view=graph-rest-1.0&tabs=http) .
+
+Note that the Workbook session Id determines if changes are persisted or not and that this field is **Optional**.
+
+So, if you know what your endpoint is, and any query parameters you wish to set - you can get the details you need with the following settings:
+
+Method: `GET`
+
+Endpoint: `/me/drive/items/{id}/workbook/worksheets`
+
+Query Parameter: Key: `$top` Value: `50`
+
+Final Example outcome being: **https://graph.microsoft.com/v1.0/me/drive/items/workbook/worksheets?$top=50**
+
+When run, this will return a list of worksheets within in a workbook.
+
+## Example Usage
+
+Below is an example of a way in which you could potentially use the Office365 connector, to create a new worksheet and list all worksheets in a workbook.
+
+The steps will be as follows:
+
+1. Setup your manual trigger.
+2. Add an Office365 connector to create a worksheet, within a workbook.
+3. List all worksheets in said workbook.
+
+The final outcome should look like this:
+
+### 1 - Setup Trigger & List Contacts
+
+Once you have clicked 'Create new workflow' from your main Tray dashboard (and named said new workflow), select the Manual trigger from the trigger options available:
+
+### 2 - Create Worksheet
+
+After you have been redirected to the Tray workflow dashboard, from the connectors panel on the left, add a Office365 connector to your second step. Set the operation to 'Create worksheet'.
+
+As you can see you will need to provide a ['Workbook ID'](#retrieve-the-workbook-id) to create the new worksheet. Worksheet name is optional. If specified name should be unique. If not specified, Excel determines the name of the worksheet.
+
+*Feel free to re-name your steps as you go along to make things clearer for yourself and other users.*
+
+When run, this workflow will create a new worksheet in the specified workbook.
+
+### 3 - List Worksheets
+
+Add another Office365 connector to the workflow and select the operation 'List worksheets'. Once more make sure to provide the workbook ID. You can also specify the page size and set the number of items to skip should you wish to do so.
+
+Now when you run your workflow, you will have a list of worksheets within the workboook available to you, inlcuding the new worksheet you created in the previous step.

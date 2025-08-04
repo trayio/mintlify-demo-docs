@@ -1,0 +1,48 @@
+---
+title: "Overview"
+description: "Overview of the Dynamo connector"
+---
+
+# Overview
+
+## Overview
+
+The Dynamo connector enables the manipulation, searching and viewing of data held within the Dynamo platform.
+
+There are operations for viewing, filtering and sorting through various entities and instances. You will also be able to perform creation, updation or deletion of instances of each entity.
+
+## Authentication
+
+To use the Dynamo connector, you will need an API key that should have been provided to you by Dynamo.
+
+After dragging the Dynamo connector into the workflow you can add your authentication by pressing the New Authentication button inside the right panel.
+
+## Example 1 - Listing Instances
+
+In this example we will simply list some instances of the Contact entity. To do so, select the List Instances operation from the dropdown of your connector.
+
+You can find the Contact entity by selecting from the dropdown for Entity name. The dropdown has auto completion enable so simply start typing and you can then select Contact from the list.
+
+Entities can have many properties so by default this operation will only return a list of objects with the _id and _es properties. To return more properties we can use the Columns input parameter. Columns is an array of properties and any properties we select will be returned in the output of the operation.
+
+To add properties, choose how many properties to add and press *Add property name* before choosing what property to return from the dropwdown. In the example we select FullName.
+
+We can also choose to sort by a specific property. In this example we will sort by the DateCreated and choose Descending order from the dropdowns.
+
+You may also notice that the Next input is marked as required. For each incrementation we will receieve the next 50 results from the dataset with an input of 0 the first 50 items, 1 returning items 50-100
+
+To run the workflow press the *Run workflow* at the bottom right of the screen. If we click the debug swithc we can see the output. You will also see that the output schema on the bottom right will change depending on what Entity and Columns you elect to return.
+
+ 
+
+## Example 2 - Associating two entities
+
+To associate two entities such as Deal and Contact we will need to create a new instance of the entity Deal_Contact. To do this you will need to select the Create instance operation and select DealContact from the dropdown for Entity name.
+
+We need to provide two properties to create this instance, so select the number 2 and click *Add*. You can choose existing properties via the dropdown but for this instance we will be using two specific properties _id1 and _id2. You can do this by typing in the Name input field of Property and clicking on Set to value in each case.
+
+For this example we will populate the Value of each property with some pre-existing data before hitting Run workflow.
+
+ 
+
+Viewing the logs shows a successful run along with the _id of the new instance that has been created.

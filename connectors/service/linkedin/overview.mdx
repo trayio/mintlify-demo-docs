@@ -1,0 +1,116 @@
+---
+title: "Overview"
+description: "Overview of the LinkedIn connector"
+---
+
+# Overview
+
+## Overview
+
+LinkedIn is a business and employment-oriented service that operates via websites and mobile apps. LinkedIn is designed to make it easier for people to network, manage their personal brand, and connect with recruiters, job seekers, and clients.
+
+## API Information
+
+The LinkedIn connector has the following Base URL: **https://api.linkedin.com/v2**. More information can be found on their main [API documentation (v2)](https://docs.microsoft.com/en-us/linkedin/) site. Details regarding their API limitations can be found [here](https://learn.microsoft.com/en-us/linkedin/shared/api-guide/concepts/rate-limits).
+
+## LinkedIn templates
+
+Please note that we have the following LinkedIn templates available:
+
+However, please continue to at least read the Authentication and Trigger setup instructions on this page to enable you to get started with using LinkedIn.
+
+## Authentication
+
+**Authentication Expiration Date**
+
+**Your LinkedIn account authentication will expire exactly one year after creation**. The account owner will receive two warning notifications before this occurs - ten days prior to the expiration date and again five days after (should nothing have been done about this since the first warning message).
+
+If you do not create a new LinkedIn authentication to replace your old one, within the given time frame, all workflows using the original authentication will stop working on their preassigned end date.
+
+**Permissions note**
+
+When using the **adFormResponses API** whoever creates the auth **must also be an admin of the company's public profile page**.
+
+Otherwise you will receive a 403 "The member does not have permission to access lead"
+
+**Duplicate Authentications**
+
+> 
+
+> 
+
+If you do not create a new LinkedIn authentication to replace your old one, within the given time frame, all workflows using the original authentication will stop working on their preassigned end date.
+
+When using the LinkedIn connector, the first thing you will need to do is go to your Tray.io account page, select your workflow. Once in the workflow dashboard itself select and drag the LinkedIn connector from the connectors panel (on the left hand side) to your workflow.
+
+With the new connector step highlighted, in the properties panel on the right, click on the Authenticate tab and 'Add new authentication' (located under the 'Authentication' field).
+
+This will result in a Tray.io authentication pop-up window. The first page will ask you to name your authentication, and state which type of authentication you wish to create ('Personal' or 'Organisational').
+
+As you can see, the next page asks you to select the scopes (permissions) that you want your authentication to have. Note that we have preselected several options for you based on the most common use cases but please make sure they apply to your own project:
+
+### Version 1.0 and earlier
+
+> 
+
+When you've selected the scopes you want, click on the 'Add authentication' button. A pop-up window will appear, asking you to sign into your LinkedIn account:
+
+Once you have signed in, you will then be asked to confirm that you wish to allow Tray.io access to your LinkedIn account. *You may have to scroll down in order to see the 'Allow' button in order to continue*.
+
+Your connector authentication setup should now be complete.
+
+## LinkedIn Trigger
+
+If you wish your workflow to be kicked off by a particular action in LikedIn, you can use the LinkedIn Trigger.
+
+The LinkedIn trigger allows you to receive notifications and trigger workflows when given lead gen events occur associated with the selected trigger operation.
+
+### Trigger Operations available:
+
+- Lead gen form webhook
+
+### Webhook Setup
+
+When creating a new workflow, click the 'Create new workflow' button in the top right hand corner of your main Tray.io dashboard. When the trigger popup window opens, search and select the LinkedIn trigger. Wait to be redirected to your new workflow and the workflow dashboard itself.
+
+If you have already set up an authentication for the LinkedIn connector, you can use that same authentication here.
+
+With the new LinkedIn trigger step highlighted, in the properties panel on the right, click 'Authenticate' and either select a previously created LinkedIn authentication or click on 'New Authentication' and follow the Authentication instructions above.
+
+Once authenticated, select 'Lead gen from' as the event you want your trigger to listen to (aka the operation), in order to set off the workflow itself:
+
+To finish setting up the Lead gen form trigger, you need to select whether the relevant Account for the capmaing you wish to receive lead gen form notifications for.
+
+In the properties panel on the right, select 'Input data' and then choose a 'Sponsored account URN' from the drop-down list.
+
+You can also choose whether to retreive the 'Full lead data', this returns the full information associated to the lead rather than just the 'Response ID' and creation time.
+
+Finally, once everything is setup you can **enable** your workflow by selecting the Enable button in the right hand corner of the workflow.
+
+Assuming everything is setup correctly the workflow should initialize and the workflow will now trigger when relevant events occur.
+
+## Available Operations
+
+The examples below show one or two of the available connector operations in use.
+
+Please see the [Full Operations Reference](#operationsFull) at the end of this page for details on all available operations for this connector.
+
+## Note on Operations usage
+
+### Setting up your LinkedIn account so that it can access lead generation data
+
+Sometimes as a client you may wish to create a Tray.io workflow that can handle "lead generation data". This is indeed possible, provided the following accounts and permissions are set up correctly. As a result we have decided to dedicate this section to clarifying some of the complexities often found during setup for this particular instance.
+
+**Requirements**
+
+Before you can access lead generation data via the LinkedIn connector, you will first need to have the permissions set up:
+
+Before you can access lead generation data via the LinkedIn connector, you will first need to have the following permissions set up via your LinkedIn account/s. As you may have several accounts managing different aspects of your services, please read the below diagram and information given carefully:
+
+The first thing you need to make sure of is that you have a LinkedIn account which is capable of accessing LinkedIn's **'Campaign Manager Console'**. *If you are unsure if your account has these permissions please contact your LinkedIn representative for confirmation and/ or access to said console.*
+
+> 
+
+You will also need to make sure that **the LinkedIn account you are using in conjunction with your Tray.io connector authentication, is the one you have granted campaign access rights to** through said console, in order to gather your desired campaign's lead data. This LinkedIn account will also need to have been granted the role of **'Company Page Admin'** as well (which again, should be handled by the console manager).
+
+> 

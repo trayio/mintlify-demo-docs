@@ -1,0 +1,68 @@
+---
+title: "Overview"
+description: "Overview of the HTML Dom Parser Helper connector"
+---
+
+# Overview
+
+## Overview
+
+The HTML Dom Parser can be used to extract and parse content, elements and classes from html. This might be used to extract data from html content which has been returned by another service connector or by a custom setup of our generic [HTTP Client Connector](/connectors/core/http-client/)
+
+Another use case might be if you use webforms (surveys, contact forms etc.) which submit user-entered data in html format. Typically a webform might submit a completed form to an email address for processing, in which case you could use our [Email Trigger](/connectors/triggers/email-trigger/) to act as the recipient and trigger your workflow.
+
+The first example below shows how you could use the parser to deal with such a case.
+
+## Example - parsing html from an email
+
+This example will replicate the above scenario of receiving web form data by email. We will send some dummy webform data to your workflow email trigger and then use the html dom parser to extract the table elements from the data.
+
+So the email-triggered workflow will look like this:
+
+1. For the Dom Parser step, set the **Operation** to **Selector**, the **HTML Content** to `$.steps.trigger.html`, the **Query Selector** to **td** and make sure the **Return the elements HTML content** box is ticked:
+
+1. The next step is then to obtain your workflow email address as detailed in the [Email Trigger instructions](/connectors/triggers/email-trigger/)
+
+To send some dummy data, you can use an email client such as Thunderbird, which allows you to insert html directly into the body of your email (gmail can send html but it requires using Chrome and saving your html as a file before opening it in your browser and copying the browser page):
+
+you can use some simple html table text such as:
+
+1. Once you have sent the email, you can switch to the **Debug** tab in your workflow and view the input and output of a successful run.
+
+First you can look at the output of the Email Trigger step where you can see that standard header information and other html elements have been added in the delivery process:
+
+Note that there is a top-level **"html"** field which is picked up by the `$.steps.trigger.html` json path in the dom parser step.
+
+Then you can look at the input and output for the dom parser itself and see that the parser has successfully extracted all the contents of the **td** elements from the html table contained in the email:
+
+In a live workflow situation, from this point you would likely want to use the methods outlined in our [basic working with data guide](/platform/working-with-data/basic-data-guide/) and [advanced working with data guide](/platform/working-with-data/advanced-data-guide/) to grab the output from the parser.
+
+For example - since the parser has returned an array of 'elements', a json path expression `$.steps.html-dom-parser-1.elements[1].html`<br/>would extract the second **td** result (remembering that [0] is the first value in an array!):<br/>`"<a class=\"moz-txt-link-abbreviated\" href=\"mailto:john@lbt.com\">john@lbt.com</a>"`)
+
+You would likely want to use this json path with our [Text Helper](/connectors/helpers/text-helper/) and extract the email value from within that string using a regex such as `\>(.*?)\<` to get the email address from between the `> <` characters.
+
+Using json paths, all of your results could then ultimately be fed into a database such as mysql or BigQuery.
+
+## Other examples to try
+
+Using [https://www.w3schools.com/cssref/css_selectors.asp](https://www.w3schools.com/cssref/css_selectors.asp) as a reference you can experiment with using different selectors to extract data.
+
+To further experiment with html examples you can create a workflow with a script connector added to quickly create dummy html content that the dom parser can use:
+
+Using the **Execute Script** Operation with the Script Connector you can enter a function in the script box to create the dummy html:
+
+### Unordered list
+
+To try an unordered list paste the following into the **Script** box as per above Script Connector screenshot:
+
+Then with the Dom Parser you can set the html content as a `$.steps.script-1.result.html` json path and use `ul li:nth-child(2)` to extract the second value ('Tea'):
+
+Checking the debug output for the Dom Parser will show that the correct result is returned:
+
+## Complex table
+
+For a more complex table with a lot of different elements you can paste the following into the Script box as per above Script Connector screenshot:
+
+Then with the Dom Parser you can set the html content as a `$.steps.script-1.result.html` json path and use `#initialCardLinks > tbody > tr > td:nth-child(1) > a` which selects the table by **id** and then digs into the **a** element for the first table entry. Note that **href** has been added to **Element Properties** to extract the link url:
+
+Checking the debug output for the Dom Parser will show that the correct url is returned:

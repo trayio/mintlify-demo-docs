@@ -1,0 +1,231 @@
+---
+title: "Overview"
+description: "Overview of the Jira Cloud connector"
+---
+
+# Overview
+
+## Overview
+
+Jira Cloud is a cloud-based platform that allows you to plan, track, and manage your agile and software development projects.
+
+## API Information
+
+The Jira Cloud connector has the following Base URL: **https://api.atlassian.com/ex/jira/{{cloud_id}}/rest/api/2**. More information can be found on their main [API documentation (v2)](https://developer.atlassian.com/cloud/jira/platform/rest/v2/) site. 
+
+## Authentication
+
+- The Jira Cloud site entered on the Tray authentication dialog must match the Jira Cloud site selected on the Atlassian grant access web page. This is how Tray knows which Jira Cloud site to connect to.
+- A Jira Cloud user may have access to more than one Jira Cloud site. Please make sure to create one authentication per Jira Cloud site, that you wish to access.
+- If you create another authentication for the same Jira Cloud site, then the scopes selected in the most recent authentication will replace those from previous authentications. This may impact existing workflows if scopes have been removed.
+
+When using the JIRA Cloud connector for the first time, you need to create a new authentication.
+
+Name the authentication and specify the type ('Personal' or 'Organizational').
+
+Select the **Authorization app** from the drop-down options and provide the **Jira Site URL** for the specific Jira Cloud site you want to access.
+
+Choose the required scopes and proceed by clicking the 'Create authentication' button.
+
+An Atlassian web page will appear, requesting permission to grant Tray access to your Jira Cloud site. Click 'Accept' to proceed.<br/>
+
+Return to your settings authentication field within the workflow builder properties panel. Select the recently added authentication from the available dropdown options.
+
+Your connector authentication setup is now complete.
+
+## Available Operations
+
+The examples below show one or two of the available connector operations in use.
+
+Please see the [Full Operations Reference](https://tray.io/documentation/connectors/service/jira-cloud/operations/) at the end of this page for details on all available operations for this connector.
+
+## Note on Operations Usage
+
+### Accessing API endpoints
+
+As such, the Jira Cloud connector does not support operations related to boards and sprints. If you wish to access those, please use the Jira connector instead.
+
+## Jira Cloud Trigger
+
+The Jira Cloud trigger allows you to receive notifications and trigger workflows when given events occur associated with the selected trigger operation.
+
+### Trigger Operations available:
+
+- Webhook
+
+### Webhook Setup
+
+To set up a webhook, start by selecting the Jira Cloud trigger either during the creation of a new workflow or within the workflow builder.
+
+Authenticate the JIRA trigger by following the instructions from the Authentication section above, or use an existing authentication.
+
+Name the webhook and select the action for the **Event** field from the dropdown options. For example, choosing **Issue created** will trigger the workflow whenever this event occurs in your Jira board.
+
+Specify an appropriate **JQL filter **based on your use case.
+
+## Notes on using Jira Cloud trigger
+
+### Authentication
+
+The Jira Cloud Trigger connector authenticates via the 'List resources' endpoint and the 'Instance URL' associated with your account. <br/>Please refer to the 'Webhook Setup' section for more information about locating your 'Instance URL'. 
+
+<br/>This endpoint returns your 'Cloud ID', which is then used in the connector's base URL: '[https://api.atlassian.com/ex/jira/{{cloud_id}}/rest/api/2](https://api.atlassian.com/ex/jira/%7B%7Bcloud_id%7D%7D/rest/api/2)'.
+
+<br/>More information can be found on their main [API documentation (v2)](https://developer.atlassian.com/cloud/jira/platform/rest/v2/intro/#other-integrations) site. 
+
+### Webhook Limitations
+
+#### Custom Auth Environment
+
+The Jira Cloud API only allows one URL to be registered per application. 
+
+As a result, there is now a  custom auth environment 'Production (Custom OAuth app)' within the service to allow users to authenticate with their own applications. 
+
+## Using the Raw HTTP Request ('Universal Operation')
+
+As of **version 1.0**, you can effectively create your own operations.
+
+This is a very powerful feature which you can put to use when there is an endpoint in Jira Cloud which is not used by any of our operations.
+
+To use this you will first of all need to research the endpoint in the [ Jira Cloud API documentation v2](https://developer.atlassian.com/cloud/jira/platform/rest/v2/) , to 
+
+<u>find the exact format</u>
+
+ that Jira Cloud will be expecting the endpoint to be passed in.
+
+Note that you will only need to add the suffix to the endpoint, as the base URL will be automatically set (the base URL is picked up from the value you entered when you created your authentication).
+
+The base URL for Jira Cloud is: `https://api.atlassian.com/ex/jira/[cloud_id]/rest/api/2`
+
+Note that `[cloud_id]` is the ID of your Jira Cloud site. The cloud ID can be obtained by querying the `https://api.atlassian.com/oauth/token/accessible-resources` endpoint, if necessary. The Jira Cloud connector will automatically do this for you unless you override the base functionality.
+
+For example, say that the 'Get issue' operation did not exist in our Jira Cloud connector, and you wanted to use this endpoint, you would use the Jira API docs to find the relevant endpoint - which in this case is a `GET` request called: `/issue/[issueIdOrKey]`.
+
+More details on this endpoint can be found [ here](https://developer.atlassian.com/cloud/jira/platform/rest/v2/api-group-issues/#api-rest-api-2-issue-issueidorkey-get) .
+
+As you can see there is also the option to include a query parameter, should you wish to do so. So if you know what your method, endpoint and details of your query parameters are, you can get the Jira issue information with the following settings:
+
+Method: `GET`
+
+Endpoint: `/issue/10001`
+
+Body Type : No Value
+
+Final Example outcome being:
+
+**https://api.atlassian.com/ex/jira/[cloud_id]/rest/api/2/issue/10001**
+
+## Example Usage
+
+Below is an example of a way in which you could potentially use the Jira Cloud connector, to list the issues in a project and get the individual issue details.
+
+The steps will be as follows:
+
+1. Setup using a manual trigger so that the workflow can be run on demand.
+2. List the issues in a given project.
+3. Iterate through each issue, one at a time, using a Loop connector.
+4. Get the individual issues details.
+
+The final outcome should look like this:
+
+### 1 - Setup Trigger
+
+Once you have clicked 'Create new workflow' from your main Tray dashboard and named it, select the Manual trigger from the trigger options available:
+
+You will then be redirected to the Tray workflow dashboard.
+
+### 2 - List Project Issues
+
+From the connectors panel on the left, add a Jira Cloud connector to your second step. Set the operation to 'List project issues'.
+
+Validate the step with your pre-made Jira Cloud authentication. You can rename the steps to make the workflow more user friendly however this is not mandatory.
+
+Make sure that you provide the Project ID or Key in the properties panel that you wish to retrieve the issues for.
+
+Either click on the 'Run workflow' button in the bottom right corner or hit the refresh option on any previously run flows in the debug panel. Your Input and Output panels will display the relevant JSON data, listing the available issues for the specified project:
+
+### 3 - Loop through the Project Issues
+
+Next, search for the 'Loop collection' connector within your connector panel, and drag it into your workflow as your next step. Set your operations to 'Loop Issues'.
+
+The Loop Collection connector allows you to iterate through a list of results. In this example, we will use it to iterate through the data found within the previous Jira Cloud connector step.
+
+In order to specify the list you want to loop through, start by using the 'List' mapping icon (found next to the list input field, within the properties panel) to generate the connector-snake.
+
+While hovering over the 'List Project Issues' step (with the tail end of the connector-snake), select `issues` from the list of output properties displayed. This will auto-populate a jsonpath within your 'List' input field, and update the type selector to jsonpath.
+
+*For more clarification on the pathways you have available, open the Debug panel to view your step's Input and Output.*
+
+### 4 - Get Issue Details
+
+Add another Jira Cloud connector onto the square space available in the loop connector's workflow. Set the Operation to 'Get issue', with the Issue ID or Key as `$.steps.loop-1.value.key`, making sure that the input type for your Issue ID or Key is set to JSON.
+
+This step within the loop, will now retrieve each issues' data. You can see the relevant output when you run the workflow and open the debug panel.
+
+You now have access to the issues' details and can perform further operations as required. Congratulations!
+
+## Jira vs Jira Cloud: When to use
+
+We currently have two Jira connectors which are able to reach cloud-hosted Jira instances - [Jira](/connectors/service/jira) and Jira Cloud.
+
+Depending on their use case, users may find that one Jira instance is more appropriate than the other. Users need to take the authentication process into serious consideration regarding their end users, during the selection process. As well as trigger set up should they require one.
+
+There are essentially two options:
+
+**Option 1: Jira**
+
+1. Leverage the Jira connector (along with its prebuilt trigger if necessary), and ask your end users to use the OAuth 1 version of the service. This will require them to use the terminal, while gathering their OAuth 1 authentication parameters.
+
+**Option 2: Jira Cloud**
+
+1. Leverage the Jira Cloud connector, which allows your end users to authenticate with just their Jira site URL and username/ password. If a trigger is required, than separate setup will be necessary which will require them to copy/ paste a webhook URL into their Jira account.
+
+**While the OAuth 1 process and creating a Jira Cloud trigger may seem intimidating, both are rather straightforward and well documented on our site.**
+
+See below headers for more details.
+
+### OAuth 1 vs OAuth 2
+
+OAuth 1 (used by the the Jira connector) is slightly more complex than OAuth 2 (which is used by Jira Cloud).
+
+**The Jira OAuth 1 process requires users to be comfortable with using the terminal**.
+
+This is because when setting up their authentication, they will need to generate a private key using terminal commands.
+
+This process is employed by many of our users as it is relatively simple and very well documented in the [Authenticaition](#authentication) section above.
+
+However less technically able users may still find this process intimidating so please take this into account for your end users.
+
+**The Jira Cloud OAuth 2 process only requires an end user to input their Jira site url and username/ password credentials**.
+
+### Triggers
+
+The API version used when setting up either of the Jira instances dictated whether or not a trigger was able to be programmatically created.
+
+- Jira comes with a ready made Tray trigger.
+- Jira Cloud **DOES NOT** come with a prebuilt Tray trigger.
+
+The Jira v3.0 API simply does not support the programmatic creation of them. This is a common complaint, as you can see in Jira support threads [here](https://community.developer.atlassian.com/t/how-can-i-register-a-webhook-using-the-rest-api-when-using-3lo-oauth2/30781/19). Webhooks are a modern construct, and not many APIs allow you to create them programmatically simply because more development work is required by the service provider to enable this.
+
+However with the help of the [Webhook trigger](/connectors/triggers/webhook-trigger), Tray users can set up an instance of their own Jira Cloud trigger relatively easily:
+
+1. Select the Webhook trigger and choose Jira Cloud from the dropdown options available. Enable the workflow.
+2. Paste in the Jira site url, and when the popup model appears approve and login.
+3. Within the workflow settings, copy the workflow's public URL (aka webhook URL).
+4. Head to your Jira account and sdd the URL to your 'System webhooks'. This should be under: 'Settings' -> 'Systems' -> 'Advanced' -> 'Webhooks'.
+
+### List of key differences
+
+[Jira](/connectors/service/jira)
+
+- Hosts a service connector.
+- Hosts a trigger.
+- Leverages v2.0 of the Jira API.
+- Uses OAuth 1 authentication process (which in this case requires users to be comfortable working with the terminal).
+
+**Jira Cloud**
+
+- Hosts a service connector.
+- No trigger available, however the **Jira Cloud connector can support webhooks**.<br/>See our note on [Jira vs Jira Cloud: Triggers](#jira-vs-jira-cloud-when-to-use) for more details.
+- Leverages v3.0 of the Jira API.
+- Uses OAuth 2 authentication process (which in this case only requires a username and password).

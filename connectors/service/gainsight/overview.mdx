@@ -1,0 +1,98 @@
+---
+title: "Overview"
+description: "Overview of the Gainsight connector"
+---
+
+# Overview
+
+## Overview
+
+Orchestrate the customer journey across every function and create clients for life by delivering great outcomes at scale with Gainsight CS, scale revenue growth through whitespace analysis, upsell and cross-sell playbooks, and streamlined renewals processes with Gainsight RO and Combine deep SaaS product analytics with personalized in-app engagements to deliver exceptional user experiences with Gainsight PX.
+
+## Authentication
+
+When using the Gainsight connector, the first thing you will need to do is go to your Tray.io account page, and select the workflow you wish to work on. Once in the workflow builder itself, search and drag the Gainsight connector from the connectors panel (on the left hand side) onto your workflow.
+
+With the new Gainsight connector step highlighted, in the properties panel on the right, click on 'New Authentication' which is located under the 'Settings' heading.
+
+This will result in a Tray.io authentication pop-up window. The first page will ask you to name your authentication, and state which type of authentication you wish to create ('Personal' or 'Organisational').
+
+As you can see, on the next page you will need to enter your Gainsight "Access key" and "Instance URL".
+
+These details can be found in your Gainsight account. The "Instance URL" will be the URL for your organization within Gainsight. For example your "Instance URL" could be: `https://myCompanyName.gainsightcloud.com`.
+
+More information on Gainsight URLs can be found [here](https://support.gainsight.com/SFDC_Edition/Surveys/Surveys_2.0/Setup_a_Gainsight_Domain).
+
+To generate an "Access key" you will first need to navigate to Administration then Connectors 2.0, then Connectors tab, and finally click "Gainsight API".
+
+Click the "Create Connection" button and then click "GENERATE ACCESS KEY" to generate a new "Access key" that you can copy and use for your tray.io authentication.
+
+More information on Gainsight Access keys can be found here [here](https://support.gainsight.com/SFDC_Edition/Connectors/04API_Integration/Generate_API_Access_Key).
+
+Once you have entered your "Access key" and "Instance URl" click 'Create Authentication'.
+
+Go back to your settings authentication field (within the workflow builder properties panel), and select the recently added authentication from the dropdown options now available.
+
+Your connector authentication setup should now be complete.
+
+## Available Operations
+
+The examples below show one or two of the available connector operations in use.
+
+Please see the [Full Operations Reference](#operationsFull) at the end of this page for details on all available operations for this connector.
+
+## Using the Raw HTTP Request ('Universal Operation')
+
+As of **1.0**, you can effectively create your own operations.
+
+This is a very powerful feature which you can put to use when there is an endpoint in Gainsight which is not used by any of our operations.
+
+To use this you will first of all need to research the endpoint in the [Gainsight API documentation v1.0](https://support.gainsight.com/SFDC_Edition/API_and_Developer_Docs), to **find the exact format** that Gainsight will be expecting the endpoint to be passed in.
+
+Note that you will only need to add the suffix to the endpoint, as the base URL will be automatically set (the base URL is picked up from the "Instance URL" value you entered when you created your authentication).
+
+The base URL for your Gainsight instance could be something like: `https://myCompanyName.gainsightcloud.com`.
+
+For example, say that the 'Get person by email' operation did not exist in our Gainsight connector, and you wanted to use this endpoint, you would use the Gainsight API docs to find the relevant endpoint - which in this case is a `GET` request called: `/v1.0/api/people`.
+
+More details can be found [here](https://support.gainsight.com/SFDC_Edition/API_and_Developer_Docs/Person_API/Person_API_Documentation#Get_Person_API_with_Email).
+
+You will need to include an Email address as a query parameter. So if you know what your method, endpoint and details of your query parameter, you can retrieve a person record for the given email with the following settings:
+
+Method: `GET`
+
+Endpoint: `/v1.0/api/people`
+
+Query Parameter: Key: `Email` Value: `tray@example.com`
+
+Final Example outcome being: **https://myCompanyName.gainsightcloud.com/v1.0/api/people?Email=tray@example.com**
+
+## Example Usage
+
+Below is an example of a way in which you could potentially use the Gainsight connector, to list company records that meet a specific criteria.
+
+The steps will be as follows:
+
+1. Setup using a manual trigger and list company records.
+
+The final outcome should look like this:
+
+### 1 - Setup Trigger & List Companies
+
+Once you have clicked 'Create new workflow' from your main Tray.io dashboard and named it, select the Manual trigger from the trigger options available:
+
+After you have been redirected to the Tray.io workflow dashboard, from the connectors panel on the left, add a Gainsight connector to your second step. Set the operation to 'List companies'.
+
+Before you can list your orders, you will need to specify which fields of the company records are to be returned in your results. You can do so in 'Select', by clicking 'Add to select' and adding the field names to be returned.
+
+Feel free to re-name your steps as you go along to make things clearer for yourself and other users.
+
+Next, you will specify the filter criteria in 'Where'. This can be done by clicking add to conditions and specifying a 'Name', 'Value', 'Alias' and 'Operator'.
+
+You can then repeat the previous step to add a further condition with a new 'Alias' and then specify an 'Expression' for these conditions using the aliases you have given them.
+
+Next you will want to specify the order of our results. This can be done by clicking the 'Add property to Order by' button. You will be prompted to input the field name to order by and then in the newly created field you can add the order, 'asc' or 'desc'.
+
+After that you can then specify any 'Limit' or 'Offset' that you require.
+
+The workflow should now be complete and when run, will display a list of company records that meet your criteria in the order you specified. You can view the details in the debug panel.

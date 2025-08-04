@@ -1,0 +1,138 @@
+---
+title: "Overview"
+description: "Overview of the Checkout connector"
+---
+
+# Overview
+
+## Overview
+
+Checkout helps businesses to offer more payment methods and currencies, to more customers.
+
+## Authentication
+
+Within the workflow builder, highlight the Checkout connector.
+
+In the Checkout connector properties panel to the right of the builder, click on the Authenticate tab and the 'New authentication' button. This will result in a Tray.io authentication pop-up modal.
+
+Name the authentication something that will easily identify it in a larger list. For example using the name of the service account, whether it is a Sandbox or Production OAuth, etc.
+
+When choosing between the type of authentication you wish to create ('Personal' or 'Organisational'), consider who and how many people will need access to it.
+
+The second page asks you for your 'environment' and 'Api secret key' credentials. The environment would either be Production or Sandbox.
+
+In order to get these fields, head to the Checkout.com dashboard. Click 'Settings' from the left panel.
+
+To get the Api keys, head to channels settings.
+
+Once you have added these fields to your Tray.io authentication pop-up window, click the 'Create authentication' button.
+
+Go back to your settings authentication field (within the workflow builder properties panel), and select the recently added authentication from the dropdown options now available.
+
+Your connector authentication setup should now be complete.
+
+## Checkout trigger
+
+If you wish your workflow to be kicked off by a particular action in Checkout, you can use the Checkout Trigger.
+
+The Checkout trigger allows you to receive notifications and trigger workflows when given events occur associated with the selected trigger operation.
+
+### Trigger operations available
+
+- Webhook
+
+### Webhook Setup
+
+Select the Checkout trigger. This can be done either at the 'create new workflow' stage or updated within the workflow builder itself.
+
+Highlight the Checkout trigger. In the Checkout trigger properties panel to the right of the builder, click on the Authenticate tab. You can choose a pre-existing Checkout authentication, or create a new one by selecting the 'Add new authentication' button.
+
+Follow the instructions above to authenticate your trigger. Select 'Webhook' as the event you wish your trigger to listen to in order to set off the workflow itself.
+
+Within the 'Webhook' operation, set up your trigger to match the events within Checkout that you wish to trigger your workflow with. You can choose which API version event types you wish to subscribe to.
+
+Once you have selected your 'API version' value, you will be able to select an 'event type' from the drop-down list. You can subscribe to multiple events within one workflow.
+
+You can also choose whether or not the webhook will be active on Checkout's side. For the workflow to trigger, the webhook should be 'Active'.
+
+## Available Operations
+
+The examples below show one or two of the available connector operations in use.
+
+Please see the [Full Operations Reference](#operationsFull) at the end of this page for details on all available operations for this connector.
+
+## Using the Raw HTTP Request ('Universal Operation')
+
+As of version 1.0, you can effectively create your own operations.
+
+This is a very powerful feature which you can put to use when there is an endpoint in Checkout which is not used by any of our operations.
+
+To use this you will first of all need to research the endpoint in the [CheckoutAPI documentation ](https://api-reference.checkout.com/#section/Get-started), to **find the exact format** that Checkout will be expecting the endpoint to be passed in.
+
+Note that you will only need to add the suffix to the endpoint, as the base URL will be automatically set (the base URL is picked up from the value you entered when you created your authentication).
+
+The base URL for Checkout is: `https://api.checkout.com/`
+
+For example, say that the 'disputes' operation did not exist in our Checkout connector, and you wanted to use this endpoint. You would use the Checkout API docs to find the relevant endpoint - which in this case is a `GET` request called: `/disputes`.
+
+More details about this endpoint can be found [here](https://api-reference.checkout.com/#operation/getDisputes).
+
+As you can see there is also the option to include a query parameter, should you wish to do so. So if you know what your method, endpoint and details of your query parameters are, you can get the disputes information with the following settings:
+
+Method: `GET`
+
+Endpoint: `disputes`
+
+Body Type : none
+
+Query Parameter: Key: `limit` Value: `100`
+
+Final outcome being: https://api-reference.checkout.com/#operation/getDisputes
+
+## Example Usage
+
+Below is an example of a way in which you could potentially use the Checkout connector, to retrieve disputes deatils.
+
+The steps will be as follows:
+
+1. Setup using a manual trigger and Checkout connector step.
+2. Add a Loop connector to iterate through the list of disputes.
+3. Add a final checkout step to recieve the information gathered.
+
+Your completed workflow should look similar to this:
+
+### 1 - Setup Trigger & Raw HTTP Request
+
+With your trigger in place (be it [Manual](/connectors/triggers/manual-trigger/), [Scheduled](/connectors/triggers/scheduled-trigger/), [Callable](/connectors/triggers/callable-trigger/) etc) add a Checkout connector. Set the operation to 'Raw HTTP Request'.
+
+Feel free to re-name your steps as you go along to make things clearer for yourself and other users. The operation names themselves often suffice.
+
+Select the manual trigger from the trigger options available. From the connectors panel on the left, add a Checkout connector to your workflow. Set the operation to 'Raw HTTP Request'.
+
+Set the method to 'GET' and the URL to 'Endpoint', then enter the endpoint '/disputes'
+
+Now, when this workflow is run, it will pull down a list of disputes from the Checkout API which you will be able to view when you click through your debug panel, and expand the output field.
+
+### 2 - Add a Loop connector to iterate through the list of disputes.
+
+Next, search for the Loop connector within your connector panel, and drag it into your workflow as your next step. Set your operation to 'Loop List'.
+
+The Loop connector allows you to iterate through a list of results. In this example, we will use it to iterate through the data found within the previous Checkout connector step.
+
+In order to specify the list you want to loop through, start by using the list mapping icon (found next to the list input field, within the properties panel) to generate the connector-snake.
+
+While hovering over the 'List' field in the 'Loop'step (with the tail end of the connector-snake), select `$.steps.checkout-1.response.body.data` from the list of output properties displayed. This will auto-populate a jsonpath within your list input field, and update the type selector to jsonpath.
+
+For more clarification on the pathways you have available, open the Debug panel to view your step's Input and Output.
+
+This will enable us to iterate over the list of disputes, and perform operations for each one.
+
+### 3 - Get Dispute details.
+
+Finally, drag another Checkout connector step into the Loop collection itself, and select the operation 'Get dispute details'.
+
+Use the same connector-snake method for generating the JSON path to get the 'Dispute ID' field.
+
+This is what the final output will look like.
+
+Click on the [Debug](/platform/troubleshooting/logs-and-debugging/) tab to view Input and Output for individual steps.

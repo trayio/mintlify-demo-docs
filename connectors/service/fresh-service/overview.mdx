@@ -1,0 +1,75 @@
+---
+title: "Overview"
+description: "Overview of the FreshService connector"
+---
+
+# Overview
+
+## Overview
+
+Freshservice is a cloud-based IT Help Desk and service management solution that enables organizations to simplify their IT operations. The solution offers features that include a ticketing system, self-service portal, and knowledge-base.
+
+## Authentication
+
+Within the workflow builder, highlight the FreshService connector.
+
+In the FreshService connector properties panel to the right of the builder, click on the Authenticate tab and the 'New authentication' button. This will result in a Tray.io authentication pop-up modal.
+
+Name the authentication something that will easily identify it in a larger list. For example using the name of the service account, whether it is a Sandbox or Production OAuth, etc.
+
+When choosing between the type of authentication you wish to create ('Personal' or 'Organisational'), consider who and how many people will need access to it.
+
+The next page asks you for your 'Access token' and 'Domain' credentials.
+
+To get the 'Domain', head to your FreshService account and sign in. Select the URL of the FreshService account.
+
+The URL will be similar to: `https://trayio-org.myfreshservice.com/crm/sales/`.
+
+The Domain is the hash between `https://` and `.myfreshservice.com`.
+
+In this case, the **Domain** is: `trayio-org`.
+
+To get the 'API key' on your FreshService account, click on your profile picture on the top right corner of your portal. Go to the 'Profile Settings' page.
+
+Your API key will be available below the 'Delegate Approvals' section to your right.
+
+Once you have added these fields to your Tray.io authentication pop-up window, click the 'Create authentication' button.
+
+Go back to your settings authentication field (within the workflow builder properties panel), and select the recently added authentication from the dropdown options now available.
+
+Your connector authentication setup should now be complete.
+
+## Available Operations
+
+The examples below show one or two of the available connector operations in use.
+
+Please see the [Full Operations Reference](#operationsFull) at the end of this page for details on all available operations for this connector.
+
+## Example Usage
+
+Below is an example of a way in which you could potentially use the FreshService connector, to create tickets and then send notifications for the newly created tickets on chosen Slack channel.
+
+The steps will be as follows:
+
+1. Setup using a Webhook trigger and fetch data.
+2. Loop through the fetched data using a Loop connector.
+3. Create tickets in Freshservice based on the looped data.
+4. Send messages on the selected Slack channel for the newly created tickets.
+
+The following workflow demonstrates one approach to achieving this:
+
+### 1 - Setup Trigger
+
+Setup using a trigger (Webhook in this case) to fetch the data.
+
+The data received through the Webhook trigger is in JSON format:
+
+Feel free to re-name your steps as you go along to make things clearer for yourself and other users. The operation names themselves often suffice.
+
+### 2 - Loop fetched data and create tickets
+
+**Loop** is set to 'Loop List' the data received from the trigger.
+
+A jsonpath for the 'List' field should appear similar to this: `$.steps.trigger.body`. You can always use a connector-snake to find the jsonpath.
+
+The final message sent on the Slack channel would look like this:

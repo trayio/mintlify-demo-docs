@@ -1,0 +1,94 @@
+---
+title: "Overview"
+description: "Overview of the Sedna connector"
+---
+
+# Overview
+
+## Overview
+
+Sedna consolidates information regarding transactions. It brings together messages, documents and other data from disparate sources, making transaction management easier.
+
+## Authentication
+
+When using the Sedna connector, the first thing you will need to do is go to your Tray.io account page, and select the workflow you wish to work on. Once in the workflow dashboard itself, search and drag the Sedna connector from the connectors panel (on the left hand side) onto your workflow.
+
+With the new Sedna connector step highlighted, in the properties panel on the right, click on 'New Authentication' which is located under the 'Settings' heading.
+
+This will result in a Tray.io authentication pop-up window, that should look like this:
+
+You will first need to name your authentication, and proceed by clicking 'Next Step'. The next page that appears should look like this:
+
+As you can see, you will need the subdomain for your Sedna account, along with your username and password. Fill these out, and then click 'Add authentication'.
+
+Once you have clicked the 'Add authentication' button, go to back to your authentication field (within the workflow dashboard properties panel from earlier), and select the recently added authentication from the dropdown options now available.
+
+Your connector authentication setup should now be complete.
+
+## Available Operations
+
+The examples below show one or two of the available connector operations in use.
+
+Please see the [Full Operations Reference](#operationsFull) at the end of this page for details on all available operations for this connector.
+
+## Using the Raw HTTP Request ('Universal Operation')
+
+As of **version 1.0**, it is now possible to effectively create your own operations.
+
+This is a very powerful feature which you can put to use when there is an endpoint in Sedna which is not used by any of our operations.
+
+To use this you will first of all need to research the endpoint in the [Sedna API documentation](https://www.sednanetwork.com/platform/swagger#/), to *find the exact format* that Sedna will be expecting the endpoint to be passed in.
+
+Note that you will only need to add the suffix to the endpoint, as the base url will be automatically set (the base url is picked up from the value you entered when you created your authentication).
+
+The base url is in the format of `https://<YOUR_SUBDOMAIN>.sednanetwork.com/platform/2019-01-01`
+
+For example, say that the 'Sedna' operation did not exist in our Sedna connector, and you wanted to use this endpoint, you would use the Sedna API docs to find that the 'Sedna' endpoint is a get request at the following url:
+
+The endpoint you would need to provide for this operation is `/team`. (Note you do **not** need to include `/2019-01-01`, since that is configured as part of the connector's base url.)
+
+The step configuration should look like this:
+
+When run, this will return details about the teams in your Sedna account.
+
+## Example usage
+
+Below is an example of a way in which you could potentially use the Sedna connector, to list all of the job references associated with each user in your account.
+
+The steps will be as follows:
+
+1. Add 'List users' step
+2. Add Loop collection
+3. Add 'List user job references' step
+
+The final outcome should look like this:
+
+### 1 - Setup trigger & add 'List users' step
+
+Once you have clicked 'Create new workflow' on your main Tray.io dashboard (and named said new workflow), select the Manual trigger from the trigger options available:
+
+Once you have been redirected to the Tray.io workflow dashboard, from the connectors panel on the left, add a Sedna connector to your second step. Set the operation to 'List users'.
+
+Feel free to re-name your steps as you go along to make things clearer for yourself and other users.
+
+When run, this workflow will list all users in your Sedna account.
+
+### 2 - Add Loop Collection
+
+The Loop Collection allows you to iterate through a list of results. In this example, we will use it to iterate through each user that was returned by the previous step.
+
+Search 'loop collection' and drag it into your workflow as the next step:
+
+You can specify the list you want to loop through using the 'List' input field. Use the connector-snake to assign this field to the 'data' array that is produced by the 'List users' step:
+
+When run, this workflow will iterate through the list of users provided. However, at the moment it doesn't do anything with that list.
+
+### 3 - List user job references
+
+We are now going to use the Loop Collection to list the job references associated with each user.
+
+First, add a new Sedna connector step inside the Loop Collection:
+
+Next, configure it with the right user ID. Use the connector-snake to assign the 'User ID' field to the `id` value output by the Loop Collection:
+
+Now, when this workflow is run, it will first list every user, and then for each individual user, it will list the job references they are associated with.

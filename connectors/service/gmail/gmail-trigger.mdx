@@ -1,0 +1,60 @@
+---
+title: "Gmail Trigger"
+description: "Gmail Trigger documentation for Gmail connector"
+---
+
+# Gmail Trigger
+
+The Gmail trigger allows you to receive notifications and trigger workflows when given events occur associated with the selected trigger operation.
+
+## Trigger Authentication
+
+To authenticate the trigger, follow the instructions provided in the [Authentication](https://tray.io/documentation/connectors/service/gmail/gmail-authentication/) section.
+
+## Trigger Operations available:
+
+- **On Event**: Choose the event type from the properties panel.
+- **Thread Message**: Receive real-time notifications when a new message is added to a specific email thread in your Gmail account.
+- **Webhook**: Tracks the version of your mailbox and triggers the workflow when it changes. You can then use the **List history** operation within the Gmail connector to find out what change actually happened.
+
+### Thread Message Notification
+
+<br/>With the Thread Message operation, you can receive real-time notifications whenever a new message is added to a specific email thread in your Gmail account.
+
+To enable this feature, simply provide the thread ID. You can retrieve the thread ID using the Gmail connector's [List thread operation](https://tray.io/documentation/connectors/service/gmail/notes-on-using-gmail/#list-threads).
+
+Once you have added the thread ID make sure to enable the workflow.
+
+**Dynamic polling behavior for thread message retrieval:**
+
+- The operation retrieves only messages received after the Gmail trigger was enabled, excluding those received before activation.
+- The trigger will stop polling 30 days after the last message was received.
+- When the polling stops, you will receive one final Webhook with the following structure:<br/>
+
+The polling then stops.
+
+- The 30-day polling period restarts if a new message is added to the thread.
+- The polling frequency will decrease gradually over time, with the time between polls increasing as more time elapses since the last message was added to the thread.
+
+## Important Trigger Notes
+
+### Trigger Failure
+
+If your Gmail trigger is failing you may receive an error message similar to this:
+
+It is probably because of one of the following reasons:
+
+- An authentication was revoked.
+- The mailbox in question no longer exists.
+
+The best way to mitigate any trigger failures as always, is with an (alerting) error handling workflow.
+
+The failed payload should be collected and you notified immediately - via Slack or email etc. That way you will be able to resolve the issue immediately with minimal inconvenience.
+
+More information and examples on how to build this kind of workflow check out the docs [here](https://tray.io/documentation/tray-uac/error-handling/what-is-an-error/). 
+
+### Include Full Message
+
+Please note that if the message you are referring to no longer exists then the trigger won't be able to fetch the full message body. 
+
+You will only get the additional fields if the message is still in your mailbox

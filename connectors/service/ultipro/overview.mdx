@@ -1,0 +1,89 @@
+---
+title: "Overview"
+description: "Overview of the UltiPro connector"
+---
+
+# Overview
+
+## Overview
+
+UltiPro is a cloud-based platform that delivers human capital management to organizations across all industries.
+
+## Authentication
+
+When using the UltiPro connector, the first thing you will need to do is go to your Tray.io account page, and select the workflow you wish to work on. Once in the workflow builder itself, search and drag the UltiPro connector from the connectors panel (on the left hand side) onto your workflow.
+
+With the new UltiPro connector step highlighted, in the properties panel on the right, click on 'New Authentication' which is located under the 'Settings' heading.
+
+This will result in a Tray.io authentication pop-up window. The first page will ask you to name your authentication, and state which type of authentication you wish to create ('Personal' or 'Organisational').
+
+As you can see, the next page asks you for your 'Username', 'Password', 'Client access key', 'User access key' and 'Base service URL' credentials.
+
+Username and password are the username and the password of your UltiPro Service Account.
+
+The 'Client Access Key' & the 'User Access Key' can be found on your UltiPro Web Service administrative page.
+
+The Base Service URL can be found on your UltiPro Web Service administrative page as well. It can be retrieved from the list of links of the service endpoints. Example of the Base Service URL – 'service2.ultipro.com'
+
+Once you have added these fields to your Tray.io authentication popup window, click on the 'Create authentication' button. Go back to your settings authentication field (within the workflow builder properties panel), and select the recently added authentication from the dropdown options now available.
+
+Your connector authentication setup should now be complete.
+
+## Available Operations
+
+The examples below show one or two of the available connector operations in use.
+
+Please see the [Full Operations Reference](#operationsFull) at the end of this page for details on all available operations for this connector.
+
+## Using the Raw HTTP Request ('Universal Operation')
+
+As of **version 2.0**, you can effectively create your own operations.
+
+This is a very powerful feature which you can put to use when there is an endpoint in Ultipro which is not used by any of our operations.
+
+To use this you will first of all need to research the endpoint in the [Ultipro API documentation](https://connect.ultipro.com/documentation#/api/1195), to **find the exact format** that Ultipro will be expecting the endpoint to be passed in.
+
+Note that you will only need to add the suffix to the endpoint, as the base URL will be automatically set (the base URL is picked up from the value you entered when you created your authentication).
+
+The base URL for Ultipro is: `[BASE-SERVICE-URL]`
+
+For example, say that you would like to use the 'Employment Details Service', an endpoint that do not exist in our Ultipro connector. You would use the Ultipro API docs to find the relevant endpoint - which in this case is a `GET` request called: `/personnel/v1/employment-details`.
+
+More details about this endpoint can be found [here](https://connect.ultipro.com/documentation#/api/817/EmploymentDetails/get__personnel_v1_employment-details).
+
+Method: `GET`
+
+Endpoint: `/personnel/v1/employment-details`
+
+Final outcome being: **[BASE-SERVICE-URL]/personnel/v1/employment-details**
+
+<br/>{{/rawHTTPSection}}
+
+## Example Usage
+
+Below is an example of a way in which you could potentially use the UltiPro connector, to retrieve a report.
+
+The steps will be as follows:
+
+1. Setup using a manual trigger and use the UltiPro connector to send a list of associated reports through.
+2. Get information on each report listed.
+
+The final outcome should look like this:
+
+### 1 - Setup Trigger & add 'List reports'
+
+Once you have clicked 'Create new workflow' from your main Tray.io dashboard named it, select the Manual trigger from the trigger options available:
+
+After you have been redirected to the Tray.io workflow dashboard, from the connectors panel on the left, add a UltiPro connector to your second step. Set the operation to 'List reports'.
+
+When run, this workflow will list all reports in your UltiPro account.
+
+### 2 - Get report
+
+Add a new UltiPro connector step and select the operation 'Get report':
+
+Use the connector-snake to assign the 'Report path' field to the 'Report path' array, that is produced by the 'List reports' step. Update the index of the required report:
+
+When run, this workflow will now retrieve the requested report.
+
+You can expand the contents of the report like so:

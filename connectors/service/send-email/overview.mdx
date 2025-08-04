@@ -1,0 +1,44 @@
+---
+title: "Overview"
+description: "Overview of the Send Email connector"
+---
+
+# Overview
+
+## Overview
+
+The Send Email connector can be used as a quick way to send an email to any address.
+
+This is useful for things such as internal alert emails. This connector should NOT be used for external communications. If you need to send emails to your own customers or other outside parties, please use the connector for your current ESP (SendGrid, MailChimp, etc)
+
+For any mail that is sent you will need to specify a **Recipient**, a **Subject** and **Content**.
+
+## Send Email templates
+
+Please note that we have the following Send Email templates available:
+
+These will give you pre-configured best practice ways of working with Send Email and integrating it with other connectors.
+
+## Note on the 'From' email address
+
+The Send Email connector does not allow you to edit the 'from' field.
+
+This connector is typically used for internal notifications - e.g. to staff members when a workflow process has completed.
+
+For email marketing or other customer-facing emails, you should use typical providers such as [SendGrid](#) or [MailChimp](#).  
+
+This is the intended use of such services, with direct account management and accountability. The Tray Send Email connector should not be used for such purposes.
+
+## Content of the email connector
+
+The content of the Send Email connector accepts HTML formatted content.
+
+## Example - setting up an email alert
+
+The below example shows how you might check the output of your workflow trigger to see if it indicates that an account has expired.
+
+Note that this example shows using jsonpaths as the core Tray method of moving data from one connector to another. If you are unfamiliar with this method, please see one of our [intro tutorials](/platform/getting-started/intro-tutorials/) and our [basic working with data guide](/platform/working-with-data/).
+
+This is done using a boolean connector to check if the trigger output indicates that an account has expired:
+
+If the account has expired then an email is sent. Note that the **Content** field can mix written text with data pulled in from the trigger step by enclosing the jsonpaths in `{ }` as per the below examples of `{$.steps.trigger.account.id}` and `{$.steps.trigger.account.email}`:

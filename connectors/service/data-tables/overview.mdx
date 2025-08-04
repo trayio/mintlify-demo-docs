@@ -1,0 +1,74 @@
+---
+title: "Overview"
+description: "Overview of the Data tables connector"
+---
+
+# Overview
+
+**Data tables** can be used to store data in a table format in order to enable such functionality as **lookup tables.**
+
+Each project has a data tables tab where you can store multiple tables.
+
+These tables can be edited directly in the UI:
+
+To make use of them in your workflows, they can also be accessed programatically using this connector in order to lookup, edit and report on data within the tables.
+
+## Examples
+
+Please see our [main documentation page on data tables](#) for examples of using data tables as a lookup table and for managing status updates.
+
+These show you how to make use of some key operations:
+
+- Look up row
+- Update cell in row
+
+## Notes on using Data tables
+
+### Updating column names
+
+When you first go to access the columns in a table you may find that the actual names aren't present in the output schema:
+
+To fix this you can put a **Terminate** step after the Data tables connector and trigger a run. 
+
+You can then click the 'Use output' button in the debug logs to update the schema:
+
+Once this is remedied you will be able to reference the columns in the subsequent workflow steps:  
+
+### Data tables and Embedded customers
+
+The current version of data tables cannot be accessed from within an end-user solution instance.
+
+### Exporting and Importing projects with data tables
+
+When exporting projects with data tables please remap the data table in the target workspace after importing
+
+### Storage capacity
+
+Please note the following parameters when working with Data tables:
+
+- Character limit per cell: **255**
+- Maximum number of rows: **20,000**
+- Columns: **8 by default, 16 max**
+- Data limit: 5**0 MB**
+- Data type: **String **(use text Helpers 'change type' if required) 
+
+### Uploading CSV files
+
+You can import CSV file using **Import CSV** option. 
+
+ CSV files are subject to the storage limits:
+
+The next modal will display information about the uploaded CSV. Please name your data table to complete the process.
+
+### Pasting information
+
+It is possible to copy / paste cells and rows from another spreadsheet directly into your Data table. Such as copying and pasting information from a Google Spreadsheet.
+
+However please be aware of the following before doing so:
+
+- You cannot copy / paste into the column headers - they must be entered individually
+- You can only copy one row at a time
+
+### Delete a column
+
+You can delete any column from a data table.

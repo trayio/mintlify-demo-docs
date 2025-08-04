@@ -1,0 +1,256 @@
+---
+title: "Operations (sample payloads)"
+description: "Operations (sample payloads) documentation for Snowflake connector"
+---
+
+# Operations (sample payloads)
+
+## Main operations
+
+### Create database
+
+Create a database.
+
+**Sample Input**
+
+**Sample Output**
+
+### Create schema
+
+Create a schema.
+
+**Sample Input**
+
+**Sample Output**
+
+### Create stage
+
+Create a new named internal or external stage to use for loading data from files into Snowflake tables and unloading data from tables into files.
+
+**Sample Input**
+
+**Sample Output**
+
+### Create table
+
+Create a table.
+
+**Sample Input**
+
+**Sample Output**
+
+### Create warehouse
+
+Creates a new virtual warehouse in the system. Creating a warehouse includes specifying its size. Initial creation of a warehouse may take some time to provision the servers, unless the warehouse is set to be created initially in a SUSPENDED state.
+
+**Sample Input**
+
+**Sample Output**
+
+### Custom query
+
+Send a custom SQL query to Snowflake.
+
+**Sample Input**
+
+**Sample Output**
+
+### Delete database
+
+Removes a database from the system.
+
+**Sample Input**
+
+**Sample Output**
+
+### Delete files from stage
+
+Removes files that have been staged (i.e. uploaded from a local file system or unloaded from a table)
+
+**Sample Input**
+
+**Sample Output**
+
+### Delete rows from table
+
+Delete rows from the target table using optional query and additional (non-target) tables.
+
+**Sample Input**
+
+**Sample Output**
+
+### Delete schema
+
+Delete a schema from the current or specified database.
+
+**Sample Input**
+
+**Sample Output**
+
+### Delete stage
+
+Removes the specified named internal or external stage from the current/specified schema. The status of the files in the stage depends on the stage type.
+
+**Sample Input**
+
+**Sample Output**
+
+### Delete table
+
+Delete a table from the current or specified schema.
+
+**Sample Input**
+
+**Sample Output**
+
+### Delete warehouse
+
+Removes the specified virtual warehouse from the system.
+
+**Sample Input**
+
+**Sample Output**
+
+### Insert rows in table
+
+Updates a table by inserting one or more rows into the table.
+
+**Sample Input**
+
+**Sample Output**
+
+### List copy history
+
+This operation can be used to query Snowflake data loading history along various dimensions within the last 7 days.
+
+**Sample Input**
+
+**Sample Output**
+
+### List databases
+
+Lists the databases for which you have access privileges, including the dropped databases that are still within the Time Travel retention period.
+
+**Sample Input**
+
+**Sample Output**
+
+### List files in stage
+
+List the files currently in a stage.
+
+**Sample Input**
+
+**Sample Output**
+
+### List schemas
+
+Lists the schemas for which you have access privileges, including the dropped schemas that are still within the Time Travel retention period.
+
+**Sample Input**
+
+**Sample Output**
+
+### List stages
+
+Lists the stages for which you have access privileges.
+
+**Sample Input**
+
+**Sample Output**
+
+### List table rows
+
+Lists rows in one or more tables.
+
+**Sample Input**
+
+**Sample Output**
+
+### List tables
+
+Lists the tables for which you have access privileges, including the dropped tables that are still within the Time Travel retention period.
+
+**Sample Input**
+
+**Sample Output**
+
+### List warehouses
+
+Lists the warehouses for which you have access privileges.
+
+**Sample Input**
+
+**Sample Output**
+
+### Load data to table
+
+Load data from staged files to an existing table. The files must already be staged.
+
+**Sample Input**
+
+**Sample Output**
+
+### Unload data from table
+
+Unload data from a table (or query) into one or more files in a named internal stage, a named external stage or an external stage.
+
+**Sample Input**
+
+**Sample Output**
+
+### Update database
+
+Modifies the properties for an existing database, including changing the name of the database and changing the Time Travel data retention period (if you are using Snowflake Enterprise Edition or higher).
+
+**Sample Input**
+
+**Sample Output**
+
+### Update row in table
+
+Updates specified rows in the target table with new values.
+
+**Sample Input**
+
+**Sample Output**
+
+### Update schema
+
+Modifies the properties for an existing schema, including renaming the schema or swapping it with another schema, and changing the Time Travel data retention period (if you are using Snowflake Enterprise Edition or higher).
+
+**Sample Input**
+
+**Sample Output**
+
+### Update stage
+
+Modifies the properties for an existing named internal or external stage.
+
+**Sample Input**
+
+**Sample Output**
+
+### Update table
+
+Modifies the properties, columns, or constraints for an existing table.
+
+**Sample Input**
+
+**Sample Output**
+
+### Update warehouse
+
+Suspends or resumes a virtual warehouse, or aborts all queries (and other SQL statements) for a warehouse. Can also be used to rename or set/unset the properties for a warehouse.
+
+**Sample Input**
+
+**Sample Output**
+
+## DDL operations
+
+### List table columns (DDL)
+
+**Sample Input**
+
+**Sample Output**

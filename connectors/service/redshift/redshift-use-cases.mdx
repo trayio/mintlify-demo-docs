@@ -1,0 +1,85 @@
+---
+title: "Use Cases"
+description: "Use Cases documentation for AWS Redshift connector"
+---
+
+# Use Cases
+
+In all these examples, data transformation, mapping, or filtering might be necessary between steps, especially when preparing data for AI processing or when moving data between different systems. The JSON Transformer, Data Mapper, or Script connectors can be used for these purposes.
+
+Remember to always handle sensitive data with care, using the Merlin Guardian to mask data before sending it to external AI services when necessary.
+
+### Automated Data Quality Check and Reporting
+
+**Objective:** Regularly check data quality in Redshift tables and report issues.
+
+**Steps:**
+
+1. Trigger: Use a Scheduled Trigger to run the workflow daily.
+2. Fetch Data: Use the Redshift `find` operation to retrieve data from specific tables.
+3. Data Analysis: Use the Redshift `count` operation to count null values or duplicates.
+4. AI-Powered Analysis: Use the Merlin functions connector with the `classify text` operation to categorize data quality issues.
+5. Generate Report: Use a Script connector to compile the results.
+6. Send Alert: Use a Slack connector to send a report summary.
+
+This workflow helps maintain data integrity by regularly checking for issues and categorizing them using AI, which can help prioritize data cleaning efforts.
+
+### Secure Data Extraction for AI Processing
+
+**Objective:** Extract sensitive data from Redshift, mask it, process with AI, then update the database.
+
+**Steps:**
+
+1. **Trigger:** Use a Manual Trigger or Scheduled Trigger.
+2. **Extract Data:** Use the Redshift `find` operation to retrieve sensitive customer data.
+3. **Mask Data:** Use the Merlin Guardian `mask data` operation to obscure sensitive information.
+4. **AI Processing:** Use the OpenAI connector to perform advanced text analysis on the masked data.
+5. **Unmask Results:** Use the Merlin Guardian `unmask data` operation to restore the original identifiers.
+6. **Update Database:** Use the Redshift `update` operation to write the processed results back to the database.
+
+This workflow ensures that sensitive data is protected during AI processing, maintaining privacy and compliance.
+
+### Automated ETL Process with Sentiment Analysis
+
+**Objective:** Extract data from Redshift, perform sentiment analysis, and load results into a new table.
+
+**Steps:**
+
+1. **Trigger:** Use a Scheduled Trigger to run the workflow at set intervals.
+2. **Extract Data:** Use the Redshift `find` operation to retrieve customer feedback data.
+3. **Transform Data:** Use a JSON Transformer to prepare the data for sentiment analysis.
+4. **Sentiment Analysis:** Use the Merlin functions `sentiment analysis` operation to analyze the feedback.
+5. **Load Results:** Use the Redshift `insert` operation to add the sentiment scores to a new table.
+6. **Generate Report:** Use the Redshift `execute_sql` operation to create a summary report.
+
+This workflow automates the process of extracting, transforming, and loading data while incorporating AI-powered sentiment analysis.
+
+### Dynamic Data Archiving
+
+**Objective:** Automatically archive old data from active tables to archive tables in Redshift.
+
+**Steps:**
+
+1. **Trigger:** Use a Scheduled Trigger to run the workflow monthly.
+2. **Identify Old Data:** Use the Redshift `find` operation with date criteria to locate old records.
+3. **Create Archive Table:** Use the Redshift `execute_sql` operation to create an archive table if it doesn't exist.
+4. **Move Data:** Use the Redshift `insert` operation to copy old data to the archive table.
+5. **Delete Old Data:** Use the Redshift `delete` operation to remove the archived data from the active table.
+6. **Verify Process:** Use the Redshift `count` operation to ensure data integrity during the archiving process.
+
+This workflow helps manage database size and performance by regularly moving old data to archive tables.
+
+### Automated Schema Change Detection and Documentation
+
+**Objective:** Detect changes in Redshift schema and update documentation automatically.
+
+**Steps:**
+
+1. **Trigger:** Use a Scheduled Trigger to run the workflow daily.
+2. **Fetch Current Schema:** Use the Redshift `list_tables_ddl` and `list_table_fields_ddl` operations to get the current schema.
+3. **Compare Schemas:** Use a Script connector to compare the current schema with the previously stored schema.
+4. **Generate Documentation:** If changes are detected, use the OpenAI connector to generate human-readable documentation of the changes.
+5. **Update Documentation:** Use a Google Docs connector to update the schema documentation.
+6. **Notify Team:** Use a Slack connector to notify the data team about schema changes.
+
+This workflow helps keep schema documentation up-to-date automatically, leveraging AI to generate clear, concise descriptions of changes.

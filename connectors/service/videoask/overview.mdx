@@ -1,0 +1,133 @@
+---
+title: "Overview"
+description: "Overview of the VideoAsk connector"
+---
+
+# Overview
+
+## Overview
+
+VideoAsk is a service connector, that allows effortless creation of simple video/voice forms and the collection of feedback by video, audio, and text.
+
+## Authentication
+
+When using the VideoAsk connector, the first thing you will need to do is go to your Tray.io account page, and select the workflow you wish to work on. Once in the workflow builder itself, search and drag the VideoAsk connector from the connectors panel (on the left hand side) onto your workflow.
+
+With the new VideoAsk connector step highlighted, in the properties panel on the right, click on 'New Authentication' which is located under the 'Settings' heading.
+
+This will result in a Tray.io authentication pop-up window. The first page will ask you to name your authentication, and state which type of authentication you wish to create ('Personal' or 'Organisational').
+
+As you can see, on the next page you should make sure that 'Offline access' is selected.
+
+Clicking on the 'Create authentication' button will create a new popup window where you can authenticate with VideoAsk by entering your login details.
+
+Once you have authenticated with VideoAsk your Tray.io authentication should complete. Go back to your settings authentication field (within the workflow builder properties panel), and select the recently added authentication from the dropdown options now available.
+
+Your connector authentication setup should now be complete.
+
+## VideoAsk Trigger
+
+If you wish your workflow to be kicked off by a particular action in VideoAsk, you can use the VideoAsk Trigger.
+
+The VideoAsk trigger allows you to receive notifications and trigger workflows when given events occur associated with the selected trigger operation.
+
+### Trigger Operations available:
+
+- Webhook
+
+### Webhook Setup
+
+When creating a new workflow, click the 'Create new workflow' button in the top right hand corner of your main Tray.io dashboard. When the trigger popup window opens, search and select the VideoAsk trigger. Wait to be redirected to your new workflow and the workflow dashboard itself.
+
+With the new VideoAsk trigger step highlighted, in the properties panel on the right, click on 'New Authentication' which is located under the 'Settings' heading.
+
+Follow the instructions above to authenticate your trigger, select 'Webhook' as the operation and select the form for which you wish to listen to events on. You can then select the events that you want your trigger to listen to in order to set off the workflow itself:
+
+Once you have your trigger set up with your configuration you can click the 'Enable' button in the bottom left of the window to enable your workflow. Your workflow will now be triggered whenever the events you have selected occur for the form you have selected.
+
+## Available Operations
+
+The examples below show one or two of the available connector operations in use.
+
+Please see the [Full Operations Reference](#operationsFull) at the end of this page for details on all available operations for this connector.
+
+## Using the Raw HTTP Request ('Universal Operation')
+
+As of **version 1.0**, you can effectively create your own operations.
+
+This is a very powerful feature which you can put to use when there is an endpoint in VideoAsk which is not used by any of our operations.
+
+To use this you will first of all need to research the endpoint in the [VideoAsk API documentation v1.0](https://developers.videoask.com/#intro), to **find the exact format** that VideoAsk will be expecting the endpoint to be passed in.
+
+Note that you will only need to add the suffix to the endpoint, as the base URL will be automatically set (the base URL is picked up from the value you entered when you created your authentication).
+
+The base URL for VideoAsk is: `https://api.videoask.com`
+
+For example, say that the 'List Forms' operation did not exist in our VideoAsk connector, and you wanted to use this endpoint, you would use the VideoAsk API docs to find the relevant endpoint - which in this case is a `GET` request called: `/forms`.
+
+More details can be found [here](https://developers.videoask.com/#0eac1e1f-bdb5-4bd9-8a59-31eae1750b03).
+
+As you can see there is also the option to include a query parameter, should you wish to do so. So if you know what your method, endpoint and details of your query parameters are, you can get the information on the first ten forms with the following settings:
+
+Method: `GET`
+
+Endpoint: /forms`
+
+Query Parameter: Key: `limit` Value: `10`
+
+Final Example outcome being: **https://api.videoask.com/forms?limit=10**
+
+## Example Usage
+
+Below is an example of a way in which you could potentially use the VideoAsk trigger and the VideoAsk connector, to listen for form responses, list the form contacts for that form and then loop through the results and get the form contact details for each contact.
+
+The steps will be as follows:
+
+1. Setup using a VideoAsk trigger to listen for form responses
+2. List the contacts for the form
+3. Loop through the results
+4. Get the details for each contact
+
+The final outcome should look like this:
+
+### 1 - Setup the VideoAsk trigger
+
+Once you have clicked 'Create new workflow' from your main Tray.io dashboard named it, select the VideoAsk trigger from the trigger options available.
+
+After you have been redirected to the Tray.io workflow dashboard, you can select the trigger step and choose which form to listen for events on and choose which events to listen for.
+
+Feel free to re-name your steps as you go along to make things clearer for yourself and other users.
+
+Once you click enable your trigger will be listening for the chosen events on the selected form.
+
+### 2 - List form contacts
+
+Next from the connectors panel on the left, add a VideoAsk connector to your second step. Set the operation to 'List form contacts'.
+
+In order to specify the form to list contacts for, start by using the 'Form ID' mapping icon (found next to the Form ID input field, within the properties panel) to generate the connector-snake.
+
+While hovering over the 'Form response' trigger step (with the tail end of the connector-snake), select `form_id` from the list of output properties displayed. This will auto-populate a jsonpath within your 'Form ID' input field, and update the type selector to jsonpath.
+
+For more clarification on the pathways you have available, open the Debug panel to view your step's Input and Output.
+
+Your workflow will now list the contacts for the form selected in the previous step.
+
+### 3 - Loop through the results
+
+Next, search for the 'Loop collection' connector within your connector panel, and drag it into your workflow as your next step. Set your operation to 'Loop list'.
+
+The Loop Collection connector allows you to iterate through a list of results. In this example, we will use it to iterate through the data found within the previous VideoAsk connector step.
+
+In order to specify the list you want to loop through, start by using the 'List' mapping icon (found next to the list input field, within the properties panel) to generate the connector-snake.
+
+While hovering over the 'List form contacts' step (with the tail end of the connector-snake), select `results` from the list of output properties displayed. This will auto-populate a jsonpath within your 'List' input field, and update the type selector to jsonpath.
+
+The workflow will now iterate through the results from the previous step.
+
+### 4 - Get the details for each contact
+
+The last step is to drag a VideoAsk connector **inside** of the Loop Collection step itself. Set the operation to 'Get form contact'. As you can see, the 'Form ID' and 'Contact ID' fields are required.
+
+We can use the same technique with the connector snake to supply values for both of these fields. Here we will use jsonpath to set the 'Form ID' to the `form_id` from the initial step and then set the 'Contact ID' to the `contact_id` value from the Loop connector on the previous step.
+
+The example workflow is now complete and will get the details for each form contact. You can view each contacts details in the debug panel.

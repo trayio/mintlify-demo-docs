@@ -1,0 +1,30 @@
+---
+title: "Example Usage"
+description: "Example Usage documentation for AWS Bedrock connector"
+---
+
+# Example Usage
+
+The workflow below demonstrates Bedrock connector's Create Embeddings and AI Generation operations.
+
+It shows a query coming in through a Webhook and being sent to AWS Bedrock to create an embedding vector. The resulting vector is then passed to a vector database to perform a similarity search.
+
+The AI Generation operation uses the similarity search result to Create a model response for the received query.
+
+To generate the embeddings the Create Embeddings operation requires a model name to use and the query received through the Werbhook trigger
+
+The AI Generation operation requires information for the following mandatory parameters:
+
+- **Messages: **A list of messages comprising the conversation so far. Every message
+- **Model: **ID of the model to use. You can choose from the available options.
+
+**Key Configurations**
+
+**System Message**:
+
+- The system message sets the tone and context for the AI's responses. In this case, the AI is instructed to act as a helpful assistant who creates technical documentations.
+- The system message includes specific rules and guidelines to ensure that responses are accurate, relevant, and in the desired format. It also included top 10 relevant searches from a Vector database.
+
+**User Message**:
+
+- This is where the user’s query is passed to the AI. In this example the query is dynamically fetched from the Webhook trigger

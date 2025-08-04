@@ -1,0 +1,79 @@
+---
+title: "Overview"
+description: "Overview of the Firebase connector"
+---
+
+# Overview
+
+## Overview
+
+Firebase helps mobile and web application developers succeed by building fast without managing infrastructure. Firebase provides built-in analytics, crash reporting and scales automatically, even for the largest applications.
+
+## Authentication
+
+When using the Firebase connector, the first thing you will need to do is go to your Tray.io account page, and select the relevant workflow. Once in the workflow dashboard itself, search and drag the Firebase connector from the connectors panel (on the left hand side) onto your workflow.
+
+With the new Firebase connector step highlighted, in the properties panel on the right, click on 'New Authentication' which is located under the 'Settings' heading.
+
+This will result in a Tray.io authentication pop-up window, that should look like this:
+
+As you can see, besides from naming your authentication appropriately, you will need your 'Service account email', the 'Private key' for said service account, and the 'Database' name (of your firebase database).
+
+In order to get these fields, head to your Firebase console. Click on your selected project, and then the go to the top of the left hand navigation mene. Click on the cog next to "Project Overview".
+
+Next click on the "Service accounts" tab. You will now be on the main "Firebase Admin SDK" panel. Click on the "Generate new private key" button in order to download a JSON file that will contain your private key and email.
+
+> 
+
+Once you press the download button, you will have the first two pieces of information you need to authenticate with Tray.io.
+
+In order to get the last piece, your database name,
+
+The database name can be found by going to the database panel. It should be in the format: `https://your-database.firebaseio.com/`
+
+With all these in tow you should be able to fill in the Tray.io popup window and complete your authentication.
+
+## Available Operations
+
+The examples below show one or two of the available connector operations in use.
+
+Please see the [Full Operations Reference](#operationsFull) at the end of this page for details on all available operations for this connector.
+
+## Example usage
+
+Below is an example of a way in which you could potentially use the Firebase connector, to get data from your Firebase instance and store it inside a [Google Sheets](/connectors/service/google-sheets/?docs_source=search&docs_term=shee) document.
+
+The steps will be as follows:
+
+1. Setup the trigger and the Firebase connector to retrieve data.
+2. Add the Google sheets connector to present data retrieved.firebase-complete-workflow
+
+The final outcome should look like this:
+
+## 1 - Setup trigger & Firebase connector
+
+Once you have clicked 'Create new workflow' on your main Tray.io dashboard (and named said new workflow), select the Manual trigger from the trigger options available:
+
+Once you have been redirected to the Tray.io workflow dashboard, from the connectors panel the left, add a Firebase connector to your second step. Set the operation to 'Get'.
+
+It is in this step that we enter the specifics of the kind of data that we would like Firebase to retrieve.
+
+In this example we want to query: `/dinosaurs.json` which should give us back all the dinosaurs found in the database.
+
+We can also add some filtering options, for example, here we are only querying dinosaurs whose heights are greater than 3.
+
+There are more filtering options available than displayed in the above image, so you may wish to expand on this depending on your data set.
+
+## 2 - Path to Update CSV
+
+The nest stage is to use the retrieved information somehow. In this example we will display the output using the [Google Sheets](/connectors/service/google-sheets/?docs_source=search&docs_term=sheet)
+
+Take the Google sheets connector and add it as the final step in your workflow. Make sure you have your authentication set up and then set the operation to 'Set cell value'. By doing so, we are essentially choosing an operation that will eventually display the Firebase output.
+
+Note that all the fields in this operation are mandatory, so please take care when filling these in. 'Spreadsheet', 'Wporksheet' and 'Value input option' are all dropdowns so select your fields as appropriate.
+
+Type in the cell number you wish to display your Firebase reults in, and when it comes to the 'Value' field, use the connector-snake to generate the jsonpath needed.
+
+In this example, the workflow will now update our `Dinosaurs` google sheets document with the tag of our chosen dinosaur selected previously.
+
+> 

@@ -1,0 +1,41 @@
+---
+title: "Overview"
+description: "Overview of the Accelevents connector"
+---
+
+# Overview
+
+## **Authentication**<br/>
+
+Within the builder, click on the Accelevents connector to display the connector properties panel. Select the 'Authentication' tab and click on the 'New authentication' button. 
+
+In the Tray.io authentication pop-up modal, name the authentication in a way that will easily identify it within a potentially large list. For example, whether it is a Sandbox or Production auth, etc.<br/>
+
+Consider who / how many people will need access to this authentication when choosing where to create this authentication ('Personal' or 'Organization'). The second page asks you for your 'Base URL' and 'API key' credentials.<br/>
+
+You can select a suitable environment based on your needs for the 'Base URL'.
+
+To get the API key, head to the Accelevents dashboard. 
+
+Click on 'Settings' > 'Integrations' > 'Tray integration'. Enable the Tray integration using the toggle button. Here, you can use the existing API key or create a new one using the 'Generate New Key' button. 
+
+<br/>Once you have added these fields to your Tray.io authentication pop-up window, click the 'Create authentication' button. <br/>
+
+Your connector authentication setup should now be complete.<br/>
+
+## **Example Usage**
+
+<br/>Below is an example of how you could potentially use the Accelevents connector to Import attendees.
+
+The workflow fetches Attendee information from a Google sheet and imports it to  Accelevents using the Loop connector:
+
+In this case, we are using Google sheets as a generic placeholder for any service or database you may wish to use.
+
+The Google sheet data might look something like this:
+
+<br/>The steps will be as follows:
+
+1. Setup using a Manual trigger and fetch data from a Google sheet.
+2. Import Attendees one by one to Accelevents using the Loop connector.
+
+The steps involved are:

@@ -1,0 +1,75 @@
+---
+title: "Overview"
+description: "Overview of the Ooma connector"
+---
+
+# Overview
+
+## Overview
+
+Ooma is a state of the art internet phone service provider for home and business, plus smart security systems.
+
+## Authentication
+
+When using the Ooma connector, the first thing you will need to do is go to your Tray.io account page, select your workflow. Once in the workflow dashboard itself select and drag the Ooma connector from the connectors panel (on the left hand side) onto your workflow.
+
+With the new connector step highlighted, in the properties panel on the right, click on 'New Authentication' under the 'Settings' heading.
+
+This will result in a Tray.io authentication pop-up window, that should look like this:
+
+As you can see, besides from naming your authentication appropriately, you will need your Base URL, Account ID, Username, and Password.
+
+In order to get these fields, head to your my Ooma admin portal.
+
+- Your Username and Password should be the same credentials you use to log into your my Ooma admin portal.
+- The Base URL can be retrieved from the browser URL when you are logged into your "my Ooma account".
+- The Account ID can also be retrieved from the my Ooma admin portal.
+
+Once you have collected this information paste them into their respective fields within the Tray.io auth window and click 'Add Authentication'
+
+Once you verify your account you'll be able to use the connector to make API calls.
+
+## Ooma trigger
+
+If you wish your workflow to be kicked off by a particular action in Ooma, you can use the Ooma Trigger.
+
+The Ooma trigger allows you to receive notifications and trigger workflows when given events occur associated with the selected trigger operation.
+
+### Trigger operations available:
+
+- Webhook
+
+### Webhook Setup
+
+Follow the instructions above to authenticate your trigger, and select from the options available the event you want your trigger to listen to, in order to set off the workflow itself:
+
+## Available Operations
+
+The examples below show one or two of the available connector operations in use.
+
+Please see the [Full Operations Reference](#operationsFull) at the end of this page for details on all available operations for this connector.
+
+### Example usage
+
+Below is an example of a way in which you could potentially use the Ooma connector, to list your users and return the results.
+
+The steps will be as follows:
+
+1. Setup Ooma connector
+2. Get user info
+
+The final outcome should look like this:
+
+## 1 - Setup Ooma connector
+
+First go to your Tray.io dashboard, click on the 'Create new workflow' button in the top right corner and name your project workflow. Select Manual for your trigger.
+
+To run a operation with the Ooma connector, search for Ooma in the connector panel (found on the right hand side of your workflow) and type 'Ooma' into the search input. Then Drag the connector into the workflow builder.
+
+Set the operation to 'List users' and note that the only mandatory field is pre-filled for you (feel free to edit this if your project so requires):
+
+## 2 - Get user info
+
+Then to get a single user from the list you can use the JSON path feature to get the ID from the previous step:
+
+This will return user information that will follow the output pattern of the operation:

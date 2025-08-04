@@ -1,0 +1,85 @@
+---
+title: "Overview"
+description: "Overview of the Yammer connector"
+---
+
+# Overview
+
+## Overview
+
+Yammer is an enterprise social networking connector which allows for cross organization communication. You can send messages, make announcements and organize your companies communication into private messages, groups and networks.
+
+## Authentication
+
+When using the Yammer connector, the first thing you should do is login to your chosen Yammer account. Once that is done you will need to go to your Tray.io account page, and select the workflow you wish to work on. Once in the workflow dashboard itself, search and drag the Yammer connector from the connectors panel (on the left hand side) onto your workflow.
+
+With the new Yammer connector step highlighted, in the properties panel on the right, click the Authenticate tab and 'Add new authentication'.
+
+This will result in a Tray.io authentication pop-up window. As you can see, besides from naming your authentication appropriately, you will need to select where you want to create your authentication and the authentication service. When that is done click 'Next step' to go to the next auth stage.
+
+In this case there are no extra parameters needed so you can simply click the 'Create authentication' button.
+
+Go to back to your authentication field (within the workflow dashboard properties panel from earlier), and select the recently added authentication from the dropdown options now available.
+
+Your connector authentication setup should now be complete.
+
+## Available Operations
+
+The examples below show one or two of the available connector operations in use.
+
+Please see the [Full Operations Reference](#operationsFull) at the end of this page for details on all available operations for this connector.
+
+## Using the Raw HTTP Request ('Universal Operation')
+
+As of **version 1.0**, it is now possible to effectively create your own operations.
+
+This is a very powerful feature which you can put to use when there is an endpoint in Yammer which is not used by any of our operations.
+
+To use this you will first of all need to research the endpoint in the [Yammer API documentation v1.0](https://developer.yammer.com/docs/rest-api-rate-limits/), to *find the exact format* that Yammer will be expecting the endpoint to be passed in.
+
+Note that you will only need to add the suffix to the endpoint, as the base url will be automatically set (the base url is picked up from the value you entered when you created your authentication).
+
+The base url is in the format of `https://www.yammer.com/api/v1`
+
+For example, say that the 'Get current user' operation did not exist in our Yammer connector, and you wanted to use this endpoint, you would use the Yammer API docs to find that the 'Get current user' endpoint is a GET request at the following url:
+
+`/users/current.json`
+
+So with the following settings:
+
+Method: `GET`
+
+URL: `Endpoint`
+
+Endpoint: `/users/current.json`
+
+Final outcome: **https://www.yammer.com/api/v1/users/current.json**
+
+This will now return data about the current authenticated user.
+
+## Example usage
+
+Below is an example of a way in which you could potentially use the Yammer connector to make a group announcement with an attachment.
+
+The steps will be as follows:
+
+1. Setup trigger and create file from URL
+2. Create announcement
+
+The final outcome should look like this:
+
+### 1 - Setup trigger
+
+Once you have clicked 'Create new workflow' on your main Tray.io dashboard (and named said new workflow), select the Manual trigger from the trigger options available:
+
+Once you have been redirected to the Tray.io workflow dashboard, from the connectors panel on the left, add a 'File helpers' connector to your second step. Set the operation to 'Create file from URL'.
+
+Add in an example URL and give said URL a name. We are using a lovely image of a Tray.io to stay on theme, but feel free to use an internets worth of kitten pics should you wish to.
+
+### 2 - Create announcement
+
+Now from the connectors panel on the left, add a Yammer connector as your third step. Set the operation to 'Create announcement' and use the connector-snake to add the file from the previous Yammer step, as an attachment. *Scroll down the panel in order to see the attachment property option*.
+
+Fill in the rest of the Yammer properties panel, and note that the minimal requirements are the 'Body' and 'Message ID' fields.
+
+You have now successfully set up a workflow that will create group announcements with attachments.

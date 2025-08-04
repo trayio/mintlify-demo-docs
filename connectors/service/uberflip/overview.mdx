@@ -1,0 +1,38 @@
+---
+title: "Overview"
+description: "Overview of the Uberflip connector"
+---
+
+# Overview
+
+## Overview
+
+The tray.io Uberflip connector allows you to manage Flipbooks in Uberflip.
+
+## Authentication
+
+When using the Uberflip connector, the first thing you will have to do is click on 'New Authentication' in the step editor:
+
+At this stage, both the Legacy and REST API credentials are required to use the Tray connector:
+
+The details for **API Key** and **API Secret** can be found by accessing your REST credentials at https://app.uberflip.com/account/api_v2:
+
+For **Legacy credentials** the **API Key** and **Signature** can be found at https://app.uberflip.com/account/api:
+
+## Available Operations
+
+The examples below show one or two of the available connector operations in use.
+
+Please see the [Full Operations Reference](#operationsFull) at the end of this page for details on all available operations for this connector.
+
+## Example
+
+In this example we will upload a new PDF file to an existing folder in Uberflip.
+
+To begin with, create a new workflow with a **Manual Trigger**. Add a step to download a PDF file, for instance in this example we download a PDF file from a Google Drive account using the **Google Drive** connector's **Download file** operation:
+
+Next, we use the **List titles** operation of Uberflip to list all the folders in our account:
+
+Finally, we use the **Upload file** operation in Uberflip to upload our file to the folder, setting the **Title ID** to one of the title IDs output by the previous step, in this case we take the first object; setting the **Issue name** to a new name for this issue, and setting **File** to the output of the file download step:
+
+The output of this final step will include the ID of the uploaded item.

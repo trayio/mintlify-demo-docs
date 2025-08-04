@@ -1,0 +1,72 @@
+---
+title: "Overview"
+description: "Overview of the VerticalResponse connector"
+---
+
+# Overview
+
+## Overview
+
+Vertical Response lets you create, manage and optimize email campaigns as well as social media posts, landing pages and customer polls — without any design or coding experience required.
+
+## Authentication
+
+When using the Vertical Response connector, the first thing you will need to do is go to your Tray.io account page, and select the workflow you wish to work on. Once in the workflow dashboard itself, search and drag the Vertical Response connector from the connectors panel (on the left hand side) onto your workflow.
+
+With the new Vertical Response connector step highlighted, in the properties panel on the right, click on 'New Authentication' which is located under the 'Settings' heading.
+
+This will result in a Tray.io authentication pop-up window. The first page will ask you to name your authentication appropriately, and state which type of authentication you wish to make ('Personal' or 'Organisational').
+
+As you can see, Since you don't need to set any extra service permissions, you can simply click on 'Create authentication' to complete this step.
+
+*If you are not already logged into your Vertical Response account, you will be presented with a popup login screen for Vertical Response and to enter your access credentials.*
+
+Once you have signed in, you will be redirected to the workflow dashboard and your connector authentication setup should be complete.
+
+## Available Operations
+
+The examples below show one or two of the available connector operations in use.
+
+Please see the [Full Operations Reference](#operationsFull) at the end of this page for details on all available operations for this connector.
+
+## Example usage
+
+Below is an example of a way in which you could potentially use the Vertical Response connector, to add your contacts to a list.
+
+The steps will be as follows:
+
+1. Set up your Manual trigger and your first Vertical Response connector to List contacts.
+2. Add a Loop connector to iterate through your contacts.
+3. Set up your second Vertical Response connector to add your contacts to a list.
+
+The final outcome should look like this:
+
+### 1 - Setup trigger & List contacts
+
+Once you have clicked 'Create new workflow' on your main Tray.io dashboard (and named said new workflow), select the Manual trigger from the trigger options available:
+
+Once you have been redirected to the Tray.io workflow dashboard, from the connectors panel on the left, add a Vertical Response connector to your second step. Set the operation to 'List contacts'.
+
+*Feel free to re-name your steps as you go along to make things clearer for yourself and other users.*
+
+Now when this workflow is run, it will pull down a list of contacts from the Vertical Response API. This means you will be able to view them when you click through your debug panel, and expend the output field.
+
+### 2 - Add a Loop step
+
+Next, we add a Loop connector to the workflow and set the operation to 'Loop contacts'.
+
+Use the connector-snake to generate the jsonpath you will need, by clicking and dragging on the orange circle mapping icon, left of the 'List' field name.
+
+Once you have dragged it over to your first Vertical Response step, you will see a dropdown list of options appear. Select the `items` array. Your output should be similar to: `$.steps.vertical-response-1.items`.
+
+This will enable us to iterate over the list of contacts, and perform operations for each one, during each loop cycle.
+
+### 3 - Add contact to list
+
+Finally, drag another Vertical Response connector step into the Loop Collection itself, and set the operation 'Add contact to list'.
+
+Use the dropdown menu to select the list to add the contact to.
+
+Use the same connector-snake method for generating the jsonpath to get the 'email' field, only this time it will be taken from the loop step.
+
+This will mean that a reply will automatically be sent based on the email previously found, per each loop iteration.

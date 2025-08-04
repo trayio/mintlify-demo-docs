@@ -1,0 +1,73 @@
+---
+title: "Overview"
+description: "Overview of the Merlin Text Generation (Beta) connector"
+---
+
+# Overview
+
+## Overview
+
+The Merlin Text Generation connector is a powerful AI-driven tool in Tray's automation platform, designed to make text generation and summarization capabilities simple to use within workflows. It offers a suite of advanced natural language processing operations that can be seamlessly integrated into various automation scenarios.
+
+## Operations
+
+### Generate Text
+
+The Generate Text operation in the Merlin functions connector allows users to create AI-generated text based on given instructions. 
+
+**Input Parameters**
+
+1. **Instructions**: A prompt that guides the text generation. It should be a clear and concise description of what you want the generated text to cover.
+2. **Temperature**: A value that controls the randomness of the text generation (0.0 to 1.0). Lower values make the output more deterministic, while higher values introduce more creativity and variability.
+3. **Max tokens**: Limits the length of the generated text.
+
+In the following example, the Webhook trigger receives a notification when a new feature is released. Using the AI connector (AWS Bedrock), a detailed description of the new feature is generated. 
+
+The Generate Text operation then uses this description to create a title for the new feature.
+
+### Classify Text
+
+The Classify Text function categorizes a given piece of text into one or more predefined categories based on its content.
+
+**Parameters**
+
+1. **Text**: The input text to be classified.
+2. **Categories**: The list of categories to classify into, if not predefined in the model.
+3. **Examples:** is used for in-context learning, where the model is given a few examples to guide its classification process. 
+
+In the following example, the workflow iterates over records from a Google Sheet that contains feature titles and descriptions. 
+
+The descriptions are provided as input to the Merlin Functions connector to classify each feature into specific categories. A list of categories is supplied to aid the categorization process. For more precise classification, you can also provide examples.
+
+### Sentiment Analysis
+
+Sentiment analysis, also known as opinion mining, is a powerful tool that has a wide range of applications across different industries and domains. 
+
+Its primary purpose is to understand the emotional tone behind a body of text, helping organizations and individuals make data-driven decisions. 
+
+The sentiment of the text is typically categorized as POSITIVE, NEGATIVE, or NEUTRAL.
+
+In the following example, the workflow is triggered whenever a new customer support ticket is created.
+
+The Merlin Functions connector employs the Sentiment Analysis operation to analyze the data received from the trigger and categorize the sentiments as positive, negative, or neutral.
+
+As depicted in the image below, the step output shows the sentiment categorized as 'NEUTRAL' along with its detailed score.
+
+ This detailed score provides actionable insights, enabling effective decision-making in how to respond and utilize the data. For instance, based on a negative sentiment score, appropriate actions like escalating the ticket can be taken if necessary.
+
+### Summarize Text
+
+The Summarize Text operation in the Merlin Functions connector allows you to generate concise summaries of provided text. You can choose from different formats to customize how the summary is presented.
+
+**Parameters**
+
+- **Text (Required): **The full text you want to summarize.
+- **Format (Required): **Determines the style of the summary. Choose the format that best suits your needs for summarizing the text:
+- **Temperature: **Controls the creativity of the summarization. Range is 0 to 1 (Default is 0.5). Lower values make the summary more focused and deterministic, while higher values introduce more creativity and variability.
+- **Max Tokens: **Limits the number of tokens (words or parts of words) in the summary.
+
+In the following example, the workflow receives a transcript from a meeting. 
+
+**Transcript:**
+
+The **Summarize Text** operation using the **Call Summary** format summarizes the above transcript as follows:

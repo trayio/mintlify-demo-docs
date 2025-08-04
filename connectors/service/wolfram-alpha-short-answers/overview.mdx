@@ -1,0 +1,104 @@
+---
+title: "Overview"
+description: "Overview of the Wolfram|Alpha Short Answers connector"
+---
+
+# Overview
+
+## Overview
+
+The Tray.io Wolfram Alpha Short Answers connector returns a single plain text result from Wolfram|Alpha for a given query through the implementation of the [Wolfram|Alpha Short Answers API](https://products.wolframalpha.com/short-answers-api/documentation/).
+
+## Authentication
+
+**Note:** We have two Wolfram Alpha connectors. You are currently on the docs page for Wolfram Alpha Short Answers. For Wolfram Alpha Full Results please go [here](/connectors/service/wolfram-alpha-full-results/).
+
+When using the Wolfram Alpha Short Answers connector, the first thing you will need to do is go to your Tray.io account page, and select the relevant workflow. Once in the workflow dashboard itself, search and drag the Wolfram Alpha Short Answers connector from the connectors panel (on the left hand side) onto your workflow.
+
+With the new Wolfram Alpha Short Answers connector step highlighted, in the properties panel on the right, click on 'New Authentication' which is located under the 'Settings' heading.
+
+This will result in a Tray.io authentication pop-up window, that should look like this:
+
+As you can see, in order to set up a new authentication, you will need an 'AppID'. This can be found at your *Wolfram|Alpha Developer Portal*.
+
+> 
+
+> 
+
+Your app can be created either during sign up (as mentioned above), or afterwards once you have made it to the main dashboard.
+
+Go to your 'Apps' section and click 'Sign up to get your first AppID' button (this will be labelled as 'Get an AppID' if you are a returning user):
+
+After a one-time survey about intended usage, the AppID creation dialog will appear.
+
+Give your application a name and a simple description to register an AppID.
+
+Each application has its own unique AppID:
+
+Once you have these, you can click on the 'New Authentication' button within Tray.io and fill in the authentication sections as appropriate to complete:
+
+## Note on Operation Usage
+
+This connector only has one operation, 'Get Short Answer', whose sole purpose is to return an answer from the Wolfram Alpha Short Answers API in response to the required input query.
+
+The Base URL used by this example workflow and connector is `http://api.wolframalpha.com/v1`. Please see [Using the Short Answers API](https://products.wolframalpha.com/short-answers-api/documentation/) for more details.
+
+## Available Operations
+
+The examples below show one or two of the available connector operations in use.
+
+Please see the [Full Operations Reference](#operationsFull) at the end of this page for details on all available operations for this connector.
+
+## Example Usage
+
+For purposes of demoing this tutorial will demonstrate how the Wolfram|Alpha Short Answers API (WASA) will use the email trigger in order to return an answer to our query.
+
+The first step uses and email to trigger the workflow, which in turn kicks off a sequence of events as follows:
+
+1. Accept a query via email, using the [Email Trigger](/connectors/triggers/email-trigger/).
+2. Once sent to the Wolfram|Alpha Short Answers API, it in turn will return a result.
+3. Use a [Send Email](/connectors/core/send-email/) connector to return said Query and Answer in an email message.
+
+The final outcome should look like this:
+
+### 1. Extract query from Trigger
+
+Due to the nature of the WASA connector you are more likely to use this in order to return queries from your own website that customers may have sent in via a webhook trigger, or even through utilising the Tray.io form, but for the purposes of creating a simple example in this scenario we are using the email trigger as it is easy to understand and set up.
+
+To begin with, create a workflow by selecting the email trigger from the connectors panel on the left. The email trigger allows you to trigger a workflow by sending an email.
+
+The email address you will need to send your query to (and will receive your answer from) will be along the lines of:
+
+`trigger+**routingID**@traymail.io`
+
+To find the routing ID of your workflow, you need to click the settings button in the top left hand corner (the gear icon) and copy the 'Workflow Public URL'
+
+> 
+
+### 2. Query with WASA
+
+Add a Wolfram Alpha Short Answers connector to step two of your workflow.
+
+Ensure that your Wolfram Alpha authentication is selected and set up as explained above.
+
+Again you will have default operation, this time set to 'Get Short Answer'. Your next input is 'Query' and is a required field (what will essentially be submitted to the WASA API).
+
+Drag the orange connector-snake from the 'Query' input property over to the email trigger, as displayed below, and select the `text` option in order to auto populate a JSON path to the text result.
+
+The 'Query' property should now read `$.steps.trigger.text` and the type selector will have changed to the JSON path symbol as a result.
+
+### 3. Receive result
+
+Add the Send Email connector step to the next stage. Again you have only have a singular default operation with this step ('Send Email').
+
+You must add at least one recipient, so make sure to click on the 'Add recipient' button. In doing so you will see that you now have three fields that MUST be populated: 'Email', 'Subject' and 'Content'.
+
+Populate them as appropriate. You you may wish to use [Interpolation](https://tray.io/documentation/platform/standard-best-practices/managing-data/manipulating-data-part-2/) to populate your content field automatically in order to clarify your result:
+
+Content:
+
+The above will now autofill the email content with both the query and the result. As you see, curly braces `{}` and JSON paths can be used to incorporate output values into the text itself.
+
+Once your workflow is run, aka an email is sent to your trigger email address, the result will be seen in both your Debug panel output step:
+
+And of course, also in your inbox:

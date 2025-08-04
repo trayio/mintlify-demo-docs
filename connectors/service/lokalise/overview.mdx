@@ -1,0 +1,64 @@
+---
+title: "Overview"
+description: "Overview of the Lokalise connector"
+---
+
+# Overview
+
+## Overview
+
+Lokalise is an app localization and translation platform designed for the use of project managers with integrated tools for developers and other stakeholders.<br/>It enables you to automate the translation and localization workflow of your web and mobile applications, games, and software.
+
+Below is an example of a way in which you could potentially use the Lokalise connector, to download specific project files filtered by name.
+
+The steps will be as follows:
+
+1. Setup using a manual trigger and list the project files filtered by name.
+2. Add the Loop collection connector to iterate over each file.
+3. Download each file individually.
+
+Your completed workflow should look similar to this:
+
+### 1 - Setup Trigger & List Project Files
+
+Select the manual trigger from the trigger options available.
+
+From the connectors panel on the left, add a Lokalise connector to your workflow. Set the operation to 'List project files'.
+
+The 'Project Id' field contains all your available projects. You can select a 'Project ID' of your choice from the available dropdown options.
+
+Using the 'Filter Filename' field, you can filter the list of files based on a specific filename. You can provide any file name as per your choice. In our example, the value we have assigned is `example`.
+
+Please note that the 'Limit' and 'Page' fields are already pre-filled for you, so you need not worry about it at this stage.
+
+Feel free to re-name your steps as you go along to make things clearer for yourself and other users. The operation names themselves often suffice.
+
+Now, when the workflow is run, it will retrieve all the files that belong to the selected project and have `example` word as a part of the filename.
+
+### 2 - Add a loop collection
+
+Next, search for the Loop collection connector within your connector panel, and drag it into your workflow as your next step. Set your operations to 'Loop list'.
+
+The Loop Collection connector allows you to iterate through a list of results. In this example, we will use it to iterate through the data found within the previous Lokalise connector step.
+
+In order to specify the list, you want to loop through, start by using the list mapping icon (found next to the list input field, within the properties panel) to generate the connector-snake.
+
+While hovering over the 'List Project Files' step (with the tail end of the connector-snake), select `files` from the list of output properties displayed. This will auto-populate a jsonpath within your list input field and update the type selector to jsonpath.
+
+For more clarification on the pathways you have available, open the [Debug](/platform/troubleshooting/logs-and-debugging/) panel to view your step's Input and Output.
+
+This will enable us to iterate over the list of files, and perform operations for each one, during each loop cycle.
+
+### 3 - Download Files
+
+The last step is to drag a Lokalise connector **inside** of the Loop Collection step itself. Set the operation to 'Download files'.
+
+As you can see, this operation requires the ID of the project from which you want to download files and the format of the files you want to download.
+
+Since the files, we are looping through belong to the 'Example project' as selected in the first(List Project Files) step. At this stage, we will choose the same project name as an input for the 'Project ID' field.
+
+For the 'Format' field, provide `json` as an input as all the selected files are of the JSON format.
+
+Scrolling down the properties panel, you will find the 'filter filenames' field. Using the connector-snake, find the jsonpath for the 'Filename' field from the previous step. It should appear similar to `$.steps.loop-1.value.filename`.
+
+<br/>Now when this workflow is run, you will receive URLs for downloading every single file. You will also be able to view the file's details when you click through your debug panel and expand the output.

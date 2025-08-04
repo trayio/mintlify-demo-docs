@@ -1,0 +1,31 @@
+---
+title: "Overview"
+description: "Overview of the SEMrush connector"
+---
+
+# Overview
+
+## Overview
+
+SEMrush is an online visibility management platform ensuring businesses get measurable results from online marketing
+
+## Authentication
+
+When using the SEMrush connector, the first thing you will have to do is click on 'New Authentication' in the step editor:
+
+You will need to enter the API Key.
+
+- Log into your SEMrush account and click and the **profile icon** in the top right
+- Select **Subscription info**
+- Select **API Units**
+- Click the **copy** button.
+
+You can then **paste** the **API Key** into the tray authentication page.
+
+## Example
+
+In this example we build a simple workflow to retrieve the SEMrush a domain overview from SEMrush.
+
+Create a new workflow with a **Manual Trigger**, and add a step from the **SEMrush** connector, with the operation set to **Get domain overview**. Enter a domain, for example, *tray.io*. You can either run the workflow immediately or specify some filters, such as *Database* or *Page limit*.
+
+The output will be an object with a the domain overview from each database.

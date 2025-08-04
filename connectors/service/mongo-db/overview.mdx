@@ -1,0 +1,131 @@
+---
+title: "Overview"
+description: "Overview of the MongoDB connector"
+---
+
+# Overview
+
+## Overview
+
+MongoDB is a cross-platform document-oriented database program. Classified as a NoSQL database program, MongoDB uses JSON-like documents with schema. Cloud based and free, it thinks "in objects" which often means that development simpler as a result.
+
+## Authentication
+
+To allow Tray.io to connect to your MongoDB database, you'll need to either make your database publicly accessible **white list ALL the Tray public IP addresses** based on your region.
+
+Refer to the [Tray public IPs](#) document for complete list of the Tray public IP addresses.
+
+In order to whitelist the following, go to your MongoDB account main page, and on the left side panel and under your 'SECURITY' heading, select 'Network Access'. Here you will see an option to '+ADD IP ADDRESS'.
+
+You will see a popup where you will need to fill in the necessary details for each individual IP address.
+
+Once you have added all of the above, you should have a whitelisted list of IP addresses as displayed below:
+
+Now go to your Tray.io workflow dashboard and select and drag the MongoDB connector from the connectors panel, onto your workflow. Click on 'New Authentication' option now available in the properties panel:
+
+You will be shown a pop up similar to what is displayed below. Name your authentication as appropriate, and note that there are three mandatory fields that you MUST fill in before continuing. 'Username', 'Password', and 'Host'.
+
+*Please bear in mind that this tutorial assumes you will be using the 'Atlas' authentication option:*
+
+> 
+
+The first two mandatory inputs may seem self-explanatory, but please be aware that *the username required here is  NOT  necessarily the same as the one you used to sign in with, nor is the password required*.
+
+In order to get the correct username, go back to your MongoDB and head to your main dashboard again. Under the 'Security' heading on the left hand side, click on the 'Database Access' subheading. Here you will see your 'User Name' displayed correctly. Copy this and save it for later.
+
+As for your password, you need to use your database specific password you created during your sign-on. If you used a separate password for your database than from your MongoDB login, either use that one now for your Tray.io authentication or if you can't remember it, click on the 'Edit' button as displayed above.
+
+Here you can reset your database password. Regardless, make sure it is your database password that you use to authenticate with Tray.io.
+
+You will now need your 'Host' details. Head back to your main MongoDB dashboard, or rather the main page of your account upon signing in, and click through the 'CONNECT' button as highlighted below:
+
+You should then see a popup that gives you the option to select 'Connect Your Application'.
+
+Click through once more and you will come to where your host is located. You will only need the "URL" section that is AFTER the `@` sign shown:
+
+Your 'Port' will be automatically filled in, but should you need to tailor it need further details, please see the [MongoDB Port](https://docs.mongodb.com/manual/reference/default-mongodb-port/) page for more info.
+
+Finally, you will need the name of the database you are connecting to. Go back to the main dashboard and click on 'COLLECTIONS':
+
+Here you will see the name of your database highlighted, select the one you are working with and copy it for later.
+
+Once you have all this information, copy it all over into your Tray.io authentication alongside your username and password details.
+
+Set up should now be complete!
+
+## Available Operations
+
+The examples below show one or two of the available connector operations in use.
+
+Please see the [Full Operations Reference](#operationsFull) at the end of this page for details on all available operations for this connector.
+
+## Example usage
+
+This example will run you through a simple database usage whereupon we will create a new document and add it into our collection, only to later delete it in the same workflow.
+
+While this example may not be the most accurate for real world usage, it displays a number of protocols that are most commonly used by our consumers, so we hope you find this helpful.
+
+The steps for the workflow will be as follows:
+
+1. Set up the trigger and create a new document for our table.
+2. Get all the documents available within said table.
+3. Loop through our available list.
+4. Delete selected document by ID.
+
+The completed workflow should look something like this:
+
+## 1 - Setup trigger & Create document
+
+First go to your Tray.io dashboard, click on the 'Create new workflow' button in the top right corner and name your project workflow. Select 'Manual' as your trigger.
+
+> 
+
+Then select the MongoDB connector from the connector panel and drag it over, making it your second step on the work flow.
+
+Make sure your authentication is in sync with your MongoDB connector by selecting your MongoDB authentication in your Settings -> 'Authentication' field in the properties panel on the right side of your dashboard.
+
+Set your operation as 'Insert' and in your 'Collection' input field, write in the name of your chosen MongoDB collection.
+
+*The name of your collection cannot be auto-input, so please make sure that your  type selector is set to "string" , it is  inline with the database you chose  when you set up your authentication, and that the  Spelling is immaculate !*
+
+Click the 'Add Document' button that is greyed out beneath.
+
+Select the type of information you wish your new document to contain, and fill in the input fields appropriately. Again, make sure your type selector is accurate to the kind of information you are using.
+
+This setup means that once you run your workflow, a new document containing this information will be now be created and inserted into your MongoDB collection.
+
+You should be able to see the output in both your debug panel:
+
+And your collection itself:
+
+## 2 - Collect documents
+
+Add another MongoDB connector to your workflow. Set the operation to 'Find all'.
+
+Your collection will again need to be manually put in again in the new 'Collection' input field.
+
+The rest of the settings will be auto-filled ('Limit' and 'Skip') but feel free to set them to your own project specifications if need be.
+
+Buy collecting all the available documents, and we can then use what's there at a later stage in the workflow.
+
+## 3 - Add the Loop connector
+
+Go to the connectors panel and add the Loop connector. Make sure your operation is set to 'Loop list' (this should automatically be the case but please double check just in case).
+
+Using the connector-snake, click and drag the list over to your second MongoDB connector step. This should auto-populate the input field for you. Your result should be the following: `$.steps.mongo-db-2.result`.
+
+By adding the loop connector, we can go through every item in our list of documents we collected at our previous step, and apply actions to them as we later see fit.
+
+## 4 - Delete document
+
+Finally, add one more MongoDB connector and place it inside your loop, so that this action occurs to each and every list item, as they are "looped".
+
+Set the operation to 'Find one and delete', set your collection name again, and click the 'Add property to search query' button.
+
+You will get a 'New property' popup box, which you will need to fill with: `_id`.
+
+This is because we are locating the document by its "ID" and this is the format that MongoDB recognises and can be verified in the debugger:
+
+Once completed, your final connector step should look like this:
+
+And your result will be displayed once more in your debugger panel, showing that the document you created earlier in the flow has now been deleted.

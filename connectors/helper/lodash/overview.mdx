@@ -1,0 +1,77 @@
+---
+title: "Overview"
+description: "Overview of the Lodash Helper connector"
+---
+
+# Overview
+
+## Overview
+
+With the Lodash connector it is possible to make use of the Lodash javascript library.
+
+Note that use is limited to operations that don’t have a function as an argument, so the simple operations which accept arrays, objects, strings etc. as arguments can be used.
+
+Examples of Lodash operations which can be used:
+
+| Operations | Description |
+| --- | --- |
+| [`_.size`](https://lodash.com/docs#size) | provides the length of an array or the count of own enumerable properties for objects. (see Example 1 below) |
+| [`_.split`](https://lodash.com/docs/#split) | Splits a string into an array of substrings based on a specified delimiter. |
+| [`_.map`](https://lodash.com/docs/#map) | Transforms each element in a collection using a specified function, returning a new array of the results.<br/>(e.g. give me the **name** of every item from a list of results) (see Example 2 below) |
+| [`_.uniqBy`](https://lodash.com/docs#uniqBy) | Returns a new array with unique elements, determined by a specific property, from the input collection. |
+| [`_.chunk`](https://lodash.com/docs/#chunk) | Divides an array into smaller arrays of a specified size, creating a nested array structure. |
+| [`_.differenceWith`](https://lodash.com/docs/#differenceWith) | Returns the difference between two arrays, using a custom comparator for element comparison. |
+| [`_.flattenDeep`](https://lodash.com/docs/#flattenDeep) | Flattens a nested array to a single-level deep array. |
+| [`_.join`](https://lodash.com/docs/#join) | Joins elements of an array into a string using a specified separator. |
+| [`_.union`](https://lodash.com/docs/#union) | Creates an array of unique values by combining multiple arrays. |
+| [`_.unzip`](https://lodash.com/docs/#unzip) | Transposes the elements of an array, effectively reversing the effect of **`_.zip`**. |
+| [`_.zip`](https://lodash.com/docs/#zip) | Combines multiple arrays into a single array of grouped elements. |
+| [`_.now`](https://lodash.com/docs/#now) | Returns the current timestamp in milliseconds. |
+| [`_.merge`](https://lodash.com/docs/#merge) | Recursively merges the properties of two or more objects. |
+| [`_.keys`](https://lodash.com/docs/#keys) | Retrieves an array of object keys. |
+| [`_.kebabCase`](https://lodash.com/docs/#kebabCase) | Converts a string to kebab case, separating words with hyphens. |
+| [`_.isArray`](https://lodash.com/docs/#isArray) | Checks if an input variable is an array. Returns true or false |
+
+Refer to the [Lodash documentation](https://lodash.com/docs/) for a complete list of Lodash operations.
+
+We will continue to add more examples of uses here!
+
+## Example 1 - using the _.size operation
+
+The below example shows how you can use the Lodash **_.size** operation to get a total count on items output from another step.
+
+In this case, we are counting the results returned from the Stripe **List Customers** operation:
+
+From the debug output of a successful run you can see that the connector will return a simple count as a result:
+
+This result can then be used in any downstream steps in your workflow.
+
+## Example 2 - using the _.map operation
+
+The below example shows how you can use the Lodash **_.map** operation to group all the values together for a particular parameter.
+
+The below example imagines that we have just used the List Helpers connector to combine two project task lists from Asana (as per the [List Helpers](/connectors/helpers/list-helper/) example tutorial).
+
+Now we want to use the Lodash **_.map** operation to obtain the **name** of each task:
+
+From the step editor on the right you can see that we just have to specify the `$.steps.list-helpers-1.result` and **name** as the parameter.
+
+The debug output of a successful run will show you the result:
+
+You will see that the result is to list the names of each task that is found in the combined list.
+
+## Example 3 - using the _.isArray operation
+
+---
+
+This lodash operation can be used to check if an item of data is an array.
+
+All you need to do is add a Lodash helper step and:
+
+1. Set the 'Operation Name' to 'isArray' 
+
+2. Use the jsonpath output from a previous workflow step as a single 'Parameter' input to check if it is an array:
+
+In this case the dummy array of customers pulled in from the previous step has resulted in a 'true' result.
+
+Note: to initiate a true / false path based on this result you will still need to use the boolean connector to check whether the output was true or false!

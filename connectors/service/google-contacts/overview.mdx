@@ -1,0 +1,60 @@
+---
+title: "Overview"
+description: "Overview of the Google Contacts connector"
+---
+
+# Overview
+
+## Overview
+
+The Google Contacts connector allows the user to read, create and update contacts and contact groups belonging to a Google Account.
+
+## Authentication
+
+Click on the **New Authentication** button:
+
+This will open up a window which allows the authentication to be named and also displays the scopes that will be requested.
+
+Once the next button has been hit, you will be redirected to Google and asked to approve the authentication request.
+
+Once it has been approved, you will be redirected back to the workflow view and the authentication will be ready to use.
+
+## Note on Operations usage
+
+As the [Google Drive](/connectors/service/google-drive/) connector holds most of the permissions available for downloading Google files (regardless of type) - it is recommended to try revising your workflow to include this connector, should you face any Google file downloading issues.
+
+## Example 1: Creating a new contact
+
+This example will walkthrough how to create a new Contact for your contact directory on Google.
+
+The first step is to choose the `Create contact` operation.
+
+The first required field is `User email`. `User email` input refers to the account that contact book belongs to. The value `default` which is provided means it will be placed into the contact book of the account that you authenticated with.
+
+For this new contact, a name will be provided using the name input object.
+
+As well as a name, it will be associated with an email address. This is done by creating a new email object in the email array.
+
+This example contact needs to be assigned to a group. This can be done by suppling a group that it belongs to in the Group membership info object.
+
+A note needs to be attached to this contact as well. This can be done using the `notes` field found in the input panel.
+
+The workflow can now be ran as the contact is ready to be created. As can be seen, it ran successfully.
+
+It can also be seen on the Google Contacts UI.
+
+## Example 2: Creating a new contact group
+
+This example will walkthrough how to create a new Contact group for your contact directory on Google.
+
+The first step is to choose the `Create contact group` operation.
+
+The first required field is `User email`. `User email` input refers to the account that contact book belongs to. The value `default` which is provided means it will be placed into the contact book of the account that you authenticated with.
+
+For this new contact group, a name will be provided using the name field.
+
+Added information about the new group can be added using `key:value` pairs in the extended properties object.
+
+The workflow can now be ran as the contact group is ready to be created. As can be seen, it ran successfully.
+
+It can also be seen on the Google Contacts UI.

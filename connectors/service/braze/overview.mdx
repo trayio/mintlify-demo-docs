@@ -1,0 +1,66 @@
+---
+title: "Overview"
+description: "Overview of the Braze connector"
+---
+
+# Overview
+
+## Overview
+
+Braze is a service connector, which creates customer relationship management and mobile marketing automation software that businesses use to manage their mobile applications.
+
+## Authentication
+
+When using the Braze connector, the first thing you will need to do is go to your Tray.io account page, and select the workflow you wish to work on. Once in the workflow builder itself, search and drag the Braze connector from the connectors panel (on the left hand side) onto your workflow.
+
+With the new Braze connector step highlighted, in the properties panel on the right, click on 'New Authentication' which is located under the 'Settings' heading.
+
+This will result in a Tray.io authentication pop-up window. The first page will ask you to name your authentication, and state which type of authentication you wish to create ('Personal' or 'Organisational').
+
+As you can see, the next page asks you for your 'API Key' and 'Instance URL' credentials.
+
+In order to get you 'API Key', head to your Braze dashboard and click on the 'Developer Console'.
+
+To get your 'Instance URL' go to the [Braze API](https://www.braze.com/docs/api/basics/) where you will see a list of Endpoints.
+
+Your 'Instance URL' will be the 'REST Endpoint' that correlates to your instance and braze dashboard URL. For example if your Instance is `US-03` your 'Instance URL' will be: `https://rest.iad-03.braze.com`.
+
+Once you have added these fields to your Tray.io authentication popup window, click on the 'Create authentication' button. Go back to your settings authentication field (within the workflow builder properties panel), and select the recently added authentication from the dropdown options now available.
+
+Your connector authentication setup should now be complete.
+
+## Available Operations
+
+The examples below show one or two of the available connector operations in use.
+
+Please see the [Full Operations Reference](#operationsFull) at the end of this page for details on all available operations for this connector.
+
+## Using the Raw HTTP Request ('Universal Operation')
+
+As of **version 1.0**, you can effectively create your own operations.
+
+This is a very powerful feature which you can put to use when there is an endpoint in Braze which is not used by any of our operations.
+
+To use this you will first of all need to research the endpoint in the [ Braze API documentation v1.0](https://www.braze.com/docs/api/basics/), to **find the exact format** that Braze will be expecting the endpoint to be passed in.
+
+Note that you will only need to add the suffix to the endpoint, as the base URL will be automatically set (the base URL is picked up from the 'Instance URL' you entered when you created your authentication).
+
+The base URL for Braze is the same as your 'Instance URL'. Please see above for more details.
+
+For example, say that you wanted to use the 'Query or List Hard Bounced Emails' endpoint, you would use the Braze API docs to find the relevant endpoint - which in this case is a `GET` request called: `/email/hard_bounces`.
+
+More details can be found [here](https://www.braze.com/docs/api/endpoints/email/get_list_hard_bounces/).
+
+As you can see there is also the option to include a query parameter, should you wish to do so. So if you know what your method, endpoint and details of your query parameters are, you can get the hard bounced emails information with the following settings:
+
+Method: `GET`
+
+Endpoint: `/email/hard_bounces`
+
+Query Parameter: Key: `start_date` Value: `2020-01-01`
+
+Query Parameter: Key: `end_date` Value: `2021-01-01`
+
+Final Example outcome being: 
+
+<Content type in custom component bold TBD>

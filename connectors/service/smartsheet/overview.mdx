@@ -1,0 +1,52 @@
+---
+title: "Overview"
+description: "Overview of the Smartsheet connector"
+---
+
+# Overview
+
+## Overview
+
+Smartsheet is used to collaborate on workflows, assign tasks, track project progress, manage calendars, share documents, and manage much more besides - all by using a tabular user interface.
+
+## Authentication
+
+When using the Smartsheet connector, the first thing you will need to do is go to your Tray.io account page, select your workflow. Once in the workflow dashboard itself select and drag the Smartsheet connector from the connectors panel (on the left hand side) to your workflow.
+
+With the new connector step highlighted, in the properties panel on the right, click on 'New Authentication' under the 'Settings' heading.
+
+In the new pop-up window that appears, name your authentication as appropriate. To get the token, we need to head to the Smartsheet main dashboard.
+
+Once you have signed in, please click on your user icon and select 'Apps & Integrations'.
+
+You should see a new pop-up window with the option to select 'API Access'. Here you will see a list of API access tokens (if you have any).
+
+Click on the 'Generate new access token' button, to generate yet another pop-up window, and name as appropriate.
+
+On the second step you will be given a randomised hash which is your access token. Make sure to copy it ACCURATELY and keep it safe as **you will not be able to view this hash again**. You will have to create a new one/ Tray.io auth if something goes wrong.
+
+Go back to your Tray.io authentication window and copy your token into the appropriate field and press 'Add Authentication'.
+
+Your authentication should now be complete and visible and available within your Smartsheet connector settings -> 'Authentication' field.
+
+## Smartsheet trigger
+
+If you wish your workflow to be kicked off by a particular action in Smartsheet, you can use the Smartsheet Trigger.
+
+The Smartsheet trigger allows you to receive notifications and trigger workflows when given events occur associated with the selected trigger operation.
+
+### Trigger operations available:
+
+- Webhook
+
+### Webhook Setup
+
+When creating a new workflow choose Smartsheet as your trigger at the 'Create new workflow' section and wait to be redirected to your new workflow.
+
+Use the instructions above to authenticate your trigger, and note that 'Webhook' is currently the only option regarding the operations available
+
+In order to complete setup, you will need both the 'Sheet' you are referring to and a 'Name' for the webhook you're creating. *Make sure that you fill in your 'Sheet' field via selecting from the dropdown options available - if you do not see the sheet you are referring to in the list, try refreshing the list itself which is an option you will see at the bottom of your expanded dropdown list*.
+
+You can find your sheet by going to your main Smartsheets dashboard, and clicking on 'Sheets' as displayed below. You can create a new one if preferred and simply refresh your dropdown list to see it appear in your Tray.io options immediately.
+
+The 'Name' refers to the name of your Webhook.

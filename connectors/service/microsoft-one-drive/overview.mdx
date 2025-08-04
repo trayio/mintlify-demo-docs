@@ -1,0 +1,49 @@
+---
+title: "Overview"
+description: "Overview of the Microsoft OneDrive connector"
+---
+
+# Overview
+
+## Overview
+
+Microsoft OneDrive is the cloud storage service that Microsoft offers to store all your files securely in one place, which you can then access from virtually anywhere. Use it to help protect work files and access them across multiple devices. OneDrive lets you share files and collaborate on documents, and sync files to your computer.
+
+Below is an example of a way in which you could potentially use the Microsoft OneDrive connector to upload a file to OneDrive after it has been downloaded in another step of your workflow.
+
+The steps will be as follows:
+
+1. Setup using a manual trigger and download file.
+2. Upload the file to MicroSoft OneDrive
+
+Your completed workflow should look similar to this:
+
+### 1 - Setup Trigger & Download File
+
+With your trigger in place (be it [Manual](/connectors/triggers/manual-trigger/), [Scheduled](/connectors/triggers/scheduled-trigger/), [Callable](/connectors/triggers/callable-trigger/) etc), add the connector that will produce the file you wish to upload to your Microsoft OneDrive account.
+
+For this example we will use the Google Drive connector and its 'Download file' operation, but any connector and any operation that adds or imports a file would do.
+
+More details about the Google Drive connector and how to use it can be found [here](https://tray.io/documentation/connectors/service/google-drive/).
+
+Feel free to re-name your steps as you go along to make things clearer for yourself and other users. The operation names themselves often suffice.
+
+After this step you will have a file of your choosing downloaded into your workflow.
+
+### 2 - Upload File To Microsoft OneDrive
+
+Add a Microsoft OneDrive connector to your workflow. Set the operation to 'Upload file'.
+
+In order to specify the file you want to upload, start by using the file mapping icon (found next to the file input field, within the properties panel) to generate the connector-snake.
+
+Hovering over the 'Download file' step (with the tail end of the connector-snake), select `file` from the list of output properties displayed. This will auto-populate a jsonpath within your list input field, and update the type selector to jsonpath.
+
+For more clarification on the pathways you have available, open the Debug panel to view your step's Input and Output.
+
+Next, select a 'Drive ID' from the drop-down menu.
+
+If you want to specify a folder into which your file will be uploaded, you can do so using the 'Location' input.
+
+With this step completed, you will be able to upload a file to your Microsoft OneDrive account.
+
+You can inspect the [logs of your workflow](/platform/troubleshooting/logs-and-debugging/) by using the ‘Debug’ tab available on the top of the Tray builder. Click on execution of the 'Upload file' step to see the details of your file upload.

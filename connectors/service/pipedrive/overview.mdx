@@ -1,0 +1,75 @@
+---
+title: "Overview"
+description: "Overview of the Pipedrive connector"
+---
+
+# Overview
+
+## Overview
+
+Pipedrive CRM enables businesses to plan their sales activities and monitor deals. It works as an account-management tool with the ability to assist with marketing and the entire sales process.
+
+### Pipedrive Trigger
+
+#### Overview 
+
+Pipedrive trigger allows to react on different action and changes, that was done for your CRM account.
+
+#### Example of Usage
+
+This quick‑start guide walks you through building a Tray.io workflow that listens for **Activity Created** events in Pipedrive and receives the full payload in real time.
+
+## Prerequisites
+
+- A Tray.io account with workspace access.
+- A Pipedrive account and API access (admin rights recommended).
+
+---
+
+## 1. Add the Pipedrive Trigger and Authenticate
+
+- Click  N**ew workflow** and choose **From scratch. **
+- On step of choosing trigger type choose **Pipedrive trigger**
+- Open the **Authentication** tab.
+- Choose an existing Pipedrive auth or click **Create new authentication** and follow the OAuth flow.
+
+---
+
+## 2. Define the Trigger Inputs
+
+- Switch to the **Inputs** tab.
+- Set **Event action** to **Create**.
+- Set **Event object** to **Activity**.
+
+---
+
+## 3. Enable the Trigger
+
+- Click the green **Enable workflow** button in the bottom‑middle.
+- The banner will change from *Saved, not enabled* → *Saved & enabled*.
+
+Enabling registers the webhook endpoint with Pipedrive; the workflow is now working.
+
+---
+
+## 4. Create a Test Activity in Pipedrive
+
+- Log in to your Pipedrive account.
+- Open **Activities** from the left sidebar and click **+ Activity**.
+
+- Fill in the activity form (subject, dates, owner, etc.) and click **Save**.
+
+---
+
+## 5. Confirm the Trigger Fired
+
+- Return to your workflow and open the **Logs** pane.
+- You should see a new successful execution. Select it to inspect the payload – it will include the activity `id`, `subject`, timestamps, and more.
+
+---
+
+## Next Steps
+
+- Add downstream steps (e.g., Slack, Gmail, or logic helpers) to act on the activity details.
+- Use the activity `id` to pull additional context such as linked deals or persons.
+- Modify the **Event action** or **object** to listen for updates or other Pipedrive entities.

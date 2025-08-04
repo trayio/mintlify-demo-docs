@@ -1,0 +1,36 @@
+---
+title: "Overview"
+description: "Overview of the Salesforce Marketing cloud connector"
+---
+
+# Overview
+
+## Overview
+
+Salesforce Marketing Cloud is a provider of digital marketing automation and analytics software and services
+
+## Authentication
+
+When using the Salesforce marketing cloud connector, the first thing you will have to do is click on 'New Authentication' in the step editor:
+
+Sales force marketing cloud uses server to server (Client Credentials) for authentication.
+
+To get the required Client ID, Client Secret and tenant specific subdomain, you will need to create a salesforce market package.
+
+In Marketing Cloud, go to Setup -> Apps -> Installed Packages. 
+
+Click New. Give the package a name and description. 
+
+Save the package. After the package is saved, then click on it to view it. Under Components, click `Add Component` then select `API Integration`. 
+
+Select the `Server-to-server` integration type. 
+
+You will need to select which scopes it has, in this case it's both of `Data Extensions` scopes. 
+
+Once you have setup the component, the package will now look like this: 
+
+ Ensure that the integration type is `Server-to-server`.
+
+Now you can fill in the Client Id, Client Secret & tenant specific subdomain in the tray.io authentication. Note the tenant specific subdomain isn't the full URL, for example:
+
+If your REST API endpoint was `mc563885gzs27c5t9-63k636ttgm.rest.marketingcloudapis.com` then your tenant specific subdomain would be `mc563885gzs27c5t9-63k636ttgm`

@@ -1,0 +1,38 @@
+---
+title: "Overview"
+description: "Overview of the Callable Trigger connector"
+---
+
+# Overview
+
+## Overview
+
+The callable trigger is useful for breaking up larger workflows and for creating common modules that can be reused in multiple workflows.
+
+When configuring a long and perhaps complex Workflow, before progressing to the next stage in your Workflow, you may wish to gather some or all of the data that has been generated thus far and send it to a Callable Workflow to be processed separately.
+
+The Basic setup below is a very quick example of how to set up a callable trigger.
+
+Please see our page on [Using Callable Workflows](https://tray.io/documentation/tray-uac/building-automations/processing-data-and-scaling/using-callable-workflows/) for more detailed guidance on when to use Callable Workflows, and how to follow best practices.
+
+## Basic setup
+
+## Viewing dependent workflows
+
+From your workflow list it is possible to get a view of what workflows make use of any particular callable workflow:
+
+This is useful for monitoring how a callable workflow is used in your org.
+
+It can also enable you to check what workflows might be unintentionally affected if the trigger workflow is deleted (please also see the note below on disabling callable workflows):
+
+## Important note on Disabling Callable workflows
+
+It is possible to have several workflows calling one "Callable workflow".
+
+Therefore Tray has the built-in protection of not allowing callable workflows to be disabled. This is to prevent any workflows from returning errors.
+
+So if you do wish to disable a callable workflow, this must be done by using a [Terminate](/connectors/core/terminate/) connector.
+
+**In order for this to be effective, it must be placed before the the connector steps themselves**.
+
+This will have the effect of disabling the workflow, without creating any errors in workflows that call it.

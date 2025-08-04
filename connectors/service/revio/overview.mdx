@@ -1,0 +1,100 @@
+---
+title: "Overview"
+description: "Overview of the Rev.io connector"
+---
+
+# Overview
+
+## Overview
+
+Rev.io delivers a usage-based billing platform and a powerful customer management system to scale with your growing business.
+
+## Authentication
+
+When using the Rev.io connector, the first thing you will need to do is go to your Tray.io account page, and select the workflow you wish to work on. Once in the workflow builder itself, search and drag the Rev.io connector from the connectors panel (on the left hand side) onto your workflow.
+
+With the new Rev.io connector step highlighted, in the properties panel on the top, click on the Authentication tab followed by 'Create new authentication'.
+
+This will result in a Tray.io authentication pop-up window. The first page will ask you to name your authentication, and state which type of authentication you wish to create ('Organization' or 'Personal').
+
+As you can see, the next page asks you for your 'Username', 'Password' , 'Client code' , 'Base URL' and 'Ocp Apim Subscription Key' credentials.
+
+You can find your client code by logging into [Rev.io](http://rev.io/) and looking at the top right of your screen by your profile photo. This will show "Welcome to `<company>`.rev.io", where 'company' is your client code!
+
+Once you have added these fields to your Tray.io authentication popup window, click on the 'Create authentication' button. Go back to your settings authentication field (within the workflow builder properties panel), and select the recently added authentication from the dropdown options now available.
+
+Your connector authentication setup should now be complete.
+
+## Available Operations
+
+The examples below show one or two of the available connector operations in use.
+
+Please see the [Full Operations Reference](#operationsFull) at the end of this page for details on all available operations for this connector.
+
+## Using the Raw HTTP Request ('Universal Operation')
+
+As of **version 1.0**, you can effectively create your own operations.
+
+This is a very powerful feature which you can put to use when there is an endpoint in Rev,io which is not used by any of our operations.
+
+To use this you will first of all need to research the endpoint in the [Rev.io API documentation v1.0](https://developers.rev.io/reference), to **find the exact format** that Rev.io will be expecting the endpoint to be passed in.
+
+Note that you will only need to add the suffix to the endpoint, as the base URL will be automatically set (the base URL is picked up from the value you entered when you created your authentication).
+
+The base URL for Rev.io is: `https://restapi.rev.io/v1`
+
+For example, say that the 'List contacts' operation did not exist in our Rev.io connector, and you wanted to use this endpoint, you would use the Rev.io API docs to find the relevant endpoint - which in this case is a `GET` request called: `/Contacts`.
+
+More details can be found [here](https://developers.rev.io/reference#getv1_contacts-1).
+
+As you can see there is also the option to include query parameters, should you wish to do so. So if you know what your method, endpoint and details of your query parameters are, you can get a list of all contacts with the names 'David' and 'Julia' with the following settings:
+
+Method: `GET`
+
+Endpoint: `/Contacts`
+
+Query Parameter: Key: `search.name` Value: `David,Julia`
+
+Body Type: `none`
+
+Final example outcome being: **https://restapi.rev.io/v1/Contacts?search.name=David%2CJulia**
+
+## Example Usage
+
+Below is an example of a way in which you could potentially use the Rev.io connector, to get information on a specific contact.
+
+The steps will be as follows:
+
+1. Setup using a manual trigger and list all contacts
+2. Add the Loop collection connector to iterate over each individual contact.
+3. Gather the information available for each contact.
+
+The final outcome should look like this:
+
+### 1 - Setup Trigger & List contacts
+
+Once you have clicked 'Create new workflow' from your main Tray.io dashboard named it, select the Manual trigger from the trigger options available:
+
+After you have been redirected to the Tray.io workflow dashboard, from the connectors panel on the left, add a Rev.io connector to your second step. Set the operation to 'List contacts'.
+
+List contacts has a number of fields that can be configured to customise results returned from the API which you are free to set according to your use case. The 'Page size' and 'Page' fields are set by default. In the example above we have additionally chosen to return the results in acsending order and to be ordered according to the Customer ID.
+
+### 2 - Add a loop collection
+
+Next, search for the Loop collection connector within your connector panel, and drag it into your workflow as your next step. Set your operations to 'Loop list'.
+
+The Loop Collection connector allows you to iterate through a list of results. In this example, we will use it to loop over in the previous 'List contacts' connector step.
+
+In order to specify the list you want to loop through, start by using the 'List' mapping icon (found next to the list input field, within the properties panel) to generate the connector-snake.
+
+While hovering over the 'List contacts' step (with the tail end of the connector-snake), select `records` from the list of output properties displayed. This will auto-populate a jsonpath within your 'List' input field, and update the type selector to jsonpath.
+
+For more clarification on the pathways you have available, open the Debug panel to view your step's Input and Output.
+
+This will enable us to iterate over the list of contacts, and perform operations on each one, during each loop cycle.
+
+### 3 - Get contact
+
+The last step is to drag a Rev.io connector **inside** of the Loop Collection step itself. Set the operation to 'Get contact'. As you can see, the 'Contact ID' field is required. Use the same connector-snake method for generating the JSON path to get the 'Contact ID'.
+
+Now when this workflow is run, you will be able to gather the information available for each contact. This means you will be able to view the contact's details when you click through your debug panel and expand the output.

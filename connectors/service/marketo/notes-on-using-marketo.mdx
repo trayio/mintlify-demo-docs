@@ -1,0 +1,47 @@
+---
+title: "Notes on using Marketo"
+description: "Notes on using Marketo documentation for Marketo connector"
+---
+
+# Notes on using Marketo
+
+### Best Practices
+
+Marketo has a [Marketo Integration Best Practices](https://developers.marketo.com/rest-api/marketo-integration-best-practices/) page which we strongly recommend all users check out before building their Tray.io integrations.
+
+It will help you avoid common pitfalls and make sure you are in line with their service protocols.
+
+### Webhooks
+
+If you are using a Webhook and wish email addresses containing a `+` symbol to be processed e.g. `john.smith+182374@example.com` you will need to change the **Request Token Encoding** from: **None** to **Form/Url**:
+
+### Rate limiting
+
+Your Marketo call limits vary depending on your usage.
+
+- Marketo Instance: R**ate limit of 100 calls per 20 seconds**.
+- API-enabled instance:** At least** **10,000 REST API calls per day.**
+
+### Bulk API Endpoints
+
+It is important to note that **Bulk API endpoints are not prefixed with '/rest'** like other endpoints.
+
+If there is a Bulk API endpoint you wish to use that does not yet have an associated operation you can use the [Raw HTTP request](#using-the-raw-http-request-universal-operation) operation to utilise it.
+
+You will need to select `Full URL` from the **URL** parameter within the properties panel.
+
+For example say we wished to poll the job status of a Program Member export. Within the Marketo API documentation the endpoint is given as:
+
+`GET /bulk/v1/program/members/export/${exportId}/status.json`
+
+You would** append this to the first part of the Endpoint URL **(from your Marketo Web Services Admin page) to specify the Full URL. 
+
+Note the omission of  /rest  from the Endpoint URL:
+
+`https://123-ABC-456.mktorest.com/bulk/v1/program/members/export/${exportId}/status.json`
+
+### Get create update lead
+
+This is essentially an **Upsert** operation.
+
+During the first attempt to fetch your lead information Marketo will either update the information should the lead already exist or create a new lead based on said information if it does not.

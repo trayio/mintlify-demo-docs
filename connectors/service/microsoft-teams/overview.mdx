@@ -1,0 +1,163 @@
+---
+title: "Overview"
+description: "Overview of the Microsoft Teams connector"
+---
+
+# Overview
+
+## Overview
+
+The Microsoft Teams connector allows you to interact with groups, teams, channels, and users inside your Teams workspace.
+
+## Authentication
+
+Within the workflow builder, highlight the Microsoft Teams connector.
+
+In the Microsoft Teams connector properties panel to the right of the builder, click on the Authenticate tab and the 'New authentication' button. This will result in a Tray authentication pop-up modal.
+
+Name the authentication something that will easily identify it in a larger list. For example, using the service account's name, whether it is a Sandbox or Production OAuth, etc.
+
+When choosing between the type of authentication you wish to create ('Personal' or 'Organisational'), consider who and how many people will need access to it.
+
+The second page asks you for Service permissions. Select the appropriate permissions of your choice.
+
+If required, you can also optionally provide 'Extra permission scopes'.
+
+Once you have selected the permissions on the Tray authentication pop-up window, click the 'Create authentication' button.
+
+Go back to your settings authentication field (within the workflow builder properties panel), and select the recently added authentication from the dropdown options now available.
+
+Your connector authentication setup should now be complete.
+
+## Microsoft Teams Trigger
+
+If you wish your workflow to be kicked off by a particular action in Microsoft Teams, you can use the Microsoft Teams Trigger.
+
+The Microsoft Teams trigger allows you to receive notifications and trigger workflows when given events occur associated with the selected trigger operation.
+
+### Trigger Operations available:
+
+Microsoft Teams supports 'On action (button or menu click)' operation.
+
+The operation fires the trigger when a **Submit** action is performed in Teams.
+
+To learn more about the Adaptive card and how to use it to make the trigger work, refer to the [Webhook Setup](#webhook-setup) section below.
+
+### Webhook Setup
+
+Select the Microsoft Teams trigger. This can be done either at the create new workflow stage or updated within the workflow builder itself.
+
+Highlight the Microsoft Teams trigger. In the Microsoft Teams trigger properties panel to the right of the builder, click on the Authenticate tab.
+
+At this stage you can create a new authentication using the steps specified in the [Authentication](#authentication) section above.
+
+Or you can select the already created authentication from the available list.
+
+Once done with the authentication, follow the below-mentioned steps to set up the trigger:
+
+1. Setup a Microsoft Teams trigger with operation as 'On action (button or menu click)'
+
+1. [Add the bot to Microsoft Teams](#adding-the-bot-to-microsoft-teams).
+2. [Create an adaptive card](#create-an-adaptive-card).
+
+Once done with the above steps, go to the Microsoft teams app and send a message using the adaptive card you just created. The associated Microsoft Teams Trigger will receive the sent message along with the date and name details.
+
+## Notes on Operations usage
+
+### Adding the bot to Microsoft Teams
+
+To start with you need a bot package that should be uploaded to your Microsoft Teams workspace. This can be found [here](#). Once you have downloaded the package you can add it to Microsoft Teams using the following steps.
+
+Navigate to Apps > Upload a customised app from the left-hand navigation menu and choose the downloaded bot package from your local machine.
+
+Once uploaded you can see the `Tray` app under built for your org section. Click the app.
+
+From the popup window that appears, select `Add` to add the bot to your teams workspace. Once added it will redirect you to the Tray.-bot app page.
+
+### Adding the bot to Chats or Teams
+
+Navigate back to the `Apps` tab from the left-hand navigation menu and select the `Tray` app.
+
+Select the down arrow next to the `Open` button. This will reveal two options; `Add to a team` and `Add to a chat`.
+
+Select one of the options depending on whether you want to add to a private chat or a team.
+
+The next window allows you to search the Team name, Channel name, or User name for which conversation you want to add the bot to. Once you have found the correct channel, select `Set up` in the bottom right-hand corner to add the bot.
+
+The bot can send adaptive cards to this conversation and is ready to use with the **'Create adaptive card'** operation.
+
+### Create an adaptive card
+
+As of **version 1.3**, a new operation **'Create adaptive card'** has been added to the Microsoft Teams connector that allows you to create interactive messages known as adaptive cards within Teams.
+
+As of **version 1.4**, a new operation **'Update adaptive card'** has been added to the Microsoft Teams connector that allows you to update interactive messages known as adaptive cards within Teams.
+
+The operation requires 'Conversation', 'Group ID', and 'Channel ID'. These IDs indicate where the adaptive card is to be sent.
+
+The 'Card' parameter accepts the JSON of the adaptive card.
+
+A sample JSON for the adaptive card:
+
+You can use the [Adaptive Card Designer](https://adaptivecards.io/designer/) to craft the JSON based on your tailored needs. To learn more about the adaptive cards refer to the [Microsoft teams documentation](https://docs.microsoft.com/en-us/power-automate/overview-adaptive-cards).
+
+At last, provide the 'Workflow URL' where you have set up your Microsoft Teams trigger. You can find the public URL of your workflow under Workflow settings > General settings.
+
+Based on the above-specified JSON the adaptive card should look like this:
+
+#### @Mentions
+
+You can also add @mentions to adaptive cards in teams. This can be done one of two ways:
+
+1. Using the 'Mentions' input in the properties panel.
+
+From within the properties you can select `Add to Mentions`. This will add a mention object to the array. Here you can select the `User ID` of the user to mention, the `Replace text` and the `Display text`.
+
+The `Replace text` is text within the card that is to be replaced by the mention. This must be found in the card exactly the same format. The text must also be surronded by 
+
+<Content type in custom component at TBD>
+
+.
+
+The `Display text` is the text that will show highlighted as a mention within the card in teams. This can be anything you wish to display.
+
+A sample JSON for the adaptive card with mention text:
+
+Here the `Replace text` in the card is `<at>Adam Tarrant</at>`.
+
+The mention input would look be:
+
+`User ID` - `Adam Tarrant`
+
+`Replace text` - `<at>Adam Tarrant</at>`
+
+`Display text` - `Adam`
+
+1. Adding the mentions data directly to the card.
+
+To add mentions directly to the card JSON, they be to added in a specific format.
+
+This is done by adding a `msteams` object to the JSON schema.
+
+A sample JSON for the adaptive card with the msteams object included:
+
+Where `text` is the text to replace in the card, `id` is the user's teams ID and `name` is the text that is displayed in teams. Multiple entries can be added to the `entities` array.
+
+### List Operations
+
+All the **List** operations in Microsoft Teams connector accept [OData](https://docs.microsoft.com/en-us/odata/) query fields that enable the user to customise the output. These fields are not available for all the List operations, but where they are available they can make finding data much easier.
+
+Some of these useful fields are:
+
+#### Select
+
+The **Select** field allows you to specify which fields you want to be returned. If left blank, all fields in the output schema will be returned (if available). This enables you to cut out unnecessary information in responses from the Teams API.
+
+#### Filter
+
+The **Filter** field allows the results of a List operation to be filtered according to user-defined criteria. For the operations that support this feature, there are two ways to define filters. The **Query builder** provides a template for simple queries:
+
+On the other hand, for more complex queries, you can also input a custom **Query string**, according to the guidance provided by [Microsoft's documentation](https://docs.microsoft.com/en-us/dynamics-nav/using-filter-expressions-in-odata-uris):
+
+If you define multiple filters, you can specify how they are joined together using the **Condition** field:
+
+Selecting 'And' means that only results will be returned which match **all** specified filters, whereas selecting 'Or' means that any result will be returned if it matches at least one filter.

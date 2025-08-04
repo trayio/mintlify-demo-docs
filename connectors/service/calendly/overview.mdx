@@ -1,0 +1,109 @@
+---
+title: "Overview"
+description: "Overview of the Calendly connector"
+---
+
+# Overview
+
+## Overview
+
+Calendly helps you schedule meetings without the back-and-forth emails.
+
+## Authentication
+
+Within the workflow builder, highlight the Calendly connector.
+
+In the Calendly connector properties panel to the right of the builder, click on the Authenticate tab and the 'New authentication' button.
+
+This will result in a Tray.io authentication pop-up modal. The first page will ask you to name your authentication and select the type of authentication you wish to create ('Personal' or 'Organisational').
+
+The next page will ask you to select the type of authentication you wish to create. This is either 'Token-based' or 'Oauth 2.0'
+
+### 1 - Oauth 2.0 Authentication
+
+Suppose you choose to create an OAuth 2.0 authentication. A login window will pop up, and you will be asked to sign in with Calendly credentials. This is the 'Email address' and 'Password' of your Calendly account.
+
+### 2 - Token-based authentication
+
+If you choose to create a token-based authentication, you will need to enter the access token.
+
+You will need to enter your Calendly Access Token key.
+
+In order to get these fields, head to the Calendly dashboard. Click on the 'Integrations' menu available on the top right corner of the page.
+
+Select 'API & Webhooks' from the options.
+
+You will now be able to generate your access token.
+
+Once you have added these fields to your Tray.io authentication pop-up window, click the 'Create authentication' button.
+
+Go back to your settings authentication field (within the workflow builder properties panel), and select the recently added authentication from the available drop-down options.
+
+Your connector authentication setup should now be complete.
+
+## Available Operations
+
+The examples below show one or two of the available connector operations in use.
+
+Please see the [Full Operations Reference](#operationsFull) at the end of this page for details on all available operations for this connector.
+
+## Using the Raw HTTP Request ('Universal Operation')
+
+As of **version 2.0**, you can effectively create your own operations.
+
+This is a very powerful feature which you can put to use when there is an endpoint in Calendly which is not used by any of our operations.
+
+To use this you will first of all need to research the endpoint in the [Calendly API documentation](https://developer.calendly.com/api-docs), to **find the exact format** that Calendly will be expecting the endpoint to be passed in.
+
+Note that you will only need to add the suffix to the endpoint, as the base URL will be automatically set (the base URL is picked up from the value you entered when you created your authentication).
+
+The base URL for Calendly is: `https://api.calendly.com`
+
+For example, say that the Get current user' operation did not exist in our Calendly connector, and you wanted to use this endpoint. You would use the Calendly API docs to find the relevant endpoint - which in this case is a `GET` request called: `/users/me`.
+
+More details about this endpoint can be found [here](https://developer.calendly.com/api-docs/b3A6MTEzMDIyOQ-get-current-user).
+
+There is also the option to include a query parameter, should you wish to do so. So if you know what your method, endpoint and details of your query parameters are, you can make a call to the endpoint with the following settings:
+
+Method: `GET`
+
+Endpoint: `/users/me`
+
+Final outcome being: **https://api.calendly.com/users/me**
+
+## Example Usage
+
+Below is an example of a way in which you could potentially use the Calendly connector, to list events in Calendly.
+
+The steps will be as follows:
+
+1. Setup using a manual trigger and a Calendly connector with the 'Get personal information' operation.
+2. Add another Calendly connector, with the 'List events' operation.
+
+The final outcome should look like this:
+
+### 1 - Setup Trigger and Get personal information
+
+Once you have clicked 'Create new workflow' from your main Tray.io dashboard named it, select the Manual trigger from the trigger options available:
+
+After you have been redirected to the Tray.io workflow dashboard, from the connectors panel on the left, add a Calendly connector to your second step. Set the operation to 'Get personal information'.
+
+Feel free to re-name your steps as you go along to make things clearer for yourself and other users.
+
+Now, when this workflow is run, it will retrieve the user's personal information from the API.
+
+### 2 - List event types
+
+Next, add another Calendly connector to your workflow. Set your operation to 'list event types'.
+
+You will notice there are a lot of parameters for this operation. From the description of this operation, it is stated that either the 'User URI' or 'Organisation URI' are required. Many of the values for these fields can be retrieved from the output of step 1.
+
+Since you are getting the user information from the 'Get person information', you will have access to the 'URI'
+
+Use the connector-snake to find the jsonpath for the 'User URI' field from 'step 1'. It should appear similar to this: `$.steps.calendly-1.resource.uri`.
+
+For more clarification on the pathways, you have available, open the Debug panel to view your step's Input and Output.
+
+This will enable us to list events types.
+
+Click on the [Debug](/platform/troubleshooting/logs-and-debugging/) tab to view Input and Output for individual steps.

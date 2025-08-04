@@ -1,0 +1,100 @@
+---
+title: "Overview"
+description: "Overview of the RingCentral connector"
+---
+
+# Overview
+
+## Overview
+
+RingCentral provides features like call auto-attendant, company directory, call forwarding and handling, multiple extensions, a mobile app for iPhone and Android, Business SMS, video conferencing and screen-sharing, and fax.
+
+## Authentication
+
+Within the workflow builder, highlight the RingCentral connector.
+
+In the RingCentral connector properties panel to the right of the builder, click on the Authenticate tab and the 'New authentication' button. This will result in a Tray.io authentication pop-up modal.
+
+Name the authentication something that will easily identify it in a larger list. For example using the name of the service account, whether it is a Sandbox or Production OAuth, etc.
+
+When choosing between the type of authentication you wish to create ('Personal' or 'Organisational'), consider who and how many people will need access to it.
+
+As you can see, the next page asks you to select which scopes you would like to enable for your created authentication.
+
+Once you have selected the desired scopes in the Tray.io authentication pop-up window, click on the 'Create authentication' button. Upon clicking 'Create authentication', you will be prompted to sign in to your RingCentral account.
+
+Once you have logged into your RingCentral account.
+
+Go back to your settings authentication field (within the workflow builder properties panel), and select the recently added authentication from the drop-down options now available.
+
+Your connector authentication setup should now be complete.
+
+## RingCentral Trigger
+
+If you wish your workflow to be kicked off by a particular action in RingCentral, you can use the RingCentral Trigger.
+
+The RingCentral trigger allows you to receive notifications and trigger workflows when given events occur associated with the selected trigger operation.
+
+### Trigger Operations available:
+
+- Webhook
+
+### Webhook Setup
+
+Select the RingCentral trigger. This can be done either at the create new workflow stage or updated within the workflow builder itself.
+
+Authenticate the trigger using the instructions mentioned in the [Authentication](#authentication) section above.
+
+Select 'Webhook' as the event you wish your trigger to listen to in order to set off the workflow itself.
+
+You can filter the trigger events by choosing the available drop-down options.
+
+## Available Operations
+
+The examples below show one or two of the available connector operations in use.
+
+Please see the [Full Operations Reference](#operationsFull) at the end of this page for details on all available operations for this connector.
+
+## Example Usage
+
+### Get extension call logs
+
+Below is an example of how you could potentially use the RingCentral connector to list call logs and then store the selective information related to a call in a third-party service. In this case, we are using [Google sheets](/connectors/service/google-sheets/) as a generic placeholder for any service or database you may wish to use.
+
+The workflow steps are as follows:
+
+1. Workflow is triggered using a Manual trigger and lists extension call logs.
+2. Loops through the list of call logs received from the previous step.
+3. Stores the call log details in a Google Sheet.
+
+The following workflow gives an example of how you can achieve this:
+
+#### 1 - Setup Trigger & list extension call logs
+
+The workflow is triggered using a [Manual](/connectors/triggers/manual-trigger/) trigger.
+
+**List extension call logs** is a RingCentral connector step that return a list of call logs for the selected 'Account ID' and 'Extension ID'.
+
+Alternatively, you can provide a tilde (~) as a value for both the fields to indicate the logged-in account and it's assigned extension within the current session.
+
+We have checked the 'Show blocked' option to include call logs for blocked numbers. You can always uncheck this option if required.
+
+#### 2 - Loop and store call logs
+
+**Loop call logs** is a loop step set to 'loop list' the call logs received from the previous step and uses the `$.steps.ringcentral-1.records` jsonpath.
+
+**Store call logs** is a Google sheets step that stores 'Direction' (`$.steps.loop-1.value.direction`), fromPhone (`$.steps.loop-1.value.from.phoneNumber`), and toPhone (`$.steps.loop-1.value.to.phoneNumber`) attribute details in a Google sheet.
+
+It uses jsonpath for the respective fields from the **Loop call logs** step.
+
+What you would like to store in a third-party service is entirely dependent on your tailored needs.
+
+Once the logs are stored in the Google sheet, they would appear like this:
+
+### Get extension call logs for a date range
+
+The following example is a simple modification to the above workflow where the workflow uses a scheduled trigger to fire the workflow based on the specified intervals.
+
+Also, the call logs are filtered based on the selected date range using the 'Date from' and 'Date to' fields.
+
+Instead of providing static dates, you can always pull the dates for the Date from and to fields using the Polling mechanism explained in the [Polling with last runtime](/platform/standard-best-practices/polling/polling-last-runtime/) document.

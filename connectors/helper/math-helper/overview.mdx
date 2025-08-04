@@ -1,0 +1,111 @@
+---
+title: "Overview"
+description: "Overview of the Math Helper connector"
+---
+
+# Overview
+
+## Overview
+
+Tray's Math Helper connector provides a robust suite of operations designed to handle a wide range of mathematical calculations seamlessly within your workflows. Whether you need to perform basic arithmetic operations or more complex mathematical tasks, the Math Helper connector offers the tools you need to streamline your processes.
+
+With operations such as Add, Subtract, Multiply, Divide, and Sum, you can perform fundamental arithmetic calculations with ease. Need to calculate averages, round numbers, or determine remainders? The Math Helper connector's Average, Round, and Remainder operations have you covered. Additionally, the Parse Number operation allows you to extract numerical values from text strings, enabling further analysis.
+
+For more advanced calculations, the Run Expression operation empowers you to execute custom mathematical expressions or formulas tailored to your specific requirements.
+
+No matter the complexity of your mathematical task, Tray's Math Helper connector simplifies the process, enabling you to automate calculations and derive insights efficiently within your workflows.
+
+### Add
+
+The operation adds two numbers together. 
+
+Both numbers' values can be obtained from previous workflow steps using jsonpaths.
+
+### Average
+
+This operation calculates the average of a list of numbers. The list of numbers can be obtained from previous workflow steps using jsonpaths.
+
+### Divide
+
+To understand how to use the Math Helper connector's divide operation, consider a scenario where you want to allocate a budget between departments.
+
+A simple formula to do so is: Budget / Number of departments.
+
+In this scenario the workflow receives the following information from the Webhook trigger. 
+
+The **First value **and the **Second value, **in this case,** **`total_budget` and `total_departments,` can be obtained from previous workflow steps using jsonpaths.
+
+### Multiply
+
+To understand how to use Math Helper connector's multiply operation consider a scenario where you wish to convert hours to minutes. 
+
+A simple formula to do so is: **hours × 60 minutes**.
+
+In this scenario the workflow receives the hours from the Webhook trigger:
+
+The connector, using the Multiply operation, multiplies the "**First value**" parameter with the "**Second value**" parameter (60) to convert hours to minutes.
+
+### Parse number
+
+The operation extracts numerical values from a text string. 
+
+The operation is useful when you have a string that contains numeric data but is embedded within other characters or words.
+
+For example, `"The price is $50". `The operation will extract the numeric value 50 from the string and convert it into a numerical data type for further processing.
+
+### Remainder
+
+The remainder operation, also known as modulo operation or modulus operation, calculates the remainder of a division operation.
+
+Given two numbers, it divides the **Value** by the **Divider**, providing the remainder.
+
+For example, if you perform the operation 10 % 3, the remainder is 1, because 10 divided by 3 equals 3 with a remainder of 1.
+
+### Round
+
+The round operation is used to round a number to a specified number of decimal places (**Decimal precision)** or to the nearest whole number.
+
+For example, if you have the number 3.7 and you round it to the nearest whole number, the result would be 4. If you round it to one decimal place, the result would be 3.7.
+
+### Run expression
+
+The Run expression operation allows you to evaluate an expression.
+
+Let's consider an expression to understand the order in which the expression would be evaluated and  the supported operators: 
+
+`10**2+(25−5)×3/2%4`
+
+To evaluate the expression we follow the order of operations (PEMDAS/BODMAS). 
+
+Let's break down the expression:
+
+- **Exponentiation (**)**: `10**2` (10 raised to the power of 2) = 100
+- **Subtraction (-)**: `25−5` (25 minus 5) = 20
+- **Multiplication (*)**: `(25−5)×3` (result of subtraction multiplied by 3) = 60
+- **Division (/):** `(25−5)×3/2 `(result of multiplication divided by 2) = 30
+- **Modulus (%**): `(25−5)×3/2%4` (remainder when dividing 30 by 4) = 2
+- **Addition (+)**:  `10**2 + (25−5)×3/2%4` (100 + 2 ) = 102
+
+In the below example we are calculating simple interest using the Run expression operation.
+
+The formula for simple interest (SI) is: `Simple Interest (SI)=Principal×Rate×Time / 100.`
+
+Where you receive the value for principal amount, rate of interest, and time from the Webhook trigger:
+
+Now for the operation to calculate simple interest you need to interpolate the jsonpaths in the place of variables in the formula. 
+
+Please disregard any warning signs.
+
+### Subtract
+
+The operation subtracts one number from another.
+
+Both numbers' values can be obtained from previous workflow steps using jsonpaths.
+
+### Sum
+
+The Sum operation calculates sum of a list of numbers.
+
+To understand how to use the Math Helper connector's sum operation, consider a scenario where you have a list of test scores and you want to calculate the total of the scores: 
+
+You can reference the list of scores from previous workflow steps using jsonpaths.

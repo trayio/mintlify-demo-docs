@@ -1,0 +1,104 @@
+---
+title: "Overview"
+description: "Overview of the AWeber connector"
+---
+
+# Overview
+
+## Overview
+
+AWeber is simple and powerful email marketing platform for small business. It helps to send email campaigns, set up email automations, manage segments of subscribers and more.
+
+## Authentication
+
+When using the AWeber connector, the first thing you will need to do is go to your Tray.io account page, and select the workflow you wish to work on. Once in the workflow dashboard itself, search and drag the AWeber connector from the connectors panel (on the left hand side) onto your workflow.
+
+With the new AWeber connector step highlighted, in the properties panel on the right, click on 'New Authentication' which is located under the 'Settings' heading.
+
+This will result in a Tray.io authentication pop-up window. The first page will ask you to name your authentication appropriately, and state which type of authentication you wish to make ('Personal' or 'Organisational').
+
+The next page will have a list of permission scopes for you to select (with the option for 'Extra scopes' found at the bottom of the authentication window).
+
+To include certain service permissions, such as 'Retrieve subscribers and their activity.', tick the box associated with this permission within the Tray.io authentication window. Tick more as per your project needs.
+
+Click on the 'Create authentication' button once your scopes are set, and enter your AWeber credentials into the popup window that appears (this window is to allow Tray.io to access your AWeber account information).
+
+Once you have clicked the 'Allow access' button, go to back to your authentication field (within the workflow dashboard properties panel from earlier), and select the recently added authentication from the dropdown options now available.
+
+Your connector authentication setup should now be complete.
+
+## Available Operations
+
+The examples below show one or two of the available connector operations in use.
+
+Please see the [Full Operations Reference](#operationsFull) at the end of this page for details on all available operations for this connector.
+
+## Using the Raw HTTP Request ('Universal Operation')
+
+As of **version 1.0**, it is now possible to effectively create your own operations.
+
+This is a very powerful feature which you can put to use when there is an endpoint in AWeber which is not used by any of our operations.
+
+To use this you will first of all need to research the endpoint in the [ AWeber API documentation v1.0](https://api.aweber.com/) , to *find the exact format* that AWeber will be expecting the endpoint to be passed in.
+
+Note that you will only need to add the suffix to the endpoint, as the base URL will be automatically set (the base URL is picked up from the value you entered when you created your authentication).
+
+The base URL for AWeber is: `https://api.aweber.com/1.0`
+
+For example, say that the 'List accounts' operation did not exist in our AWeber connector, and you wanted to use this endpoint, you would use the AWeber API docs to find the 'accounts' endpoint. Note that it is a `GET` request at the following URL:
+
+So if you know what your endpoint is, you can get the your account list with the following settings:
+
+Method: `GET`
+
+Endpoint: `/accounts`
+
+Final outcome being: **https://api.aweber.com/1.0/accounts**
+
+As a result, this will return list of accounts as requested.
+
+## Example usage
+
+Below is an example of a way in which you could potentially use the AWeber connector, to list all your AWeber accounts and all the lists available in each one.
+
+The steps will be as follows:
+
+1. Setup a manual trigger and list the accounts that are available.
+2. Loop through the account collection itself.
+3. List the lists of each item within the original list.
+
+The final outcome should look like this:
+
+### 1 - Setup trigger & List Lists
+
+Once you have clicked 'Create new workflow' on your main Tray.io dashboard (and named said new workflow), select the Manual trigger from the trigger options available:
+
+Once you have been redirected to the Tray.io workflow dashboard, from the connectors panel on the left, add an Aweber connector to your second step. Set the operation to 'List accounts'.
+
+The mandatory fields: 'Per page' and 'Offset', are automatically pre-filled in for you, but feel free to update these fields as per your project needs.
+
+*Feel free to re-name your steps as you go along to make things clearer for yourself and other users.*
+
+When run, this workflow will retrieve all the accounts associated with your Aweber account.
+
+### 2 - Loop through Collection
+
+In order to iterate over this collection of accounts, drag a Loop Collection connector into your workflow as your next step and set the operation to 'Loop list'.
+
+Using the connector-snake, make sure to drag the 'List' field from the properties panel over to your previous connector step (list accounts). From the dropdown list available, select `results`.
+
+This should automatically generate a jsonpath that looks similar to this: `$.steps.aweber-18.entries`.
+
+Now when this workflow is run, the Loop Collection step will iterate through the each item found within the list.
+
+### 3 - List Extensions
+
+The final step is to drag another aweber connector *INSIDE* of the actual Loop Collection step itself. Set the operation to 'List lists'.
+
+As you can see, the 'Account ID' field is required. Use the connector-snake once more to assign it to the `ID` value produced by the Loop Collection connector from the previous step.
+
+Again, both of the other mandatory fields fields have been pre-filled for you.
+
+When run, this workflow will now return individual information on all of the accounts found within the list generated earlier.
+
+You should be able to see something similar to the below within your own Debug panel data output section:

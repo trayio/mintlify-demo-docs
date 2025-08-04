@@ -1,0 +1,728 @@
+---
+title: "Operations (sample payloads)"
+description: "Operations (sample payloads) documentation for SalesLoft connector"
+---
+
+# Operations (sample payloads)
+
+## Main operations
+
+### Create account
+
+Creates an account.
+
+**Sample Input**
+
+**Sample Output**
+
+### Create bulk job
+
+Creates a bulk job.
+
+**Sample Input**
+
+**Sample Output**
+
+### Create bulk job data
+
+Creates job data for the specified bulk job.
+
+**Sample Input**
+
+**Sample Output**
+
+### Create cadence membership
+
+Adds a person to a cadence. A person cannot be added to a cadence on behalf of a teammate unless the cadence is a team cadence, or the cadence is owned by the teammate.
+
+**Sample Input**
+
+**Sample Output**
+
+### Create call
+
+Creates a call. The parameters of this endpoint can be used to create an action and ensure that the CRM Task is mapped correctly.
+
+**Sample Input**
+
+**Sample Output**
+
+### Create custom field
+
+Creates a custom field.
+
+**Sample Input**
+
+**Sample Output**
+
+### Create import
+
+Creates an import.
+
+**Sample Input**
+
+**Sample Output**
+
+### Create note
+
+Creates a note.
+
+**Sample Input**
+
+**Sample Output**
+
+### Create person
+
+Creates a person. Either email address or phone/last_name must be provided as a unique lookup on the team.
+
+**Sample Input**
+
+**Sample Output**
+
+### Create person stage
+
+Creates a person stage.
+
+**Sample Input**
+
+**Sample Output**
+
+### Create task
+
+Creates a task.
+
+**Sample Input**
+
+**Sample Output**
+
+### Delete account
+
+Deletes an account. This operation is not reversible without contacting SalesLoft support.
+
+**Sample Input**
+
+**Sample Output**
+
+### Delete cadence membership
+
+Deletes a cadence membership.
+
+**Sample Input**
+
+**Sample Output**
+
+### Delete custom field
+
+Deletes a custom field.
+
+**Sample Input**
+
+**Sample Output**
+
+### Delete import
+
+Deletes an import, by ID only. The associated people can be deleted as part of the deletion process.
+
+**Sample Input**
+
+**Sample Output**
+
+### Delete note
+
+Deletes a note.
+
+**Sample Input**
+
+**Sample Output**
+
+### Delete person
+
+Deletes a person.
+
+**Sample Input**
+
+**Sample Output**
+
+### Delete person stage
+
+Deletes a person stage.
+
+**Sample Input**
+
+**Sample Output**
+
+### Get account
+
+Returns information about an account.
+
+**Sample Input**
+
+**Sample Output**
+
+### Get bulk job
+
+Retrieves a bulk job.
+
+**Sample Input**
+
+**Sample Output**
+
+### Get cadence
+
+Retrieves a cadence by ID.
+
+**Sample Input**
+
+**Sample Output**
+
+### Get cadence membership
+
+Returns information about a cadence membership.
+
+**Sample Input**
+
+**Sample Output**
+
+### Get call
+
+Gets a call by ID.
+
+**Sample Input**
+
+**Sample Output**
+
+### Get custom field
+
+Returns information about a custom field.
+
+**Sample Input**
+
+**Sample Output**
+
+### Get email
+
+Gets an email record.
+
+**Sample Input**
+
+**Sample Output**
+
+### Get import
+
+Fetches an import, by ID only.
+
+**Sample Input**
+
+**Sample Output**
+
+### Get note
+
+Gets a note.
+
+**Sample Input**
+
+**Sample Output**
+
+### Get person
+
+Get a person by ID.
+
+**Sample Input**
+
+**Sample Output**
+
+### Get person stage
+
+Gets a person stage by ID.
+
+**Sample Input**
+
+**Sample Output**
+
+### Get step
+
+Gets a step by ID.
+
+**Sample Input**
+
+**Sample Output**
+
+### Get task
+
+Retrieves a task by ID.
+
+**Sample Input**
+
+**Sample Output**
+
+### Get user
+
+Gets a user by ID.
+
+**Sample Input**
+
+**Sample Output**
+
+### List account stages
+
+Returns a list of available account stages.
+
+**Sample Input**
+
+**Sample Output**
+
+### List account tiers
+
+Returns a list of available account tiers.
+
+**Sample Input**
+
+**Sample Output**
+
+### List accounts
+
+Returns a list of accounts.
+
+**Sample Input**
+
+**Sample Output**
+
+### List actions
+
+Lists multiple action records. If the requesters is not an admin, this endpoint will only return actions belonging to the requester. If the requester is an admin, this endpoint will return actions for the entire team. Additionally, an admin may use the user GUID parameter to request actions that belong to specific users on the team.
+
+**Sample Input**
+
+**Sample Output**
+
+### List bulk job results
+
+Retrieves multiple job data records for a completed bulk job.
+
+**Sample Input**
+
+**Sample Output**
+
+### List cadence memberships
+
+Returns a list of cadence memberships.
+
+**Sample Input**
+
+**Sample Output**
+
+### List cadences
+
+Lists multiple cadence records.
+
+**Sample Input**
+
+**Sample Output**
+
+### List call data records
+
+Lists multiple call data records.
+
+**Sample Input**
+
+**Sample Output**
+
+### List call dispositions
+
+Lists multiple call disposition records.
+
+**Sample Input**
+
+**Sample Output**
+
+### List call sentiments
+
+Lists multiple call sentiment records.
+
+**Sample Input**
+
+**Sample Output**
+
+### List caller IDs
+
+Returns a possible caller ID match for the number. Multiple entries may be returned if the phone number is present on more than one person in the system. Phone number should be in E.164 format.
+
+**Sample Input**
+
+**Sample Output**
+
+### List calls
+
+Lists multiple call records.
+
+**Sample Input**
+
+**Sample Output**
+
+### List CRM activities
+
+Lists multiple CRM activity records.
+
+**Sample Input**
+
+**Sample Output**
+
+### List CRM activity fields
+
+Lists multiple CRM activity field records.
+
+**Sample Input**
+
+**Sample Output**
+
+### List custom fields
+
+Returns a list of custom fields.
+
+**Sample Input**
+
+**Sample Output**
+
+### List emails
+
+Lists multiple email records.
+
+**Sample Input**
+
+**Sample Output**
+
+### List groups
+
+Returns a list of available groups.
+
+**Sample Input**
+
+**Sample Output**
+
+### List imports
+
+Lists multiple imports.
+
+**Sample Input**
+
+**Sample Output**
+
+### List notes
+
+Lists multiple note records.
+
+**Sample Input**
+
+**Sample Output**
+
+### List person stages
+
+Lists multiple person stage records.
+
+**Sample Input**
+
+**Sample Output**
+
+### List steps
+
+Lists multiple step records.
+
+**Sample Input**
+
+**Sample Output**
+
+### List tags
+
+Fetches a list of the tags used for a team.
+
+**Sample Input**
+
+**Sample Output**
+
+### List tasks
+
+Retrieves multiple task records. The records can be filtered, paged, and sorted according to the respective parameters.
+
+**Sample Input**
+
+**Sample Output**
+
+### List users
+
+Returns a list of users associated with your team.
+
+**Sample Input**
+
+**Sample Output**
+
+### Raw HTTP request (advanced)
+
+Perform a raw HTTP request with some pre-configuration and processing by the connector, such as authentication.
+
+**Sample Input**
+
+**Sample Output**
+
+### Update account
+
+Updates an account.
+
+**Sample Input**
+
+**Sample Output**
+
+### Update bulk job
+
+Updates a bulk job.
+
+**Sample Input**
+
+**Sample Output**
+
+### Update custom field
+
+Update a custom field. (This invalidates the old custom field ID).
+
+**Sample Input**
+
+**Sample Output**
+
+### Update import
+
+Updates an import.
+
+**Sample Input**
+
+**Sample Output**
+
+### Update note
+
+Updates a note.
+
+**Sample Input**
+
+**Sample Output**
+
+### Update person
+
+Updates a person.
+
+**Sample Input**
+
+**Sample Output**
+
+### Update person stage
+
+Updates a person stage.
+
+**Sample Input**
+
+**Sample Output**
+
+### Upsert person
+
+Upserts a person record.
+
+**Sample Input**
+
+**Sample Output**
+
+## DDL operations
+
+### List account stages (DDL)
+
+**Sample Input**
+
+**Sample Output**
+
+### List account stages filter (DDL)
+
+**Sample Input**
+
+**Sample Output**
+
+### List account tiers (DDL)
+
+**Sample Input**
+
+**Sample Output**
+
+### List accounts (DDL)
+
+**Sample Input**
+
+**Sample Output**
+
+### List accounts or people (DDL)
+
+**Sample Input**
+
+**Sample Output**
+
+### List actions (DDL)
+
+**Sample Input**
+
+**Sample Output**
+
+### List bulk jobs (DDL)
+
+**Sample Input**
+
+**Sample Output**
+
+### List cadence memberships (DDL)
+
+**Sample Input**
+
+**Sample Output**
+
+### List cadences (DDL)
+
+**Sample Input**
+
+**Sample Output**
+
+### List call data records (DDL)
+
+**Sample Input**
+
+**Sample Output**
+
+### List call dispositions (DDL)
+
+**Sample Input**
+
+**Sample Output**
+
+### List call sentiments (DDL)
+
+**Sample Input**
+
+**Sample Output**
+
+### List calls (DDL)
+
+**Sample Input**
+
+**Sample Output**
+
+### List crm activities (DDL)
+
+**Sample Input**
+
+**Sample Output**
+
+### List crm activity fields (DDL)
+
+**Sample Input**
+
+**Sample Output**
+
+### List custom fields (DDL)
+
+**Sample Input**
+
+**Sample Output**
+
+### List custom fields value (DDL)
+
+**Sample Input**
+
+**Sample Output**
+
+### List emails (DDL)
+
+**Sample Input**
+
+**Sample Output**
+
+### List groups (DDL)
+
+**Sample Input**
+
+**Sample Output**
+
+### List imports (DDL)
+
+**Sample Input**
+
+**Sample Output**
+
+### List locales (DDL)
+
+**Sample Input**
+
+**Sample Output**
+
+### List notes (DDL)
+
+**Sample Input**
+
+**Sample Output**
+
+### List people (DDL)
+
+**Sample Input**
+
+**Sample Output**
+
+### List person stages (DDL)
+
+**Sample Input**
+
+**Sample Output**
+
+### List steps (DDL)
+
+**Sample Input**
+
+**Sample Output**
+
+### List tags (DDL)
+
+**Sample Input**
+
+**Sample Output**
+
+### List tags values (DDL)
+
+**Sample Input**
+
+**Sample Output**
+
+### List tasks (DDL)
+
+**Sample Input**
+
+**Sample Output**
+
+### List unlinked call data records (DDL)
+
+**Sample Input**
+
+**Sample Output**
+
+### List users (DDL)
+
+**Sample Input**
+
+**Sample Output**
+
+### List users filter owners (DDL)
+
+**Sample Input**
+
+**Sample Output**
+
+### List users guid (DDL)
+
+**Sample Input**
+
+**Sample Output**
+
+### List users role ID (DDL)
+
+**Sample Input**
+
+**Sample Output**

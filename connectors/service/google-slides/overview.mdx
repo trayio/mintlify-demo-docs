@@ -1,0 +1,135 @@
+---
+title: "Overview"
+description: "Overview of the Google Slides connector"
+---
+
+# Overview
+
+## Overview
+
+Google Slides is an online presentation app that lets you create and format presentations and work with other people.
+
+## Authentication
+
+Within the workflow builder, highlight the Google Slides connector.
+
+In the Google Slides connector properties panel to the right of the builder, click on the Authenticate tab and the 'Add new authentication' button.
+
+This will result in a Tray.io authentication pop-up modal. The first page will ask you to name your authentication and select the type of authentication you wish to create ('Personal' or 'Organisational').
+
+The next page asks you for permission to access your presentations. The required scopes are already ticked, so go ahead and click on the 'Create authentication' button.
+
+Upon clicking the 'Create authentication', you will be prompted to sign in to your 'Google' account. Select the account that you would like to use.
+
+Next, you will be asked to allow Tray.io to access your account. Click 'Allow' to grant access.
+
+Go back to your settings authentication field (within the workflow builder properties panel), and select the recently added authentication from the dropdown options now available.
+
+Your connector authentication setup should now be complete.
+
+## Available Operations
+
+The examples below show one or two of the available connector operations in use.
+
+Please see the [Full Operations Reference](#operationsFull) at the end of this page for details on all available operations for this connector.
+
+## Notes on Operations usage
+
+All operations require a presentation ID to be supplied as an input. A presentation can either be created via the Google Slides application or via a [Raw HTTP Request](#using-the-raw-http-request-universal-operation) from the connector.
+
+To find the presentation ID in the Google Slides application, open the presentation in Google Slides and extract the presentation ID from the URL in the browser's address bar.
+
+For example, if the URL of a presentation is:
+
+`https://docs.google.com/presentation/d/1W47G9K0IoZOWrFH_U9-Wj68CgrUvqWUF0h17uHNQ/edit#slide=id.f6c90a8d-cce3-11c7-a34e-c6fa1cb0cc11`
+
+Then the presentation ID is: **1W47G9K0IoZOWrFH_U9-Wj68CgrUvqWUF0h17uHNQ**
+
+i.e. the hash immediately after **/d/** and before **/edit**
+
+## Using the Raw HTTP Request ('Universal Operation')
+
+As of **version 1.0**, you can effectively create your own operations.
+
+This is a very powerful feature which you can put to use when there is an endpoint in Google Slides which is not used by any of our operations.
+
+To use this you will first of all need to research the endpoint in the [Google Slides API documentation v1](https://developers.google.com/slides/reference/rest/v1/presentations), to **find the exact format** that Google Slides will be expecting the endpoint to be passed in.
+
+Note that you will only need to add the suffix to the endpoint, as the base URL will be automatically set (the base URL is picked up from the value you entered when you created your authentication).
+
+The base URL for Google Slides is: `https://slides.googleapis.com/v1`
+
+For example, say that the 'Get page' operation did not exist in our Google Slides connector, and you wanted to use this endpoint. You would use the Google Slides API docs to find the relevant endpoint - which in this case is a `GET` request called: `/presentations/{presentationId}/pages/{pageObjectId}`.
+
+More details about this endpoint can be found [here](https://developers.google.com/slides/reference/rest/v1/presentations.pages/get).
+
+As you can see there is also the option to include a query parameter, should you wish to do so.
+
+In this instance, we will only be using the presentation ID and page object ID to construct the endpoint. So if you know what your method, endpoint and details of your query parameters are, you can get the page information with the following settings:
+
+Method: `GET`
+
+Endpoint: `/presentations/PRESENTATION_ID/pages/PAGE_OBJECT_ID`
+
+Body Type : None : `null`
+
+Final outcome being: **https://slides.googleapis.com/v1/presentations/PRESENTATION_ID/pages/PAGE_OBJECT_ID**
+
+## Example Usage
+
+Below is an example of a way in which you could potentially use the Google Slides connector, to create a new slide, change the background image and add some title text.
+
+The steps will be as follows:
+
+1. Setup using a manual trigger and generate a unique ID to assign to the title text placeholder
+2. Create a new slide with title and subtitle in your presentation
+3. Change the background image of the slide
+4. Insert some title text in the slide
+
+### 1 - Setup trigger & create a random ID
+
+Select the manual trigger from the trigger options available. From the connectors panel on the left, add a Random helpers connector to your workflow. Set the operation to 'Random UUID'.
+
+The workflow will generate a random Universally Unique ID (UUID) which can then be assigned to the title text placeholder in the slide that we will create next. It can be useful to know what the ID's of the Google Slide page elements will be before creating them so that you can easily reference them later. The alternative would be to query the page to find out the IDs of the page elements.
+
+### 2 - Create a new slide
+
+Next, search for the Google Slides connector within your connector panel, and drag it into your workflow as your next step. Set your operation to 'Create Slide'.
+
+Enter the value for your 'Presentation ID' in the properties panel. To know how to fetch the 'Presentation ID' please refer to [Notes on Operations usage](#notes-on-operations-usage) section.
+
+Within the 'Slide layout reference' section of the properties panel, set 'Choose layout option' to `Predefined layout` and 'Predefined layout' to `Title and subtitle`.
+
+In order to specify the ID that you want to use for the Title text placeholder, start by clicking the 'Add to Placeholder ID mappings' button. Use the mapping icon (found next to the Object ID input field, within the properties panel) to generate the connector-snake.
+
+While hovering over the 'Random UUID' step (with the tail end of the connector-snake), select `result` from the list of output properties displayed. This will auto-populate a jsonpath within your list input field, and update the type selector to jsonpath.
+
+For more clarification on the pathways you have available, open the Debug panel to view your step's Input and Output.
+
+Next, set the placeholder option to 'Layout placeholder' and set the 'Type' to 'Title centred'.
+
+This workflow step is now configured to create a new Google Slide in your presentation and populate it with a title and subtitle. The title will have the ID that you generated in step 1 in order to reference it in next step.
+
+### 3 - Assign a background image
+
+Add another Google Slides connector to your workflow and set the operation to 'Set slide background image'.
+
+Set the Presentation ID as you did in the previous step.
+
+To get the 'Page ID' use the mapping icon (found next to the 'Page ID' input field, within the properties panel) to generate the connector-snake. While hovering over the 'Create Slide' step (with the tail end of the connector-snake), select `ObjectId` from the list of output properties displayed. This will auto-populate a jsonpath within your list input field, and update the type selector to jsonpath.
+
+Set the Content URL to an accessible fully qualified URL where the background image is located.
+
+Finally, as an optional step, use the mapping icon (found next to the 'Require revision ID' input field, within the properties panel) to generate the connector-snake. While hovering over the 'Create Slide' step (with the tail end of the connector-snake), select `requiredRevisionID` from the list of output properties displayed. This will auto-populate a jsonpath within your list input field, and update the type selector to jsonpath. This checks that the slide has not changed since the last time it was read.
+
+This workflow step is now configured to set a new background image for the slide that we created in step 2.
+
+### 4 - Set the slide's title text
+
+The last step is to drag another Google Slides connector onto the workflow builder. Set the operation to 'Insert text'. As you can see, the 'Presentation ID' field is required. Set it to the same value as the previous steps.
+
+Use the mapping icon (found next to the 'Shape/Table ID' input field, within the properties panel) to generate the connector-snake. While hovering over the 'Random UUID' step (with the tail end of the connector-snake), select `result` from the list of output properties displayed. This will auto-populate a jsonpath within your list input field, and update the type selector to jsonpath.
+
+Populate the 'Text' field with the test that you would like to insert as the slide's title text.
+
+Congratulations! You have created a new Google Slide, set it's background image and set the title text.

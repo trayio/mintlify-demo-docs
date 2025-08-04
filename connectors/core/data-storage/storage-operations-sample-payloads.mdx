@@ -1,0 +1,96 @@
+---
+title: "Operations (sample payloads)"
+description: "Operations (sample payloads) documentation for Data Storage connector"
+---
+
+# Operations (sample payloads)
+
+## Main operations
+
+### Add to Collection (advanced)
+
+Add a value to a collection from which a range of elements can be later received. NOTE: If you don't require queue-like functionality, consider using other operations for manipulating lists. For queue-like behavior, consider using AWS SQS Connector.
+
+**Sample Input**
+
+**Sample Output**
+
+### Append to List
+
+Append a value to a list under the given key. The value can also be a list, resulting their concatenation.
+
+**Sample Input**
+
+**Sample Output**
+
+### Atomic Increment
+
+Increment a numeric value atomically. Can be used concurrently from multiple executions.
+
+**Sample Input**
+
+**Sample Output**
+
+### Await Get Value
+
+Wait for a value under a specified key, until it's available
+
+**Sample Input**
+
+**Sample Output**
+
+### Delete from List
+
+Delete a given index in a list
+
+**Sample Input**
+
+**Sample Output**
+
+### Delete Value
+
+Delete a value under a key, in the given scope.
+
+**Sample Input**
+
+**Sample Output**
+
+### Get All Keys
+
+Get all the currently existing keys from storage and optionally their values from the given scope. If more than 10 keys are available only the first 10 of them will be retrieved together with a key to be used in a subsequent get_all request in order to fetch the next batch.
+
+**Sample Input**
+
+**Sample Output**
+
+### Get Value
+
+Get a value from under a key, that was set earlier in the given scope.
+
+**Sample Input**
+
+**Sample Output**
+
+### Set Value
+
+Set a value under a key, in the given scope.
+
+**Sample Input**
+
+**Sample Output**
+
+### Set Value in List
+
+Set value under a given index in a list
+
+**Sample Input**
+
+**Sample Output**
+
+### Shift Collection (advanced)
+
+Get and remove number of items from the end of a collection. NOTE: If you don't require queue-like functionality, consider using other operations for manipulating lists. For queue-like behavior, consider using AWS SQS Connector.
+
+**Sample Input**
+
+**Sample Output**

@@ -1,0 +1,143 @@
+---
+title: "Overview"
+description: "Overview of the Salesforce connector"
+---
+
+# Overview
+
+## Overview
+
+Salesforce provides customer relationship management service software, and has a complementary suite of enterprise applications as well. These are focused on customer service, marketing automation, analytics, and application development. It is the market leader in CRM solutions.
+
+## API Information
+
+The latest Salesforce connector **v8.7** exposes the **v46.0** of Salesforce's REST API. More information can be found on their primary [API documentation (v1)](https://developer.salesforce.com/docs/atlas.en-us.220.0.api_rest.meta/api_rest/intro_what_is_rest_api.htm) site.
+
+## Authentication
+
+When using the Salesforce connector for the first time you will need to create a new authentication:
+
+You will then have to select the necesary **Scopes** for your authentication. This will configure the access level your Tray workflow will have to your Salesforce account:
+
+You will then be prompted to enter the **credentials of the Salesforce user** you will be authenticating with.
+
+This user must be set up with the **correct permissions in the Salesforce Admin UI** to ensure that they will be able to **access all the available connector operations**.
+
+## **Granting Access to Tray in Salesforce**
+
+Encountering issues while authenticating with Salesforce, especially during the integration of a third-party app like Tray, may result from Salesforce blocking the application.
+
+Salesforce's default settings or specific organizational security policies can automatically block third-party apps that administrators have not pre-authorized. This is a standard precaution to prevent unauthorized access.
+
+**Steps to Unblock an App in Salesforce:**
+
+1. Log in to your Salesforce account.
+2. Navigate to Platform Tools from the Home menu.
+3. Under Platform Tools, select '**Apps'**, then choose '**Connected Apps'**.
+4. Proceed to '**Connected Apps OAuth Usage'**.
+5. In the list of apps, locate '**Tray'**.
+6. In the Actions column, check the status of Tray.
+7. If Tray is blocked, an option to '**Unblock**' will appear.
+8. Click '**Unblock**' to grant Tray access.
+
+This action removes the restriction, allowing Tray to interact with Salesforce as intended.
+
+Following these steps should effectively resolve any access issues related to app blockages in Salesforce.
+
+## Correct setup of User Permissions
+
+### Managing Access
+
+The Salesforce connector gives you full access to all of your Salesforce account data such as your leads, contacts, custom objects/fields, workflow rules, outbound messages and more.
+
+The way you handle who has access to this data is through the use of Salesforce **Users**, **Profiles** and **Permission sets**.
+
+Your User will have access depending on their associated Profile permissions or Permission sets - in a read, write, create capacity; depending on whats required.
+
+Be sure sure to note the following access rules before you confirm who has what level of access to which data sets. More information on Profiles and Permission sets can be found below.
+
+- Every **User** **must be assigned a** **Profile**.
+- There can **only be one Profile per User**.
+- **The User you are creating an authentication for MUST have access to all the object types you want them to manipulate**.
+
+## Profiles
+
+In Salesforce you can allocate a user to a pre-set **Profile** or you can create your own **Custom Profile**.
+
+The available Profiles for a User will depend on the type of **License** that User has. More information on this can be found below. 
+
+### Profile vs Custom Profile
+
+Pre-set** Profiles** are included as part of your Salesforce account.
+
+However please note that the kinds of pre-set Profiles that are available to you will depend on the type of **License** that a User has.
+
+For example a **Salesforce Platform-licensed User** can only have a **Standard Platform User** **Profile**. 
+
+While a **Salesforce-licensed User** can have multiple Profiles. Including **Contract Manager** and **System Administrator** which will give them comprehensive 'super-user' access to all functions and objects within Salesforce.
+
+**Custom Profiles** allows users to design their own original Profile based on use case specific requirements.
+
+Please see [License Types](https://help.salesforce.com/articleView?id=users_license_types_available.htm&type=5) for more details.
+
+### Adapting Profiles
+
+The **Contract Manager Profile** comes as standard and has a lot of the permissions needed in order to use the Trigger or Connector effectively.
+
+You can see this by checking out the **Standard Object Permissions** section **within** the Contract Manager Profile setup page:
+
+Despite having a lot of access there may be more areas that you would like your User to have access to. 
+
+A good approach would be to **clone the Contract Manager profile** and then **edit the permissions** **while bearing in mind the following**:
+
+### Profile Setup sections
+
+Here are the key sections within any Profile Setup page you should be aware of:
+
+**Standard Object Permissions** 
+
+Set basic read and write access to objects such as contracts, leads, accounts etc.
+
+**Administrative Permissions** 
+
+Where key permissions can be set.
+
+For example **API Enabled** **must be ticked or your authentication will not work**.
+
+**General User Permissions**
+
+Allow extra functionality that cannot be granted purely through object-level permissions. 
+
+For example **Activate Contracts** must be ticked for it to be possible to activate a contract. The **Edit** permission on **Contracts and Orders** is not enough to allow contract activation 
+
+(you can test activating contracts in Tray with the **Update Record** operation for the **Contract** record type - setting the **Status** field to **'Activated'**).
+
+This applies to several other options within this section such as **Manage Cases** and **Activate Orders**.
+
+### Helpful Resources
+
+#### Tooltips
+
+The Salesforce UI has tooltips which tell you what object settings are also required for certain permissions:
+
+#### Object permissions
+
+This [User profile permission descriptions](https://help.salesforce.com/articleView?id=000198725&type=1) article is a great source of reference for explaining more about controlling what Users can do within your Salesforce Organization via User Profile permissions.
+
+## Permission Sets
+
+In Salesforce it is possible to use **Permission Sets** to **extend users' functional access,** **without altering their Profiles**. This means that the level of access within the Profile itself will not change. 
+
+The access level of other Users also using the same Profile type will remain the same. Only your selected User will have increased permissions. Permission sets are like access level 'add-ons'.
+
+### Permission Set example
+
+For example say you have a User that has a Read Only profile. Your User already has an allocated Profile with permissions based on that particular Profile group.
+
+In order to extend the access rights for this particular User (without affecting the Profile grouping and thereby the rest of the Users who are also utilising this Profile) you would need to create a Permission set.
+
+You could **create a Permission Set** which has **all the necessary access** required and then **assign the Permission Set to a particular user** . 
+
+#### Specifying a license
+
+When you create a Permission Set you can also specify the License it is suppose to be used with:

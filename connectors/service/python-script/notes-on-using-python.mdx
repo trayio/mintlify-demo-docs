@@ -1,0 +1,105 @@
+---
+title: "Notes on using Python"
+description: "Notes on using Python documentation for Python connector"
+---
+
+# Notes on using Python
+
+The Python core connector offers a single operation:
+
+- **Execute Script: **Executes Python code
+
+Although the connector offers just one operation, it's important to consider some key points before using it. 
+
+To grasp the fundamental concepts of the Python script connector, let's examine a scenario whereby data from a Webhook trigger and an Object helper are concatenated.
+
+The workflow is receiving 
+
+- The `itemName `data from the Webhook trigger <br/>`{<br/>    "itemName": "Sauce Labs Backpack"<br/>}`
+- The `itemDescription` from the object helper.<br/>`{<br/>    "itemDescription": "carry all the things with the sleek, stream lined Sly Pack that melds uncompromising style with unequaled laptop and tablet protection."<br/>}`
+
+Using the following script the workflow concatenates the data:
+
+Now let's understand the steps involved one by one:
+
+### Building the script
+
+1. **`def executeScript(input): `**The line marks the beginning of a function definition. The function is named `executeScript` and takes one parameter, `input`. <br/><br/>The function's purpose is to process the input data, execute specific operations on it, and subsequently provide the resulting output.
+2. **Input variables:** Within the function, the values of the variables `itemName` and `itemDescription` are extracted from the input dictionary using their corresponding keys.
+3. **return statement: **The content returned within the script dictates what is accessible for subsequent connector steps to utilize. For example, `return concatenated_string`.
+4. In certain scenarios, you may require the use of supported modules in your script, such as `itertools`. <br/><br/>However, there's no need to import them explicitly as this will lead to an error message.<br/>
+5. Make sure to indent your code properly. Python uses indentation to define the scope of statements, such as those within loops, conditionals, functions, and classes.<br/><br/>
+
+### Input variables
+
+To access the data provided to the script, we first define variables to hold this data. 
+
+In the example below, we define two variables, `itemName` and `itemDescription`, which will be used to store the data received from the Webhook trigger and object helper, respectively.
+
+By specifying the keys **`itemName`** and **`itemDescription`**, the script retrieves the corresponding values assigned to those keys within the **`input `**dictionary.
+
+`itemName = input["itemName"]<br/>`
+
+`itemDescription = input["itemDescription"]`
+
+## Built-in Feature support
+
+**Python connector's V1.0** supports all of the in-built functionality for [**Python v3.8**](https://www.python.org/downloads/release/python-380/) excluding the following: 
+
+- Python's [Format function](https://docs.python.org/3.8/library/string.html) is not permitted as it is not in alignment with the purpose of the connector itself.
+- Since only direct scripting is supported with the connector, [Class definitions](https://docs.python.org/3/tutorial/classes.html) are not possible.
+
+**Python connector's V2.0** supports all of the in-built functionality for [Python 3.11](https://docs.python.org/3/whatsnew/3.11.html) excluding the following: 
+
+- [aiter()](https://docs.python.org/3/library/functions.html#aiter)
+- [anext()](https://docs.python.org/3/library/functions.html#anext)
+- [breakpoint()](https://docs.python.org/3/library/functions.html#breakpoint)
+- [compile()](https://docs.python.org/3/library/functions.html#compile)
+- [eval()](https://docs.python.org/3/library/functions.html#eval)
+- [exec()](https://docs.python.org/3/library/functions.html#exec)
+- [globals()](https://docs.python.org/3/library/functions.html#globals)
+- [help()](https://docs.python.org/3/library/functions.html#help)
+- [input()](https://docs.python.org/3/library/functions.html#input)
+- [locals()](https://docs.python.org/3/library/functions.html#locals)
+- [memoryview()](https://docs.python.org/3/library/stdtypes.html#memoryview)
+- [property()](https://docs.python.org/3/library/functions.html#property)
+- [super()](https://docs.python.org/3/library/functions.html#super)
+- [__import__()](https://docs.python.org/3/library/functions.html#import__)
+
+## ** Supported Modules**
+
+The following modules are supported from V2.0:
+
+| **Modules** | **Description** | **Non-supported Methods** |
+| --- | --- | --- |
+| [math](https://docs.python.org/3/library/math.html#module-math) | Mathematical functions defined by the C standard |  |
+| [cmath](https://docs.python.org/3/library/cmath.html#index-1) | Mathematical functions for complex numbers |  |
+| [random](https://docs.python.org/3/library/random.html#module-random) | Generate pseudo-random numbers |  |
+| [statistics](https://docs.python.org/3/library/statistics.html#module-statistics) | Provides functions for calculating mathematical statistics of numeric (Real-valued) data | statistics.covariance(x, y),<br/>statistics.correlation(x, z, method='ranked')<br/>statistics.linear_regression(x, z) |
+| [fractions](https://docs.python.org/3/library/fractions.html#module-fractions) | Provides support for rational number arithmetic | __floor__()<br/>__ceil__()<br/>__round__()<br/>__format__() |
+| [decimal](https://docs.python.org/3/library/decimal.html#module-decimal) | Provides support for fast correctly rounded decimal floating point arithmetic |  |
+| [copy](https://docs.python.org/3/library/copy.html#module-copy) | Constructs a new compound object and then, recursively, inserts copies into it of the objects found in the original |  |
+| [array](https://docs.python.org/3/library/array.html#module-array) | Defines an object type which can compactly represent an array of basic values: characters, integers, floating point numbers |  |
+| [pprint](https://docs.python.org/3/library/pprint.html#module-pprint) | Provides a capability to “pretty-print” arbitrary Python data structures in a form which can be used as input to the interpreter |  |
+| [itertools](https://docs.python.org/3/library/itertools.html#module-itertools) | Implements a number of iterator building blocks inspired by constructs from APL, Haskell, and SML | itertools.batched(iterable, n)<br/> |
+| [operator](https://docs.python.org/3/library/operator.html#module-operator) | Exports a set of efficient functions corresponding to the intrinsic operators of Python |  |
+| [datetime](https://docs.python.org/3/library/datetime.html#module-datetime) | Supplies classes for manipulating dates and times | datetime.date.fromtimestamp(timestamp)<br/>datetime.date.timetuple()<br/>datetime.date.strftime() |
+| [calendar](https://docs.python.org/3/library/calendar.html#module-calendar) | Allows you to output calendars like the Unix cal program, and provides additional useful functions related to the calendar. |  |
+| [zoneinfo](https://docs.python.org/3/library/zoneinfo.html#module-zoneinfo) | Provides a concrete time zone implementation to support the IANA time zone databas |  |
+| [collections](https://docs.python.org/3/library/collections.html#module-collections) | Implements specialized container datatypes providing alternatives to Python’s general purpose built-in containers, [`dict`](https://docs.python.org/3/library/stdtypes.html#dict), [`list`](https://docs.python.org/3/library/stdtypes.html#list), [`set`](https://docs.python.org/3/library/stdtypes.html#set), and [`tuple`](https://docs.python.org/3/library/stdtypes.html#tuple). |  |
+
+## Application Scenarios for Supported Modules
+
+### pprint module
+
+To view the output in the console, users will need to wrap their `pprint` method calls in `print`, as shown in the example below:
+
+The `pprint` module results are sent to `stdout`, which can be invisible to users. 
+
+### itertools module
+
+This example showcases the application of the `filterfalse` method from the `itertools` module, effectively filtering out even numbers from a list ranging from 1 to 10.
+
+### calendar module
+
+This example showcases the application of the `month` method from the `calendar `module. It prints the calendar for March 2024.

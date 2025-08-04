@@ -1,0 +1,75 @@
+---
+title: "Overview"
+description: "Overview of the Segment connector"
+---
+
+# Overview
+
+## Overview
+
+Below is an example of a way in which you could potentially use the Segment trigger to track any actions on your Source website and fire the trigger when a specified action is performed. The JSON data then received through the trigger is managed through different branches based on the event.
+
+The Source considered in this example is a Training website that sells various training courses. We create individual branches based on the events that occur on the Training website's sales page.
+
+Below is some sample data that comes via the source website:
+
+The following workflow gives an example of how you can achieve this:
+
+### 1 - Setup Segment Trigger & the branches
+
+Select the Segment trigger from the trigger options available and set the operation to 'On page track'.
+
+There are various operations that the Segment trigger facilitates, and you can choose any based on your needs. To know more about the Segment Trigger, you can refer to the [Trigger Setup](#trigger-setup) section above
+
+Add a Branch connector to your workflow. Then, using the connector-snake, find the jsonpath for the 'Value To Test' field from the trigger. It should appear similar to this: `$.steps.trigger.event`.
+
+The next step is to name the branches. These names depend entirely on the events that you wish to track and take necessary actions accordingly.
+
+In this example, the considered events are `Sales Page Visited`, `Checkout Started`, and `Order Completed`. Thus the three branches. The last branch is a `Default` branch, which is auto-created and manages all the other events except the ones specified above.
+
+Feel free to re-name your steps as you go along to make things clearer for yourself and other users. However, the operation names themselves often suffice.
+
+Once we have set up the trigger and the Branch connector, the workflow will listen to any page view events on our source website, and then based on the current event type, the respective branches will take specific actions.
+
+### 2 - Create event-based branches
+
+As the next steps, the workflow will execute based on the events specified in the Branch step:
+
+**Branch-1: Sales Page Visited**
+
+On the Sales Page Visited event, as a first step the Segment connector is identifying the Sales page visitor.
+
+Based on the output of the initial step, i.e., Successful or Unsuccessful, the Boolean Condition connector is checking if the visitor is known?
+
+If the visitor is known, then no action is needed, and thus the workflow terminates.
+
+If the visitor is unknown, then the Segment connector using the Get Profile Traits (Alpha) operation is identifying the traits of the visitor based on the 'anonymous_id'. Traits are pieces of information you know about a user.
+
+In the end, the newly gathered traits are stored in a third-party service. In this case, we are using google sheets as a generic placeholder for any service or database you may wish to use.
+
+**Branch-2: Checkout Started**
+
+On the Checkout Started event, as a first step, the Segment connector is identifying the traits of the visitor as we did in the previous step.
+
+As a next step, the Segment connector is identifying the traits of the visitor using an email address.
+
+The second check is precautionary and optional.
+
+As the email address field is not mandatory, there are chances that the value for the email field may not be available. In such a situation, the workflow will prompt an error and stop the further execution as it is its default mechanism.
+
+To handle this situation, we are using the [Manual Error handling](/platform/troubleshooting/error-handling/) mechanism. To select Manual Error handling for the **Personas Get Traits (email)** step in the properties panel, click 'Handle errors' and set the error handling to 'Manual'.
+
+This error handling method gives you two branches:
+
+- **Success:** This means the email is available, and the step could return visitor traits using the email address. Then we merge the traits from both the steps, i.e., **Personas Get Traits** and **Personas Get Traits (email)** using an Object Helpers, and store this merged info in a Google Sheet.
+- **Error:** This means the email address is not available, then we are storing the data only from the **Personas Get Traits** step into the excel sheet.
+
+**Branch-3: Order Completed**
+
+The Order Completed branch sends a message on the selected Slack channel notifying that a specific order is completed.
+
+This Notification can be further used in various ways based on your requirements.
+
+Again as we did in the previous two branches, as a first step, the Segment connector is identifying the traits of the visitor.
+
+Using this traits information a Slack message would be sent on the selected channel.

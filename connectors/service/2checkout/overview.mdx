@@ -1,0 +1,60 @@
+---
+title: "Overview"
+description: "Overview of the 2Checkout connector"
+---
+
+# Overview
+
+## Overview
+
+ 2Checkout is an electronic payment service (merchant account alternative) ,that **allows merchants to accept online credit card payments from customers in their home country and abroad**.<br/><br/>
+
+## **API Information **
+
+The Base URL used for the 2Checkout connector is **https://api.2checkout.com/rest/6.0**. More information can be found on their main [API documentation](https://app.swaggerhub.com/apis-docs/2Checkout-API/api-rest_documentation/6.0#) site.
+
+## Authentication
+
+Within the builder, click on the 2Checkout  connector to display the connector properties panel. Select the 'Auth' tab and click the 'New authentication' button.
+
+In the Tray.io authentication pop-up modal, name the authentication in a way that will quickly identify it within a potentially large list. For example, whether it is a Sandbox or Production auth, etc.
+
+Consider who/ how many people will need access to this authentication when choosing where to create this authentication ('Personal' or 'Organisational').
+
+The second page asks you for your 'Vendor Code' and 'Secret' credentials.
+
+To get these fields, head to the 2Checkout dashboard. Click on the gear icon in the top right corner. 
+
+To get the 'Vendor Code' and 'Secret' click on the Settings menu icon as shown in the above image, and choose integrations from the left menu.
+
+Once you have added these fields to your Tray.io authentication pop-up window, click the 'Create authentication' button. 
+
+Your connector authentication setup should now be complete.
+
+## Available Operations
+
+Please see the [Full Operations Reference](#operationsFull) at the end of this page for details on all available operations for this connector.
+
+******
+
+## Using the Raw HTTP Request ('Universal Operation')
+
+As of **version 1.0**, you can effectively create your own operations.
+
+This is a powerful feature that you can use when there is an endpoint in 2Checkout that is not used by any of our operations.
+
+To use this, you will first of all need to research the endpoint in the  [API documentation](https://app.swaggerhub.com/apis-docs/2Checkout-API/api-rest_documentation/6.0#)  to **find the exact format** that 2Checkout will be expecting the endpoint to be passed in.
+
+For example, say that the **'issuerbanks'** operation did not exist in our 2Checkout connector, and you wanted to use this endpoint. You would use the
+
+2Checkout API docs to find the relevant endpoint - ***which in this case is a `GET` request called: `/paymentmethods/IDEAL/issuerbanks`.***`*** ***`
+
+More details about this endpoint can be found [here](https://app.swaggerhub.com/apis-docs/2Checkout-API/api-rest_documentation/6.0#/Payment%20methods/get_paymentmethods_IDEAL_issuerbanks_).
+
+Based on the information provided in the above API call doc, you need to configure the following attributes on your Tray platform:
+
+- **Method:** GET
+- **URL: **
+- **Body Type: None**
+
+Once the API call is executed successfully,  you should get the following results:

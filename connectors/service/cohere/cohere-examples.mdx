@@ -1,0 +1,52 @@
+---
+title: "Examples"
+description: "Examples documentation for Cohere connector"
+---
+
+# Examples
+
+## Generate Text Embeddings
+
+The [**Generate text embeddings**](https://docs.cohere.com/reference/embed) operation generates an embedding vector that represents input text. 
+
+The generated embeddings can be stored in any vector database and are valuable for performing [similarity searches](https://www.pinecone.io/learn/what-is-similarity-search/).
+
+The two possible scenarios of text embedding are explained below: 
+
+1. Creating vector embeddings for your data
+
+2. Querying your vector embeddings to retrieve information
+
+### Generate docs embeddings
+
+To generate document embeddings, you may need to handle batches of data. 
+
+Consider a scenario where you have received a chunk of data through a Webhook. 
+
+**Sample data:**
+
+You can then loop through this data, passing each item one by one to the **Create embedding** operation to generate embeddings.
+
+Since you are looping through batches of data for which you are creating vectors, you will need to create an object that adheres to this structure and append it to a data storage list. 
+
+For a more detailed guide to sending batches of vector data, please refer to the [Pinecone documentation](https://tray.io/documentation/connectors/service/pinecone/#upsert-vectors).
+
+### Generate query embeddings
+
+The following scenario shows a query coming in through a Webhook and being sent to Cohere to create query embedding.
+
+The resulting vector is then passed to a vector database to perform a similarity search.
+
+For a detailed understanding of the parameters involved, refer to Cohere's [Embed API documentation.](https://docs.cohere.com/reference/embed)
+
+## Generate Chat
+
+Generates a model response for the given chat conversation.
+
+The following example demonstrates one of the use cases for the operation.
+
+It shows a query coming in through a Webhook and being sent to Cohere to create an embedding vector. The resulting vector is then passed to a vector database to perform a similarity search.
+
+The **Generate chat** operation uses the similarity search result to Create a model response for the received query.
+
+For a detailed understanding of the parameters involved, refer to Cohere's [Chat API documentation](https://docs.cohere.com/reference/chat).

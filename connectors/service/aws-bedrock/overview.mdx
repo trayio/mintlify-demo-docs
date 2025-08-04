@@ -1,0 +1,63 @@
+---
+title: "Overview"
+description: "Overview of the AWS Bedrock connector"
+---
+
+# Overview
+
+## **Overview**
+
+AWS Bedrock is a fully managed service from Amazon Web Services (AWS) that simplifies the process of building and scaling generative AI applications. 
+
+It provides access to a variety of high-performing foundation models (FMs) from leading AI companies such as AI21 Labs, Anthropic, Cohere, Meta, and Stability AI, as well as models developed by Amazon itself.
+
+## AWS Bedrock Snippets
+
+Listed below is a range of powerful and easy-to-use code snippets designed to help you get the most out of AWS Bedrock connector:
+
+- [AI Text Composition - AWS Bedrock](/snippets/ai-text-composition-aws-bedrock/)
+- [AI JSON Composition - AWS Bedrock](/snippets/ai-json-composition-aws-bedrock/)
+- [AI Self Evaluation - AWS Bedrock](/snippets/ai-self-evaluation-aws-bedrock/)
+- [AI Planning Step for Agentic Frameworks - AWS Bedrock](/snippets/ai-planning-agentic-frameworks-aws-bedrock/)
+
+## Authentication
+
+### AWS Bedrock authentication
+
+When using the AWS Bedrock connector for the first time, you need to create a new authentication.
+
+Name your authentication and specify the type ('Personal' or 'Organizational').
+
+The next page asks you for your AccessKeyId, SecretAccessKey, and Region.
+
+To learn how to get the AccessKeyId and SecretAccessKey refer to the [AWS auth creds](#aws-auth-creds) section. 
+
+For the region field, enter appropriate code for your region. For example, AWS region code for Europe (London), is `eu-west-2`.
+
+Once you have added this field to your Tray.io authentication pop-up window click the **Create authentication** button. 
+
+Go back to your settings authentication field (within the workflow builder properties panel), and select the recently added authentication from the available dropdown options . Your connector authentication setup is now complete.
+
+### AWS auth creds
+
+Follow the below step to create the AccessKeyId and SecretAccessKey.
+
+Go to the **IAM service**.
+
+Click on **Users** in the navigation pane.
+
+Click the **Create user** button
+
+Provide a username for the new user.
+
+Attach policies that grant the necessary permissions for AWS Bedrock. This may include policies like `bedrock:*` actions.
+
+Review configurations and click **Create user.**
+
+Once you have created the user you can create the access key using the **Create access key** button.
+
+Select a suitable use case.
+
+Optionally you can set the description, click the **Create access key** button.
+
+Make sure to save the credentials securely or download the .csv file, as this is the only time you can see or save them. 

@@ -1,0 +1,98 @@
+---
+title: "Overview"
+description: "Overview of the Sage Intacct connector"
+---
+
+# Overview
+
+## Overview
+
+Sage Intacct cloud financial management solution manages all core financials and provides professional services to help implement Sage Intacct software.
+
+## Authentication
+
+When using the Sage Intaact connector, the first thing you will need to do is go to your Tray.io account<br/>page, and select the workflow you wish to work on. Once in the workflow builder itself, search and<br/>drag the Sage Intaact connector from the connectors panel (on the left hand side) onto your workflow.
+
+With the new Sage Intaact connector step highlighted, in the properties panel on the right, click on the<br/>‘Authenticate’ panel followed by ‘Add new Authentication’ (located under the Authentication input<br/>field).
+
+This will result in a Tray.io authentication pop-up window. The first page will ask you to name your<br/>authentication, and state which type of authentication you wish to create ('Personal' or<br/>'Organisational').
+
+As you can see, the next page asks you for your 'Sender ID', 'Sender password', 'User ID', 'User password' and 'Company ID'<br/>credentials.
+
+Your Sage Intaact Web Services developer license will provide you with your Tray.io authentication Sender ID and Sender Password.
+
+Go to the Sage Intaact UI main webpage:
+
+Click on the 'Applications' dropdown and a list of different options will display themselves.
+
+Choose 'Company' followed by 'Subscriptions':
+
+A list of available applications will display. Scroll down until the 'Web Services' option is displayed. Enable this using the switch:
+
+Once you have added these fields to your Tray.io authentication popup window, click on the 'Create<br/>authentication' button. Go back to your settings authentication field (within the workflow builder<br/>properties panel), and select the recently added authentication from the dropdown options now<br/>available.
+
+Your connector authentication setup should now be complete.
+
+## Available Operations
+
+The examples below show one or two of the available connector operations in use.
+
+Please see the [Full Operations Reference](#operationsFull) at the end of this page for details on<br/>all available operations for this connector.
+
+## Note on Operations Usage
+
+If you have an external application or integration that needs a unique user to exchange information with Sage Intacct via Web Services API calls, then add a Web Services user for them when enabling the Web Services subscriptions.
+
+More details can be found at [Sage Intaact instructions.](https://www.intacct.com/ia/docs/en_US/help_action/Administration/Users/web-services-only-users.htm?cshid=Web_services_users)
+
+## Example Usage
+
+Within this example we will list our Sage Intaact contacts and process them based on their status.
+
+1. Setup your trigger and get the list of contacts.
+2. Loop over collection of contacts.
+3. Find contacts with "status" equal to "active".
+4. Send Record numbers of the active contacts to to slack chanel.
+5. Get detailed information about inactive accounts.
+
+The final outcome should look like this:
+
+### 1 - Setup Trigger & List contacts
+
+Once you have clicked 'Create new workflow' from your main Tray.io dashboard named it, select the<br/>Manual trigger from the trigger options available:
+
+After you have been redirected to the Tray.io workflow dashboard, from the connectors panel on the<br/>left, add a Sage Intaact connector to your second step. Set the operation to 'List contacts'.
+
+Feel free to re-name your steps as you go along to make things clearer for yourself and other users.
+
+### 2 - Loop collection
+
+Next, search for the 'Loop collection' connector within your connector panel, and drag it into your<br/>workflow as your next step. Set your operations to 'Loop list'.
+
+The Loop Collection connector allows you to iterate through a list of results. In this example, we<br/>will use it to iterate through the data found within the previous Sage Intaact connector step.
+
+In order to specify the list you want to loop through, start by using the 'List' mapping icon (found<br/>next to the list input field, within the properties panel) to generate the connector-snake.
+
+While hovering over the 'List contacts' step (with the tail end of the connector-snake), select<br/>`CONTACT` from the list of output properties displayed. This will auto-populate a jsonpath within<br/>your 'List' input field, and update the type selector to jsonpath.
+
+For more clarification on the pathways you have available, open the Debug panel to view your step's<br/>Input and Output.
+
+### 3 - Boolean condition
+
+Find 'Boolean Condition' connector in the 'Core' section of the panel and add it to your third step. Choose 'Boolean condition' operation. To set the boolean connector to check if "status" equal "active" we use the `$.steps.loop-1.value.STATUS` jsonpath to pull it from 'Loop Collection' step.
+
+### 4 - Send a Slack message
+
+Add a Slack connector to your TRUE brunch and select 'Send message' operation.
+
+We use the `$.steps.loop-1.value.RECORDNO` jsonpath to pull "Record numbers" from the first Sage Intaact step.
+
+### 5 - Get inactive contacts
+
+Add a 'Sage Intaact' connector to your FALSE brunch and select 'Get contact' operation.
+
+We use the `$.steps.loop-1.value.RECORDNO` jsonpath to pull "Record numbers" from the first Sage Intaact step.
+
+Click 'Run workflow' an go to the Debug tub to see a successful of the output
+
+Congratulations! You just created a fully functional workflow.

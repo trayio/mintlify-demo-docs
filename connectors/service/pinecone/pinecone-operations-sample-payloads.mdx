@@ -1,0 +1,64 @@
+---
+title: "Operations (sample payloads)"
+description: "Operations (sample payloads) documentation for Pinecone connector"
+---
+
+# Operations (sample payloads)
+
+## Main operations
+
+### Create index
+
+This operation deploys a Pinecone index. This is where you specify the measure of similarity, the dimension of vectors to be stored in the index, which cloud provider you would like to deploy with, and more.
+
+**Sample Input**
+
+**Sample Output**
+
+### Delete vectors
+
+The delete operation deletes vectors, by id, from a single namespace.
+
+**Sample Input**
+
+**Sample Output**
+
+### Get index
+
+Get a description of an index.
+
+**Sample Input**
+
+**Sample Output**
+
+### Get index stats
+
+The describe_index_stats operation returns statistics about the contents of an index, including the vector count per namespace and the number of dimensions, and the index fullness.
+
+**Sample Input**
+
+**Sample Output**
+
+### List indexes
+
+This operation returns a list of all indexes in a project.
+
+**Sample Input**
+
+**Sample Output**
+
+### Query vectors
+
+The query operation searches a namespace, using a query vector. It retrieves the ids of the most similar items in a namespace, along with their similarity scores.
+
+**Sample Input**
+
+**Sample Output**
+
+### Upsert vectors
+
+The upsert operation writes vectors into a namespace. If a new value is upserted for an existing vector id, it will overwrite the previous value.
+
+**Sample Input**
+
+**Sample Output**

@@ -1,0 +1,98 @@
+---
+title: "Overview"
+description: "Overview of the Azure Active Directory connector"
+---
+
+# Overview
+
+## Overview
+
+Azure Active Directory is a comprehensive, highly available identity and access management cloud solution that combines core directory services, advanced identity governance, and application access management.
+
+In configuring a Tray app to integrate with Azure there are two very important points to be taken into consideration:
+
+1. The user who will be authenticating with Azure must have the right level of authority to **register the Tray app with Azure**.
+2. According to what operations you want to make use of, you should be aware of the individual permissions / scopes that the Tray app will access and set these accordingly *when you are authenticating your Azure account in the Tray workflow*.
+
+## Ensure the user has the authority to register the Tray.io app in Azure
+
+If you are using an Azure account which has admin privileges, then you should already be able to access your Dynamics data through the Tray.io platform.
+
+If not, then an Azure admin will need to set up access for the Tray app in one of three ways:
+
+1. Give all users the ability to consent to 3rd party apps accessing company data
+2. The Azure admin can login to Tray themselves in order to create the Authentication with their account
+3. An Azure admin can create a specific 'Tray app' user in Azure AD and give this user a specific role
+
+The **first option** grants all users in your organisation the ability to log into Microsoft services through any 3rd party application. To enable this setting, an admin must sign into the Azure portal > Navigate to Azure Active Directory in the left hand navigation > Click on User Settings in the menu then Click on Enterprise applications > Manage how end users launch and view their applications > Click on yes to "Users can consent to apps accessing company data on their behalf"
+
+The **second option** requires **an Azure admin to log into the  <Content type link TBD>** to create an Authentication and consent on behalf of the organisation. This means no other user for your organisation should have to consent to the Tray.io app accessing data in your organisation's Azure AD instance.
+
+The **third option** requires creating a 'Tray app' user in Azure and then going to Users > Select User > Directory Role > Add Role:
+
+For this user you will want to assign it the 'least priveleged role' in order for it to be able to carry out the operations you want.
+
+There is a useful Microsoft guide on what roles are required for what tasks [here](https://docs.microsoft.com/en-us/azure/active-directory/users-groups-roles/roles-delegate-by-task)
+
+## Authentication
+
+When using the Azure AD connector, the first thing you will have to do is click on 'New Authentication' in the step editor:
+
+### Standard Directory
+
+1. You will then have to specify the Directory ID, which will be 'common' unless more than one directory has been set up. The Directory ID can be found in the properties pane of the Directory in Azure Active Directory:
+
+### B2C Directory
+
+1. You will then have to specify the Directory ID and B2C extensions object ID. The directory ID can be found in the properties pane of the Directory in Azure Active Directory:
+
+To find the B2C application, go to your active directory and click on App Registrations. If you don't see the B2C application, ensure that you're viewing All apps.
+
+1. If you only need to List Users and access Basic Profile information, you can uncheck the User.ReadWrite.All and Group.Read.All scope, but leave the other two scopes (User.Read and Offline_access) checked. You should also add "User.ReadBasic.All" under Extra Scopes. The **Offline_access** box should **always be ticked** to prevent the access token from expiring and breaking your integration:
+
+Microsoft has a useful list [here](https://docs.microsoft.com/en-us/graph/permissions-reference#user-permissions) of the extra scopes that you can add to fine-tune the access which the Tray app has to your Azure AD instance.
+
+1. After clicking 'Next' you can sign into your Microsoft account with the appropriate credentials.
+2. The Azure admin should be able to confirm the permissions delegated to the app in Azure Active Directory under Users > Click on the specific user > Applications > Click on the app > View Granted Permissions:
+
+## To access Full Profile information
+
+If you need to access profile information that is not available as part of Basic Profile information, you will need access to users' Full Profile.
+
+To do this you can follow exactly the same steps as for Basic Profile but when creating your authentication in Tray you should also add the User.Read.All scope which will allow the application to access Full Profile information of all users, but will also require the user logging in to be an Administrator.
+
+In Azure Active Directory > Users > Directory Role:
+
+## Using the Raw HTTP Request ('Universal Operation')
+
+As of **version 2.2**, you can effectively create your own operations.
+
+This is a very powerful feature which you can put to use when there is an endpoint in Azure Active Directory which is not used by any of our operations.
+
+To use this you will first of all need to research the endpoint in the [ Azure Active Directory API documentation](https://docs.microsoft.com/en-us/graph/api/overview?view=graph-rest-1.0) , to **find the exact format** that Azure Active Directory will be expecting the endpoint to be passed<br/>in.
+
+Note that you will only need to add the suffix to the endpoint, as the base URL will be automatically set (the base URL is picked up from the value you entered when you created your authentication).
+
+The base URL for Azure Active Directory is: `https://graph.microsoft.com`
+
+For example, say that the 'List users' operation did not exist in our Azure Active Directory connector, and you wanted to use this endpoint, you would use the Azure Active Directory API docs to find the relevant endpoint - which in this case is a `GET` request called: `/v1.0/users`.
+
+More details can be found [here](https://docs.microsoft.com/en-us/graph/api/user-list?view=graph-rest-1.0&tabs=http).
+
+As you can see there is also the option to include a query parameter, should you wish to do so. So if you know what your method, endpoint and details of your query parameters are (here, we will be using the `$select` field in Microsoft's Graph API, which specifies which fields to be returned in the output), you can retrieve information about users with the following settings:
+
+Method: `GET`
+
+Endpoint: `/v1.0/users`
+
+Query Parameter: Key: `$select` Value: `displayName,givenName,postalCode`
+
+Final Example outcome being: **https://graph.microsoft.com/v1.0/users?$select=displayName,givenName,postalCode**
+
+## Example - List Users
+
+1. Create a new workflow with a **Manual Trigger** and add an Azure AD connector
+
+1. Select the **List Users** operation and choose an appropriate **limit** for the number of users to return:
+
+1. Click **Run Workflow Now**. Then select the **Debug** tab and you should be able to see a successful run of the workflow to click on and view the successful output of the workflow run:

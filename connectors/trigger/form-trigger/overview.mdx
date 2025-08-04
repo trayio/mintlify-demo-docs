@@ -1,0 +1,36 @@
+---
+title: "Overview"
+description: "Overview of the Form Trigger connector"
+---
+
+# Overview
+
+## Overview
+
+The Form Trigger can be used to capture information from End Users via a webform and use this to kick off a workflow based on the information that has been captured, which can then be fed to other connectors.
+
+An example of the Form Trigger in use can be seen in our [Simple Workflow Tutorial](https://tray.io/documentation/platform/getting-started/intro-tutorials/simple-slack-workflow/)
+
+The above tutorial takes you through how to create a webform such as:
+
+The form you create will be accessible by your End Users at the public URL available from your workflow settings:
+
+## Using Webform Data
+
+Each time a user enters and submits the form, you can extract the data submitted for use in subsequent connector steps. Clicking on the debug tab will show the submitted data:
+
+In the above example you could obtain the data with the following jsonpaths:<br/>`$.steps.trigger.result.email`<br/>`$.steps.trigger.result.suggestion`
+
+Please see the above tutorial for an example of this data being used to send a simple message to a Slack channel. This will demonstrate how webform data can be manipulated and sent to any connector.
+
+## Customising form CSS and adding JS
+
+You can customise your form by adding personalised CSS and Javascript as you would do for any standard webpage. 
+
+Click on the **Show Advanced Properties** button to view these editing options:
+
+**This workflow is available for you to **[import](#)** (right click and 'save as') **if you would like to see some applied custom CSS/JS in action.
+
+## Using your own custom webforms
+
+If you wish to use a custom webform you have previously built without Tray, then it is possible to submit its form data using a webhook, whereby you set the above Workflow public URL to receive the webhook data. Please see our [Webhook Trigger page](#) for an example webhook setup.

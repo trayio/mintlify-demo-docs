@@ -1,0 +1,28 @@
+---
+title: "Overview"
+description: "Overview of the Google Docs connector"
+---
+
+# Overview
+
+## Overview
+
+The Google docs connector allows you to create a document, get a document and update a document.
+
+## Authentication
+
+Click on the **New Authentication** button:
+
+## Note on Operations usage
+
+As the [Google Drive](/connectors/service/google-drive/) connector holds most of the permissions available for downloading Google files (regardless of type) - it is recommended to try revising your workflow to include this connector, should you face any Google file downloading issues.
+
+## Example 1 - Create a document
+
+This example will walkthrough how to create a new document. The first step is to add the Google docs connector to the workflow. To use this operation, select the `Create docs` operation in the input panel. The title for the document will need to be provided.
+
+## Example 2 - Update a document
+
+This example will walkthrough how to update a document with a given document ID. To use this operation, select the `Update docs` operation in the input panel. ID of the document will be required to choose the document to be updated. You can use the `Create docs` operation to select the ID of the new document that has been created or manually enter the document ID of another document.
+
+Then input the text that you would like to insert to the document and the location using the index. Document body will be updated with the given text, starting from the index.

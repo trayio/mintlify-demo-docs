@@ -1,0 +1,179 @@
+---
+title: "Overview"
+description: "Overview of the Quickbase connector"
+---
+
+# Overview
+
+## Overview
+
+Quickbase is a low-code database and application development platform. It lets teams work with a common data repository to build forms, create reports, set up workflows and automate processes.
+
+## Authentication
+
+Within the workflow builder, highlight the Quickbase connector.
+
+In the Quickbase connector properties panel to the right of the builder, click on the Authenticate tab and the 'Add new authentication' button.
+
+This will result in a Tray.io authentication pop-up modal. The first page will ask you to name your authentication and select the type of authentication you wish to create ('Personal' or 'Organisational').
+
+The next page asks you for your 'Realm URL' and 'Quickbase user token' credentials.
+
+In order to get these fields, head to the [Quickbase](https://www.quickbase.com/) dashboard and sigin. You will find your Realm URL within the URL bar as shown and highlighted in the image below.
+
+To get the token, head to "My preferences" section on the right hand side of your dashboard.
+
+From here, click on the link next to "Manage User Tokens".
+
+In this page you will be able to select an existing user token or create a new one by clicking on "New user token".
+
+To manage the apps linked to a specific token you can just select the token from your "My User Token" page and add/remove the apps through the dedicated section as shown below.
+
+**User Agent** is an optional field. This information is entered by the person or utility invoking the API. You can choose between the default in your toolkit or custom create it. Being as descriptive as possible will help in identification and troubleshooting.
+
+Once you have added these fields to your Tray.io authentication popup window, click the 'Create authentication' button.
+
+Go back to your settings authentication field (within the workflow builder properties panel), and select the recently added authentication from the dropdown options now available.
+
+Your connector authentication setup should now be complete.
+
+## Available Operations
+
+The examples below show one or two of the available connector operations in use.
+
+Please see the [Full Operations Reference](#operationsFull) at the end of this page for details on all available operations for this connector.
+
+## Notes on using Quickbase
+
+### App IDs and Table IDs, where to find them
+
+With Quickbase you are able to create multiple applications and tables. One or more tables can be related to a single application.
+
+When using the Quickbase connector you may be asked to provide an App ID in order to get access to a list of the available tables within that specific application. In some cases you will be asked to provide the specific table ID.
+
+To get the App ID, head to your Quickbase dashboard and open a specific application. Then click on the settings icon.
+
+Then, head to "App properties".
+
+Once here, select "App management".
+
+From here, click on "Show support information".
+
+On this page you will find the App ID you need to use in your workflow. It is the first one in the table as highlighted below.
+
+On the same page, you also have access to the table ID. The ID is of all the tables that belong to that specific application. It is listed just below the App ID.
+
+### Record IDs and Field IDs, how to retrieve them
+
+When interacting with specific records, the Quickbase connector requires their IDs. Every table has multiple fields. When a new record is created, its ID is automatically stored in one of the 5 default fields of the table. In particular, this field is called 'Record ID'.
+
+To get access to the ID of a specific record through the workflow, we suggest to use the Quickbase's 'Run query' operation.
+
+In the following example we select a table by passing its ID into the `From` field. This will be enough to get all records belonging to that table, without any filter.
+
+Then, in the `select` array we pass the table field IDs related to every record that we want to be return.
+
+When you run this operation you can expect an output that looks like the following:
+
+From here, you will be able to link another connector to the workflow and use one or more record IDs coming from the previous connector just using the connector-snake.
+
+As mentioned, in order to retrieve the Record IDs you need, you have to provide specific table **field IDs**.
+
+One option is to access your Quickbase personal dashboard, select the table you are interested in and click on the settings icon.
+
+Then, click on 'Fields'.
+
+Here you can find all the fields related to your table with their names and their IDs.
+
+The other option to get access to Field IDs is by using a Quickbase connector in the workflow. You can set it to `List table fields`, enter the App ID and select the specific table you are interested in.
+
+## Using the Raw HTTP Request ('Universal Operation')
+
+As of **version 1.0**, you can effectively create your own operations.
+
+This is a very powerful feature which you can put to use when there is an endpoint in Quickbase which is not used by any of our operations.
+
+To use this you will first of all need to research the endpoint in the [Quickbase API documentation v1.0](https://developer.quickbase.com/), to **find the exact format** that Quickbase will be expecting the endpoint to be passed as.
+
+Note that you will only need to add the suffix to the endpoint, as the base URL will be automatically set in accordance to the API instructions.
+
+The base URL for Quickbase is: `https://api.quickbase.com/v1/`
+
+For example, say that the 'Get table reports' operation did not exist in our Quickbase connector, and you wanted to use this endpoint. You would use the Quickbase API docs to find the relevant endpoint - which in this case is a `GET` request called: `/reports`.
+
+More details about this endpoint can be found [here](https://developer.quickbase.com/operation/getTableReports).
+
+As you can see there is also the option to include a query parameter, should you wish to do so. In this specific case, the API is requiring only one query parameter (tableId). So if you know what your method, endpoint and details of your query parameters are, you can get the table reports information with the following settings:
+
+Method: `GET`
+
+Endpoint: `/reports`
+
+Query Parameter: Key: `tableId` Value: `ex1234`
+
+Final outcome being: **https://api.quickbase.com/v1/reports?tableId=ex1234**
+
+## Example Usage
+
+Below is an example of a way in which you could potentially use the Quickbase connector to insert records in one of your existing tables.
+
+This scenario imagines a situation whereby you as a user have received some customer data via the [Webhook](/connectors/triggers/webhook-trigger/) trigger, and now need to process it into Quickbase. However users may have received this data in any number of other ways such as from the [Salesforce](/connectors/service/salesforce/) or [SurveyMonkey](#) connector, through the [CSV Editor](/connectors/core/csv-editor/), and so on.
+
+The steps will be as follows:
+
+1. Setup the workflow with a Webhook trigger and pull data from it.
+2. Add the Loop collection connector to iterate over each record data.
+3. Using the Quickbase connector to create new records within the selected table.
+4. Read the records from the Quickbase database.
+
+### 1 - Setup Trigger & Pull Data
+
+Once you have clicked 'Create new workflow' from your main Tray.io dashboard and named it, select the Webhook trigger from the trigger options available, and set the operation to 'Auto respond with HTTP 200'.
+
+Be sure to click the 'Enable' button before continuing. This makes the workflow ready to receive incoming calls.
+
+The records received by the Webhook are in JSON format and is as follows:
+
+Remember that **the format in which you receive data will vary depending on where it is coming from** - pulling records from Salesforce, Webform, etc., will have different results/views.
+
+Note that the above JSON contains the application ID (app_id) and the table's ID (table_id) that belongs to the specified application. The table_id represents the table to which the received records are to be added. The received records are in field ID and value pair.
+
+### 2 - Add records
+
+Next, search for the Loop collection connector within your connector panel, and drag it into your workflow as your next step. Set the operation to 'Loop list'.
+
+The Loop Collection connector allows you to iterate through a list of results. In this example, we will use it to iterate through the data found within the previous Webhook connector step.
+
+In order to specify the list, you want to loop through, start by using the list mapping icon (found next to the list input field, within the properties panel) to generate the connector-snake.
+
+While hovering over the Webhook trigger connector (with the tail end of the connector-snake), select 'records' from the list of output properties displayed. This will auto-populate a jsonpath within your list input field and update the type selector to jsonpath.
+
+For more clarification on the pathways, you have available, open the Debug panel to view your step's Input and Output.
+
+This will enable us to iterate over the list of records info and perform operations on them during each loop cycle.
+
+Next, drag a Quickbase connector **inside** of the Loop Collection step itself. Set the operation to 'Create record'.
+
+Use the connector-snake to find the jsonpaths for the 'App ID' and the 'Table ID' from the Webhook step. They should appear similar to: `$.steps.trigger.body.app_id` and `$.steps.trigger.body.table_id`.
+
+Next, use the connector-snake to find the appropriate jsonpaths for all the 'Table field' and 'Value' pairs from the loop step.
+
+Remember that once you created it, you can also modify the jsonpath according to your needs.
+
+Now, if you run the workflow, the three new records will be added to the selected table.
+
+Feel free to re-name your steps as you go along to make things clearer for yourself and other users. The operation names themselves often suffice.
+
+### 3 - List table records
+
+Now, add a new Quickbase connector to your workflow as a next step. Set the operation to 'Run query'.
+
+You will notice that there are a lot of additional configuration fields that you can set. The purpose of this operation is to let the user filter records from tables by running specific queries.
+
+The only mandatory field is 'From' and corresponds to the ID of the table we want to check.
+
+You can provide a jsonpath of the table id in the 'From' field as we did in the previous step.
+
+Now, when you run this workflow, it will retrieve a complete list of records for the selected table. You can always view these records in the output panel under the [Debug](/platform/troubleshooting/logs-and-debugging/) tab.
+
+The records should look similar to this:

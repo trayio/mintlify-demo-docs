@@ -1,0 +1,40 @@
+---
+title: "Overview"
+description: "Overview of the Marketo connector"
+---
+
+# Overview
+
+## Overview
+
+The Tray.ai connector for Marketo puts the whole of the Marketo API at your fingertips. Save leads directly into Marketo, export data to other Cloud Services, and interact with campaign & custom field data - in real-time.
+
+## **API Information**
+
+The Base URL used for the Marketo connector is* - *[https://developers.marketo.com/rest-api/base-url/](https://developers.marketo.com/rest-api/base-url/) however please note that this is unique to each customer and may change. More information can be found on their main API documentation (**v1.0**) - [Marketo documentation](https://developers.marketo.com/rest-api/) site. This where you can also view their [API limitations](https://developers.marketo.com/rest-api/marketo-integration-best-practices/) page.
+
+## Authentication
+
+When using the Bizzabo connector for the first time, you need to create a new authentication.
+
+Name your authentication and specify the type ('Personal' or 'Organizational').
+
+The next page asks you for your **API endpoint domain**,** Client ID** and** Client Secret **credentials.
+
+In the main menu at the top of your Marketo account page click on **Admin**.
+
+Under **Integrations** select **Webhooks**. You will have the option to select a previously made webhook if one already exists.
+
+If you choose to make a new one make sure you fill in the details in the following manner including the **Marketo Tokens** you wish to use.
+
+Tokens in Marketo are special strings similar to shortcodes which are replaced by a separate piece of data at run time.
+
+Your **API Endpoint Domain** is located under the **Integrations** menu under **Web Services**. 
+
+The **Client ID** and **Client Secret** are located under the **Integrations** menu under **LaunchPoint**. 
+
+Select the service you wish to integrate with in order to find your credentials.
+
+Once you have added these fields to your Tray authentication pop-up window click the **Create authentication** button. 
+
+Your connector authentication setup should now be complete. Please run the simplest operation available to test and make sure you can retrieve data as expected.

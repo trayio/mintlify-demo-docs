@@ -1,0 +1,31 @@
+---
+title: "Overview"
+description: "Overview of the Jumpcloud connector"
+---
+
+# Overview
+
+## Overview
+
+## Authentication
+
+Jumpcloud uses an API key which can be found by logging into your Jumpcloud account and choosing API Settings from the dropdown.
+
+## Basic operation list
+
+- Get system user
+- List system users
+- Reset MFA
+- Search system users
+
+## Example - Searching users
+
+To search for users with values in certain fields, the `Search system users` operation can be used.
+
+If not all fields are required for the found users, then the fields name that are required can be listed, as shown below.
+
+Filters can be used to search for user with specific properties. First, you can choose how the filters should be evaluated together. To match any of the filters, `Or` can be chosen. To only return results that match ALL the filters, please select `And`.
+
+To filter on specific fields, enter the field name and the value it should match.
+
+Using the `Limit` and `Offset` fields, pagination can be achieved.

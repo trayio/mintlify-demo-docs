@@ -1,0 +1,89 @@
+---
+title: "Overview"
+description: "Overview of the Ambassador connector"
+---
+
+# Overview
+
+## Overview
+
+Ambassador is a platform that automates and scales all your customer referral, affiliate, influencer, and partner marketing programs.
+
+## **API Information **
+
+The Base URL used for the Ambassador connector is **`https://getambassador.com/api/v2/{username}/token/json`**. More information can be found on their main API documentation (v1) - [API Documentation](https://docs.getambassador.com/reference/) site.
+
+## Authentication
+
+Within the builder, click on the Ambassador connector to display the connector properties panel. Select the 'Authentication' tab and click on the 'New authentication' button.
+
+In the Tray.io authentication pop-up modal, name the authentication in a way that will quickly identify it within a potentially large list. For example, whether it is a Sandbox or Production auth, etc.
+
+Consider who/ how many people will need access to this authentication when choosing where to create this authentication ('Personal' or 'Organisational').
+
+The second page asks you for your 'API Token', 'Username', and 'Domain' credentials.
+
+To get these fields, head to the Ambassador dashboard. Click on the left panel and click on settings 
+
+To get the API Token and username, head to Account Information and then scroll down to API credentials 
+
+Once you have added these fields to your Tray.io authentication pop-up window, click the 'Create authentication' button. 
+
+Your connector authentication setup should now be complete.
+
+## Ambassador Trigger
+
+The Ambassador trigger allows you to receive notifications and trigger workflows when given events occur associated with the selected trigger operation.
+
+### Trigger Operations available:
+
+- Webhook
+
+### Webhook Setup
+
+Select the Ambassador trigger. This can be done at the create new workflow stage or updated within the workflow builder itself.
+
+Follow the instructions above to authenticate your trigger. Select 'Webhook' as the event you wish your trigger to listen to in order to set off the workflow itself.
+
+Ensure that you enter values in the format that the API is expecting, especially for fields with string inputs, such as 'Event type' and 'Notification type'.
+
+## Available Operations
+
+The examples below show one or two of the available connector operations in use.
+
+Please see the [Full Operations Reference](#operationsFull) at the end of this page for details on all available operations for this connector.
+
+## Using the Raw HTTP Request ('Universal Operation')
+
+As of **version 1.0**, you can effectively create your own operations.
+
+This is a powerful feature that you can use when there is an endpoint in Ambassador that is not used by any of our operations.
+
+To use this, you will first of all need to research the endpoint in the Ambassador - [API documentation](https://docs.getambassador.com/reference/) v2 to **find the exact format** that Ambassador will be expecting the endpoint to be passed in.
+
+For example, say that the List Group operation did not exist in our Ambassador connector, and you wanted to use this endpoint. You would use the
+
+Ambassador API docs to find the relevant endpoint - ***which in this case is a `GET` request called: `/group/all`.***
+
+More details about this endpoint can be found [here](https://docs.getambassador.com/reference/groupall).
+
+Based on the information provided in the above API call doc, you need to configure the following attributes on your Tray platform:
+
+- **Method:** GET
+- **URL: **
+
+Once the API call is executed successfully,  you should get the following results:
+
+## Example Usage
+
+Below is an example of a way in which you could potentially use the Ambassador connector, to get information about a specific Ambassador
+
+The overall logic of the workflow is:
+
+1. Setup using a manual trigger and use the RawHTTP operation to list Ambassadors in your account.
+2. Add the Loop collection connector to iterate over each individual Ambassador.
+3. Gather the information available for each Ambassador.
+
+Your completed workflow should look similar to this:
+
+### Step-by-step Explanation

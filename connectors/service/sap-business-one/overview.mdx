@@ -1,0 +1,204 @@
+---
+title: "Overview"
+description: "Overview of the SAP Business One connector"
+---
+
+# Overview
+
+## Overview
+
+SAP Business One is one of SAP's enterprise resource planning (ERP) services designed for small and medium-sized enterprises. With flexibility and scalability in mind, SAP Business One helps you to connect and streamline your business needs.
+
+## Authentication
+
+Within the workflow builder, highlight the SAP Business One connector.
+
+In the SAP Business One connector properties panel to the right of the builder, click on the Authenticate tab and the 'New authentication' button.
+
+This will result in a Tray.io authentication pop-up modal. The first page will ask you to name your authentication and select the type of authentication you wish to create ('Personal' or 'Organisational').
+
+The next page asks you for your SAP Business One instance details and authentication credentials as you can see in the below image:
+
+In order to get these fields, please consult your SAP Business One service provider guides, as the process may differ based on your cloud service provider.
+
+Once you have added these fields to your Tray.io authentication popup window, click the 'Create authentication' button.
+
+Go back to your settings authentication field (within the workflow builder properties panel), and select the recently added authentication from the drop-down options now available.
+
+Your connector authentication setup should now be complete.
+
+## Available Operations
+
+The examples below show one or two of the available connector operations in use.
+
+Please see the [Full Operations Reference](#operationsFull) at the end of this page for details on all available operations for this connector.
+
+## Notes on using SAP Business One
+
+### Supported Databases
+
+Tray.io supports various databases, including the SAP HANA platform that can be used while working with the SAP Business One connector. You can find and select the database of your choice while authenticating the connector under the 'Database type' field.
+
+To learn about the authentication process, refer to the [Authentication](#authentication) section above.
+
+### SAP Business One versions supported by Tray.io
+
+Tray.io interacts with the Sap Business One application through the SAP Business One Web Services Wrapper. I.e., all the requests made by Tray's SAP Business One connector are made to the Wrapper, and the web service, in turn, requests the SAP Business One application.
+
+Thus all the SAP Business One versions supported by the SAP Business One Web Services Wrapper are in turn supported by the Tray's Sap Business One connector.
+
+### Get business object XML template Operation
+
+The Get business object XML template operation retrieves an XML schema for a business object.
+
+This retrieved business schema can be used for various operations in SAP Business One. For example, if you wish to store information in an object using Add object operation, you will need the objects schema template.
+
+To get the business object XML template, you need to provide an appropriate 'Business object' value. For example, to fetch the template for a Business Partners Object, you need to provide `oBusinessPartners` as a value to the Business object field.
+
+Refer to the [Business object schema documentation](https://biuan.com/Company/GetBusinessObjectXmlSchema/GetBusinessObjectXmlSchema%20sample_E/) for the list of Business objects.
+
+### List tables operation Operation
+
+The 'List tables' operation retrieves a list of available tables with their Alias.
+
+These Aliases are further used in different operations like Add object or Update object in SAP Business One.
+
+The output of the operation looks similar to this:
+
+### Add object Operation
+
+Add object operations accept an XML request formatted as a JSON object.
+
+To learn about the Add object operation, refer to the [Add object](#add-object-example) example usage section below.
+
+## Example Usage
+
+### Execute SQL Example
+
+Below is an example of a way in which you could potentially use the SAP Business One connector to list the current month's Document Invoice records using the Execute SQL operation.
+
+These records, in the end, are stored in a third-party service. In this case, we are using google sheets as a generic placeholder for any service or database you may wish to use.
+
+The steps will be as follows:
+
+1. Setup using a manual trigger and fetch records using the SAP Business one Execute SQL operation.
+2. Loop through the records fetched in the previous step.
+3. Format the records for the Date attribute using the Javascript connector.
+4. Add all the records to the selected google sheet.
+
+Your completed workflow should look similar to this:
+
+#### 1 - Setup Trigger & fetch records
+
+With your trigger in place (be it [Manual](/connectors/triggers/manual-trigger/), [Scheduled](/connectors/triggers/scheduled-trigger/), [Callable](/connectors/triggers/callable-trigger/) etc) add a SAP Business One connector. Set the operation to 'Execute SQL'.
+
+Add the following query in the 'SQL code' field:
+
+SELECT OINV.DocNum, OINV.DocRate, OINV.DocDate, OINV.CardName, OINV.Comments from OINV
+
+WHERE OINV.DocDate>='{$.config.date1}' and OINV.DocDate<='{$.config.date2}'
+
+Here, `OINV` is an Alias for the table name. You can get the Alias for any table name using the 'List tables' operation. Refer to the [Notes on using SAP Business One](#notes-on-using-sap-business-one) section above to learn about the List tables operation.
+
+In this example, DocNum, DocRate, DocDate, CardName, and Comments are the field names for which we wish to fetch the values.
+
+The above query will list the records based on the date range provided in the WHERE clause.
+
+You can always directly provide the dates to define the date range. We have configured the dates and then passed the configured date variables in the interpolated mode.
+
+To configure the dates, click on the horizontal hamburger icon available on the top left corner of the builder. Navigate to Workflow settings > Configurable data.
+
+On this page, you can provide 'Names' to your date variables and appropriate dates as their 'Values'.
+
+Now once you have the variables ready, prefix both the variables with `$.config.`. Then wrap the variables along with the prefix in curly bracket, they should look like this: `{$.config.date1}` and `{$.config.date2}`
+
+Use these variables in the where clause now. Whenever you wish to change the dates, you can always change them from the 'Workflow settings' section as mentioned above.
+
+Feel free to re-name your steps as you go along to make things clearer for yourself and other users. The operation names themselves often suffice.
+
+When executed, the above step will fetch the records for the mentioned fields based on the date range provided. The fetched records should look like this:
+
+#### 2 - Loop through the records
+
+Next, search for the Loop connector within your connector panel, and drag it into your workflow as your next step. Set the operation to 'Loop List'.
+
+The Loop connector allows you to iterate through a list of results. In this example, we will use it to iterate through the data found within the previous **Fetch records** step.
+
+In order to specify the list you want to loop through, start by using the list mapping icon (found next to the list input field, within the properties panel) to generate the connector-snake.
+
+While hovering over the **Fetch records** step (with the tail end of the connector-snake), select 'row' from the list of output properties displayed. This will auto-populate a jsonpath within your list input field, and update the type selector to jsonpath. The jsonpath should look like this: `$.steps.sap-business-one-1.response.OINV.row`
+
+For more clarification on the pathways you have available, open the Debug panel to view your step's Input and Output.
+
+#### 3 - Format the date and add records
+
+As you can see in the output mentioned in the **Fetch records** step. The date received is in a string format, i.e., like this: `20060702`. We wish to format the date by adding a delimeter to the existing yyyy-mm-dd date format, i.e., after adding the delimiters, the date would look like this: `2006-07-02`.
+
+To do so, add a Javascript connector **inside** the Loop connector step itself. Set the operation to 'Execute Script'. As you can see, the 'Value' field is required.
+
+Using the connector-snake find the jsonpath for the `DocDate` field from the **Loop** step. It should appear similar to this: `$.steps.loop-1.value.DocDate`.
+
+Add the following script in the 'Script' field:
+
+exports.step = function(input) {<br/>var year = input.date.substring(0, 4);<br/>var month = input.date.substring(4, 6);<br/>var day = input.date.substring(6, 8);
+
+return year + '-' + month + '-' + day;<br/>};
+
+The last step is to drag a Google Sheets connector **inside** the Loop connector below the Javascript connector. Set the operation to 'Create row'.
+
+Provide the 'Spreadsheet ID' and select a valid 'Worksheet name' from the available drop-down options.
+
+To learn how to find the Spreadsheet ID refer to the Google Sheets document's [Finding the Spreadsheet ID section](/connectors/service/google-sheets/).
+
+For the 'Row data' field, select the 'Column headings' from the available drop-down options.
+
+For the 'Value' for each heading, use a connector-snake to find the jsonpath from the **Loop** step except for the 'Document Delivery Date' field, find the jsonpath from the **Format the date** step.
+
+This will add all the records to the selected Google sheet.
+
+The populated Google sheet should look like this:
+
+### Add Object Example
+
+Objects in SAP are used to store information.
+
+There are various object types in SAP. These different types are used to break a SAP system down into smaller, disjunctive units. There are two types of Objects available, predefined objects and user-defined objects.
+
+In this example, we are demonstrating the way in which you can add data to one of the predefined SAP object called a Business Partners Object. BusinessPartners is an object that represents the Business Partners Master Data in the Business Partners module.
+
+To encapsulate the SAP data and business processes, each SAP object is defined as a structure with multiple layers. These structures are available for each object and in the form of templates.
+
+You can get the template for any business object in SAP Business One using the 'Get business object XML template' operation. To learn about this operation, refer to the [Notes on using SAP Business One](#notes-on-using-sap-business-one) section above.
+
+The multilayer object template for the Business Partners object is as follows:
+
+The following workflow gives an example of how you can achieve this:
+
+In these examples, we have shown that you have received some customer data via the [Webhook](/connectors/triggers/webhook-trigger/) trigger, and now need to process it into SAP Business One. However users may have received this data in any number of other ways such as from the [Salesforce](/connectors/service/salesforce/) or [SurveyMonkey](#) connector, through the [CSV Editor](/connectors/core/csv-editor/), and so on.
+
+1. Pull the data from the source (a webhook trigger in this example).
+
+When using a Webhook trigger 'When webhook is received, auto respond with HTTP 200' is the most common operation, unless you want to specify a custom response. Be sure to click the 'Enable' button before continuing. This makes the workflow ready to receive incoming calls.
+
+The data received by the Webhook is in JSON format is as follow:
+
+Remember that the format in which you receive data will vary depending on where it is coming from - pulling records from Salesforce, Webform, etc., will have different results / views.
+
+1. Add a SAP Business One connector as a next step and set the operation to 'Add object'.
+
+The operation requires an XML request formatted as a JSON object.
+
+The XML request structure varies with each request and depends on the object in which you wish to add new records and the attributes of the object that are involved. Since we wish to add new records into the Business Partners object we are using the Business Partners object's XML structure. The attributes involved are based on the JSON data that you receive through the trigger.
+
+As you can see in the previous step, the JSON received through the Webhook contains data for cardCode, ContactPerson, Name, and PaymentDate attributes. Thus, in the XML structure we need to provide jsonpaths from the trigger as an input value for each attribute in the XML code.
+
+The jsonpaths are to be provided in interpolated mode and they should look similar to this:
+
+- CardCode: `{$.steps.trigger.body.data.cardCode}`
+- ContactPerson: `{$.steps.trigger.body.data.ContactPerson}`
+- Name: `{$.steps.trigger.body.data.Name}`
+- PaymentDate: `{$.steps.trigger.body.data.PaymentDate}`
+
+The complete XML code with the jsonpaths should look similar to this:
+
+The above mentioned XML request will add rows to the Business Partners object. Once you<br/>have successfully added the rows, the output should look similar to this:

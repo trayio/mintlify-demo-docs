@@ -1,0 +1,93 @@
+---
+title: "Overview"
+description: "Overview of the Dropbox connector"
+---
+
+# Overview
+
+## Overview
+
+Dropbox is a file hosting service which offers cloud storage, file synchronization, personal cloud, and local client software. It is a powerful set of tools for storing and sharing your work and collaborating on projects.
+
+## Authentication
+
+When using the Dropbox connector, the first thing you will have to do is click on 'New Authentication' in the step editor:
+
+You can then enter your Dropbox credentials to link to your account:
+
+## Available Operations
+
+The examples below show one or two of the available connector operations in use.
+
+Please see the [Full Operations Reference](#operationsFull) at the end of this page for details on all available operations for this connector.
+
+## Note on Operations usage
+
+When referencing file paths in Dropbox, you must use the 'absolute' path - i.e. it must begin with a `/` - for example '/test-folder' or '/images/photo.png'
+
+## Example Usage - creating a new marketing project
+
+This short example tutorial will demonstrate the **Create Folder** and **Copy file/folder** operations, and show how Dropbox can be used in conjunction with other services.
+
+It imagines a scenario whereby the first step in creating a new marketing project is initiated by creating a new Slack channel for this project. This kicks off a sequence of events:
+
+1. A new project channel is created by someone in Slack
+2. A new project board is auto-created in Trello (could be another project management tool, such as Asana)
+3. A new project folder is auto-created in Dropbox
+4. A renamed presentation template is automatically copied into the new project folder
+
+The completed workflow looks like this:
+
+The steps involved are:
+
+### 1 - Setup the Slack trigger
+
+When creating the workflow choose Slack as the trigger and create a Slack Authentication.
+
+Then set the Operation to **On Slack Event** and the Event as **Channel created**:
+
+The workflow will then be triggered when you create a new channel:
+
+### 2 - Create Trello project
+
+Create a Trello authentication. Set the Operation to **Create new board**:
+
+You can pick up the name for the project board from the name given to the Slack channel using the `$.steps.trigger.event.channel.name` jsonpath.
+
+When the workflow is triggered, you will see the new project board appear in Trello:
+
+### 3 - Create a new Dropbox folder
+
+Create a Dropbox authentication as explained above.
+
+Set the Operation as **Create folder**:
+
+As with the Trello board, you can pick up the name for the project folder from the name given to the Slack channel using the `$.steps.trigger.event.channel.name` jsonpath (feel free to use the connector-snake to autocomplete this for you).
+
+Note, however, that we are using a trick here to append the project folder name to a top-level 'marketing' folder in Dropbox. We are leaving the **'Path'** box as a String type and 'interpolating' the jsonpath by enclosing it in **{ }**.
+
+Thus the final folder path is `/marketing/{$.steps.trigger.event.channel.name}`
+
+When the workflow is triggered, you will see the new project folder appear in Dropbox:
+
+### 4 - Copy the presentation template
+
+The second Dropbox step assumes that you have some templates available in a 'marketing/templates' folder, and copies a renamed presentation template from there into the newly created project folder.
+
+Set the Operation as **Copy file/folder**:
+
+When the workflow is triggered, you will see the new presentation template appear in the new Dropbox project folder:
+
+### Extra step - checking the new project is marketing
+
+In the above example, it is likely that you will not wish for all new Slack channels to automatically create a Trello board and Dropbox folder.
+
+In this case you can make use of our [Text Helpers](/connectors/helpers/text-helper/) and [Boolean Condition](/connectors/core/boolean-condition/) connectors to check if the new Slack channel contains 'marketing' in the name.
+
+Your workflow will then look like this:
+
+The text helper connector can use the **Contains** operation to check if the name of the Slack channel contains the word 'marketing':
+
+It will return a true/false result which the boolean connector can then check for:
+
+The actions on the **True** path will then only be activated if a channel which contains 'marketing' is created!

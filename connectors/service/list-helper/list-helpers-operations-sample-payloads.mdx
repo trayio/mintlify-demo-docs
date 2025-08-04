@@ -1,0 +1,232 @@
+---
+title: "Operations (sample payloads)"
+description: "Operations (sample payloads) documentation for List Helpers connector"
+---
+
+# Operations (sample payloads)
+
+## Main operations
+
+### Add item to list
+
+Adds an item to the end of a list. If this list doesn't already exist, then a new list will be returned with just the new item.
+
+**Sample Input**
+
+**Sample Output**
+
+### Add multiple items to list
+
+Adds multiple items to the end of a list. If this list doesn't already exist, then a new list will be returned with just the new items.
+
+**Sample Input**
+
+**Sample Output**
+
+### Chunk
+
+Split a list of items into lists of a fixed size. If the list can’t be split evenly, the final chunk will be the remaining elements.
+
+**Sample Input**
+
+**Sample Output**
+
+### Concatenate
+
+Concatenate two lists together, adding all of the items from the second list after the items in the first list.
+
+**Sample Input**
+
+**Sample Output**
+
+### Contains
+
+Returns true if the match item in contained in the list, false otherwise.
+
+**Sample Input**
+
+**Sample Output**
+
+### Count items
+
+Counts up the number of items (or length) in the list.
+
+**Sample Input**
+
+**Sample Output**
+
+### Delete items from list
+
+Delete all items from a list that match a condition.
+
+**Sample Input**
+
+**Sample Output**
+
+### Difference
+
+For a given list, filter it down to only return the items that do NOT exist in the second list.
+
+**Sample Input**
+
+**Sample Output**
+
+### Filter
+
+Use filter conditions to filter a list of objects.
+
+**Sample Input**
+
+**Sample Output**
+
+### Find object in list
+
+From a list of objects, pick the first object that matches the fields in the match object.
+
+**Sample Input**
+
+**Sample Output**
+
+### First
+
+Given a list of items, get the first one.
+
+**Sample Input**
+
+**Sample Output**
+
+### Get item by index
+
+Given a list of items, retrieve the one at a specified index.
+
+**Sample Input**
+
+**Sample Output**
+
+### Get list of page numbers
+
+Get a list of "page numbers", given a total count, along with the number of items you would like to have in each page. For example, if you had 300 records and 100 per page, the list "[1,2,3]" would be returned.
+
+**Sample Input**
+
+**Sample Output**
+
+### Get numbers between
+
+Given a minimum and maximum value, get a list of all of the numbers in between the two. Includes both the minimum and maximum numbers too.
+
+**Sample Input**
+
+**Sample Output**
+
+### Get unique items by key
+
+Given a list of objects, retrieve a unique list of objects, excluding duplicate values for a specific key.
+
+**Sample Input**
+
+**Sample Output**
+
+### Intersection
+
+For two given lists, return only the items that exist in both lists.
+
+**Sample Input**
+
+**Sample Output**
+
+### Iterative transform
+
+Given a list, iterates through the enumerable components, and transforms the associated values accordingly.
+
+**Sample Input**
+
+**Sample Output**
+
+### Join
+
+Join all items in a list together as a string, separated by a separator.
+
+**Sample Input**
+
+**Sample Output**
+
+### Last
+
+Given a list of items, get the last one.
+
+**Sample Input**
+
+**Sample Output**
+
+### Pluck
+
+Given a list of objects, extracts the value of a specific key from each one, returning a flat list of the values for all objects.
+
+**Sample Input**
+
+**Sample Output**
+
+### Remove duplicates
+
+Ensures that every item in a list exists once, and only once. Removes any duplicate values.
+
+**Sample Input**
+
+**Sample Output**
+
+### Rename keys
+
+Renames all keys in a list of objects.
+
+**Sample Input**
+
+**Sample Output**
+
+### Reverse
+
+Reverse the order of a list.
+
+**Sample Input**
+
+**Sample Output**
+
+### Rotate first item
+
+Takes the first item of the list and puts it at the back.
+
+**Sample Input**
+
+**Sample Output**
+
+### Simple sort
+
+Sorts a list of strings and / or numbers in ascending or descending order.
+
+**Sample Input**
+
+**Sample Output**
+
+### Slice
+
+Creates a slice of the list from start up to, but not including, end.
+
+**Sample Input**
+
+**Sample Output**
+
+### Sort objects
+
+Given the inputs list, key and order ("ascending", "descending"), sort the object by the specified key in the desired order.
+
+**Sample Input**
+
+**Sample Output**
+
+### Zip
+
+Takes a list of keys and a second list of values and returns a single object with corresponding key value pairs.
+
+**Sample Input**
+
+**Sample Output**

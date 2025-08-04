@@ -1,0 +1,112 @@
+---
+title: "Overview"
+description: "Overview of the CleverReach connector"
+---
+
+# Overview
+
+## Overview
+
+CleverReach is a do-it-yourself email marketing and newsletter tool that offers users powerful features like A/B split testing, dynamic content blocks, RSS campaigns, and order reports for online stores.
+
+## Authentication
+
+When using the CleverReach connector, the first thing you will need to do is go to your Tray.io account page, and select the workflow you wish to work on. Once in the workflow builder itself, search and drag the CleverReach connector from the connectors panel (on the left hand side) onto your workflow.
+
+With the new CleverReach connector step highlighted, in the properties panel on the right, click on 'New Authentication' which is located under the 'Settings' heading.
+
+This will result in a Tray.io authentication pop-up window. The first page will ask you to name your authentication, and state which type of authentication you wish to create ('Personal' or 'Organisational').
+
+As you can see, with CleverReach no credentials are required on the Tray.io side so you can continue to click 'Create authentication'.
+
+This will take you to the CleverReach site itself, where you will need to log in with your credentials.
+
+If you choose to login with existing credentials, you will be redirected once more to a page where you can login as you usually would by entering your 'Customer ID', 'User name' and 'Password'.
+
+Once you have entered these credentials, select 'Log in now & connect Tray.io!' which will redirect you back to the Tray.io workflow.
+
+Go back to your settings authentication field (within the workflow builder properties panel), and select the recently added authentication from the dropdown options now available.
+
+Your connector authentication setup should now be complete.
+
+## Available Operations
+
+The examples below show one or two of the available connector operations in use.
+
+Please see the [Full Operations Reference](#operationsFull) at the end of this page for details on all available operations for this connector.
+
+## Using the Raw HTTP Request ('Universal Operation')
+
+With **version 1.0**, you can effectively create your own operations.
+
+This is a very powerful feature which you can put to use when there is an endpoint in XXXXXX which is not used by any of our operations.
+
+To use this you will first of all need to research the endpoint in the [CleverReach API documentation v3.0](https://rest.cleverreach.com/explorer), to **find the exact format** that CleverReach will be expecting the endpoint to be passed in.
+
+Note that you will only need to add the suffix to the endpoint, as the base URL will be automatically set (the base URL is picked up from the value you entered when you created your authentication).
+
+The base URL for CleverReach is: `https://rest.cleverreach.com`
+
+For example, say that the 'List groups' operation did not exist in our CleverReach connector, and you wanted to use this endpoint, you would use the CleverReach API docs to find the relevant endpoint - which in this case is a `GET` request called: `/v3/groups.json`.
+
+More details can be found [here](https://rest.cleverreach.com/explorer/v3#!/groups-v3/list_get).
+
+As you can see there is also the option to include a query parameter called `order` - for ordering the results by a certain parameter, should you wish to do so. So if you know what your method, endpoint and what the details of your query parameters are, you can get a list of your CleverReach groups with the following settings:
+
+Method: `GET`
+
+Endpoint: `/v3/groups.json`
+
+Query Parameter: Key: `order` Value: `created DESC`
+
+Final Example outcome being: **https://rest.cleverreach.com?order=created%20DESC**
+
+This will return a list of groups associated with your CleverReach account with the most recently created first.
+
+## Example Usage
+
+Below is an example of a way in which you could potentially use the CleverReach connector, to add tags to a filtered list of receivers.
+
+The steps will be as follows:
+
+1. Setup using a manual trigger and configure the CleverReach connector to return a list of all 'active' receivers for a given group.
+2. Loop through the list of receivers.
+3. Create a tag for each receiver.
+
+The final outcome should look like this:
+
+### 1 - Setup Trigger & configure the CleverReach connector to return a list of all 'active' receivers for a given group
+
+Once you have clicked 'Create new workflow' from your main Tray.io dashboard named it, select the Manual trigger from the trigger options available:
+
+After you have been redirected to the Tray.io workflow dashboard, from the connectors panel on the left, add a CleverReach connector to your second step. Set the operation to 'List receivers'.
+
+Configure the operation by selecting an 'Authentication', a 'Group ID' and setting 'Type' to active. You can set this filter and any other filters you like from the input panel.
+
+Feel free to re-name your steps as you go along to make things clearer for yourself and other users.
+
+Now when this step is run, the returned list will be specific to your filter settings.
+
+### 2 - Loop through the list of receivers
+
+Next, search for the 'Loop collection' connector within your connector panel, and drag it into your workflow as your next step. Set your operations to 'Loop list'.
+
+The Loop Collection connector allows you to iterate through a list of results. In this example, we will use it to iterate through the data found within the previous CleverReach connector step.
+
+In order to specify the list you want to loop through, start by using the 'List' mapping icon (found next to the list input field, within the properties panel) to generate the connector-snake.
+
+While hovering over the first CleverReach step (with the tail end of the connector-snake), select `results` from the list of output properties displayed. This will auto-populate a jsonpath within your 'List' input field, and update the type selector to jsonpath.
+
+This step is now setup to loop through the list of receivers returned by the first CleverReach step.
+
+### 3 - Create a tag for each receiver
+
+The last step is to drag a CleverReach connector **inside** of the Loop Collection step itself. Set the operation to 'Create group receiver tags'. As you can see, the 'Group ID', 'Receiver ID' and 'Tags' fields are required.
+
+Select the same 'Group ID' as you did for step 1. Then using the 'Receiver ID' mapping icon to generate the connector-snake, drag and hover over the 'Loop collection' step. Scroll down and select `ID`. **Make sure this is not the order  ID  which is shown in the output properties displayed**.
+
+Finally add some relevant tags to the 'Tags' input. We are just going to add one tag to match our filter from the first step, `Active July 2020`.
+
+Step 3 should now be fully setup to add tags to each receiver.
+
+You can now run the workflow by clicking run in the bottom right hand corner of the workflow builder. If everything has completed correctly, all steps in the debug panel should show as green and your output will display something similar to below:

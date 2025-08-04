@@ -1,0 +1,74 @@
+---
+title: "Overview"
+description: "Overview of the eTermin connector"
+---
+
+# Overview
+
+## Overview
+
+eTermin is an online appointment scheduling system, making it easier for businesses to offer appointments for customers, and for customers to book them.
+
+## Authentication
+
+When using the eTermin connector, the first thing you will need to do is go to your Tray.io account page, and select the workflow you wish to work on. Once in the workflow dashboard itself, search and drag the eTermin connector from the connectors panel (on the left hand side) onto your workflow.
+
+With the new eTermin connector step highlighted, in the properties panel on the right, click on 'New Authentication' which is located under the 'Settings' heading.
+
+This will result in a Tray.io authentication pop-up window. The first page will ask you to name your authentication appropriately, and state which type of authentication you wish to make ('Personal' or 'Organisational').
+
+As you can see, on the next page you will need your 'Private Key' and 'Public Key' in order to complete authentication.
+
+In order to get these fields, head to your eTermin dashboard. In the sidebar, click on the "API" option. On the page that appears, copy the 'Public API Key' and 'Private API Key' displayed, and add them to those fields in the Tray.io authentication window.
+
+Once you have clicked the 'Add authentication' button, go to back to your authentication field (within the workflow dashboard properties panel from earlier), and select the recently added authentication from the dropdown options now available.
+
+Your connector authentication setup should now be complete.
+
+## Available Operations
+
+The examples below show one or two of the available connector operations in use.
+
+Please see the [Full Operations Reference](#operationsFull) at the end of this page for details on all available operations for this connector.
+
+## Example usage
+
+Below is an example of a way in which you could potentially use the eTermin connector, to list all available timeslots on a certain date in different calendars.
+
+The steps will be as follows:
+
+1. Setup a manual trigger and add list all the available calendars.
+2. Loop through the collection.
+3. List your the time slots found based off of the times found in the calendars.
+
+The final outcome should look like this:
+
+### 1 - Setup trigger & List Calendars
+
+Once you have clicked 'Create new workflow' on your main Tray.io dashboard (and named said new workflow), select the Manual trigger from the trigger options available:
+
+Once you have been redirected to the Tray.io workflow dashboard, from the connectors panel on the left, add an eTermin connector. In the step editor select the 'List calendars' operation.
+
+As you can see there are four input fields required. the most crucial being the 'Panel ID' which you are referring to. The rest are self explanatory and pre-set for your convenience.
+
+*Feel free to re-name your steps as you go along to make things clearer for yourself and other users.*
+
+When run, this workflow will list all of the calendars stored in your eTermin account.
+
+### 2 - Loop through Collection
+
+Add a Loop Collection helper connector as your next step. Set the operation to 'Loop List'.
+
+In order to configure the Loop Collection to iterate through your calendars, use the connector-snake to assign the 'List' field to the `results` array produced by the 'List calendars' operation:
+
+Now, when the workflow is run, the Loop Collection will loop through each calendar in your eTermin account. However, at the moment it won't do anything with those calendars.
+
+### 3 - List Available Timeslots
+
+Drag a final eTermin connector to your workflow, making sure that it is places *INSIDE* of the Loop Collection step itself. Set the operation to 'List available time slots'.
+
+Select a date on which you want to look for available time slots within the 'Date' field.
+
+Next, use the connector-snake once again to assign the 'Calendar ID' field to the `CalendarID` value produced by each item in the Loop Collection:
+
+Now, when this workflow is run, it will first list all the calendars in your account, and then, for each calendar in turn, it will retrieve the available timeslots on a specific date (in this case, the 29th April 2020).

@@ -1,0 +1,149 @@
+---
+title: "Overview"
+description: "Overview of the HTTP Client connector"
+---
+
+# Overview
+
+## Overview
+
+The HTTP client connector allows you **to make calls to any third-party API endpoints**.
+
+Two general scenarios which would necessitate the use of the Tray.io HTTP client connector are:
+
+1. The endpoint you seek to use is not currently available within the service connector's operations list.
+2. There is no Tray.io connector available for the service you need to reference. This means that the HTTP client connector can be used to effectively **build your own connector** by creating a new authentication and passing in a token as a parameter.
+
+## Authentication
+
+### Using existing auths
+
+If Tray.io does have a connector but it doesn't have the operation you require, the HTTP client can use an auth you may have already created for that connector:
+
+This can be done by selecting the auth in the Http client step. In which case you will notice that the HTTP client will adopt the icon for that service.
+
+You can then make use of `$.auth` variables to meet any auth requirements the third party service may have.
+
+This example shows passing `$.auth.api_key `as a bearer in the 'Authorization' header (exactly what the name of the token or key is will depend on the service - it could be e.g. `$.auth.api_token `or` $.auth.access_key`):
+
+### Custom / generic services
+
+If no Tray.io connector is available, to use the HTTP client you will either need to create a [Generic Service Authentication](https://tray.io/documentation/tray-uac/connectivity/authenticating-connectors/#generic-service-authentication) or [Create a new service](https://tray.io/documentation/tray-uac/connectivity/custom-services/introduction/) for the service you wish to use
+
+### Secure use of authentications
+
+## Using the HTTP client
+
+### Making a GET request
+
+Assuming you have already set up an Airtable authentication as per the [Custom services page](/platform/connectors/custom-services/), the following example shows how you can make a basic Airtable GET request using the HTTP Client:
+
+In this case we have had to use the Airtable API documentation to find the **URL** of the endpoint we wish to access.
+
+We have also had to set an **Authorization** Header using the `$.auth.api_key` jsonpath.
+
+This will then return the data we are looking for:
+
+## Quickstart - import a request
+
+It is possible to automatically create all the necessary inputs and query parameters for your request by importing what is called a 'curl command':
+
+Curl is a tool which allows you to specify http requests in plain text.
+
+Developers would normally use this a command in a 'terminal', but in this case we can just import the request directly into the Tray Http client.
+
+In its most basic format all you need is the curl command for your chosen API and an access key.
+
+Handily, a lot of third-party services have ready-made curl commands in their docs that you can copy.
+
+### Import cURL methods
+
+The video demonstrates how to use three different cURL examples using the Import cURL feature:
+
+1. A simple cURL address.
+2. A cURL address including queries.
+3. A cURL address including headers.
+
+### Quick import example
+
+When using curl import you will need to have an authentication for the service you are using.
+
+The exact authentication method will depend on your service. Please reference the [Authentication](https://tray.io/documentation/connectors/core/http-client/#authentication) section above for more guidance.
+
+Below is an example (using HubSpot) of how we would use the cURL feature to auto-populate all the required fields.
+
+### Error: 'The pasted curl command could not be parsed'
+
+In the following example `{groupId}` will cause such an error:
+
+The fix here would be to change the url to `https://your-domain.atlassian.net/rest/api/3/group/user?groupId=`
+
+Note also, that you can pass curly brackets elsewhere in the curl command - as in the above `--data` parameter
+
+## Testing your setup
+
+The best way to check that everything is running properly is to use a manual trigger to call your API and inspect the logs to see what messages are being passed back and forth.
+
+## HTTP client features
+
+The HTTP client connector intelligently handles data to make things as clear, reliable and consistent as possible. Below are some of the measures we take to ensure this.
+
+### OAuth2 advanced features
+
+There are several advanced features available within the OAuth2 Advanced properties section:
+
+- **Authorization type** - Set the authorization type and HTTP headers behind the scenes. May be used in conjunction with setting up your own custom refresh logic as well.
+
+- **Follow redirect** - For if you want to move a webpage to a new location (redirects are not followed by default).
+- **Reject unauthorised** - Default is 'true', everything is HTTPS. Users are able to disable the secure functionality if need be here.
+- **TLS** - Users can make their own HTTPS settings. By default the connector states it is coming from Tray.io but this enables users to change the security information if need be and set the TLS setting in the HTTPS request.
+- **Parse response** - Automatically generated as a string, this can be changed to make the response JSON or XML etc.
+- **Force file response** - Instead of returning the response as a json object, this feature returns it as a file which can be downloaded.
+- **Force file resonse name** - The name of the file if the response is forced as a file object.
+- **Status codes** - Depending on the version number of the workflow in question, the connector will terminate depending on the status code. This feature allows users to specify the status codes that the HTTP client should expect as per their requirements. See [Dealing with statuses returned by your calls](#dealing-with-statuses-returned-by-your-calls) for more details below.
+
+### Dealing with statuses returned by your calls
+
+### Variables
+
+All variables passed as query parameters are HTML-escaped automatically.
+
+### Pagination
+
+Tray has a page limit of 1 MB. So calls to APIs may return errors if the body of the returned content is too large.
+
+To prevent this happening, you should implement a pagination method which is appropriate to the type of API calls you are making.
+
+### Headers
+
+Any header required by the API Service can be added, as per the 'Authorization' header in the above [Making a GET request example](#making-a-get-request) for a token-based auth.
+
+#### Content
+
+The **Content-Type header is automatically set depending on the body provided**, with `application/ x-www-form-urlencoded` being set if none is selected.
+
+Additionally, the Content-Type of the request can be set/ overwritten by explicitly specifying it in the header itself.
+
+#### Accept
+
+The **Accept header is fixed to application/json, with a few exceptions**.
+
+If the `body` is set to `none`, or the automatically detected Content-Type (dependent on the body) is either `text/ plain` or `application / x-www-form-urlencoded`, then Accept is not set.
+
+Additionally, the Accept value of the request can be set/ overwritten by explicitly specifying it in the header.
+
+### Binary files
+
+It is possible to use the HTTP client connector to send files across in a binary format using the 'Body type' -> 'Binary' option.
+
+When a user sends a file using the 'Body type': 'binary' property, Tray.io will stream the data of that object to your endpoint.
+
+The end result will be a string output, found within your output panel under the JSON key name: `"body"`.
+
+For the sake of clarity, this example will use two small Tray.io workflows to show the transportation of the data more clearly.
+
+### Multipart file uploads
+
+Note that files can also be uploaded in multiple parts when using the `form-data` option.
+
+This is found within the 'Body' type field.

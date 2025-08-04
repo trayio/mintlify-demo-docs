@@ -1,0 +1,28 @@
+---
+title: "Notes on using Snowflake"
+description: "Notes on using Snowflake documentation for Snowflake connector"
+---
+
+# Notes on using Snowflake
+
+### Load data to table
+
+The **Load data to Table** operation has **files** as an input field.
+
+What is required here is a **list / array of filenames** to load.
+
+It is **not possible to use this operation to stream files** to a Snowflake data warehouse.
+
+### Insert rows in table
+
+The Insert Rows in Table operation allows you to insert both single and multiple records into a Snowflake table.
+
+ When inserting records, ensure they are formatted correctly according to the table's schema. You can verify the expected format using the provided [sample payloads ](https://tray.io/documentation/connectors/service/snowflake/snowflake-operations-sample-payloads/#insert-rows-in-table)
+
+The workflow is designed to receive and process various types of data through a Webhook. For example, let's consider a scenario where the following JSON payload is received:
+
+The JSON Transformer connector can be used to convert this data into the appropriate format for insertion into Snowflake. For instance, the following JSONata query is applied to transform the data:
+
+The transformed records are then inserted into the `employee_data` table using the Snowflake connector, as shown in the screenshot below.
+
+When using the **Insert rows in table** operation, it is important to note that, for all String/Varchar values in a table, Snowflake will only accept them enclosed in single quotes `' '`. Please see the [example below](#example-usage) for instructions on doing this correctly using [interpolated mode](https://tray.io/documentation/tray-uac/building-automations/workflow-data-basics/mapping-data-between-steps/#interpolated-mode)

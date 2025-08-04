@@ -1,0 +1,36 @@
+---
+title: "Overview"
+description: "Overview of the KROW.ai connector"
+---
+
+# Overview
+
+## Overview
+
+KROW is* *a workflow automation tool for recruiters that features mobile apply for candidates, automated candidate screening, automated interview scheduling, hire and reject SMS scheduling.
+
+## **API Information **
+
+The KROW trigger has the following Base URL: **'https://api.{{environment}}.krow.ai/v1**. Where {{environment}} corresponds to the environment which can be `**dev**`** **for development, `**int**`** **for integration testing, `**next**` for production, and `**stg**` for staging. 
+
+## KROW Trigger
+
+The KROW trigger allows you to receive notifications and trigger workflows when given events occur associated with the selected trigger operation.
+
+### Trigger Operations available:
+
+- Webhook
+
+### Webhook Setup
+
+Select the KROW trigger. This can be done at the create new workflow stage or updated within the workflow builder itself.
+
+Highlight the KROW trigger. In the KROW trigger properties panel to the right of the builder, click on the Authenticate tab and the **Create new authentication** button.
+
+This will result in a Tray.io authentication pop-up modal. The first page will ask you to name your authentication and select the type of authentication you wish to create ('Personal' or 'Organisational').
+
+The next page asks you for your 'API Key' and 'Environment' credentials.
+
+Once you have added these fields to your Tray.io authentication pop-up window, click the 'Create authentication' button to authenticate your trigger. Select 'Webhook' as the event you wish your trigger to listen to in order to set off the workflow itself.
+
+Make sure to also specify the 'Event' you want the webhook to listen out for and respond to. In this example, the events that can be selected are **'applicant.hired'**, **'applicant.created'**, **'opening.created**', **'opening.updated'**. Now, when the workflow is enabled (in the account the trigger is authenticated to), a webhook will be sent and this workflow will be triggered.

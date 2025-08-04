@@ -1,0 +1,142 @@
+---
+title: "Overview"
+description: "Overview of the Wrike connector"
+---
+
+# Overview
+
+## Overview
+
+The Wrike project management software enables its users to manage and track projects, deadlines, schedules, and other workflow processes.
+
+## Authentication
+
+When using the Wrike connector, the first thing you will need to do is go to your Tray.io account page, and select the relevant workflow. Once in the workflow dashboard itself, search and drag the Wrike connector from the connectors panel (on the left hand side) onto your workflow.
+
+With the new Wrike connector step highlighted, in the properties panel on the right, click on 'New Authentication' which is located under the 'Settings' heading.
+
+This will result in a Tray.io authentication pop-up window, that should look like this:
+
+As you can see, besides from naming your authentication appropriately, you will need to select your permissions.
+
+Once you've named your authentication and selected your permissions click 'Add authentication'; this will redirect to a Wrike login page.
+
+Here you will need to enter the email of the account you want authenticate with and click next.
+
+Upon entering your password and clicking 'Sign in', you will complete your authentication.
+
+## Wrike Trigger
+
+If you wish your workflow to be kicked off by a particular action in Wrike, you can use the Wrike Trigger.
+
+The Wrike trigger allows you to receive notifications and trigger workflows when given events occur associated with the selected trigger operation.
+
+### Trigger operations available:
+
+- Create account webhook
+- Create folder/project webhook
+- Create space webhook
+
+### Webhook Setup
+
+When creating a new workflow, choose the Wrike trigger at the 'Create new workflow' section of your Tray.io dashboard and follow the instructions above to authenticate your trigger.
+
+Select the webhook operation that you wish to trigger your workflow from.
+
+Finally add any events you want your trigger to listen to, in order to set off the workflow itself.
+
+## Available Operations
+
+The examples below show one or two of the available connector operations in use.
+
+Please see the [Full Operations Reference](#operationsFull) at the end of this page for details on all available operations for this connector.
+
+## Using the Raw HTTP Request ('Universal Operation')
+
+As of **version 3.0**, it is now possible to effectively create your own operations.
+
+This is a very powerful feature which you can put to use when there is an endpoint in Wrike which is not used by any of our operations.
+
+To use this you will first of all need to research the endpoint in the [ Wrike API documentation v.4](https://developers.wrike.com/) , to *find the exact format* that Wrike will be expecting the endpoint to be passed in.
+
+Note that you will only need to add the suffix to the endpoint, as the base URL will be automatically set (the base URL is picked up from the value you entered when you created your authentication).
+
+The base URL for Wrike is: `https://www.wrike.com/api/v4`
+
+For example, say that the 'Get contacts' operation did not exist in our Wrike connector, and you wanted to use this endpoint, you would use the Wrike API docs to find the relevant endpoint - which in this case is a `GET` request called 'Query Contacts', that you can find at the [ following URL](https://developers.wrike.com/api/v4/contacts/) .
+
+As you can see there is also the option to include a query parameter, should you wish to do so. So if you know what your method, endpoint and details of your query parameters are, you can get the contact information with the following settings:
+
+Method: `GET`
+
+Endpoint: `/contacts`
+
+Query parameters: `contactId` : `123456`
+
+Final Example outcome being: **https://www.wrike.com/api/v4/contacts/123456**
+
+As a result, this will return a list of contacts as requested.
+
+## Example Usage
+
+Below is an example of a way in which you could potentially use the Wrike trigger and connector. This particular workflow listens for new projects being created and will automatically add a sub folder and task to those project as a result. This is then followed by
+
+The steps will be as follows:
+
+1. Setting up our Wrike trigger to listen for new projects in a certain space.
+2. Adding a step will automatically create a folder within that project.
+3. Adding a step that adds a task to this folder automatically.
+4. Create and add a google spreadsheet.
+5. Zip and attach said file to the Wrike task created.
+
+The final outcome should look like this:
+
+> 
+
+### 1 - Setup a Wrike trigger
+
+Click create new workflow and select the Wrike trigger
+
+Once in the workflow we will select the 'Create space webhook' operation. We will need to choose our space via the 'Space ID' input menu and then in the 'Events' input we will select the 'Folder Created' event.
+
+This will set a webhook that will listen for folders or projects being created in our given space. Click the enable button and when these events happen they will trigger our workflow.
+
+> 
+
+### 2 - Creating a folder within the project
+
+Next we will drag a Wrike connector into our workflow from the left panel, and set the operation to 'Create folder/project'. In the input panel we should give our new folder a title and then for the 'Folder/Project ID' we can use the connector snake to jsonpath the ID of the folder/project that triggered the workflow.
+
+### 3 - Adding a task to the folder
+
+To automatically create tasks within our new folder we will need to add another Wrike connector to our workflow and select the 'Create task' operation. In the input panel we can again jsonpath the folder from the previous step using a connector snake. We will need give our task a title and can add any further information in the other input fields.
+
+Once these three steps are complete we will have successfully set up our workflow. Upon the creation of any folders or projects within your given space, our workflow will automatically create our given file structure and populate it with tasks.
+
+### 4 - Create & add spreadsheet
+
+> 
+
+Add a Google Spreadsheet connector to the workflow as your fourth step. Set the operation to 'Create spreadsheet' and take the properties title from the Wrike-2 connector step using the connector-snake once more (i.e. the connector prior).
+
+It should result in something similar to this: `$.steps.wrike-2.data[0].title`. You can set other properties as well should you wish to, or change the title entirely, the decision is up to you.
+
+The next connector you will need (in order to "get" said spreadsheet) is Google Drive.
+
+This is because the main difference between the Google Drive connector and the Google Spreadsheet is that the latter is built primarily to *"send & retrieve data from any of the Google Sheets in your account"*. Whereas the Drive connector is a *"file storage and synchronization service"*. This means that the while one effects the file type, the other manages the files themselves.
+
+Once you have added your Google Drive connector to the next step, set the operation to 'Download Google file' and the 'File ID' to your `spreadsheetId`. Set the file type that you want your spreadsheet to be downloaded as 'MS Excel' or similar.
+
+### 5 - ZIp & attach file
+
+Go back to your connectors panel and search for the Zip connector. This is a type of Helper connector and therefore does not need any authentication. In this use case we are using the 'Gzip' operation because is it faster than the standard zip method people are more familiar with for compressing (and decompressing).
+
+Make sure to link the drive file using the jsonpath method so the connector understands what it needs to "zip up".
+
+Finally add one more Wrike connector with 'Create attachment' as the required operation. Set the 'Destination' to 'Task' - i.e. the task that we created earlier in the workflow, and generate the ID using the connector-snake.
+
+'Attachment name' MUST follow Zip connector protocol, and include the extension of said file. The easiest way to do this is once again, with a jsonpath.
+
+> 
+
+The end result should look something like the below Wrike dashbaord - as you can see, not only have you a new task created, but within said task lies a zipped file!

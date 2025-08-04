@@ -1,0 +1,142 @@
+---
+title: "Overview"
+description: "Overview of the Optimizely's Content Marketing Platform connector"
+---
+
+# Overview
+
+## Overview
+
+Supercharge your team's ability to plan, execute, and manage exceptional campaigns and content, and elevate the performance of marketing with marketing management software and content marketing services from Optimizely's Content Marketing Platform.
+
+## Authentication
+
+Within the workflow builder, highlight the Optimizely's Content Marketing Platform connector.
+
+In the Optimizely's Content Marketing Platform connector properties panel to the right of the builder, click on the Authenticate tab and the 'Add new authentication' button.
+
+This will result in a Tray.io authentication pop-up modal. The first page will ask you to name your authentication and select the type of authentication you wish to create ('Personal' or 'Organisational').
+
+The next page asks you for your 'Client ID' and 'Client Secret' credentials.
+
+In order to get these fields, head to the Optimizely dashboard. Click on your username logo in the navigation bar and select the 'App & Webhooks' option from the side menu which appears.
+
+To get the 'Client ID' and 'Client Secret' credentials, click on your app.
+
+They are listed under the 'Apps' tab.
+
+Once you have added these fields to your Tray.io authentication pop-up window, click the 'Create authentication' button.
+
+Go back to your settings authentication field (within the workflow builder properties panel), and select the recently added authentication from the dropdown options now available.
+
+Your connector authentication setup should now be complete.
+
+## Optimizely's Content Marketing Platform Trigger
+
+If you wish your workflow to be kicked off by a particular action in Optimizely, you can use the Optimizely's Content Marketing Platform Trigger.
+
+The Optimizely's Content Marketing Platform trigger allows you to receive notifications and trigger workflows when given events occur associated with the selected trigger operation.
+
+### Trigger Operations available:
+
+- Asset added
+- Asset removed
+- Asset modified
+
+### Webhook Setup
+
+Select the Optimizely's Content Marketing Platform trigger. This can be done either at the create new workflow stage or updated within the workflow builder itself.
+
+Highlight the Optimizely's Content Marketing Platform trigger. In the Optimizely's Content Marketing Platform trigger properties panel to the right of the builder, click on the Authenticate tab and the 'Add new authentication' button.
+
+At this stage, you can create a new authentication using the steps specified in the [Authentication](#authentication) section above.
+
+Or you can select the already created authentication from the available list.
+
+To finish setting up your trigger you will need to register the trigger under the previous 'Apps & Webhooks' section of the Optimizely dashboard.
+
+Click the 'Register a Webhook' button. The next page will ask you for the 'Callback URL' and 'Secret'. Leave these blank for now but save the page for later use.
+
+To get your 'Callback URL' head back to your Tray builder, click the ellipses in the top left corner and click 'Workflow settings'.
+
+Copy the 'Workflow public URL'.
+
+Head back to your Optimizely dashboard, and paste this into the 'Callback URL' field within the Apps and Webhook page.
+
+The 'Secret' is created by you and must match the secret used when registering the webhooks. Enter your secret into the Optimizely's Content Marketing Platform trigger section and be sure to tick all the events you want this webhook to listen to.
+
+Lastly, to finish your trigger set up, head back to your workflow, enter your 'Secret', and click enable.
+
+You can check the input and output for your trigger using the [Debug](/platform/troubleshooting/logs-and-debugging/) tab.
+
+## Available Operations
+
+The examples below show one or two of the available connector operations in use.
+
+Please see the [Full Operations Reference](#operationsFull) at the end of this page for details on all available operations for this connector.
+
+## Using the Raw HTTP Request ('Universal Operation')
+
+As of **version 1.0**, you can effectively create your own operations.
+
+This is a very powerful feature which you can put to use when there is an endpoint in Welcome which is not used by any of our operations.
+
+To use this you will first of all need to research the endpoint in the [Optimizely API documentation v3.0](https://developers.welcomesoftware.com/openapi.html?hash=fr1qpq), to **find the exact format** that Optimizely will be expecting the endpoint to be passed in.
+
+Note that you will only need to add the suffix to the endpoint, as the base URL will be automatically set (the base URL is picked up from the value you entered when you created your authentication).
+
+The base URL for Optimizely's Content Marketing Platform is: **https://api.cmp.optimizely.com/v3**
+
+For example, say that the 'List Assets' operation did not exist in our Optimizely's Content Marketing Platform connector, and you wanted to use this endpoint. You would use the Optimizely API docs to find the relevant endpoint - which in this case is a `GET` request called: `/assets`.
+
+More details about this endpoint can be found [here](https://developers.welcomesoftware.com/openapi.html?hash=fr1qpq#tag/Library).
+
+As you can see, there is also the option to include a query parameter, should you wish to do so. So if you know what your method, endpoint, and details of your query parameters are, you can return a list of the images in your Optimizely library with the following settings:
+
+Method: `GET`
+
+Endpoint: /assets
+
+Query Parameter: Key: `type` Value: `image`
+
+Body Type : Raw : `{ "none" : "null" }`
+
+Final outcome being: **https://api.cmp.optimizely.com/v3****/assets?type=image**
+
+## Example Usage
+
+Below is an example of a way in which you could potentially use the Optimizely's Content Marketing Platform connector, add a comment to a task within your Optimizely Content Marketing Platform library.
+
+1. Setup using a manual trigger.
+2. Use the Optimizely's Content Marketing Platform connector to get the data for the task you want to update.
+3. Use the Optimizely's Content Marketing Platform connector to update an existing task in your Optimizely's Content Marketing Platform library.
+
+Your completed workflow should look similar to this:
+
+### 1 - Setup Trigger
+
+Select the Manual trigger from the trigger options available.
+
+Feel free to re-name your steps as you go along to make things clearer for yourself and other users. The operation names themselves often suffice.
+
+### 2 - Get task data
+
+Next, search for the Optimizely's Content Marketing Platform connector within your connector panel, and drag it into your workflow as your next step. Set your operation to 'Get task'.
+
+As you can see, the 'Task ID' field is required.
+
+To get this, go to your Optimizely Content Marketing Platform dashboard. Find an existing task or create a new one using the '**+**' icon in the top bar. Open the task, and find the task ID in the URL. Enter this value into the 'Task ID' field in the Tray workflow step.
+
+### 3 - Update Asset Information
+
+The last step is to drag another Optimizely's Content Marketing Platform connector into your workflow. Set the operation to 'Create/upload task comment'. As you can see, the 'Task ID', 'Step ID', 'Sub step ID', and 'Value' fields are required.
+
+Use the mapping icon (found next to the Task ID input field, within the properties panel) to generate the connector-snake.
+
+While hovering over the 'Get task' step (with the tail end of the connector-snake), select `id` from the list of output properties displayed. This will auto-populate a jsonpath within your list input field, and update the type selector to jsonpath.<br/><br/>You can use the same method to populate the 'Step ID' and 'Sub step ID' fields by selecting the appropriate ID from the output.
+
+For more clarification on the pathways you have available, open the Debug panel to view your step's Input and Output.
+
+If you head to your Optimizely Content Marketing Platform dashboard, you will see that the comment has now been added to your task.
+
+You have now successfully fetched the data for a task and added a comment to it.

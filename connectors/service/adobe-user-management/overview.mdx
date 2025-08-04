@@ -1,0 +1,119 @@
+---
+title: "Overview"
+description: "Overview of the Adobe User Management connector"
+---
+
+# Overview
+
+## Overview
+
+With the Adobe User Management connector, Enterprise customers can automatically provision users, synchronize user directories, and grant and remove access to Adobe products from a central management application.
+
+## Authentication
+
+When using the Adobe User Management connector, the first thing you will need to do is go to your Tray.io account page, and select the workflow you wish to work on. Once in the workflow dashboard itself, search and drag the Adobe User Management connector from the connectors panel (on the left hand side) onto your workflow.
+
+With the new Adobe User Management connector step highlighted, in the properties panel on the right, click on 'New Authentication' which is located under the 'Settings' heading.
+
+This will result in a Tray.io authentication pop-up window, that should look like this:
+
+As you can see, besides from naming your authentication appropriately, you will need your 'Client ID', 'Client secret', 'Technical account ID', 'Organization ID', and 'Private Key'. While this may seem intimidating, it is simpler to gather than it first appears.
+
+In order to get these fields, sign into your Adobe account and head to your Adobe dashboard. *Make sure to select the Company account option if you have two to choose from.*
+
+This should lead you into your Adobe I/O Console dashboard as planned. For the sake of argument, we will assume here that you need to set up a new integration. Click the blue button in the right hand corner that states 'New integration'.
+
+Here you will be given two options: *"Do you want to access an API or receive near-real time events?"*. Make sure to select 'Access and API' and then press continue. Note that the way this is selected is with a grey radio button which can be easily missed if you're not careful:
+
+Once you are on the next page of options, you will need to select the Adobe service you wish to integrate with. In our case you can clearly see that the dropdown menu in the right hand corner lists 'Tray (Exchange Partner)'.
+
+> 
+
+As you can see there are several choices available, but the only one you need concern yourself with is the 'User Management API' option. Scroll down to the bottom and once more click the blue continue button to move on to the next page.
+
+This is where you will name and describe your new integration. You will need to paste in your 'Public keys certificates' in order to generate the credentials required for your Tray.io integration, and thereby complete the Adobe integration creation.
+
+For Mac and Linux users, please open your terminal and use the following command:
+
+`openssl req -x509 -sha256 -nodes -days 365 -newkey rsa:2048 -keyout private.key -out certificate_pub.crt`
+
+For Windows users (or those looking for more detail), please follow the instructions outlined [HERE](https://www.adobe.io/authentication/auth-methods.html#!AdobeDocs/adobeio-auth/master/JWT/JWTCertificate.md) at the Adobe authentication methods site.
+
+Once you have your key, your integration details should look similar to this:
+
+Once loading is complete you will get a completed notification screen, which will have a redirect option to your integration details page:
+
+Here is where all the information required for your Tray.io authentication integration is held. Copy the relevant items over into their respective field names as appropriate. Note that you will need to retrieve your 'Client secret' and have your private key (which you generated earlier together with your public certification) on hand.
+
+Once you have clicked the 'Add authentication' button, go to back to your authentication field (within the workflow dashboard properties panel from earlier), and select the recently added authentication from the dropdown options now available.
+
+Your connector authentication setup should now be complete, and if you check your integrations dashboard, you will see the newest one at the top.
+
+It may be best to simply delete the orginal and create a new one from scratch if you cant find an obvious problem.
+
+## Available Operations
+
+The examples below show one or two of the available connector operations in use.
+
+Please see the [Full Operations Reference](#operationsFull) at the end of this page for details on all available operations for this connector.
+
+## Using the Universal Operation ('Raw HTTP request')
+
+As of **version 1.0**, it is now possible to effectively create your own operations.
+
+This is a very powerful feature which you can put to use when there is an endpoint in Adobe User Management which is not used by any of our operations.
+
+To use this you will first of all need to research the endpoint in the [User Management API documentation](https://adobe-apiplatform.github.io/umapi-documentation/en/), to *find the exact format* that Adobe User Management will be expecting the endpoint to be passed in.
+
+Note that you will only need to add the suffix to the endpoint, as the base url will be automatically set (the base url is picked up from the value you entered when you created your authentication).
+
+The base url is in the format of `https://usermanagement.adobe.io/v2/usermanagement/`
+
+For example say that the list users in group operation did not exist in our Adobe User Management connector, and you wanted to use this endpoint, you would use the Adobe User Management API docs to find that the List users in group endpoint is a get request at the following url:
+
+`/v2/usermanagement/users/{orgId}/{page}/{groupName}`
+
+So if you know what your orgId, page and groupName are, you can get the list users in group details, with the following settings:
+
+orgId: `12345@AdobeOrg`
+
+page: `0`
+
+groupName: `photoshop`
+
+Final outcome:
+
+**https://usermanagement.adobe.io/v2/usermanagement/users/12345@AdobeOrg/0/photoshop**
+
+## Example usage
+
+Below is an example of a way in which you could potentially use the Adobe User Management connector, to get all the users in your group organisation, and then list a specific users details.
+
+The steps will be as follows:
+
+1. Setup your manual trigger and first step of your Adobe workflow, to list all users in a particular organisation.
+2. Get a particular users information details from said list.
+
+The final outcome should look like this:
+
+### 1 - Setup trigger & list all users
+
+Once you have clicked 'Create new workflow' on your main Tray.io dashboard (and named said new workflow), select the Manual trigger from the trigger options available:
+
+Once you have been redirected to the Tray.io workflow dashboard, from the connectors panel on the left, add a Adobe User Management connector to your second step. Set the operation to 'List users in organization'.
+
+*Note that your 'Organisation ID' is a required field, and can be found in the overview section of the integration you are working with (as seen earlier during the authentication instructions).*
+
+*Feel free to re-name your steps as you go along to make things clearer for yourself and other users.*
+
+### 2 - Get user details
+
+Add another Adobe User Management connector to your next step. Set the operation to 'Get user information'. Once again you will need to hard code the 'Organisation ID'.
+
+This time the second field requires a 'User string'. This is the user name or email address of the user required. You can use the connector-snake to auto-generate this jsonpath, just make sure that depending on the number of users returned, you set the number in your array appropriately as a result.
+
+In our use case there are three users returned in our first Adobe step, which means in order to get the last user's details, we will set the number to `2` as zero is a counted figure.
+
+`$.steps.adobe-user-management-2.users[2].email`
+
+When you now go to your debug panel, you should see only one users details:

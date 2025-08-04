@@ -1,0 +1,60 @@
+---
+title: "Overview"
+description: "Overview of the Ellucian Ethos connector"
+---
+
+# Overview
+
+## Overview
+
+## Authentication
+
+The Ellucian Ethos connector uses API keys to authenticate requests. Ellucian connects to different `authorised systems` in the higher education domain. Ellucian will provide multiple API keys, one for each `authorised system` that the request will be sent to.
+
+For example, Ellucian Ethos can be used to obtain a list of persons from either the Banner system or the Colleague system (these are Student Record Systems). However, the actual system that the list of persons is retrieved from depends on the API key used.
+
+When creating an authentication in the workflow builder, the system for which the API key is for has to be set. It is important that the correct system is chosen at this point.
+
+As can be seen in the screenshot above, it is strongly advised to put the name of the system the API key is for in the name of the authentication, to make it clearer in the workflow.
+
+## General usage
+
+There are some slight differences in behaviour between the different authorised systems, and other points to be aware of listed below;
+
+- Two key phrases to be aware of are `Ellucian Ethos API`, which is the Ellucian Ethos service that returns data to Tray. The other phrase is `authorised system`. The `authorised system` is the system that Ellucian Ethos retrieves data from (the two mentioned in this article are Banner and Colleague).
+- If using a Banner API key, be advised the `Criteria` options do not work in `List persons`. `Person filters` do work however.
+- When creating a person, some objects have required properties, even though the objects are not required themselves. For example, if the `Privacy status` category is populated, a `Detail ID` will also be required.
+- Please be aware that when updating a person in Banner, it will still require a first name and last name.
+- Some drop downs will contain values that are valid for either Banner or Colleague, but not both. For example, Credential types, BannerId is for Banner, whilst colleaguePersonId would be for the Colleague system. If using dynamic drop downs, it is advised to refresh the list is switching systems.
+- The following fields are not supported/returned by the Colleague system: Veteran status, Personal pronouns and Professional abbreviations
+- The following fields are not supported/returned by the Banner system: Roles
+
+## Example 1 - List persons
+
+In this example we will use the Criteria field and also the Person filter to retrieve a filtered list of persons from Ellucian Ethos. Please be aware that if using an API Key that connects to Banner, then the Criteria does not filter results. The `Person filter ID` field must be used instead.
+
+The Criteria object allows you to filter on specific fields such as last name or email address.
+
+To filter by name, the field can be selected and added to the Names array, as seen below.
+
+The type of name field can be selected on each item being added to the names list.
+
+The other way of filtering persons is to use a `person filter`. Person filters are pre-defined filters in Ellucian which allow records to be filtered. A list of these filters can be obtained using the `List person filters` operation.
+
+In addition to filtering, standard pagination options are available. Refer to [here](/platform/standard-best-practices/pagination/intro-to-pagination/) for more information on pagination.
+
+## Example 2 - Create person
+
+The `Create person` operation has a large list of input fields available. Most of these input fields are organised into object, which will usually have fields for a category name or/and an ID.
+
+Categories are usually enumerated values, meaning there is a limited list of valid values. These are indicated by the drop downs if present in the ID fields, but are not always the same exact names. The exact names of the categories in the Banner or Colleague instance must be known.
+
+In the example above, the category field may not be needed if the detail field is populated. If the category name is required by the authorised system, then an error indicating this will be returned (see below). For most of the category fields, there should be a drop down with a valid set of values.
+
+When an error is returned from Ellucian, look for the `message` which in this case is `Name type category is required`.
+
+Also, there are situations where some fields become required depending on what other fields are populated. The Ellucian Ethos API will return an error with a message indicating if any field has been missed, or if a field has an invalid value.
+
+Most often, the required fields for creating a person are `First name` and `Last name`.
+
+If successful, Ellucian will return the person record that has just been created.

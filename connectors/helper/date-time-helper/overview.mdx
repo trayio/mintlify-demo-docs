@@ -1,0 +1,46 @@
+---
+title: "Overview"
+description: "Overview of the Date & Time Helpers connector"
+---
+
+# Overview
+
+## Overview
+
+The Date & Time helpers allow you to manipulate date and time values of various formats from connectors and triggers. These are commonly used for tasks such as converting date/time values to different formats, or finding the difference between two date & time values.
+
+## Formatting the date
+
+A date string or timestamp can be formatted into a particular style of writing using the `Format date` operation of the Date & Time Helpers connector. For instance, '2006-01-22' is represented by `YYYY-MM-DD`, while 'Sun, January 22nd 2006' is represented by `ddd, MMMM Do YYYY`.
+
+Note that you can escape said characters by using either `\` or `[]`. For example, when using the timezone reference: `Z`:
+
+### Table of Formats
+
+Date and Times can be represented in any way you want by combining the variables in the following table.
+
+The Date & Time Helper connector supports time zones that are natively recognized by the JavaScript **Date** function, such as UTC, EST, and other standard time zone abbreviations.
+
+## Important notes
+
+### Comparisons
+
+Please remember that you either need to compare two times or two dates. You cannot compare a date to a time.
+
+The boolean helper can help you compare two date **strings **should the issue arise.
+
+#### Comparison example
+
+Below is a simple walkthrough of how you can use the Date & Time Helper to compare timestamps within your workflow.
+
+## Operations
+
+### Get current timestamp
+
+Gets the current date and time in the format of your choosing. 
+
+You can create a custom format if preferred.
+
+### Get day of the week
+
+Retrieves the day of the week from the date specified in the format of your choosing.

@@ -1,0 +1,87 @@
+---
+title: "Overview"
+description: "Overview of the GitHub connector"
+---
+
+# Overview
+
+## Overview
+
+### List repositories and branches
+
+Below is an example of a way in which you could potentially use the GitHub connector to list all the branches from each repository
+
+The following workflow gives an example of how you can achieve this:
+
+1. Set up using a trigger (be it [Manual](/connectors/triggers/manual-trigger/), [Scheduled](/connectors/triggers/scheduled-trigger/), [Callable](/connectors/triggers/callable-trigger/) etc).
+2. The **List your repositories** is a GitHub connector's operation that lists all your GitHub repositories.
+
+1. **Loop** is a Loop connector step to 'Loop List' all the GitHub repositories received from the previous step.
+
+A jsonpath for the 'List' field should appear similar to this: `$.steps.github-1.results`. You can always use a connector-snake to find the jsonpath.
+
+1. **List Branches** is a GithHub connector's operation that lists branches of GitHub repository based on the provided 'User/Organisation' (`$.steps.loop-1.value.owner.login`) and 'Repository' (`$.steps.loop-1.value.name`) names.
+
+It takes jsonpaths for the 'User/Organisation' and 'Repository' field from the **Loop** step.
+
+The fetched list of branches should look similar to this:
+
+Click on the [Debug](/platform/troubleshooting/logs-and-debugging/) tab to view Input and Output for individual steps.
+
+### Consolidate security information of all
+
+Below is an advanced workflow that will get the security information of all repositories within your account and store them in a data storage.
+
+In this case, we are using Google sheets as a generic placeholder for any service or database you may wish to use.
+
+The resulting document will look similar to this:
+
+This is what the finished workflow will look like:
+
+1. Set up using a trigger (be it [Manual](/connectors/triggers/manual-trigger/), [Scheduled](/connectors/triggers/scheduled-trigger/), [Callable](/connectors/triggers/callable-trigger/) etc).
+2. The **List your repositories** is a GitHub connector's operation that lists all your GitHub repositories.
+
+1. **Loop** is a Loop connector step to 'Loop List' results received from the previous step.
+
+A jsonpath for the 'List' field should appear similar to this: `$.steps.github-2.results`. You can always use a connector-snake to find the jsonpath.
+
+1. **Get branch protection** is a Gaurdian connector step that retrieves protection rules for the branch based on the provided 'Repository' (`$.steps.loop-1.value.name`)and 'Branch' (`$.steps.loop-1.value.default_branch`) name.
+
+This step takes jsonpaths from the **Loop** step.
+
+If the provided repository does not have branch protection the workflow will return an error.
+
+**Manual error handling**
+
+In this case, you should use [Manual error handling](/platform/troubleshooting/error-handling/) method instead.
+
+To do so for the **Get branch protection** step in the properties panel, click 'Handle errors' and set the error handling to 'Manual'.
+
+The way we handle an error from the **Get branch protection** step here is:
+
+- **Success:** This means GitHub connector has successfully returned the protection information and we can manipulate the payload and then store it into Google sheets (**No branch protection** step).
+- **Error:** This means the provided repository does not have branch protection and the GitHub connector has returned no data. In which case, we can pass the branch information from the **Loop** step directly into the Google Sheets connector (**Has branch protection** step).
+
+1. **No branch protection** step is a Google Sheets step that will add data from the **Loop** step into a Google Sheet using the 'Create row' operation. The operation requires 'Spreadsheet ID' and 'Worksheet name' to add data to the specific spreadsheet.
+
+For information on how to set up the Google Sheets connector please visit the [Google Sheets Docs](/connectors/service/google-sheets).
+
+You can always use a [Date Time Helper](/connectors/helpers/date-time-helper) to make the **pushed at** and **created at** values readable.
+
+1. **Has field restrictions?** is a Boolean connector step that checks if restrictions 'Property exists' or not. The step accepts 'JSONpath Property' from the **Get branch protection** step.
+
+If the specified GitHub property exists, the workflow will set GitHub restrictions (**Set restrictions** step), if not, then the default restrictions are set (**Set default restrictions** step).
+
+1. **Set default restrictions** is a [Data storage](/connectors/core/data-storage) connector step that is storing a default value `''` under the specified 'Key' `restrictions` using the 'Set Value' operation.
+
+This step sets a default value when a field restriction value is not available and, the result for the Boolean connector in the **Has field restrictions?** step is **FALSE**.
+
+1. **Set restrictions** is a Data storage connector step that is storing restrictions (`$.steps.github-1.restrictions`) value under under the specified 'Key' `restrictions` using the 'Set Value' operation.
+
+This restriction field is set, when the result for the Boolean connector in the **Has field restrictions?** step is **TRUE**.
+
+1. **Get restrictions** is again a Data storage connector step to get the values set under the 'Key' `restrictions` using the 'Get Value' operation.
+
+1. **Has branch protection** is again a Google Sheets step like a **No branch protection** step. Again, your input will vary depending on the required spreadsheet content. In this step, along with all the fields included in the **No branch protection** step, we have included the following additional fields:
+
+The additional fields will grab the protection information from the **Get branch protection** step or a **Data Storage** connector. Before you add the data to the Google Sheets connector, you may want to enter a few extra steps to make the data readable using the [Helper](/connectors/helpers/) connectors.

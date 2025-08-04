@@ -1,0 +1,124 @@
+---
+title: "Overview"
+description: "Overview of the Qualtrics connector"
+---
+
+# Overview
+
+## Overview
+
+Qualtrics is a simple to use web-based survey tool. It conducts survey research, evaluations and other data collection activities. Anyone can use this suite to build surveys, send surveys or even analyse responses.
+
+## Authentication
+
+When using the Qualtrics connector, the first thing you will need to do is go to your Tray.io account page. Select the workflow you wish to work on. Once within the workflow builder itself, search and drag the Qualtrics connector from the connectors panel, into your workflow. The connectors panel is on the left hand side.
+
+With the new Qualtrics connector step highlighted, in the properties panel on the right, select the ‘Authenticate’ panel. Click the button named ‘Add new Authentication’ (located under the Authentication input field).
+
+This will result in a Tray.io authentication pop-up window. The first page will ask you to name your authentication, and state which type of authentication you wish to create ('Personal' or 'Organisational').
+
+As you can see, the next page asks you for your 'API Token' and 'Datacenter ID' credentials.
+
+In order to get these fields, head to your Qualtrics dashboard. You can find or create your 'API token' and 'Datacenter ID' by logging into Qualtrics (using your Brand ID's login page). Visit your account settings page. Navigate as shown below:
+
+Once you are in the main account dashboard, select 'Qualtrics IDs' from the above menu options. Here you will be led a page hosting all your current ID's including your API token and Datacenter ID:
+
+Once you have added these fields to your Tray.io authentication popup window, click on the 'Create authentication' button. Go back to your settings authentication field (within the workflow builder properties panel), and select the recently added authentication from the dropdown options now available.
+
+Your connector authentication setup should now be complete.
+
+## Available Operations
+
+The examples below show one or two of the available connector operations in use.
+
+Please see the [Full Operations Reference](#operationsFull) at the end of this page for details on all available operations for this connector.
+
+## Note on Operations Usage
+
+### Create Response Export
+
+Note that this operation lasts a few seconds (or more), in order to take effect. This is why as a user you MUST use a 'delay' method before expecting the next workflow step to begin. Else the workflow will fail should the next step be dependant on the prior one for completion.
+
+More details on how to mitigate this is shown in the workflow below.
+
+## Using the Raw HTTP Request ('Universal Operation')
+
+As of **version 3.0**, you can effectively create your own operations.
+
+This is a very powerful feature which you can put to use when there is an endpoint in Qualtrics which is not used by any of our operations.
+
+To use this you will first of all need to research the endpoint in the [Qualtrics API documentation v3.0](https://api.qualtrics.com/api-reference/), to **find the exact format** that Qualtrics will be expecting the endpoint to be passed in.
+
+Note that you will only need to add the suffix to the endpoint, as the base URL will be automatically set (the base URL is picked up from the value you entered when you created your authentication).
+
+The base URL for Qualtrics is: `https://{DATACENTER_ID}.qualtrics.com/API/v3`
+
+For example, say that the 'List surveys' operation did not exist in our Qualtrics connector, and you wanted to use this endpoint, you would use the Qualtrics API docs to find the relevant endpoint - which in this case is a `GET` request called: `/surveys`.
+
+More details can be found [here](https://api.qualtrics.com/guides/reference/surveys.json/paths/~1surveys/get).
+
+As you can see there is also the option to include a query parameter, should you wish to do so. So if you know what your method, endpoint and details of your query parameters are, you can get the surveys information with the following settings:
+
+Method: `GET`
+
+Endpoint: `/surveys`
+
+Query Parameter: Key: `offset` Value: `1`
+
+Final Example outcome being: **https://ca1.qualtrics.com/API/v3/surveys**
+
+## Example Usage
+
+Below is an example of a way in which you could potentially use the Qualtrics connector. This example highlights how to get your survey details and download said information.
+
+The steps will be as follows:
+
+1. Setup using a manual trigger and get the survey of your choice. Create an export request for a particular survey.
+2. Use a delay method to check the status of the export before continuing.
+3. Export and zip download said file.
+
+The final outcome should look like this:
+
+### 1 - Setup Trigger & Get Survey
+
+Once you have clicked 'Create new workflow' from your main Tray.io dashboard and named it, select the Manual trigger from the trigger options available:
+
+After you have been redirected to the Tray.io workflow dashboard - from the connectors panel on the left - add a Qualtrics connector to your second step. Set the operation to 'Get Survey'. select the survey you wish to work with from the dropdown options provided in the 'Survey ID' field.
+
+Add a secondary Qualtrics connector and set the operation to 'Create Response Export'. Select the same survey to work with. 'Format' should be set to 'CSV'.
+
+There are various other settings to build with, but for the sake of simplicity, this demo includes only adds 'Included Question IDs':
+
+These two steps will now get your survey information and creates an export request for your specific Qualtrics survey.
+
+### 2 - Export Complete?
+
+Next, search for the Loop collection connector within your connector panel, and drag it into your workflow as your next step. Set your operations to 'Loop Forever'.
+
+Add another Qualtrics connector **inside** of the Loop Collection step itself. Set the operation to 'Get Response Export Progress'.
+
+The Loop Collection connector allows you to iterate through your results from previous steps. In this example, we will use it to iterate through the data found within the previous 'Create Response Export' connector step.
+
+To specify the data you want to loop through, start by using the 'List' mapping icon. This is next to the list input field, within the properties panel) to generate the connector-snake.
+
+While hovering over the 'Create Response Export' step (with the tail end of the connector-snake) select `id (ID)` from the list of output properties displayed. This will auto-populate a jsonpath within your 'Request ID' input field, and update the type selector to jsonpath.
+
+For more clarification on the pathways you have available, open the Debug panel to view your step's Input and Output.
+
+As the point of this operation is to check the completion of the export process, the next stage is to add a Boolean Condition connector step. Make sure that this is placed **inside** the loop step again, under the 'Get Response Export Progress' step.
+
+Having this connector in place will mean that the workflow will only continue to take action; should the status report from the previous Qualtrics step come back completed. Set the operation to 'Boolean condition'.
+
+Use the connector-snake like last time to generate the 'Condition' -> 'Conditions' -> '1st Value' field: `$.steps.qualtrics-3.status`. Set the comparision type to 'Equal to'. The '2st Value' field needs to have its operation type set to 'string' and the text itself as `complete`.
+
+On the `true` branch, add a Break Loop connector step. Now the condition to break out of the forever loop should the export process be finished is set.
+
+### 3 - Export File
+
+Add another Qualtrics connector **outside** of the 'Loop Forever' connector step. Set the operation to 'Get Response Export File'. Your 'File' field name should be set to `$.steps.qualtrics-3.file`.
+
+Finally, add a Zip Helpers connector step below. Set the operation to 'Unzip' and the 'URL' path to `$.steps.qualtrics-4.file.url` as the URL was generated from the previous step.
+
+For further clarification on where the URLs are coming from, open the Debug panel to check:
+
+Now your workflow is complete, with a downloaded CSV file which you can use to import into other services should you so wish.

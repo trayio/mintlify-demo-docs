@@ -1,0 +1,84 @@
+---
+title: "Notes on using HubSpot"
+description: "Notes on using HubSpot documentation for HubSpot connector"
+---
+
+# Notes on using HubSpot
+
+## API Keys cont.
+
+**As of 30 November 2022 API calls made with API keys on or after this date will** **return 401 errors**.
+
+Please be aware that **API Keys vs Developer API keys are NOT the same thing**.
+
+HubSpot is sunsetting the use of API Keys. Whereas Developer API Keys are still relevant in some use cases.
+
+Pre-existing HubSpot API Keys will work until 30th November 2022.  Accounts which do not have an API key as of 15th July 2022 will not be able to create new API keys.
+
+As a result of this change integrations will instead be required to work with Private Apps.
+
+## Scopes cont.
+
+During your authentication setup you are asked to select project relevant scopes. 
+
+On **July 31st 2022** the 'contacts' scope was replaced with a more granular selection of customer relationships management scopes. 
+
+If you wish to keep using an old authentication simply update your scopes. You can do this by replacing the old 'contacts' scope with the new more precise contact scopes.
+
+The following table gives a scope summary and is an edited version of the information available within the [HubSpot 'working with OAuth' documentation](https://developers.hubspot.com/docs/api/working-with-oauth#scopes) site.
+
+So before going further please **make sure you have only ticked the scope boxes which your account has access to** and which are required for the operations you want to carry out.
+
+Remember that the scopes required will depend on the specific user / app / portal setup of your account.
+
+## Headers
+
+Please be warned that **HubSpot headers are case sensitive**. 
+
+If this is a problem for your use case note that this can be mitigated by using the [HTTP Client](https://tray.io/documentation/connectors/core/http-client/) instead.
+
+## Create / update
+
+Any operations that has the term **create / update** in its title is essentially an **Upsert **operation. For example if we take a look at 'Batch create/update contacts':
+
+- If a HubSpot contact does exist, the contact record is updated.
+- If a HubSpot contact does not exist, a new contact record is created.
+
+All batch create / update operations work in this manner.
+
+For an example of how this works please see the [Example use cases](https://tray.io/documentation/connectors/service/hubspot/#example-use-cases/) section below.
+
+## Engagements
+
+We have 5 of the main HubSpot Engagement types within out list of available operations:
+
+- **Note**
+- **Email**
+- **Task**
+- **Meeting**
+- **Call**
+
+The properties related to each Engagement type is different. 
+
+You will need to check out the [Engagements](https://developers.hubspot.com/docs/api/crm/engagements) main documentation page for more information on what they and the limitations associated are if you intend to use any. 
+
+As it stands you can **Create** / **List** / **Update** (eg. 'Create email engagement') the main 5 engagement types using the various operations available.
+
+### Create an Engagement
+
+To Create an Engagement the Engagement type needs to be selected from the dropdown.
+
+### List & / or Update an Engagement
+
+When Listing or Updating an Engagement the Engagement type needs to be known beforehand. 
+
+## Properties with history
+
+Operations which have the optional **Properties with history** input field have a maximum number of items that the operation can return per call.
+
+- Requests made **with** the 'Properties with history' field return **50 **items
+- Requests made **without** the 'Properties with history' field return **100 **items
+
+## Fallback values
+
+HubSpot should return null values without any issue. Should you find that this is not the case then please use [Fallback values](https://tray.io/documentation/platform/working-with-data/fallback-values/) to fix it.

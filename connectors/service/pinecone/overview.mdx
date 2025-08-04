@@ -1,0 +1,60 @@
+---
+title: "Overview"
+description: "Overview of the Pinecone connector"
+---
+
+# Overview
+
+## Overview
+
+Pinecone makes it easy to provide long-term memory for high-performance AI applications. It’s a managed, cloud-native [vector database](https://www.pinecone.io/learn/vector-database/) with a [simple API](https://docs.pinecone.io/reference) and no infrastructure hassles. Pinecone serves fresh, filtered query results with low latency at the scale of billions of vectors.
+
+## Authentication
+
+When using the Pinecone connector for the first time, you need to create a new authentication.
+
+Name your authentication and specify the type ('Personal' or 'Organizational').
+
+The next page asks you for your API Key.
+
+To get this field head to the [Pinecone Dashboard](https://app.pinecone.io/organizations/-Nrj48bGY3xHNl6ZPaFn/projects). Select **API Keys** from the left panel. 
+
+You can use the default key or create a new one using the **Create API Key** button.
+
+Once you have added this field to your Tray.io authentication pop-up window click the **Create authentication** button. 
+
+Go back to your settings authentication field (within the workflow builder properties panel), and select the recently added authentication from the available dropdown options . Your connector authentication setup is now complete.
+
+## Available Operations
+
+### Upsert Vectors
+
+This functionality enables you to store vectors and their associated metadata, either individually or in batches.
+
+When creating a vector, the input schema consists of an array of objects with metadata, a generated ID, and the embedding vector in the 'values' field.
+
+It's important to note that, for retrieval purposes, the original data that the vectors were generated from should be included, such as in a 'text' field in the metadata.
+
+The following screenshot shows an example set of metadata. Note that you are entirely in control of what metadata fields you include. 
+
+ If you're processing batches of data for vector creation, ensure you construct an object adhering to this structure and append it to a data storage list.
+
+The list can then be retrieved and inserted directly into the ‘vectors’ array in the properties panel for the Pinecone **Upsert vectors **step.
+
+## Notes on using Pinecone
+
+### Creating vectors
+
+Note that Pinecone functions solely as a storage database and does not generate vectors. 
+
+To create vectors, you must utilize tools like a Language Model (LLM) with an embeddings model. 
+
+For instance, you can employ the [OpenAI's Create embeddings operation](https://tray.io/documentation/connectors/service/openai/#create-embeddings-available-from-v20), as demonstrated in this example:
+
+The resulting vectors are then added to the vector object as demonstrated [above](https://staging.tray.io/documentation/connectors/service/pinecone/#upsert-vectors).
+
+### Batching
+
+Considering that vectors can contain several thousand numbers, appending to lists may exceed the data storage limit under a single key. 
+
+Therefore, it's advisable to chunk your source data into appropriate batches and utilize a callable workflow for vector creation:

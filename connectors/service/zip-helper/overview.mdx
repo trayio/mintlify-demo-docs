@@ -1,0 +1,152 @@
+---
+title: "Overview"
+description: "Overview of the Zip Helper connector"
+---
+
+# Overview
+
+## Overview
+
+The Zip Helper connector is a Tray.io specific connector which allows you to zip up files as well as un-zipp, Gzip, and more to a .zip file.
+
+## Authentication
+
+When the a Zip connector step is selected, in the properties panel on the right you will notice that no authentication is necessary. This is because it does not need to authenticate with an outside API service.
+
+## Basic Operations List
+
+Full list of operations can be found [HERE](https://tray.io/documentation/connectors/helpers/zip-helper/operations/)
+
+- Gzip
+- Ungzip
+- Zip
+- Unzip
+- Unzip and decrypt
+- Zip and encrypt
+
+## Note on Operations usage
+
+This can be generated automatically - via the connector-snake etc, or manually. So long as the name of the file, includes the file extension the workflow will run correctly.
+
+## Example usage
+
+Below are three examples for using the Zip connector: *Feel free to follow the tutorial that best fits your use case.*
+
+**1: Beginner:** Zipping up file
+
+**2: Intermediate:** Unzipping Zip folder
+
+**3: Advanced:** Full use case for zipping and sending several files via email.
+
+## 1: Beginnner - Zipping up files
+
+To zip up files into a folder, the first thing that needs to be done is getting the helper itself. Simply search for 'zip' in the search bar or find it under the helper section in the connector listings.
+
+Once found, add it to the workflow and select the operation `zip`. As can be seen, the `zip` operation takes an array of file objects. Each file element requires a file and a path to store that file in the new zip.
+
+In this example, the files that will be zipped up are those that have been unzipped in the previous example. To achieve this, JSONPaths will be used to populate the array of files.
+
+Here, we can see that the second file to be zipped will be placed into a folder within the zip folder called `sub_directory`.
+
+Once we have selected the files to zip, we can then run the operation.
+
+As can be seen below, the operation ran successfully and has output a file object. This contains a URL to the .zip file.
+
+If this was to be downloaded, and unzipped then it would look like the following.
+
+## 2: Intermediate - Unzipping a .zip folder
+
+To unzip a .zip folder, the first thing that needs to be done is getting the helper itself. Simply search 'zip' in the search bar or find it under the helper section in the connector listings.
+
+Once found, add it to the workflow and select the operation `unzip`. As can be seen in the image, it requires a URL. This URL refers to the location of the zip file.
+
+In the case of this example, a .zip file has been downloaded using the `Google Drive` connector. Using the connector snake and JSONPaths, the URL of the .zip file can be extracted from the download result of the Google Drive `Download file` operation.
+
+The URL is now populated with the URL of the downloaded file.
+
+We can now run the operation. As can be seen in the image below, the operation has been successful. It has outputted two file objects, both of them representing .png files which were originally zipped up in the folder downloaded from Google Drive.
+
+## 3: Advanced - Zip up and send several files at once
+
+Below is an example of a way in which you could potentially use the Zip connector to zip up and attach multiple files to an email and send it on automatically.
+
+The steps will be as follows:
+
+1. Set up the trigger to activate once an inbound email has been received.
+2. Loop through the email contents and add each increment into a Data Storage Core connector to keep track.
+3. Turn each of these files found into an object.
+4. Once there are no more files to add, turn these file objects into and array and gather said array.
+5. Utilise the Zip connector to compress this array of file objects.
+6. Send a new outbound email with said objects compressed and attached.
+
+The final outcome should look like this:
+
+### 1 - Setup Email trigger
+
+Once you have clicked 'Create new workflow' on your main Tray.io dashboard (and named said new workflow), select the Email trigger from the trigger options available:
+
+> 
+
+Set the operation to "On Email Received". This is activated by sending an email to the Tray.io email address. This is found by clicking on the settings cog in the top left hand corner and copying your unique workflow hash - aka the Public Workflow URL.
+
+When you are ready to send your email (**making sure to attach some test photos**), the email address you need to send it to should be a combination of `trigger+` + `youruniquehash` + `@traymail.io`.
+
+> 
+
+*Feel free to re-name your steps as you go along to make things clearer for yourself and other users.*
+
+### 2 - Loop through and Increment
+
+Next, from the connectors panel on the left, add a Loop connector to your second step. Set the operation to 'Loop List'. The list that you need your workflow to work through will be the attachments found in the email you sent.
+
+Your jsonpath should be similar to this: `$.steps.trigger.attachments`. Try using the connector-snake to generate this automatically from within your own workflow.
+
+## 3 - File conversion
+
+Add a Data Storage connector to the workflow in your next step (this will be within the loop connector ring). Set the operation to 'Atomic Increment'. The 'Scope' is set to 'Current Run' and the 'Key' is `number`. Make sure to check that the Type selector is set to *string* else the run will fail!.
+
+As the description states, this will: "Increment a numeric value atomically. Can be used concurrently from multiple executions". That means every time the list is looped through, the data storage connector will keep count.
+
+Get a Object Helpers connector from the side panel and add it to the next step under the data storage, still within the loop connector circle. Set the operation to 'Add key/value pairs'.
+
+In the options available you will see that you have a 'Source' and mandatory 'List' field. Both have a greyed out 'Add...' button option.
+
+Ignore the source for now, and to the 'List' field click on the 'Add item' button. Immediately you will have the 'Key' and 'Value' fields highlighted in red. Again these are mandatory. The 'Key' in this case is `file`. Make sure to check that the Type selector is set to *string* else the run will fail!.
+
+The 'Value' will need to have the Type selector is set to *object*. As a result you will have another field option appear, and another greyed out button option, this time called 'Add property to value'.
+
+Click on this button. You will see a popup window asking you to then name you're new property. As the first value we wish to receive is the file itself, we will again name the value as `file`.
+
+Get the jsonpath using the connector-snake by taking from the loop step. You should have an output similar to this: `$.steps.loop-1.value.file`.
+
+Continue this value adding method with the 'URL', 'name', 'mime_type', and 'expires'. All this information is still gathered from the loop step.
+
+Finally take note of the 'Add property item' button that was created during your original value step:
+
+Set the 'Key' to 'path' and the 'Value' as: `/photo{$.steps.storage-1.value}`. Notice that we have used interpolation here to autofill the pathway.
+
+Your end result should look something like this:
+
+This will mean that on every loop, all of the above information will be collected from each file. This is shown in the Output panel within the debugger:
+
+## 4 - Get all files
+
+Add a Data Storage connector underneath your Object Helper. Set your operation to 'Append to List' and your 'Scope' as 'Current Run'. 'Key' is 'files' and 'Value' is a jsonpath taken from the previous step.
+
+Add another Data Storage connector, making sure it is placed OUTSIDE of the loop. Set the operation to 'Get Value' and again set the 'Scope' to 'Current Run'. 'Key' will again be 'files'.
+
+These steps ensure that not only are the file objects themselves collected into an array, but that the array itself is "got" so that it can be used later on.
+
+## 5 - Send zipped files
+
+Get the Zip connector and place it under your last Data Storage connector, and set the operation to 'Zip'. The 'Files' path should be connected to the previous storage step's value (aka, the whole list of files and their values).
+
+In the 'File name' section, note that this can be the file OR folder name. We have used 'photos' for the sake of ease.
+
+Finally, add and Email connector step. Set the operation to 'Send email' and type in the email address of the recipient. Include the name as well if you know it. The 'From Email' section should be pre-populated for you.
+
+The most important thing to note here is the 'Attachment' field. Due to the nature of the Zip connector - as mentioned previously: "When using the Zip connector, **you MUST make sure that the file extension is included in the file name and pathway to said file**". This is best done through the connector-snake and thereby auto-generated for you correctly.
+
+Once run, you should see your results within your selected inbox (i.e. an automated email with an attached zip folder containing the original files).
+
+Congratulations! You have finished the advanced Zip tutorial.

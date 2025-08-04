@@ -1,0 +1,84 @@
+---
+title: "Overview"
+description: "Overview of the WordPress connector"
+---
+
+# Overview
+
+## Overview
+
+WordPress.com is the hosted version of the open-source software for online publishing. This connector allows your workflow to access your WordPress.com content via the WordPress REST API v1.1.
+
+## Authentication
+
+Within the workflow builder, highlight the WordPress connector.
+
+In the WordPress connector properties panel to the right of the builder, click on the Authenticate tab and the 'Add new authentication' button.
+
+This will result in a Tray.io authentication pop-up modal. The first page will ask you to name your authentication and select the type of authentication you wish to create ('Personal' or 'Organization').
+
+Click 'Next step' and then 'Create authentication' to sign into your WordPress account and complete the OAuth flow.
+
+Go back to your settings authentication field (within the workflow builder properties panel), and select the recently added authentication from the dropdown options now available.
+
+Your connector authentication setup should now be complete.
+
+## Available Operations
+
+The examples below show one or two of the available connector operations in use.
+
+Please see the [Full Operations Reference](#operationsFull) at the end of this page for details on all available operations for this connector.
+
+## Notes on using WordPress
+
+### List posts
+
+If you do not select any value for the 'Status' field, the API defaults to the `publish` status and will only return posts which have been published.
+
+Either specifically add the post statuses you want to return, or ensure that value 'any' is selected so that all posts are returned regardless of the status.
+
+### List search results
+
+Unlike the other operations which make use of endpoints of the v1.1 API, the 'List search results' operation is implemented via the v2 endpoint:<br/>`https://public-api.wordpress.com/wp/v2`
+
+Please also note that this operation will return items if they contain the search term anywhere inside. i.e. while searching for posts will not return the content of posts themselves, a post is considered a match if the search term is found anywhere within the post.
+
+### Raw HTTP request
+
+This operation is included to allow you use endpoints which are not yet implemented by a connector operation. Note that your WordPress connector authentication is valid for both v1.x and v2 APIs, giving you the flexibility to use whichever API version you desire.
+
+## Using the Raw HTTP Request ('Universal Operation')
+
+You can effectively create your own operations using the 'Raw HTTP request' operation.
+
+This is a very powerful feature which you can put to use when there is an endpoint in WordPress which is not used by any of our operations.
+
+To use this you will first of all need to research the endpoint in the [WordPress API documentation v1.1](https://developer.wordpress.com/docs/api/), to **find the exact format** that WordPress will be expecting the endpoint to be passed in.
+
+For the v1.1 endpoints, you will only need to add the suffix to the endpoint, as the base URL will be automatically set (it will pick up the the 'blog_id' from the OAuth data acquired when you created your authentication).
+
+If the 'blog_id' is `123456789`, the base URL for WordPress REST API v1.1 is therefore:<br/>`https://public-api.wordpress.com/rest/v1.1/sites/123456789`
+
+For example, say that the 'List users' operation did not exist in our WordPress connector, and you wanted to use this endpoint. You would use the WordPress API docs to find the relevant endpoint - which in this case is a `GET` request called: `/users`.
+
+More details about this endpoint can be found [here](https://developer.wordpress.com/docs/api/1.1/get/sites/%24site/users/).
+
+This endpoint accepts query parameters to modify what data is returned. For example, if we were interested only in users' WordPress usernames and roles, we could specify the query parameter `fields` with the value `login,roles` so that only login usernames and roles of the users is returned.
+
+So if you know what the method, endpoint and query parameters, you can get a collection of users' information with the following settings:
+
+Method: `GET`
+
+Endpoint: `/users`
+
+Query Parameter: **Key**: `fields` **Value**: `ID,roles`
+
+Body Type: `none`
+
+Thus, if we assume that the 'blog_id' is `123456789`, the final outcome is:<br/>**https<!---->://public-api.wordpress.com/rest/v1.1/sites/123456789/users?fields=login,roles**
+
+Switching to the 'Debug' view, you can inspect the step input and output.
+
+This is the 'Step Input':<br/>
+
+This is the 'Step Output' containing the data that we want:<br/>

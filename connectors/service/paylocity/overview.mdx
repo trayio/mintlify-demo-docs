@@ -1,0 +1,75 @@
+---
+title: "Overview"
+description: "Overview of the Paylocity connector"
+---
+
+# Overview
+
+## Overview
+
+Paylocity is a provider of cloud-based payroll and human capital management software solutions for medium-sized organizations.
+
+## Authentication
+
+When using the Paylocity connector, the first thing you will have to do is click on 'New Authentication' in the step editor:
+
+You then need to choose whether you are using a Sandbox or Production environment and enter the **Client ID**, **Client Secret** and **Public Key** credentials which you should have obtained from Paylocity when requesting API access:
+
+## Available Operations
+
+The examples below show one or two of the available connector operations in use.
+
+Please see the [Full Operations Reference](#operationsFull) at the end of this page for details on all available operations for this connector.
+
+## Example - Create a staged Employee
+
+This scenario imagines that you are running a regular check with another HR service, such as BambooHR, for any new employees which will need added to Paylocity.
+
+The complete workflow looks like this:
+
+The main points of this workflow are:
+
+- It runs on a **Scheduled trigger** to make checks to your BambooHR account on a daily/weekly/monthly etc. basis
+- Uses the BambooHR **Last Changed Employees** operation to get data on new employees
+- Uses the **Loop Connector** to process each of the new employees one by one
+- For each employee in the loop, gets the individual details for that Employee from BambooHR, locating them by EmployeeID employee in Paylocity
+- Each time the workflow is run, a **Data storage** connector is used to retrieve the date from the last time the workflow was run. This is retrieved at the start of the workflow (**get last check date**) and set at the end of the workflow (**set last check date**). It is necessary to do this because the BambooHR **Last changed Employees** operation requires a **Since** date to be entered so it knows when to run the check from
+
+The steps involved are:
+
+### 1 - Set the scheduled trigger
+
+This can be set to any interval or schedule as required
+
+### 2 - Get the last checked date
+
+This is set as **lastChecked** and the **Scope** is set as 'Workflow' as it is a value which is stored between workflow runs (i.e. is not deleted after each run)
+
+### 3 - Get new employee list
+
+The **Last Changed employees** operation in BambooHR uses `$.steps.storage-1.value` in the **Since** field and checks only for employees of **Type** 'Inserted' (new)
+
+### 4 - Loop through the employees
+
+The **Loop thru employees** operation uses `$.steps.bamboohr-1.results` to get each employee to loop through
+
+### 5 - Get individual employee details
+
+The **Get Employee** operation uses `$.steps.loop-1.value.id` to get the id and find them in BambooHR using the **Get Employee by ID** operation.
+
+### 6 - Add the employee to Paylocity
+
+You can now use the Paylocity **Create Employee** (or **Create Staged Employee**) operation, and pull in the employee data from BambooHR using jsonpaths such as `$.steps.bamboohr-2.result.firstName`, `$.steps.bamboohr-2.result.lastName` and `$.steps.bamboohr-2.result.jobTitle`
+
+### 7 - Set the last checked date
+
+For the next time the workflow is run set the **lastChecked** value using the jsonpath `$.steps.trigger.utc_datetime_data.datetime` to get the current date from the scehduled trigger. Remember that the **Scope** is set as 'Workflow'.
+
+## Important note on implementation
+
+Note that the above example is quite simplified. In a production scenario it is likely that you will want to carry out other actions such as:
+
+- create a custom Paylocity ID field in BambooHR (or whatever service you are using)
+- run a [boolean](#) check to see if that employee already exists in Paylocity
+
+It is also possible that you could be using a [webhook](#) as the trigger for your workflow - where an action in one service automatically starts your workflow and sends relevant data for processing. In this case ou would not need to set up a scheduled trigger to periodically check for updates.

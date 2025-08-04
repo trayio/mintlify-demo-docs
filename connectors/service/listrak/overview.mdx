@@ -1,0 +1,65 @@
+---
+title: "Overview"
+description: "Overview of the Listrak connector"
+---
+
+# Overview
+
+## Overview
+
+The Listrak API allows you to integrate with Listrak's application. The Listrak platform boasts a comprehensive set of marketing automation and CRM solutions that unify, interpret and personalize data to engage customers across channels and devices. It enables the seamless automation of a broad set of functionality, ranging from basic tasks to complex processes.
+
+## Authentication
+
+When using the Listrak connector, the first thing you will need to do is go to your Tray.io account page, and select the relevant workflow. Once in the workflow dashboard itself, search and drag the Listrak connector from the connectors panel (on the left hand side) onto your workflow.
+
+With the new Listrak connector step highlighted, in the properties panel on the right, click on 'New Authentication' which is located under the 'Settings' heading.
+
+In order to create a new authentication two keys are required. A 'Client ID' and a 'Client secret'.
+
+When you have followed the above link's instructions, you should have all the requirements you need for your Tray.io authentication box.
+
+Once you have named your authentication appropriately, and added your 'Client ID' and a 'Client secret'; simply click the 'Add authentication' button to finish the process.
+
+Your auth field will now automatically select the Listrak auth created until stipulated otherwise.
+
+## Available Operations
+
+The examples below show one or two of the available connector operations in use.
+
+Please see the [Full Operations Reference](#operationsFull) at the end of this page for details on all available operations for this connector.
+
+## Example Usage
+
+This short example will demonstrate the use of the 'Create Segmentation field' operation in order to create a list in your Listrak account, to "list all the lists" within your account.
+
+*FYI: A Segmentation Field is used to store data about a contact so that it can be filtered in the future.*
+
+The steps will be as follows:
+
+1. Setup your manual trigger and list all the available lists within the account.
+2. Create the Segmentation field in the chosen list.
+
+The completed workflow looks like this:
+
+## 1 - Setup & listing
+
+The first step is to go to your Tray.io dashboard, click on the 'Create new workflow' button in the top right corner and name your project workflow. This can be edited later if need be.
+
+Search and select the 'Manual trigger'. *There is only one operation available for this trigger and no authorisation needed.*
+
+Once within your workflow dashboard, go to the connectors panel on the left and search and select the Listrak connector. Add this to the second step of your workflow (making sure to double check that your authentication is automatically set).
+
+Set the operation to 'List lists' from the dropdown available.
+
+## 2 - Create a segmentation field
+
+The 'Create a segmentation field' operation lets you create a new segmentation field for the specified segmentation field group in question.
+
+You can select the "List ID" from the previous 'List lists' operation using the JSON path: `$.steps.listrak-1.data[0].listId` and the connector-snake.
+
+Once a List ID is selected, you will be need to further select a 'Segmentation field group ID'. This is the ID that is associated to the specific list, from the drop down options in the `Segmentation field group IDs` input field.
+
+Fill the remaining input fields as required, and run the workflow to create a Segmentation field.
+
+> 

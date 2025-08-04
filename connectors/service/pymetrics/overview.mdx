@@ -1,0 +1,85 @@
+---
+title: "Overview"
+description: "Overview of the Pymetrics connector"
+---
+
+# Overview
+
+## Overview
+
+Pymetrics is a talent assessment technology platform. It uses neuroscience games and AI to help employers better understand job candidates.
+
+## Authentication
+
+Within the workflow builder, highlight the Pymetrics connector.
+
+In the Pymetrics connector properties panel to the right of the builder, click on the Authenticate tab and the 'Add new authentication' button.
+
+This will result in a Tray.io authentication pop-up modal. The first page will ask you to name your authentication and select the type of authentication you wish to create ('Personal' or 'Organisational').
+
+The next page asks you for your 'Client secret', 'Client ID', and 'API key'. These credentials are provided by Pymetrics. Please contact support@pymetrics.com.
+
+Once you have added these fields to your Tray.io authentication pop-up window, click the 'Create authentication' button.
+
+Go back to your settings authentication field (within the workflow builder properties panel), and select the recently added authentication from the dropdown options now available.
+
+Your connector authentication setup should now be complete.
+
+## Available Operations
+
+The examples below show one or two of the available connector operations in use.
+
+Please see the [Full Operations Reference](#operationsFull) at the end of this page for details on all available operations for this connector.
+
+## Using the Raw HTTP Request ('Universal Operation')
+
+As of **version 1.0**, you can effectively create your own operations.
+
+This is a very powerful feature which you can put to use when there is an endpoint in Pymetrics which is not used by any of our operations.
+
+To use this you will first of all need to research the endpoint in the [Pymetrics API documentation v1.0](https://api.pymetrics.com/docs), to **find the exact format** that Pymetrics will be expecting the endpoint to be passed in.
+
+Note that you will only need to add the suffix to the endpoint, as the base URL will be automatically set (the base URL is picked up from the value you entered when you created your authentication).
+
+The base URL for Pymetrics is: `https://api.pymetrics.com/mercury`
+
+For example, say that the 'List asset configurations' operation did not exist in our Pymetrics connector, and you wanted to use this endpoint. You would use the Pymetrics API docs to find the relevant endpoint - which in this case is a `GET` request called: `/configuration`.
+
+More details about this endpoint can be found [here](https://api.pymetrics.com/docs#operation/mercuryGetConfig).
+
+As you can see, there is also the option to include a query parameter, should you wish to do so. So if you know what your method, endpoint, and details of your query parameters are, you can list all contact lists with the following settings:
+
+Method: `GET`
+
+Endpoint: `/configuration`
+
+Final outcome being: **https://api.pymetrics.com/mercury/configuration**
+
+## Example Usage
+
+Below is an example of a way in which you could potentially use the Pymetrics connector to create an assessment order and then retrieve the assessment order.
+
+The steps will be as follows:
+
+1. Setup using a manual trigger and create assessment order.
+2. Retrieve the assessment order you just created.
+
+Your completed workflow should look similar to this:
+
+### 1 - Setup Trigger and Create Assessment Order
+
+Select the manual trigger from the trigger options available. From the connectors panel on the left, add a Pymetrics connector to your workflow. Set the operation to 'Create assessment order'.
+
+For this operation, there are three required inputs: email, assessment ID, and application ID. Provide these fields as well as any other information that you want to input to create an assessment order.
+
+Feel free to re-name your steps as you go along to make things clearer for yourself and other users. The operation names themselves often suffice.
+
+Upon completion of this first step, you will have successfully created an assessment order.
+
+### 2 - Retrieve the Assessment Order
+
+Set the operation to 'Get assessment order'. As you can see, the 'Assessment order ID' field is required. This can be obtained by using the connector-snake. To do so hover over the 'Create assessment order' step and selecting `id` from the list of output properties displayed.
+
+You can open the Debug panel to view your step's Input and Output.
+
+With this last step completed, you will have successfully retrieved the assessment order you created in step 1.

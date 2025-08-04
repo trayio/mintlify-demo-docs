@@ -1,0 +1,76 @@
+---
+title: "Overview"
+description: "Overview of the IBM MQ connector"
+---
+
+# Overview
+
+## Overview
+
+## Authentication
+
+When using the IBM MQ connector, the first thing you will need to do is go to your Tray.io account page, and select the workflow you wish to work on. Once in the workflow builder itself, search and drag the IBM MQ connector from the connectors panel (on the left hand side) onto your workflow.
+
+With the new IBM MQ connector step highlighted, in the properties panel on the right, click on 'New Authentication' which is located under the 'Settings' heading.
+
+This will result in a Tray.io authentication pop-up window. The first page will ask you to name your authentication, and state which type of authentication you wish to create ('Personal' or 'Organisational').
+
+As you can see, the next page asks you for your 'Username', 'API Key' and 'Host' credentials.
+
+Your username is self explanatory. The host name is your domain name. For example, if your REST endpoint was shown as: `https://my-host-name/ibmmq/rest/v1...`, only `my-host-name` is required.
+
+For the API key, you will need to go through the IBM Cloud MQ Administrative page (if using IBM Cloud MQ).
+
+There are two ways to generate “API KEY” to the authentication. The first method displays all the potential operations you could choose from, whereas the second does not allow all operations to be displayed (such as 'Get message'). Please choose your authentication type and API key generation method accordingly.
+
+In order to get the API Key, head to your IBM MQ dashboard. Click on the search bar available to you within your IBM MQ account, and search for `mq` to be redirected to the main MQ VO page.
+
+### Display: ALL
+
+Under the Manage tab (on the left hand side) click on the 'Queue managers' option. You should see a list of available options displayed. Click on the relevant 'Name'. If there are none displayed - press the 'Create +' button and walk through the setup steps until complete.
+
+Once you have clicked through, it will lead you to the 'Configuration' settings.
+
+Click through to the 'Administration' tab, and select 'MQ Explorer' from the three main options displayed. Here you will have the option to reset your API key.
+
+A popup will display with your API key. **Note that this is not a reveal of the current key it is a RESET**. The API key settings do not allow for the keys to be repeatedly displayed so please be cautious of this, and download the key for future use if you think you may require it again.
+
+### Display: LIMITED
+
+Under the Manage tab (on the left hand side) click on the 'Administration' option. Here you will see a list of available API keys to choose from. You can either click on the 'Add +' button to create a new application (and therefore application Key) or select the 'Add new API key' from the dropdown list to the right of your chosen application:
+
+This option allows you to "reset" the API key of your current application, rather than reveal the current one. Please bear in mind the options and warnings presented to you once the API key popup displays itself - you will not be able to see this API key again you can only 'Add new API key'. So it may be worth downloading and keeping in a safe place for future use should you require it again.
+
+Once you have added these fields to your Tray.io authentication popup window, click on the 'Create authentication' button. Go back to your settings authentication field (within the workflow builder properties panel), and select the recently added authentication from the dropdown options now available.
+
+Your connector authentication setup should now be complete.
+
+## Example 1 - Get message / Get and delete message
+
+There are two operations on the IBM MQ connector that allow retrieval of messages, `Get message` and `Get and delete message`. Both operations are the same, however `Get and delete message` will also delete that message off of the queue.
+
+To retrieve the next message on the queue, just specify a `Queue manager name` and `Queue name`. To retrieve a specific message, the `Message ID` or `Correlation ID` can be used.
+
+The output of the operation is an object which contains the actual message in the `message` property along with some metadata about the message.
+
+If there are no messages left on the queue, or the message with the specified ID could not be found, the operation will fail. There is a `found` flag which can be referenced to indicate that all messages on the queue have been consumed/deleted (if not specifying an ID and using the Get and delete message operation).
+
+The `Get and delete message` operation has the additional input field `wait`, which delays the response from the IBM MQ API if there no more messages left on the queue. This potentially gives time for the next message to arrive in IBM MQ.
+
+## Example 2 - Send message
+
+To send a message to a queue, specify the names of queue and it's manager. The message itself goes in the `Message` field.
+
+Please choose the correct `Content type` of message, if none is chosen it will default to `text/plain`. Please note that character set/encoding is set to be `charset=utf-8` by the connector.
+
+To use the `Correlation ID` field, please be aware that the value must be a 48 character long hexadecimal representation of a 24 byte string e.g. as seen in API docs, `414d5120514d4144455620202020202067d8bf5923582e02`.
+
+The output returns the `Message ID` of the created message on the queue.
+
+## Example 3 - Create queue
+
+Several types of queue can be created, including `Local`, `Alias`, `Remote` or `Model`. If creating Alias or Remote queues, please be aware that only a subset of the configuration options can be used.
+
+For example, for Remote queues, the operation will only succeed if you do not send and incompatible values, please see below for an example of what the input should look like in the Debug view.
+
+If there are additional unwanted input properties appearing, then please trying resetting those input fields so they are not sent to IBM MQ.

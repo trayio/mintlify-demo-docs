@@ -1,0 +1,43 @@
+---
+title: "Overview"
+description: "Overview of the Hive HR connector"
+---
+
+# Overview
+
+## Overview
+
+Hive HR is intuitive, cost effective, user-friendly, data and insight rich, always on an employee engagement platform.
+
+Below is an example of a way in which you could potentially use the Hive HR connector, to create an integration mapping between Hive HR and Bamboo HR.
+
+The steps will be as follows:
+
+1. Setup using a manual trigger and create a new integration in your account
+2. Create a new integration mapping between Hive HR and another external system
+
+Your completed workflow should look similar to this:
+
+### 1 - Setup Trigger & Create integration
+
+Select the Manual trigger from the trigger options available. From the connectors panel on the left, add a Hive HR connector to your workflow. Set the operation to 'Create integration'.
+
+Make sure to give a 'Name' and select the 'Type' of your integration.
+
+Now when this workflow is run, it will create an integration with the given details.
+
+Feel free to re-name your steps as you go along to make things clearer for yourself and other users. The operation names themselves often suffice.
+
+### 2 - Create integration mapping
+
+Next, add the second Hive HR connector to the workflow and set your operation to 'Create integration mapping'.
+
+In order to specify the 'Integration ID', start by using the list mapping icon (found next to the Integration ID input field, within the properties panel) to generate the connector-snake.
+
+While hovering over the 'Create integration' step (with the tail end of the connector-snake), select `id` from the list of output properties displayed. This will auto-populate a jsonpath within your list input field, and update the type selector to jsonpath.
+
+For more clarification on the pathways you have available, open the Debug panel to view your step's Input and Output.
+
+Note that you also need to define the 'User ID' and the 'Foreign ID'.
+
+Now when this workflow is run, it will create an integration mapping with the given details.

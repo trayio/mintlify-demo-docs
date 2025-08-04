@@ -1,0 +1,30 @@
+---
+title: "Overview"
+description: "Overview of the Branch connector"
+---
+
+# Overview
+
+## Overview
+
+There will be times when using the simple yes/no logic of a Boolean connector will not suffice, and you will need to set multiple pathways depending on the results being picked up from your data.
+
+This is where the Branch connector comes in!
+
+## Example - creating branches depending on support ticket type
+
+The below workflow illustrates an example whereby you have received a support ticket as a trigger:
+
+## Step 1 - set the Value to Test
+
+You will see that the **Value to Test** for the **Branch** connector is set as `$.steps.trigger.body.info.task_type`
+
+Note that the value you are checking for here will depend on the data that is sent by the webhook / trigger / service connector. It could, for example, be `$.steps.trigger.body.info.ticket_type` or `$.steps.trigger.body.data.task-category` etc.
+
+## Step 2 - name the branches
+
+You will also see that the branches are named according to the different types that the ticket might be - **new, escalate, resolve, deescalate**.
+
+You can then set each branch to take the appropriate action according to the ticket type. In the above example, as well as creating an SF task for every ticket, the **escalate** and **resolve** ticket types also include a notification to Slack - to replicate the idea that you want to make sure people are notified immediately.
+
+Below is a sample output for the trigger, from which you can see that the **resolve** value was picked from the `$.steps.trigger.body.info.task_type` jsonpath, thus triggering the **resolve** branch:

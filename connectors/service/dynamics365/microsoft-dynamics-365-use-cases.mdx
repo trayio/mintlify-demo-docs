@@ -1,0 +1,83 @@
+---
+title: "Use cases"
+description: "Use cases documentation for Microsoft Dynamics 365 connector"
+---
+
+# Use cases
+
+These examples showcase how you can leverage Tray.ai's capabilities, including its AI connectors, to enhance the functionality of Microsoft Dynamics 365. Remember to always handle sensitive data carefully, using data masking when necessary before processing with external AI services.
+
+### Lead Scoring and Prioritization
+
+**Objective:** Automatically score and prioritize leads in Dynamics 365 using AI-powered analysis.
+
+**Steps:**
+
+1. Trigger: Use a Scheduled Trigger to run the workflow daily.
+2. Fetch Leads: Use the `list_entities` operation to retrieve all leads from Dynamics 365.
+3. Data Preparation: Use Data Mapper to structure lead data for AI analysis. 
+4. AI Analysis: Use Merlin functions' `classify text` operation to score leads based on their likelihood to convert.
+5. Update Leads: Use the `update_entity `operation to update lead scores in Dynamics 365.
+6. Prioritize High-Value Leads: Use Boolean Condition to identify high-scoring leads and create tasks for sales team follow-up.
+
+### Customer Sentiment Analysis for Support Tickets
+
+**Objective:** Analyze customer sentiment from support tickets in Dynamics 365 to improve customer service.
+
+**Steps:**
+
+1. Trigger: Use the `list_entities_raw_filter` operation to periodically fetch new support tickets.
+2. Data Extraction: Use Merlin extract's `extract text` operation to pull relevant text from ticket descriptions.
+3. Sentiment Analysis: Utilize Merlin functions' `sentiment analysis` operation to determine customer sentiment.
+4. Update Tickets: Use the `update_entity` operation to add sentiment scores to tickets in Dynamics 365.
+5. Alert for Negative Sentiment: Use Boolean Condition to identify highly negative sentiments and send alerts to the support team.<br/> 
+
+### Automated Data Cleansing and Enrichment
+
+**Objective:** Improve data quality in Dynamics 365 by cleansing and enriching contact information.
+
+**Steps:**
+
+1. Trigger: Schedule the workflow to run weekly.
+2. Fetch Contacts: Use the `query_entity_data` operation to retrieve contacts with incomplete or potentially outdated information.
+3. Data Cleansing: Use Text Helper and Regex connectors to standardize formats (e.g., phone numbers, addresses).
+4.  Data Enrichment: Integrate with a third-party data provider to fetch additional information.
+5. Update Contacts: Use the `update_entity` operation to update the cleansed and enriched data in Dynamics 365.<br/> 
+
+### Cross-System Lead Management
+
+**Objective:** Synchronize and manage leads between Dynamics 365 and other systems (e.g., marketing automation platform).
+
+**Steps:**
+
+1. Trigger: Use webhooks or polling to detect new leads in the marketing automation platform.
+2. Data Mapping: Use Data Mapper to align data fields between systems.
+3. Check Duplicates: Use the `query_entity_data` operation to check for existing leads in Dynamics 365.
+4. Create or Update Lead: Use `create_entity` or `update_entity `operations based on the duplicate check results.
+5. AI-Powered Categorization: Use Merlin functions' `classify text` to categorize leads by industry or product interest.<br/> 
+
+### Secure Customer Data Processing
+
+**Objective:** Process sensitive customer data from Dynamics 365 for analysis while maintaining privacy.
+
+**Steps:**
+
+1. Trigger: Schedule the workflow to run during off-peak hours.
+2. Fetch Customer Data: Use the `query_entity_data `operation to retrieve customer information.
+3. Data Masking: Utilize Merlin Guardian's `mask data` operation to obscure sensitive information like PII.
+4.  Analysis: Perform necessary analysis on the masked data using appropriate tools or AI services.
+5. Results Processing: Use Data Mapper to prepare results for storage.
+6. Update Dynamics: Use the `update_entity` operation to store aggregated, non-sensitive results back in Dynamics 365.
+
+### Automated Sales Forecasting
+
+**Objective:** Generate sales forecasts using Dynamics 365 data and AI predictions.
+
+**Steps:**
+
+1. Trigger: Schedule the workflow to run at the end of each month.
+2. Fetch Sales Data: Use the `query_entity_data` operation to retrieve historical sales data.
+3. Data Preparation: Use Data Mapper and Math Helper to structure and normalize the data.
+4. AI Prediction: Utilize an AI service (via OpenAI or AWS Bedrock connector) to generate sales forecasts.
+5. Create Forecast Entity: Use the `create_entity `operation to store the forecast in Dynamics 365.
+6. Notify Stakeholders: Use an email connector to send the forecast to relevant team members.<br/>

@@ -1,0 +1,60 @@
+---
+title: "Overview"
+description: "Overview of the Amazon Business connector"
+---
+
+# Overview
+
+## Overview
+
+Amazon Business* *offers business owners access to the retail giant's vast network of suppliers for easy ordering and bulk-volume discounts. It also helps leaders digitise and automate procurement with powerful management controls and analytic tools.
+
+## **API Information **
+
+The Amazon Business connector has a dynamic Base URL based on the region chosen when authenticating. More information can be found on their main API documentation (v1) site. Details regarding their API limitations can be found [here](https://developer-docs.amazon.com/amazon-business/docs/document-api-v1-reference-1).
+
+## Authentication
+
+Within the builder, click on the Amaozn Business connector to display the connector properties panel. Select the **Auth** tab and click on the **New authentication** button.
+
+In the Tray.io authentication pop-up modal name your authentication in a way that will quickly identify it within a potentially large list. For example, whether it is a Sandbox or Production auth, etc.
+
+Consider who/ how many people will need access to this authentication when choosing where to create this authentication ('Personal' vs 'Organisational').
+
+The next page asks you for your 'Client ID', 'Client secret', 'Application ID', 'Access key ID', 'Secret access key' and 'Region' credentials.
+
+To get these fields, head to the Amazon Business Developer Central dashboard. 
+
+Under the 'LWA credentials' column, click on 'view' to see your app 'Client ID' and 'Client secret'. You can find your 'Application ID' under the app name in the 
+
+To get your access key ID and secret access key, open the IAM console [here](https://console.aws.amazon.com/iam/.).
+
+On the navigation menu, select 'Users'. Choose your IAM user name (not the check box). Next, open the 'Security credentials' tab, and then choose 'Show'. You can also create a new access key by choosing 'Create access key'.
+
+Once you have added these fields to your Tray.io authentication pop-up window click the **Create authentication** button. 
+
+Your connector authentication setup should now be complete. Please run the simplest operation available to test and make sure you can retrieve data as expected.
+
+## Available Operations
+
+Please see the [Full Operations Reference](https://tray.io/documentation/connectors/service/amazon-business/operations/) at the end of this page for details on all available operations for this connector.
+
+## Using the Raw HTTP Request ('Universal Operation')
+
+As of **version 1.0**, you can effectively create your own operations.
+
+This is a powerful feature that you can use when there is an endpoint in Amazon Business that is not used by any of our operations.
+
+To use this you will, first of all, need to research the endpoint in the [Amazon Business ](https://developer-docs.amazon.com/amazon-business/docs/document-api-v1-reference-1)API documentation v1 to **find the exact format** that Amazon Business will be expecting the endpoint to be passed in.
+
+For example, say that the `Get report` operation did not exist in our Amazon Business connector, and you wanted to use this endpoint. You would use the Amazon Business API docs to find the relevant endpoint - which in this case is a `GET` request called:** **`/reports/2021-09-30/reports/{reportId}.``** **`
+
+More details about this endpoint can be found [here](https://developer-docs.amazon.com/amazon-business/docs/document-api-v1-reference-1#get-reports2021-09-30reportsreportid).
+
+Based on the information provided in the above API call doc, you need to configure the following attributes on your Tray platform:
+
+- **Method:** GET
+- **URL: **
+- **Body Type: **none
+
+Once the API call is executed successfully,  you should get the following results:

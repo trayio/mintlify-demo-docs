@@ -1,0 +1,81 @@
+---
+title: "Use cases"
+description: "Use cases documentation for OpenAI connector"
+---
+
+# Use cases
+
+In each of these examples, 
+
+- Some data transformation might be necessary to format inputs for the OpenAI operations and to process the outputs for use in subsequent steps. The JSON Transformer or Text Helper connectors could be useful for these transformations.
+- Also, when dealing with potentially sensitive information, it's important to use Tray's Merlin Guardian connector to mask sensitive data before sending it to external AI services. For instance, in the customer support routing example, you might use the Merlin Guardian's `mask data` operation before sending ticket content to OpenAI for analysis.
+
+### **Automated Content Moderation** 
+
+**Objective: **Automatically moderate user-generated content before publishing. 
+
+**Steps:**
+
+1. **Trigger: **Use a Webhook Trigger to receive new content submissions.
+2. **Content Moderation: **Use the OpenAI connector's `create_moderation `operation to check the content.
+3. **Decision Making: **Use a Boolean Condition to route content based on moderation results.
+4. **Action: **Either publish the content or flag for manual review.
+
+This example leverages AI for content moderation, enhancing efficiency and consistency in content management.
+
+### **Intelligent Customer Support Routing** 
+
+**Objective:** Analyze incoming support tickets and route them to the appropriate department. 
+
+**Steps:**
+
+1. **Trigger: **Use an Email Trigger or a service-specific trigger (e.g., Zendesk) to capture new support tickets.
+2. **Text Analysis: **Use the OpenAI connector's `create_chat_completion `operation to analyze the ticket content.
+3. **Data Transformation: **Use a JSON Transformer to extract the department suggestion from the AI response.
+4. **Routing: **Use a Branch connector to route the ticket based on the AI's suggestion.
+5. **Ticket Assignment: **Use the appropriate service connector (e.g., Zendesk, Jira) to assign the ticket to the correct department.
+
+This example uses AI to intelligently categorize and route support tickets, improving response times and accuracy.
+
+### **Multilingual Product Catalog Management** 
+
+**Objective:** Automatically translate product descriptions into multiple languages. 
+
+**Steps:**
+
+1. **Trigger: **Use a Scheduled Trigger to periodically check for new or updated product descriptions.
+2. **Fetch Data: **Use a database or e-commerce platform connector to retrieve new/updated product descriptions.
+3. **Translation:  **Use the OpenAI connector's `create_chat_completion `operation to translate descriptions into target languages.
+4. **Data Transformation: **Use a JSON Transformer to format the translated descriptions.
+5. **Update Catalog: **Use the appropriate e-commerce platform connector to update the product catalog with translated descriptions.
+
+This example leverages AI for efficient, scalable multilingual content management.
+
+### **Voice-Enabled Reporting System** 
+
+**Objective:** Generate audio reports from text-based data for accessibility. 
+
+**Steps:**
+
+1. **Trigger: **Use a Scheduled Trigger or Manual Trigger to initiate report generation.
+2. **Data Retrieval: **Use appropriate service connectors to fetch report data (e.g., Salesforce, Google Analytics).
+3. **Report Generation: **Use a Text Helper to compile the report text.
+4. **Text-to-Speech: **Use the OpenAI connector's `create_speech `operation to convert the report text to audio.
+5. **Storage: **Use a file storage connector (e.g., Dropbox, Google Drive) to save the audio file.
+6. **Notification: **Use a messaging connector (e.g., Slack, Email) to notify users of the new audio report.
+
+This example combines data analysis with AI-powered text-to-speech to create accessible audio reports.
+
+### **Semantic Search Enhancement** 
+
+**Objective:** Improve search functionality in a knowledge base or document repository. 
+
+**Steps:**
+
+1. **Trigger: **Use a Webhook Trigger to capture new search queries.
+2. **Generate Embeddings: **Use the OpenAI connector's `create_embeddings `operation to create vector representations of the search query.
+3. **Database Query: **Use a database connector to find documents with similar embeddings.
+4. **Result Ranking: **Use a List Helper to sort results based on embedding similarity.
+5. **Response: **Return the ranked search results to the user.
+
+This example uses AI-generated embeddings to enable more accurate and context-aware search functionality.

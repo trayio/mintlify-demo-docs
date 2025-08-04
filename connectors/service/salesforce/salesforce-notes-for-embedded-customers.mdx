@@ -1,0 +1,21 @@
+---
+title: "Notes for Embedded customers"
+description: "Notes for Embedded customers documentation for Salesforce connector"
+---
+
+# Notes for Embedded customers
+
+## Custom OAuth apps
+
+You can create a custom OAuth app in order to [White-label](/embedded/core-topics/whitelabelling/the-config-wizard/) your authentications dialog in during your integrations.
+
+Simply follow the steps outlined below:
+
+## Scopes
+
+Please be aware of the following points when dealing with scopes while using an Embedded account:
+
+- **The scopes you use for your source / master workflow are the scopes that your end users will have when creating the auth**. 
+- You can also override scopes in the solution editor. This will allow you to specify that **only a subset of the scopes set in the master workflow are available to your End Users**. Please reach out to your Tray technical support if you wish to activate this feature.
+
+- When creating an OAuth app in the Salesforce UI, you can set the required scopes. However, it is **NOT recommended** as you would have to create a custom OAuth app for every integration that you create for this service to enforce scope limitation.

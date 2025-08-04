@@ -1,0 +1,50 @@
+---
+title: "Notes on using Airtable"
+description: "Notes on using Airtable documentation for Airtable connector"
+---
+
+# Notes on using Airtable
+
+### Empty field found
+
+Airtable records often contain empty fields. When this is the case, the Airtable API will return nothing for that field, and throw an error which will stop your workflow from progressing. This can be a problem should another field depend on the data coming in here.
+
+In order to mitigate this scenario, please see our [Setting fallback values (advanced)](#fallback-values) example below for more details.
+
+### Finding the Base & Table IDs
+
+When you have a base open in a compatible web browser, you should see a URL in the address bar that looks similar to the example below:
+
+`https://airtable.com/appkJ8LvR3GISCZ42/tblkKAfzXesoSBUOm/viwNJU8Vbq2eILLe0`
+
+In between each backslash, you will find a string that identifies the base, table, and view IDs.
+
+- Base IDs begin with `app`
+- Table IDs begin with `tbl`
+- View IDs begin with `viw`
+
+If you were to click on another table or another view within this same base, then the URL would update to match the ID of the table or view that you are now looking at.
+
+## Using the Raw HTTP Request ('Universal Operation')
+
+As of **version 2.0**, you can effectively create your own operations.
+
+This is a very powerful feature which you can put to use when there is an endpoint in Airtable which is not used by any of our operations.
+
+To use this you will first of all need to research the endpoint in the [Airtable API documentation](https://airtable.com/api), to **find the exact format** that Airtable will be expecting the endpoint to be passed in.
+
+Note that you will only need to add the full URL. This is to ensure you will add your desired Base ID and Table Name / ID as part of the base URL.
+
+The full URL (base URL) for Airtable is: `https://api.airtable.com/v0/[YOUR-BASE-ID]/[YOUR-TABLE-NAME-OR-ID]`
+
+For example, say that the 'Get record' operation did not exist in our Airtable connector, and you wanted to use this endpoint. You would use the Airtable API docs to find the relevant endpoint - which in this case is a `GET` request called: `/THE-RECORD-ID`.
+
+More details about this endpoint can be found [here](https://airtable.com/api).
+
+As you can see there is also the option to include a query parameter, should you wish to do so. So if you know what your method, endpoint and details of your query parameters are, you can get the record information with the following settings:
+
+Method: `GET`
+
+Endpoint: `https://api.airtable.com/v0/[YOUR-BASE-ID]/[YOUR-TABLE-NAME-OR-ID]/[THE-RECORD-ID]`
+
+Final outcome being: **https://api.airtable.com/v0/[YOUR-BASE-ID]/[YOUR-TABLE-NAME-OR-ID]/[THE-RECORD-ID]**

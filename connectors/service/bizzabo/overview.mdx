@@ -1,0 +1,122 @@
+---
+title: "Overview"
+description: "Overview of the Bizzabo connector"
+---
+
+# Overview
+
+## Overview
+
+Bizzabo is an all-in-one event software, which enables in-person events to deliver unique attendee experiences through intelligent and intent-based personalized engagement.
+
+## Authentication
+
+When using the Bizzabo connector for the first time, you need to create a new authentication.
+
+Name your authentication and specify the type ('Personal' or 'Organizational').
+
+There are two ways to authenticate the Bizzabo connector:
+
+### Token Authentication
+
+Authentication using a token requires an API Key. 
+
+Locate your API key by accessing your Bizzabo account dashboard. Log in and navigate to **Integrations > API** tab on the menu bar. 
+
+Use an existing API key or create a new one using the 'Create API Key' button.
+
+### OAuth 2 with client credentials
+
+OAuth 2 with client credentials authentication requires Client ID, Client Secret, and Account ID parameters.
+
+Locate your Client ID and Client Secret by accessing your Bizzabo account dashboard. Log in and navigate to **Integrations > API** tab on the menu bar. 
+
+On the **Manage API Credentials **window create new credentials using the **Create API Credentials** button.
+
+A popup will appear. Make sure to copy the Client Secret as you can view it only once.
+
+You can find your Account ID in your Bizzabo account URL.
+
+The account URL will be similar to: `https://accounts.bizzabo.com/123456/events`
+
+In the above URL the Account ID is:` 123456`
+
+Add these fields to your Tray.io authentication popup window.
+
+Click **Create authentication. **Go back to your settings authentication field (within the workflow builder properties panel), and select the recently added authentication from the available dropdown options .<br/><br/>Your connector authentication setup is now complete.
+
+## Available Operations
+
+The examples below show one or two of the available connector operations in use.
+
+Please see the [Full Operations Reference](#operationsFull) at the end of this page for details on all available operations for this connector.
+
+## Using the Raw HTTP Request ('Universal Operation')
+
+As of **version 1.0**, it is now possible to effectively create your own operations.
+
+This is a very powerful feature which you can put to use when there is an endpoint in Bizzabo which is not used by any of our operations.
+
+To use this you will first of all need to research the endpoint in the [ Bizzabo API Documentation v2.0](https://bizzabo.stoplight.io/docs/bizzabo-partner-apis/784b40317b1fa-introduction-to-bizzabo-s-open-application-programming-interface-api) , to *find the exact format* that Bizzabo will be expecting the endpoint to be passed in.
+
+Note that you will only need to add the suffix to the endpoint, as the base URL will be automatically set (the base URL is picked up from the value you entered when you created your authentication).
+
+The base URL for Bizzabo is: `https://``api.bizzabo.com/v1`.
+
+For example, say that the 'List events' operation did not exist in our Bizzabo connector, and you wanted to use this endpoint, you would use the Bizzabo API docs to find that the relevant endpoint - which in this case is a `GET` request called: `/events`. More details can be found [ here](https://bizzabo.api-docs.io/v2.0/events/list-events) .
+
+You will also need to add the any query parameters specified in the Api documentation. For this endpoint, you can send an optional parameter: `size`, to specify the number of results you want returned.
+
+So, if you know what your method, endpoint and query parameters are you can get the list of events you need with the following settings:
+
+Method: `GET`
+
+Endpoint: `/events`
+
+Query Parameter: Key: `size` Value: `1`
+
+## Example Usage
+
+Below is an example of a way in which you could potentially use the Bizzabo connector, to get all of the contacts in your account one by one.
+
+The steps will be as follows:
+
+1. Setup your trigger and list all events in your Bizzabo account.
+2. Add the Loop collection connector to iterate over each individual event.
+3. Get individual event details for each listed item.
+
+The final outcome should look like this:
+
+### 1 - Setup Trigger
+
+Once you have clicked 'Create new workflow' from your main Tray.io dashboard (and named said new workflow), select the Manual trigger from the trigger options available:
+
+After you have been redirected to the Tray.io workflow dashboard, from the connectors panel on the left, add an Bizzabo connector to your second step. Set the operation to 'List events'.
+
+Please note that you can set up filters for more specific search criteria, but for the sale of simplicity this has been left out of this example.
+
+Feel free to re-name your steps after their operations as you go along, in order to make things clearer for both yourself and other users.
+
+When run, this workflow will list all events in your Bizzabo account.
+
+### 2 - Loop List
+
+Next, search for the 'Loop collection' connector within your connector panel, and drag it into your workflow as your next step. Set your operations to 'Loop list'.
+
+The Loop Collection connector allows you to iterate through a list of results. In this example, we will use it to iterate through the data found within the previous Bizzabo connector step.
+
+In order to specify the list you want to loop through, start by using the 'List' mapping icon (found next to the list input field, within the properties panel) to generate the connector-snake.
+
+While hovering over the 'List events' step (with the tail end of the connector-snake), select `content` from the list of output properties displayed. This will auto-populate a jsonpath within your 'List' input field, and update the type selector to jsonpath.
+
+For more clarification on the pathways you have available, open the Debug panel to view your step's Input and Output.
+
+Now your loop list step will iterate through each list item found from your Bizzabo 'List events' step.
+
+### 3 - Get Event
+
+Finally, drag another Bizzabo connector step into the Loop collection step itself, and select the operation 'Get event'.
+
+Use the same connector-snake method for generating the jsonpath, this time to get the 'Event ID' details. You also have the option to select from the drop down options available due to the authentication setup from earlier.
+
+Now when you run your workflow, you will have a list generated and iterated through, with all the relevant information your might need per event!.

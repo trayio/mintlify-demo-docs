@@ -1,0 +1,68 @@
+---
+title: "Overview"
+description: "Overview of the Workable connector"
+---
+
+# Overview
+
+## Overview
+
+All-in-one recruiting software for ambitious companies; providing powerful online tools to source and manage candidates, wrapped up in an interface that teams actually like to use.
+
+## Authentication
+
+When using the Workable connector, the first thing you will need to do is go to your Tray.io account page, and select the workflow you wish to work on. Once in the workflow builder itself, search and drag the Workable connector from the connectors panel (on the left hand side) onto your workflow.
+
+With the new Workable connector step highlighted, in the properties panel on the right, click on the Authenticate tab and 'Add new authentication' (located under the 'Authentication' field).
+
+This will result in a Tray.io authentication pop-up window. The first page will ask you to name your authentication, and state which type of authentication you wish to create ('Personal' or 'Organisational').
+
+As you can see, the next page asks you for your 'Access token' and 'Subdomain' credentials.
+
+In order to get these fields, head to your Workable dashboard. To get you Access Token click on your profile picture on the right top corner and select settings.
+
+On the next page click on integration tab from the left hand side menu and copy your Access Token.
+
+Your subdomain can be found in the URL in the Workable platform. So if your URL is https://testing.workable.com/backend, 'testing' would be your subdomain.
+
+Once you have added these fields to your Tray.io authentication popup window, click on the 'Create authentication' button. Go back to your settings authentication field (within the workflow builder properties panel), and select the recently added authentication from the dropdown options now available.
+
+Your connector authentication setup should now be complete.
+
+## Workable Trigger
+
+If you wish your workflow to be kicked off by a particular action in Workable, you can use the Workable Trigger.
+
+The Workable trigger allows you to receive notifications and trigger workflows when given events occur associated with the selected trigger operation.
+
+### Trigger Operations available:
+
+- Webhook
+
+When creating a new workflow, click the 'Create new workflow' button in the top right hand corner of your main Tray.io dashboard. When the trigger popup window opens, search and select the Workable trigger. Wait to be redirected to your new workflow and the workflow dashboard itself.
+
+With the new Workable trigger step highlighted, in the properties panel on the right, click on 'New Authentication' which is located under the 'Settings' heading.
+
+This will result in a Tray.io authentication pop-up window. The first page will ask you to name your authentication, and state which type of authentication you wish to create ('Personal' or 'Organisational').
+
+As you can see, the next page asks you for your 'Access Token' and 'Subdomain' credentials.
+
+Follow the instructions above to authenticate your trigger, and select 'Webhook' as the event you want your trigger to listen to (aka the operation), in order to set off the workflow itself:
+
+For this you will need to choose an 'Event' that can be chosen from the dropdown and an 'Account ID' which is the same with the 'Subdomain' you used to create the authentication.
+
+The end result should look similar to the below:
+
+One way to fire the trigger is to move a candidate to another level in the hiring process in the Workable platform. Once this is done your entire workflow will start.
+
+In order to do this, click on the 'Jobs' tab and then go to 'Applied' candidates.
+
+On the next page choose the candidate you want to move to the next level of the interview. In our example, we will move the candidate to 'Move to Phone Screen' section.
+
+To trigger the event, the fields in the connector have to be set accordingly. Meaning add a 'Candidate moved' from the 'Event' dropdown. Then for arguments, besides the 'Account ID' that is mandatory and has to be filled in with your 'Subdomain', 'Job ShortCode' has to be the same with the job the candidate applied for and 'Stage slug' has to correspond to the step the candidate was moved in the Workable platform.
+
+## Available Operations
+
+The examples below show one or two of the available connector operations in use.
+
+Please see the [Full Operations Reference](#operationsFull) at the end of this page for details on all available operations for this connector.

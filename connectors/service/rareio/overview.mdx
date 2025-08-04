@@ -1,0 +1,100 @@
+---
+title: "Overview"
+description: "Overview of the Rare.io connector"
+---
+
+# Overview
+
+## Overview
+
+Rare.io is a service connector and is made for eCommerce websites built on Shopify and BigCommerce. It is designed to help merchants sell more by using their customers’ data to better personalize emails and deliver them at times they are most likely to buy from the merchant.
+
+## Authentication
+
+When using the Rare.io connector, the first thing you will need to do is go to your Tray.io account page, and select the relevant workflow. Once in the workflow dashboard itself, search and drag the Rare.io connector from the connectors panel (on the left hand side) onto your workflow.
+
+With the new Rare.io connector step highlighted, in the properties panel on the right, click on 'New Authentication' which is located under the 'Settings' heading.
+
+This will result in a Tray.io authentication pop-up window, that should look like this:
+
+As you can see, besides from naming your authentication appropriately, you will need your Shop Name, Rare.io Email and Rare.io Password. All of these details are part of your login information (and also in your Rare.io account settings dashboard).
+
+Once you have clicked the 'Add authentication' button, go to back to your authentication field (within the workflow dashboard properties panel from earlier), and select the recently added authentication from the dropdown options now available.
+
+Your connector authentication setup should now be complete.
+
+## Available Operations
+
+The examples below show one or two of the available connector operations in use.
+
+Please see the [Full Operations Reference](#operationsFull) at the end of this page for details on all available operations for this connector.
+
+## Using the Raw HTTP Request ('Universal Operation')
+
+With the Raw Http Request, it is now possible to effectively create your own operations.
+
+This is a very powerful feature which you can put to use when there is an endpoint in Rare.io which is not used by any of our operations.
+
+To use this, you will first of all need to research the endpoint in the [Rare.io API documentation](https://docs.rare.io/index.html#overview), to *find the exact format* that Rare.io will be expecting the endpoint to be passed in.
+
+Note that you will only need to add the suffix to the endpoint, as the base url will be automatically set (the base url is picked up from the value you entered when you created your authentication).
+
+The base url is in the format of `https://api4.rarelogic.com`
+
+For example, say that the 'Get customer lists' operation did not exist in our Rare.io connector, and you wanted to use this endpoint, you would use the Rare.io API docs to find that the 'Get customer lists' endpoint is a GET request at the following url:
+
+`/shop/{SHOP_NAME}/customer_lists.json`
+
+So if you know what your eCommerce (i.e. Shopify) SHOP_NAME is (which is used in the connector authentication), you can get the list of customers with the following settings:
+
+Final outcome: **https://api4.rarelogic.com/shop/{SHOP_NAME}/customer_lists.json**
+
+As a result, this will return a list of customer's associated with your Rare.io account details.
+
+## Example usage
+
+Below is an example of a way in which you could potentially use the Rare.io connector, to subscribe multiple customers to your Rare.io account.
+
+The steps will be as follows:
+
+1. Create a new workflow with a manual trigger and configure a Rare.io connector to return a list of customers details which include email addresses.
+2. Add and configure a loop collection connector to loop through the list of customer details.
+3. Add and configure a Rare.io connector to subscribe each customer email.
+
+The final outcome should look like this:
+
+### 1 - Setup trigger & List emails
+
+Once you have clicked 'Create new workflow' on your main Tray.io dashboard (and named said new workflow), select the Manual trigger from the trigger options available:
+
+Once you're in the workflow builder dashboard, drop in a connector that will return a list of email addresses. Search the connector panel by name for the Shopify connector (displayed in the image below).
+
+> 
+
+Once the connector is added to the workflow, in the workflow builder click on the Shopify step you created. Once highlighted, the input panel for this step will appear on the right hand side of the workflow builder.
+
+In the input panel, select 'List customers' from the drop-down options in the 'Operations' menu and configure the operation by setting up Authentication.
+
+### 2 - Loop through collection
+
+The next step is to add and configure a Loop collection connector to go through each one of the customers. Drop a Loop collection connector into the workflow by searching the connector panel by name for the Loop collection connector.
+
+Again once the connector is added to the workflow, in the workflow builder click on the Loop collection step you created to reveal the input panel for that step. Now using the connector-snake, drag from the 'List' input in the input panel to the Shopify step of the workflow (displayed in the image below, more information on the connector snake can be found below).
+
+The gray box which appears as a result of hovering over said connector, is a list of options that you can loop through.
+
+Select the 'Customers' list, from the options available. This will autogenerate the jsonpath of the list input, for the Loop collection. The results are displayed in the 'List' input field:
+
+### 3 - Add & Subscribe Customer Emails
+
+The final step is to add and configure a Rare.io connector to subscribe each customer to your Rare.io account.
+
+Add a Rare.io connector into the workflow and set the operation to: 'Subscribe a customer'
+
+> 
+
+This operation has one required input field, 'Recipient's email address'. Using the connector snake; drag the connector-snake from the 'Recipient's email address' input field, over to the Loop collection step. Scroll down, within the list of options, and select the email field.
+
+There are further optional input fields such as for 'Recipient's first name', 'Recipient's last name' and 'Recipient's full name'. In this instance, the Shopify connector returns first and last name for each customer so these inputs can also be configured by using the connector snake.
+
+Once the operation is fully configured, the workflow is setup and ready to go. You can now click 'Run workflow'. Check the output in the 'Debug' panel to see the result of the workflow. If the step executes correctly, each customer returned by the Shopify connector will now be added to your Rare.io account and all steps within the 'Debug' panel will show as green.

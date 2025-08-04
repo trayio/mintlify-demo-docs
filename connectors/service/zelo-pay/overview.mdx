@@ -1,0 +1,142 @@
+---
+title: "Overview"
+description: "Overview of the Zelo Pay connector"
+---
+
+# Overview
+
+## Overview
+
+Zelo Pay is B2B commerce for businesses of all sizes by providing one-stop secure and stable shop for your customers, helping customers benefit from better payments, one integration to access full suite of capabilities, deepen your existing product offering, additional revenue through Zelo rebates and Flexible implementation models.
+
+## Authentication
+
+When using the Zelo Pay connector, the first thing you will need to do is go to your Tray.io account page, and select the workflow you wish to work on. Once in the workflow builder itself, search and drag the Zelo Pay connector from the connectors panel (on the left hand side) onto your workflow.
+
+With the new Zelo Pay connector step highlighted, in the properties panel on the right, click on 'New Authentication' which is located under the 'Settings' heading.
+
+This will result in a Tray.io authentication pop-up window. The first page will ask you to name your authentication, and state which type of authentication you wish to create ('Personal' or 'Organisational').
+
+As you can see, the next page asks you for your 'Zelo Pay instance type', 'Client ID' and 'Client Secret'.
+
+The type of instance you need to select depends on your use case and login URL. Sandbox (test) accounts use: `https://portal.test.zelopay.io`. Production accounts use: `https://portal.prod.zelopay.io`
+
+As for the 'Client ID' and 'Client Secret', you can only get this information directly from your Zelo Pay service provider.
+
+Once you have added these fields to your Tray.io authentication popup window, click on the 'Create authentication' button. Go back to your settings authentication field (within the workflow builder properties panel), and select the recently added authentication from the dropdown options now available.]
+
+Your connector authentication setup should now be complete.
+
+## Available Operations
+
+The examples below show one or two of the available connector operations in use.
+
+Please see the [Full Operations Reference](#operationsFull) at the end of this page for details on all available operations for this connector.
+
+## Note on Operations Usage
+
+### Creating an Invoice
+
+There are two options available in order to create a Zelo Pay invoice record:
+
+1. Auto-pay invoice record
+2. Scheduled invoice record
+
+If you would like to create a 'Scheduled invoice record', you must make sure to fill in the 'Payment due date' field.
+
+## Using the Raw HTTP Request ('Universal Operation')
+
+As of **version 1.0**, you can effectively create your own operations.
+
+This is a very powerful feature which you can put to use when there is an endpoint in Zelo Pay which is not used by any of our operations.
+
+To use this you will first of all need to research the endpoint in the Zelo Pay API documentation, in order to 
+
+<u>find the exact format</u>
+
+ that Zelo Pay will be expecting the endpoint to be passed in.
+
+If you have a Zelo Pay Sandbox account, visit the [ Zelo Pay API documentation for Sandbox accounts](https://payments.test.zelopay.io/swagger/index.html) site.
+
+For Production accounts visit the [ Zelo Pay API documentation for Production accounts](https://payments.prod.zelopay.io/swagger/index.html) page.
+
+Note that you will only need to add the suffix to the endpoint, as the base URL will be automatically set (the base URL gets generated from the value of the 'Zelo Pay instance type', that you entered when you created your authentication regardless of whether you have a Sandbox or Production account).
+
+Sandbox account: The base URL for Zelo Pay is: `https://payments.test.zelopay.io` Production account: The base URL for Zelo Pay is: `https://payments.prod.zelopay.io`
+
+For example, say that the 'Get invoice' operation did not exist in our Zelo Pay connector, and you wanted to use this endpoint, you would use the Zelo Pay API docs to find the relevant endpoint - which in this case is a `GET` request called: `/api/Invoice/{invoiceId}`. More details can be found [ here](https://payments.test.zelopay.io/swagger/index.html) .
+
+As you can see there is also the mandatory 'Invoice ID' field to include in in the endpoint. So if you know what your method, endpoint and invoice ID is, you can get the relevant invoice information with the following settings:
+
+Method: `GET`
+
+InvoiceID: `1234567890`
+
+Endpoint: `/api/Invoice/1234567890`
+
+Final Example outcome being: **https://payments.test.zelopay.io/api/Invoice/1234567890**
+
+## Example usage
+
+Below is an example of a way in which you could potentially use the Zelo Pay connector, to create a buyer, supplier and auto-pay invoice record.
+
+The steps will be as follows:
+
+1. Setup using a manual trigger and create a buyer in order to have the details necessary for invoice creation.
+2. Create a supplier in a similar fashion.
+3. Create an auto-pay invoice record based off the details from the previous steps.
+4. Get invoice
+
+The final outcome should look like this:
+
+### 1 - Setup Trigger & Create Buyer
+
+Once you have clicked 'Create new workflow' from your main Tray.io dashboard named it, select the Manual trigger from the trigger options available:
+
+After you have been redirected to the Tray.io workflow dashboard, from the connectors panel on the left, add a Zelo Pay connector to your second step. Set the operation to 'Create buyer'.
+
+Make sure to fill in the required fields, including 'First name', 'Family name' and 'Email'. The rest are not mandatory but the address information will be needed later, so under the 'Addresses' section click on the greyed out button 'Add to address'.
+
+Fill in the extra address details which are now mandatory:
+
+In order to create an invoice using these details later on, you would need to make sure that the 'Invoice approval required' property is marked as checked.
+
+The end result should be similar to the following:
+
+When run, this workflow will create a new buyer with the details provided.
+
+Feel free to re-name your steps (perhaps after the operation names themselves?) as you go along in order to make things clearer for yourself and other users.
+
+### 2 - Create Supplier
+
+Add another Zelo Pay connector to your workflow. Set the operation to 'Create supplier'.
+
+This operation is very similar to the 'Create buyer' operation from earlier. Once more fill the contact details sections, and click on the 'Add to address' button. Make sure with this operation to also include the 'Legal name', 'Trading name' and the supplier's 'ABN' (Australian business number).
+
+Wen run, this step will create a new supplier record with the details provided.
+
+### 3 - Create Invoice
+
+Add another Zelo Pay connector to your workflow. Set the operation to 'Create invoice'.
+
+You can choose between creating an auto-pay invoice record, or a scheduled invoice record via the 'Invoice type' dropdown menu. For the sake of this demo we are going to create an auto-pay invoice record.
+
+In order to specify the details you want to include in your invoice, use the mapping icon (found next to the input fields themselves, within the properties panel) to generate the connector-snake. Use the following walk through to clarify how:
+
+Select the 'Buyer ID' mapping icon within the properties panel of the 'Create invoice' step. Click and hover over the previous 'Create Buyer' step, (with the tail end of the connector-snake), and select `id` from the list of output properties displayed. This will auto-populate a jsonpath within your 'Buyer ID' input field, and update the type selector to jsonpath.
+
+Follow through with this method for 'Supplier ID' using the 'Create supplier' step instead, and all the other address input fields.
+
+As you can see from the above example of the invoice shipping address details alone, auto-generating the output will definitely save you time and effort.
+
+For more clarification on the pathways you have available, open the Debug panel to view your step's Input and Output.
+
+### 4 - Get Invoice
+
+The last step is to drag a final Zelo Pay connector into the workflow and set the operation to 'Get invoice'.
+
+As you can see, the 'Invoice ID' field is required. Use the connector-snake once more to auto-generate this field from the 'Create invoice' step.
+
+When the 'Run workflow' button is activated the workflow will create a buyer, a supplier, an invoice and finally it will get the details of said invoice. Open the Debug panel to view your output.
+
+Note that while the return result of this step is similar to the previous step, this is using a 'GET' operation to retrieve the desired result rather than creating or manipulating any of the data.

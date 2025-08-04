@@ -1,0 +1,104 @@
+---
+title: "Overview"
+description: "Overview of the HackerOne connector"
+---
+
+# Overview
+
+## Overview
+
+Every organization has specific metrics they rely on to measure the performance of its bug bounty program. The HackerOne API allows for custom metrics, beyond those found in HackerOne, and offers organizations access to raw report data and a powerful query interface to build custom dashboards.
+
+## Authentication
+
+When using the HackerOne connector, the first thing you will need to do is go to your Tray.io account page, and select the workflow you wish to work on. Once in the workflow builder itself, search and drag the HackerOne connector from the connectors panel (on the left hand side) onto your workflow.
+
+With the new HackerOne connector step highlighted, in the properties panel on the right, click on 'New Authentication' which is located under the 'Settings' heading.
+
+This will result in a Tray.io authentication pop-up window. The first page will ask you to name your authentication, and state which type of authentication you wish to create ('Personal' or 'Organisational').
+
+As you can see, the next page asks you for your 'API Token' and 'API Token Identifier'.
+
+In order to get these fields, follow this useful guide written by HackerOne. [ guide](https://docs.hackerone.com/programs/api-tokens.html) .
+
+Once you have added these fields to your Tray.io authentication popup window, click on the 'Create authentication' button. Go back to your settings authentication field (within the workflow builder properties panel), and select the recently added authentication from the dropdown options now available.
+
+Your connector authentication setup should now be complete.
+
+## Available Operations
+
+The examples below show one or two of the available connector operations in use.
+
+Please see the [Full Operations Reference](#operationsFull) at the end of this page for details on all available operations for this connector.
+
+## Using the Raw HTTP Request ('Universal Operation')
+
+As of **version 1.0**, you can effectively create your own operations.
+
+This is a very powerful feature which you can put to use when there is an endpoint in the HackerOne API which is not used by any of our existing operations.
+
+To use this you will first of all need to research the endpoint in the [ HackerOne API documentation v1.0](https://api.hackerone.com/) , to 
+
+<u>find the exact format</u>
+
+ that HackerOne will be expecting the endpoint to be passed in.
+
+Note that you will only need to add the suffix to the endpoint, as the base URL will be automatically set (the base URL is picked up from the value you entered when you created your authentication).
+
+The base URL for HackerOne is: `https://api.hackerone.com/`
+
+For example, say that the 'Query Activities' operation did not exist in our HackerOne connector, and you wanted to use this endpoint, you would use the HackerOne API docs to find the relevant endpoint - which in this case is a `GET` request called: `/incremental/activities`. More details can be found [ here](https://api.hackerone.com/core-resources/#core-resources) .
+
+As you can see there is also the option to include a query parameter, should you wish to do so. So if you know what your method, endpoint and details of your query parameters are, you can get information with the following settings:
+
+Method: `GET`
+
+Endpoint: `/incremental/activities`
+
+Query Parameter: Key: `handle` Value: `string`
+
+Body Type : Raw : `{ "handle" : "string" }`
+
+Final Example outcome being: **https://api.hackerone.com/incremental/activities?handle=string**
+
+## Example usage
+
+Below is an example of a way in which you could potentially use the HackerOne connector, to update the status of a report and to then post a comment on it.
+
+The steps will be as follows:
+
+1. Setup using a manual trigger and authenticate with HackerOne.
+2. Add the HackerOne connector and calibrate the operation for 'Update Report State'.
+3. Add the HackerOne connector and calibrate the operation for 'Create Report Comment'.
+
+The final outcome should look like this:
+
+### 1 - Setup Trigger & Authenticate
+
+Once you have clicked 'Create new workflow' from your main Tray.io dashboard named it, select the Manual trigger from the trigger options available:
+
+After you have been redirected to the Tray.io workflow dashboard, from the connectors panel on the left, search for HackerOne connector and drag this into your workflow. Then click the authentication tab on the right hand side of the pane and authenticate with the HackerOne connector as demonstrated above.
+
+### 2 - Update Report State
+
+Ensure the HackerOne connector is highlighted, and then on the right hand side of the builder select the 'Update Report State' operation. The pane underneath will now display the options for this operation.
+
+As you can see, you will need to make sure you have the 'Report ID' of the report you wish to update to hand. You will also need to select the 'State' type you wish to view.
+
+There are two other optional fields: 'Message' and 'Original report ID' which you can also utilise depending on your use case. We've included a message here to go along with the report state being configured:
+
+Now when the workflow is run, this step will update the report status to 'New'.
+
+### 3 - Create Report Comment
+
+The last step is to add a comment to the updated report, perhaps to explain why the status changed. To do this, add another HackerOne connector into the workflow, and this time set the operation to 'Create Report Comment'. Let use the same report ID as the previous step and fill out the other required feels as desired, only this time utilise the connector-snake method to auto-generate a jsonpath.
+
+In order to specify the ID you want to use, start by using the 'Report ID' mapping icon (found next to the Report ID input field, within the properties panel) to generate the connector-snake.
+
+While hovering over the 'Update report state' step (with the tail end of the connector-snake), select `id` from the list of output properties displayed, under the data heading. This will auto-populate a jsonpath within your 'List' input field, and update the type selector to jsonpath.
+
+For more clarification on the pathways you have available, open the Debug panel to view your step's Input and Output.
+
+We have now set up a workflow that will update the status of a report via and then add a comment to it!
+
+To run your exciting creation click the green run workflow button located in the bottom right hand side corner of the screen.

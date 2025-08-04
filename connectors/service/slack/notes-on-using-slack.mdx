@@ -1,0 +1,141 @@
+---
+title: "Notes on using Slack"
+description: "Notes on using Slack documentation for Slack connector"
+---
+
+# Notes on using Slack
+
+## Reference schema 
+
+If you want to display certain attributes in a Slack message using interpolation, ensure you reference them correctly. 
+
+Note that Tray.io supports Markdown formatting, such as *bold* text.
+
+- **Links: **Use triangular brackets `<>`.
+- **Names:** Include the `@` symbol and enclose the name in `<>` to link it as usual."
+
+## Reference table
+
+The Slack connector supports the use of Slack-specific markdown formatting. Below are some common examples:
+
+| **Visual Style** | **Text Notation** |
+| --- | --- |
+| Bold | `*bold*` |
+| Italic | `_italic_` |
+| Strikethrough | `~strike~` |
+| Line Break | Line`\n`break |
+| Quoted Text | `>`Quoted text`>` |
+| Code | ``code`` |
+| Multi-Line Code | ````multi-line code```` |
+| Links | `<https://www.link.com\|link text>` |
+| Emoji | `:short_name:` |
+| User | `<@slack_user_id>` |
+| Channel | `<#slack_channel_id>` |
+
+## Best Practice: Add a WF URL
+
+It is a good practice to add a link to the Workflow URL so that users can easily identify the origin of the bot or automated message. 
+
+This approach helps with quick troubleshooting, especially in organizations with multiple workflows involving Slack connector automations.
+
+We recommend adding the URL using the following JSONPath: `$.env.execution_log_url` and placing it in the footer section of the properties panel.
+
+In practice, your final footer might look like this: `<{$.env.execution_log_url}|Sent via tray.io>`
+
+## User Tokens
+
+**User Tokens**
+
+A Slack User Token is typically used to access the Slack API on behalf of a specific user. It provides authorization, allowing your application to perform actions or retrieve information for that user within a Slack workspace.
+
+You might need a Slack User Token in scenarios such as building a Slack integration, automating user-specific tasks, or creating bots and chatbots.
+
+To locate your Slack User Token, follow these steps:
+
+1. Open the relevant app in Slack.
+2. Navigate to **Features **> **OAuth & Permissions **> **OAuth Tokens for Your Workspace**.
+3. Copy the required token.
+
+## Using Channel IDs for Messaging in Slack
+
+When sending messages through Slack using the connector, it’s crucial to understand how to properly select and use the names of individuals or channels. 
+
+There are various ways in which this can be done:
+
+**Selecting Names or Channels**: While composing a message, you can select the name of a user or channel from the dropdown. However, behind the scenes, Slack maps these names to unique channel IDs. This ID is what the system uses to direct your message to the correct recipient.
+
+**Dynamic Value Requirement**: When dynamically providing values—such as in automated workflows or integrations—you must use the channel IDs rather than the plain usernames or channel names. Plain names will not work in these cases, leading to potential errors in message delivery.
+
+**Mentioning Users in Messages**: If you need to mention someone in your message, you must format the mention correctly using their channel ID. For example, to mention a user, you would include their ID in the format `<@channelID>`. 
+
+## Basic examples
+
+This section provides simple, step-by-step instructions on how to work with specific operations of the Slack connector.
+
+### Send message
+
+This walkthrough explains how to use a basic Send Message operation using the Slack Trigger and connector.
+
+The Slack trigger is kicked off whenever a new user joins a particular channel which is immediately followed by a welcome message. 
+
+The logic is as follows:
+
+- Set up the Slack trigger to react to a new user joining a channel.
+- Get the said user's details.
+- Respond with an automated message to the channel at large.
+
+The completed workflow looks like this:
+
+### Step by step explanation
+
+#### 1 - User joins channel
+
+Create a new workflow and select the **Slack trigger**. Make sure your authentication is set up accordingly.
+
+Set your operation to **On Slack event** and in your **Event** input field, choose **User joined a channel (public or private)**.
+
+Be sure to click on the green **Enable workflow** button at the bottom of the builder. **Otherwise your trigger won't respond and your data won't be captured.**
+
+Now when a user joins a channel your workflow will activate.
+
+#### 2 - Get user name
+
+Set your Slack operation to **Get user**.
+
+Make sure your **type selector is set to jsonpath**. The icon on the top right corner of your input field will update as a result of this selection change.
+
+Once the workflow output is generated/your workflow is triggered you will be able to jsonpath your **User id** via the connector-snake 
+
+Take a look in your debug panel for more details.
+
+#### 3 - Send message
+
+Add another Slack connector and set your operation to **Send Message**. 
+
+In your **Channel** input field you should have an automated dropdown list of options to choose from (as a result of the Slack domain you selected during your authentication). 
+
+Below we have included an example of a written message which uses Tray.io's Interpolation method. This is  In this case, we have used it to get our message to display the new users name.
+
+#### Bonus step
+
+As an added extra you could also included a Slack icon to display with you message. 
+
+Simply copy and paste an icon from the Slack app itself and drop it in the **Icon emoji** input field. 
+
+Despite the icon appearing as an image when it is copied over the text version will display when pasted. The icon will show as normal once generated.
+
+## Detailed examples
+
+This section presents comprehensive workflows that incorporate the Slack connector along with other connectors to demonstrate complex use cases.
+
+### Pagination
+
+This workflow demonstrates how to handle pagination when listing conversations in Slack using a loop to iterate through all available pages until all results are retrieved. 
+
+Pagination is required as there is a limit of 1,000 results per response. For more details, please see their limitations page here.
+
+A loop is used to iterate through the paginated results returned by Slack's API. The loop will continue running until there are no more pages of results to process.
+
+The workflow fetches the initial `next_cursor` value stored in a `storage` connector. This cursor is necessary for the Slack API to know where to begin fetching results.
+
+The Slack connector is used to list conversations. The `next_cursor` from the previous step is passed to this connector to retrieve the appropriate page of results. The API response includes the conversations and, if more data is available, an updated `next_cursor`.<br/>

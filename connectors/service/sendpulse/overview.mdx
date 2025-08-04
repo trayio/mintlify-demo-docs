@@ -1,0 +1,104 @@
+---
+title: "Overview"
+description: "Overview of the SendPulse connector"
+---
+
+# Overview
+
+## Overview
+
+SendPulse is a cloud-based marketing solution that allows users to manage email, text messaging, and push notifications through a single platform.
+
+## Authentication
+
+When using the SendPulse connector, the first thing you will need to do is go to your Tray.io account page, and select the workflow you wish to work on. Once in the workflow builder itself, search and drag the SendPulse connector from the connectors panel (on the left hand side) onto your workflow.
+
+With the new SendPulse connector step highlighted, in the properties panel on the right, click on the ‘Authenticate’ panel followed by ‘Add new Authentication’ (located under the Authentication input field).
+
+This will result in a Tray.io authentication pop-up window. The first page will ask you to name your authentication, and state which type of authentication you wish to create ('Personal' or 'Organisational').
+
+As you can see, the next page asks you for your 'Client ID' and 'Client secret' credentials.
+
+In order to get these fields, head to your SendPulse dashboard. Click on the user name and the 'Account settings'
+
+To see or create the 'Client ID' and 'Client secret', on the 'Account settings' page click on the 'API' tab.
+
+Once you have added these fields to your Tray.io authentication popup window, click on the 'Create authentication' button. Go back to your settings authentication field (within the workflow builder properties panel), and select the recently added authentication from the dropdown options now available.
+
+Your connector authentication setup should now be complete.
+
+## Available Operations
+
+The examples below show one or two of the available connector operations in use.
+
+Please see the [Full Operations Reference](#operationsFull) at the end of this page for details on all available operations for this connector.
+
+## Using the Raw HTTP Request ('Universal Operation')
+
+As of **version 1.0**, you can effectively create your own operations.
+
+This is a very powerful feature which you can put to use when there is an endpoint in SendPulse which is not used by any of our operations.
+
+To use this you will first of all need to research the endpoint in the [SendPulse API documentation](https://sendpulse.com/integrations/api), to **find the exact format** that SendPulse will be expecting the endpoint to be passed in.
+
+Note that you will only need to add the suffix to the endpoint, as the base URL will be automatically set (the base URL is picked up from the value you entered when you created your authentication).
+
+The base URL for SendPulse is: `https://api.sendpulse.com`
+
+For example, say that the 'List mailing lists' operation did not exist in our SendPulse connector, and you wanted to use this endpoint, you would use the SendPulse API docs to find the relevant endpoint - which in this case is a `GET` request called: `/addressbooks`.
+
+More details can be found [here](https://sendpulse.com/integrations/api/bulk-email).
+
+As you can see there is also the option to include a query parameter, should you wish to do so. For this example, we will set the limit parameter to 10 to retrieve 10 mailing lists from the API. So if you know what your method, endpoint and details of your query parameters are, you can get the list of the first 10 mailing lists with the following settings:
+
+Method: `GET`
+
+Endpoint: `/addressbooks`
+
+Query Parameter: Key: `limit` Value: `10`
+
+Body Type : none
+
+Final Example outcome being: **https://api.sendpulse.com/addressbooks?limit=10**
+
+## Example Usage
+
+Below is an example of a way in which you could potentially use the SendPulse connector, to add a subscriber's email address to your mailing lists.
+
+The steps will be as follows:
+
+1. Setup using a manual trigger and list all mailing lists in your account.
+2. Add the Loop collection connector to iterate over each mailing list.
+3. Add a step to add subscriber's email address to each mailing list individually.
+
+The final outcome should look like this:
+
+### 1 - Setup Trigger & List mailing lists
+
+Once you have clicked 'Create new workflow' from your main Tray.io dashboard named it, select the Manual trigger from the trigger options available:
+
+After you have been redirected to the Tray.io workflow dashboard, from the connectors panel on the left, add a Sendpulse connector to your second step. Set the operation to 'List mailing lists'.
+
+Feel free to re-name your steps as you go along to make things clearer for yourself and other users.
+
+Now when this workflow is run, it will pull down a list of mailing lists from the SendPulse API.
+
+### 2 - Add a loop collection
+
+Next, search for the 'Loop collection' connector within your connector panel, and drag it into your workflow as your next step. Set your operations to 'Loop list'.
+
+The Loop Collection connector allows you to iterate through a list of results. In this example, we will use it to iterate through the data found within the previous SendPulse connector step.
+
+In order to specify the list you want to loop through, start by using the 'List' mapping icon (found next to the list input field, within the properties panel) to generate the connector-snake.
+
+While hovering over the 'List mailing lists' step (with the tail end of the connector-snake), select `results` from the list of output properties displayed. This will auto-populate a jsonpath within your 'List' input field, and update the type selector to jsonpath.
+
+For more clarification on the pathways you have available, open the Debug panel to view your step's Input and Output.
+
+This will enable us to iterate over the list of mailing lists, and perform operations for each one, during each loop cycle.
+
+### 3 - Add email to mailing list (single opt-in)
+
+The last step is to drag a SendPulse connector **inside** of the Loop Collection step itself. Set the operation to 'Add email to mailing list (single opt-in)'. As you can see, the 'List ID' and 'Emails' fields are required. Use the same connector-snake method for generating the JSON path to get the 'List ID' field and don't forget to add your subscriber's email address to the 'Emails' field.
+
+Now when this workflow is run, you will add your subscriber's email address to your mailing lists.

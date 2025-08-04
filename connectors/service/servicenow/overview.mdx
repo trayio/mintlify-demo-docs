@@ -1,0 +1,52 @@
+---
+title: "Overview"
+description: "Overview of the Servicenow connector"
+---
+
+# Overview
+
+## Overview
+
+ServiceNow is an enterprise service management platform that allows users to submit requests for technical support for hardware, software, applications, and more. It delivers digital workflows that unlock productivity and simplify the complexity of work.
+
+## Authentication
+
+Within the workflow builder, highlight the Servicenow connector.
+
+In the Servicenow connector properties panel to the right of the builder, click on the Authenticate tab and the 'Add new authentication' button.
+
+This will result in a Tray.io authentication pop-up modal. The first page will ask you to name your authentication and select the type of authentication you wish to create ('Personal' or 'Organisational').
+
+The next page asks you for your 'Instance URL' and 'Client ID' and 'Client Secret' credentials.
+
+In order to get the Client ID and Secret these fields, you will need to create OAuth application. Login to your ServiceNow account, go to the 'Filter navigator' and type 'Application registry'. You will see a menu for creating new applications, press 'New'
+
+Now select the '**Create an OAuth API endpoint for external clients**' from the list of options:
+
+Fill in all the required information on the application page.
+
+Set `https://auth.tray.io/oauth2/token` as your redirect URL.
+
+You will need to provide specific roles for your user. For this go to the 'Filter navigator' and type 'Roles'. You will see a search bar on the right, search for the user you want to provide roles for.
+
+To use the ServiceNow API you will need to obtain the following roles:
+
+- oauth_admin
+- web_service_admin
+- rest_service
+
+To get these Roles press edit in the 'Roles' section on the user page and press edit to add new roles.
+
+Once you have added these fields to your Tray.io authentication popup window, click the 'Create authentication' button.
+
+Once done, a login modal should appear asking the user for access permissions.
+
+Go back to your settings authentication field (within the workflow builder properties panel), and select the recently added authentication from the dropdown options now available.
+
+Your connector authentication setup should now be complete.
+
+## Available Operations
+
+The examples below show one or two of the available connector operations in use.
+
+Please see the [Full Operations Reference](#operationsFull) at the end of this page for details on all available operations for this connector.

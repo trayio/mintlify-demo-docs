@@ -1,0 +1,143 @@
+---
+title: "Overview"
+description: "Overview of the Snapchat connector"
+---
+
+# Overview
+
+## Overview
+
+Snapchat allows you to easily talk with friends, view live stories from around the world, and explore news via temporary picture and video messaging.
+
+## Authentication
+
+Within the builder, click on the Snapchat connector to display the connector properties panel. Select the 'Authentication' tab and click on the 'New authentication' button.
+
+In the Tray.io authentication pop-up modal name the authentication in a way that will easily identify it within a potentially large list. For example whether it is a Sandbox or Production auth, etc.
+
+Consider who/ how many people will need access to this authentication when choosing where to create this authentication ('Personal' or 'Organisational').
+
+The second page asks you to select the 'Snapchat-marketing-api' scope. This is required to use Snapchat's marketing APIs.
+
+Once you have selected the scope within your Tray.io authentication pop-up window, click the 'Create authentication' button.
+
+After this, a new window will open which will prompt you to sign in to your Snapchat account.
+
+Once you have signed in, you will see another window which will ask you if you want to connect to the 'Tray OAuth App'.
+
+Your connector authentication setup should now be complete.
+
+## Available Operations
+
+The examples below show one or two of the available connector operations in use.
+
+Please see the [Full Operations Reference](#operationsFull) at the end of this page for details on all available operations for this connector.
+
+## Using the Raw HTTP Request ('Universal Operation')
+
+As of **version 1.0**, you can effectively create your own operations.
+
+This is a very powerful feature which you can put to use when there is an endpoint in Snapchat which is not used by any of our operations.
+
+To use this you will first of all need to research the endpoint in the [Snapchat API documentation v1](https://marketingapi.snapchat.com/docs/#introduction), to **find the exact format** that Snapchat will be expecting the endpoint to be passed in.
+
+Note that you will only need to add the suffix to the endpoint, as the base URL will be automatically set (the base URL is picked up from the value you entered when you created your authentication).
+
+The base URL for Snapchat is: `https://adsapi.snapchat.com/v1`
+
+For example, say that the 'Get all audience segments' operation did not exist in our Snapchat connector, and you wanted to use this endpoint. You would use the Snapchat API docs to find the relevant endpoint - which in this case is a `GET` request called: `/adaccounts/{your_ad_account_id}/segments`.
+
+More details about this endpoint can be found [here](https://marketingapi.snapchat.com/docs/#get-all-audience-segments).
+
+As you can see you will need to include your 'Ad account ID'. This can be found in the 'Ad Accounts' tab in your Snapchat dashboard.
+
+So if you know what your method, endpoint and 'Ad account ID' is, you can retrieve all Snap Audience Match segments within your specified ad account using the following settings:
+
+Method: `GET`
+
+Endpoint: `/adaccounts/{your_ad_account_id}/segment`
+
+Body Type : Raw : `{ "none" : "null" }`
+
+Final outcome being: **https://adsapi.snapchat.com/v1/adaccounts/{your_ad_account_id}/segment**
+
+## Example Usage
+
+Below is an example of a way in which you could potentially use the Snapchat connector, to import audiences (in this case a collection of customer email addresses) into your Snapchat account.
+
+The steps will be as follows:
+
+1. Setup using the 'Form Trigger' to upload your file.
+2. Use the 'File Helpers' connector to read your file's contents.
+3. Use the 'Text Helpers' connector to parse your file's contents into a list.
+4. Import the parsed data into your Snapchat Audience Segment.
+
+Your completed workflow should look similar to this:
+
+### 1 - Setup Trigger & Upload File
+
+With your trigger in place (be it [Manual](/connectors/triggers/manual-trigger/), [Scheduled](/connectors/triggers/scheduled-trigger/), [Callable](/connectors/triggers/callable-trigger/) etc) fill out any required fields in the user panel.
+
+This workflow uses the 'Form Trigger'. You will need to select 'File Upload' as the 'Field' input.
+
+In order to access the form, click on the elipses beside your workflow title in the navigation bar.
+
+This will open a new pop-up modal. Copy and paste the 'Workflow public URL' into your browser to navigate to the form page.
+
+Feel free to re-name your steps as you go along to make things clearer for yourself and other users. The operation names themselves often suffice.
+
+Your workflow is now set up to upload your chosen file.
+
+### 2 - Read File Contents
+
+Next, search for the 'File Helpers' connector within your connector panel, and drag it into your workflow as your next step. Set the operation to 'Read file contents as array'.
+
+The 'File Helpers' connector allows you to create, read or convert files. In this example, we will use it to read the data returned from the previous 'Form Trigger' connector step.
+
+In order to specify the file you want to read data from, start by using the 'URL' mapping icon (found next to the 'URL' input field, within the properties panel) to generate the connector-snake.
+
+While hovering over the 'url' field in the 'Form Trigger' step (with the tail end of the connector-snake), select `url` from the list of output properties displayed. This will auto-populate a jsonpath within your 'URL' input field, and update the type selector to jsonpath.
+
+As you can see from the screenshot below, the property panel extends and has several other fields to suit user's various project needs.
+
+'Limit' and 'Offset' are required, and have been filled in for you. However, for our use case we will want to set the 'Limit' field to 1000.
+
+For more clarification on the pathways you have available, open the Debug panel to view your step's Input and Output.
+
+### 3 - Parse File Contents
+
+The previous step will return your data (in this case email addresses) as one long sentence. In order to transform it into a list of emails you will need to use a 'Text Helpers' connector.
+
+Once you have added this step to your workflow, set the operation to 'Split'.
+
+In order to specify the content you want to parse, start by using the 'Text' mapping icon (found next to the 'Text' input field, within the properties panel) to once again generate the connector-snake.
+
+While hovering over the 'result' field in the 'Read file contents' step (with the tail end of the connector-snake), select `A` from the list of output properties displayed. This will auto-populate a jsonpath within your 'Text' input field, and update the type selector to jsonpath.
+
+You will also need to hit the `enter` key inside of the 'Split by' field, in order to create a new line. This will now split the sentence by taking a new line after every email address.
+
+You have now generated a list of emails from your file's contents. The next section will show you how to import this data into your Snapchat account.
+
+### 4 - Import Parsed Data into Snapchat Audience Segment
+
+The last step is to drag a Snapchat connector into the workflow. Set the operation to 'Add users to segment'.
+
+As you can see, all fields are required. To find the 'Segment ID' of your audience, head over to your Snapchat dashboard.
+
+Click on the arrow in the top left corner of your dashboard and select 'Audiences' from the menu modal which appears.
+
+On this page, choose which segment you would like you data to be imported to. You can find your 'Segment ID' in the URL:
+
+**https://ads.snapchat.com/adAccountId/audiences/custom-audience/{your_segment_id}/**
+
+The option chosen for the 'User data reference' should reflect the type of data you are working with.
+
+In this case we have generated a list of emails, so 'Email address' should be the UDR selected.
+
+In order to specify the data you want to upload, start by using the 'Data' mapping icon (found next to the 'Data' input field, within the properties panel) to generate the connector-snake for the final time in this tutorial.
+
+While hovering over the 'result' field in the 'Parse file contents' step (with the tail end of the connector-snake), select `results` from the list of output properties displayed. This will auto-populate a jsonpath within your 'Data' input field, and update the type selector to jsonpath.
+
+To run your completed workflow head over to the tab you opened previously using your 'Workflow public URL' and upload a file.
+
+Congratulations! You have successfully targeted your Snapchat Audience by uploading a file, reading and parsing its contents and importing the data into your Snapchat account.

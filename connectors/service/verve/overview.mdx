@@ -1,0 +1,87 @@
+---
+title: "Overview"
+description: "Overview of the Verve connector"
+---
+
+# Overview
+
+## Overview
+
+Verve is a digital advertising and marketing service that provides location based behavioral insights about the audience and analytical reports about performance of advertising campaigns .
+
+## Authentication
+
+When using the Verve connector, the first thing you will need to do is go to your Tray.io account page, and select the workflow you wish to work on. Once in the workflow dashboard itself, search and drag the Verve connector from the connectors panel (on the left hand side) onto your workflow.
+
+With the new Verve connector step highlighted, in the properties panel on the right, click on 'New Authentication' which is located under the 'Settings' heading.
+
+This will result in a Tray.io authentication pop-up window. The first page will ask you to name your authentication appropriately, and state which type of authentication you wish to make ('Personal' or 'Organisational').
+
+As you can see, the next page asks you for your API token.
+
+In order to get this field, head to your Verve dashboard. Click on the account email in the upper right corner, and then on the 'View Profile' button.
+
+It will then send you to your profile page where you can get the 'API token' you need to complete your Tray.io authentication set up.
+
+Once you have clicked the 'Add authentication' button, go to back to your authentication field (within the workflow dashboard properties panel from earlier), and select the recently added authentication from the dropdown options now available.
+
+Your connector authentication setup should now be complete.
+
+## Available Operations
+
+The examples below show one or two of the available connector operations in use.
+
+Please see the [Full Operations Reference](#operationsFull) at the end of this page for details on all available operations for this connector.
+
+## Using the Raw HTTP Request ('Universal Operation')
+
+As of **version 1.0**, it is now possible to effectively create your own operations.
+
+This is a very powerful feature which you can put to use when there is an endpoint in Verve which is not used by any of our operations.
+
+To use this you will first of all need to research the endpoint in the [ Verve API v2.0 documentation](https://analytics-ui.vervemobile.com/apidocs/2-enterprise-daily-api) , to *find the exact format* that Verve will be expecting the endpoint to be passed in.*You will need<br/>to login into your account to read the API documentation*.
+
+You will only need to add the suffix to the endpoint, as the base URL will be automatically set (the base URL is picked up from the value you entered when you created your authentication).
+
+The base URL for Verve is: `https://analytics-api.vervemobile.com/api/v2`
+
+For example, say that the 'Get enterprise daily report' operation did not exist in our Verve connector, and you wanted to use this endpoint, you would use the Verve API docs to find the 'Get enterprise daily report' endpoint. You would note that it is a `GET` request at the following URL:
+
+As you can see, you also need to add the required query parameters (which are described in the [ Verve API v2.0 documentation](https://analytics-ui.vervemobile.com/apidocs/2-enterprise-daily-api) ).
+
+So if you know what your 'Get enterprise daily report' endpoint is, and you have your key value pairs, you can get the required information with the following settings:
+
+Method: `GET`
+
+Endpoint: `/3-enterprise-daily-api/data.json`
+
+Query Example: `by` : `date|day_of_week|order_name|order_id|order_customerfield03`
+
+Final outcome being:
+
+**<br/>https://analytics-api.vervemobile.com/api/v2/3-enterprise-daily-api/data.json?by=date|day_of_week|order_name|order_id|order_customerfield03<br/>**
+
+When run, this will return the enterprise daily report, based on the provided criteria.
+
+## Example usage
+
+Below is an example of a way in which you could potentially use the Verve connector, to get enterprise daily report and export it in CSV format.
+
+The steps will be as follows:
+
+1. Setup manual trigger
+2. Add 'Get enterprise daily report as CSV' step
+
+The final outcome should look like this:
+
+### 1 - Setup trigger & Submit form
+
+Once you have clicked 'Create new workflow' on your main Tray.io dashboard (and named said new workflow), select the Manual trigger from the trigger options available:
+
+Once you have been redirected to the Tray.io workflow dashboard, from the connectors panel on the left, add a Verve connector to your second step. Set the operation to 'Get enterprise daily report as CSV'.
+
+There are several field options available to you, but you need only concern yourself with the following five mandatory fields for now: 'Measures', 'Dimensions', 'Constraints', 'Limit' and 'Page'. *The latter two are automatically pre-set for you, so you need not worry about them.*
+
+With regards to the first three, these will be dependant on the dropdown options you have available to you, so feel free to select as you see fit.
+
+Once the workflow is set up, click the green 'Run Workflow' button at the bottom of the builder, and then check in the Debug panels to look through your Input and Output data to view a successful run of your workflow.

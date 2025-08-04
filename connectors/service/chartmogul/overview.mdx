@@ -1,0 +1,26 @@
+---
+title: "Overview"
+description: "Overview of the ChartMogul connector"
+---
+
+# Overview
+
+## Overview
+
+The ChartMogul connector on Tray allows you to interact with the data in your ChartMogul account in any way you choose. The majority of the API is currently supported on Tray.
+
+## Authentication
+
+Before being able to use the ChartMogul connector, authentication will need to be created. To do so, add the ChartMogul connector to the workflow and hit the New Authentication button found in the input panel.
+
+The next windows provides you the opportunity to name the authentication as well as adding account token and secret key obtained from your ChartMogul account. Once you have added the account token and secret key, press the `Add authentication` button.
+
+## Example 1 - Get MMR
+
+This example will walkthrough how to retrieve monthly recurring revenue. The first step is to add the ChartMogul connector to the workflow.
+
+To use this operation, select the `Get MMR` operation in the input panel. Populate the input fields as required and press `Run workflow` button. This operation will return the monthly recurring revenue for the selected time frame.
+
+## Example 2 - Create customer
+
+This example will walkthrough how to create a customer for a given data source UUID. The first step is to add the ChartMogul connector to the workflow. You are required to provide an unique external ID for each customer you are creating. Populate the rest of the input fields as required and press `Run workflow` button. This will create a new customer in your ChartMogul account.

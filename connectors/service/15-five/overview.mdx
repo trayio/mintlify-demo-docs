@@ -1,0 +1,71 @@
+---
+title: "Overview"
+description: "Overview of the 15Five connector"
+---
+
+# Overview
+
+## Overview
+
+15Five is the complete performance management platform that creates effective managers, highly engaged employees, and top-performing organizations.
+
+## **API Information **
+
+The Base URL used for the 15Five connector is https://`{sub_domain}`.15five.com/api/public. More information can be found on their [main site](https://my.15five.com/api/public/).
+
+## Authentication
+
+Within the builder, click on the 15Five connector to display the connector properties panel. Select the 'Auth' tab and click on the 'New authentication' button.
+
+In the Tray.io authentication pop-up modal, name the authentication in a way that will quickly identify it within a potentially large list. For example, whether it is a Sandbox or Production auth, etc.
+
+Consider who/ how many people will need access to this authentication when choosing where to create this authentication ('Personal' or 'Organisational').
+
+The second page asks you for your 'access_token' and 'sub_domain' 
+
+To get the 'access_token', head to the 15Five dashboard. Click on the settings gear in the top, right-hand corner of 15Five.
+
+Select 'Features' from the dropdown menu.
+
+Scroll to the bottom of the page and click on '[Integrations](https://my.15five.com/integrations/)'.
+
+Click **Enable** to the right of the Public API option.
+
+Once enabled, you'll land on the '[Company API keys](https://my.15five.com/api/manage/company/)' page. Click the **Create new key** button.
+
+Add in a short name for your API key. This name can be anything, but we suggest using a name that's easily identifiable from your server-side. If you would like to limit the API access to High Fives only, check that box before saving. Then, click **Save**.
+
+More info on this can be found [here](https://success.15five.com/hc/en-us/articles/360002699631-API#h_01G6X8X5ZAS1A1VG4A0S4FGP6S)
+
+Once you have added these fields to your Tray.io authentication pop-up window, click the 'Create authentication' button. 
+
+Your connector authentication setup should now be complete.
+
+## Available Operations
+
+The examples below show one or two of the available connector operations in use.
+
+Please see the [Full Operations Reference](#operationsFull) at the end of this page for details on all available operations for this connector.
+
+## Using the Raw HTTP Request ('Universal Operation')
+
+As of **version 1.0**, you can effectively create your own operations.
+
+This is a powerful feature that you can use when there is an endpoint in 15Five that is not used by any of our operations.
+
+To use this, you will first of all need to research the endpoint in the [15Five public API documentation](https://my.15five.com/api/public/) to **find the exact format** that 15Five will be expecting the endpoint to be passed in.
+
+For example, say that the **List groups** operation did not exist in our 15Five connector, and you wanted to use this endpoint. You would use the , 15Five API docs to find the relevant endpoint - ***which in this case is a `GET` request called: `/group`****.*`* *`
+
+More details about this endpoint can be found [here](https://my.15five.com/api/public/#group-list).
+
+Based on the information provided in the above API call doc, you need to configure the following attributes on your Tray platform:
+
+- **Method:** GET
+- **URL: **
+
+- **Body Type: **None
+
+Once the API call is executed successfully,  you should get the following results:
+
+**

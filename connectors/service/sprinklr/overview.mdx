@@ -1,0 +1,46 @@
+---
+title: "Overview"
+description: "Overview of the Sprinklr connector"
+---
+
+# Overview
+
+## Overview
+
+Sprinklr is* *a unified customer experience management platform that helps companies combine research, marketing and customer service.
+
+## **API Information **
+
+The Base URL used for the Sprinklr connector is **https://api2.sprinklr.com/api/v2 **for production and **https://api2.sprinklr.com/{{env}}/api/v2**  where** env **corresponds to the environments. The environments are Sandbox, Production, Prod0 and Prod2. More information can be found on their [main API documentation(v2.0)](https://developer.sprinklr.com/docs/read/API_20) site.
+
+## Authentication
+
+Within the builder, click on the Sprinklr connector to display the connector properties panel. Select the **Auth** tab and click on the **New authentication** button.In the Tray.io authentication pop-up modal name your authentication in a way that will quickly identify it within a potentially large list. For example whether it is a Sandbox or Production auth, etc.
+
+Consider who/ how many people will need access to this authentication when choosing where to create this authentication ('Personal' vs 'Organisational').
+
+The next page asks you for your 'API Key', 'Client Secret' and 'Environment' credentials.
+
+Once you have added these fields to your Tray.io authentication pop-up window click the **Create authentication** button. 
+
+Your connector authentication setup should now be complete. Please run the simplest operation available to test and make sure you can retrieve data as expected.
+
+## Using the Raw HTTP Request ('Universal Operation')
+
+As of **version 1.0**, you can effectively create your own operations.
+
+This is a powerful feature that you can use when there is an endpoint in Sprinklr that is not used by any of our operations.
+
+To use this, you will first of all need to research the endpoint in the Sprinklr [API documentation v2.0 ](https://developer.sprinklr.com/docs/read/API_20)to **find the exact format** that Sprinklr will be expecting the endpoint to be passed in.
+
+For example, say that the **'Read case by case ID'** operation did not exist in our Sprinklr connector, and you wanted to use this endpoint. You would use the Sprinklr API docs to find the relevant endpoint - which in this case is a **GET** request called:** `/case/{{case_id}}` **where {{case_id}} corresponds to the actual case id.
+
+More details about this endpoint can be found [here](https://developer.sprinklr.com/docs/read/api_20/case_api/Fetch_Case_by_Case_Id).
+
+Based on the information provided in the above API call doc, you need to configure the following attributes on your Tray platform:
+
+- **Method:** GET
+- **URL:** 
+- **Headers: **None
+- **Query parameters: **None
+- **Body Type: **None

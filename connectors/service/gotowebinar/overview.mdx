@@ -1,0 +1,111 @@
+---
+title: "Overview"
+description: "Overview of the GoToWebinar connector"
+---
+
+# Overview
+
+## Overview
+
+GoToMWebinar is a web-hosted service created and marketed by LogMeIn. It is an online video conferencing software that enables the user to meet with other computer users, customers,clients or colleagues via the Internet in real time.
+
+## Authentication
+
+When using the GoToWebinar connector, the first thing you will need to do is go to your Tray.io account<br/>page, and select the workflow you wish to work on. Once in the workflow builder itself, search and<br/>drag the GoToWebinar connector from the connectors panel (on the left hand side) onto your workflow.
+
+With the new GoToWebinar connector step highlighted, in the properties panel on the right, click on the<br/>‘Authenticate’ panel followed by ‘Add new Authentication’ (located under the Authentication input<br/>field).
+
+This will result in a Tray.io authentication pop-up window. The first page will ask you to name your<br/>authentication, and state which type of authentication you wish to create ('Personal' or<br/>'Organisational').
+
+As you can see, the next page asks you to click on the 'Create authentication' button.
+
+This will direct you to the the LogMeIn website and you would need your GoToWebinar 'Email address' and 'Password' to sign in.
+
+Once you have added these fields, you will be redirected to the Tray platform. Go back to your settings authentication field (within the workflow builder<br/>properties panel), and select the recently added authentication from the dropdown options now<br/>available.
+
+Your connector authentication setup should now be complete.
+
+## GoToWebinar Trigger
+
+If you wish your workflow to be kicked off by a particular action in GoToWebinar, you can use the GoToWebinar<br/>Trigger.
+
+The GoToWebinar trigger allows you to receive notifications and trigger workflows when given events occur<br/>associated with the selected trigger operation.
+
+### Trigger Operations available:
+
+- Webhook
+
+### Webhook Setup
+
+When creating a new workflow, click the 'Create new workflow' button in the top right hand corner of<br/>your main Tray.io dashboard. When the trigger popup window opens, search and select the GoToWebinar<br/>trigger. Wait to be redirected to your new workflow and the workflow dashboard itself.
+
+Follow the instructions explained above in the 'Authentication' section to authenticate your trigger, and select 'Webhook' as the event you<br/>want your trigger to listen to (aka the operation), in order to set off the workflow itself:
+
+You now need to choose what action you want to trigger your workflow.
+
+Under 'Events', click on the 'Add to Events' button. From within the new 'Event' dropdown menu.
+
+The available event options are:
+
+- Registrant added: Organizer of webinar will receive this event, if a user registers for the webinar. This event will contain details about registrant.
+- Registrant joined: The organizer of webinar will receive this event if webinar registrant joins the webinar.
+- Webinar created: Organizer of the webinar will receive this event on creating a webinar.
+- Webinar chaned: Organizer of webinar will receive this event on updating a existing webinar.
+
+Select an event to trigger your workflow. As an example choose the 'Webinar created' so that your workflow gets triggered whenever you create a webinar.
+
+Go to the [GoToWebinar](https://dashboard.gotowebinar.com/) website and log into your GoToWebinar account. Create a new webinar on clicking on the 'SCHEDULE' button.
+
+Once you created an event in the GoToWebinar, and before testing your workflow, make sure you have clicked the 'Enable' button in the bottom-right corner of the builder screen.
+
+You can check the result by opening the debug panel in your workflow:
+
+## Available Operations
+
+The examples below show one or two of the available connector operations in use.
+
+Please see the [Full Operations Reference](#operationsFull) at the end of this page for details on<br/>all available operations for this connector.
+
+## Example Usage
+
+Below is an example of a way in which you could potentially use the GoToWebinar connector, to list the registrants of your all your webinars for a specified time duration.
+
+The steps will be as follows:
+
+1. Setup using a manual trigger and list your webinars.
+2. Going through each webinar.
+3. List all of the registrants of each webinar.
+
+The final outcome should look like this:
+
+### 1 - Setup Trigger & List All Webinars
+
+Once you have clicked 'Create new workflow' from your main Tray.io dashboard named it, select the<br/>Manual trigger from the trigger options available:
+
+After you have been redirected to the Tray.io workflow dashboard, from the connectors panel on the<br/>left, add a GoToMWebinar connector to your second step. Set the operation to 'List Webinars'. Choose the dates for the webinars that have been created. For example choosing a 1 month period will show you events that have been created for that month.
+
+Feel free to re-name your steps as you go along to make things clearer for yourself and other users.
+
+### 2 - Add Loop Collection
+
+Next, search for the 'Loop collection' connector within your connector panel, and drag it into your<br/>workflow as your next step. Set your operations to 'Loop list'.
+
+The Loop Collection connector allows you to iterate through a list of results. In this example, we<br/>will use it to iterate through the data found within the previous GoToWebinar connector step.
+
+In order to specify the list you want to loop through, start by using the 'List' mapping icon (found<br/>next to the list input field, within the properties panel) to generate the connector-snake.
+
+While hovering over the 'List Webinars' step (with the tail end of the connector-snake), select<br/>`webinars` from the list of output properties displayed. This will auto-populate a jsonpath within<br/>your 'List' input field, and update the type selector to jsonpath.
+
+For more clarification on the pathways you have available, open the Debug panel to view your step's<br/>Input and Output.
+
+This will allow you to go through each webinar.
+
+### 3 - List All Registrants In Each Webinar
+
+The last step is to drag a GoToWebinar connector **inside** of the Loop Collection step itself. Set the<br/>operation to 'List Registrants'. As you can see, the 'Webinar Key' field is required.
+
+Now, In order to specify the webinar you want to get the registrants from, start by using the 'Webinar Key' mapping icon to generate the connector-snake.
+
+While hovering over the 'Loop Collection' step (with the tail end of the connector-snake), select<br/>`value` from the list of output properties displayed. This will auto-populate a jsonpath within<br/>your 'Webinar Key' input field, and update the type selector to jsonpath. Now manually add `webinarKey` to the generated jsonpath by typing fullstop followed by 'webinarKey' like: `.webinarKey`.
+
+By running the workflow and going to the 'Debug' panel, you will be able to see the result. The 'Loop Collection' will result in running the last step for all of the number of webinars you have and the 'List Registrants' step will list all of the registrants in each webinar.

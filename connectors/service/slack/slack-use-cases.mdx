@@ -1,0 +1,72 @@
+---
+title: "Use cases"
+description: "Use cases documentation for Slack connector"
+---
+
+# Use cases
+
+These examples showcase various ways to utilize the Slack connector, incorporating AI where it adds value to the workflow.
+
+Remember that data transformations might be necessary between steps, especially when passing data between different services or preparing it for Slack operations. The JSON transformer or Data Mapper could be useful for these transformations.
+
+### **Automated Customer Support Triage**
+
+**Objective:** Automatically create and assign Slack channels for high-priority customer issues. 
+
+**Steps:**
+
+1. **Trigger: **Use a webhook trigger from your CRM or support system when a high-priority ticket is created.
+2. **Create Channel: **Use the `generate_channel_name `operation to create a Slack-friendly channel name based on the ticket subject.
+3. **Create Conversation: **Use the `create_conversation `operation to create a new private channel.
+4. **Invite Users: **Use the `invite_user_to_conversation `operation to add relevant team members.
+5. **Send Initial Message: **Use the `send_message `operation to post ticket details and next steps.
+6. **AI Integration: **Use Merlin functions' `classify_text `operation to categorize the issue and suggest relevant team members or resources.
+
+### **Employee Onboarding Workflow**
+
+**Objective:** Streamline the onboarding process for new employees using Slack. 
+
+**Steps:**
+
+1. **Trigger: **Use a webhook trigger from your HR system when a new employee is added.
+2. **Create User: **Use the `get_user_by_email `operation to check if the user exists, if not, invite them to Slack.
+3. **Create Onboarding Channel: **Use the `create_conversation `operation to create a private channel for the new employee.
+4. **Invite HR and Manager: **Use the `invite_user_to_conversation `operation to add HR rep and the employee's manager.
+5. **Send Welcome Message: **Use the `send_message `operation to post a welcome message and onboarding checklist.
+6. **Schedule Reminders: **Use the `add_reminder `operation to set reminders for key onboarding tasks.
+
+### **AI-Powered Meeting Summarization**
+
+**Objective:** Automatically summarize and post meeting notes to relevant Slack channels. 
+
+**Steps:**
+
+1. **Trigger: **Use a webhook trigger from your video conferencing tool when a meeting ends.
+2. **Fetch Transcript: **Use an HTTP client to retrieve the meeting transcript from your conferencing tool.
+3. **AI Processing: **Use Merlin functions'`generate_text `operation to create a concise summary of the meeting.
+4. **Find Channel: **Use the `list_conversations `operation to find the relevant project channel.
+5. **Post Summary: **Use the `send_message `operation to post the AI-generated summary to the channel.
+6. **Add Reminder: **Use the `add_reminder `operation to remind team members of action items.
+
+### **Secure Data Sharing Workflow**
+
+**Objective:** Safely share sensitive data snippets in Slack for quick team collaboration. **Steps:**
+
+1. **Trigger: **Use a manual trigger or integrate with a data management tool.
+2. **Data Masking: **Use Merlin Guardian's `mask_data `operation to obscure sensitive information.
+3. **Create Temporary Channel: **Use the `create_conversation `operation to make a private, temporary channel.
+4. **Invite Authorized Users: **Use the `invite_user_to_conversation `operation to add only authorized team members.
+5. **Share Data: **Use the `send_message `operation to post the masked data.
+6. **Set Expiry: **Use the `add_reminder `operation to set a reminder to archive the channel after a set time.
+7. **Archive Channel: **Use the `archive_conversation `operation when the sharing period ends.
+
+### **Automated Status Updates**
+
+**Objective:** Keep team members' Slack statuses updated based on their calendar events. 
+
+**Steps:**
+
+1. **Trigger: **Use a scheduled trigger to run every few minutes.
+2. **Fetch Calendar: **Use a calendar connector to get upcoming events for each team member.
+3. **Update Status: **For each user with an ongoing event, use the `set_profile`
+4. **Clear Status: **For users whose events have ended, use `set_profile `again to clear their status.

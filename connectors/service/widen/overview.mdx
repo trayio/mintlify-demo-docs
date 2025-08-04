@@ -1,0 +1,106 @@
+---
+title: "Overview"
+description: "Overview of the Widen connector"
+---
+
+# Overview
+
+## Overview
+
+Widen is a cloud based centralized platform that allows businesses to manage their digital assets, including images, documents, audio and video files throughout their lifecycle from creation to distribution.
+
+## Authentication
+
+When using the Widen connector, the first thing you will need to do is go to your Tray.io account page, and select the workflow you wish to work on. Once in the workflow builder itself, search and drag the Widen connector from the connectors panel (on the left hand side) onto your workflow.
+
+With the new Widen connector step highlighted, in the properties panel on the right, click on the Authenticate tab and 'Add new authentication' (located under the 'Authentication' field).
+
+This will result in a Tray.io authentication pop-up window. The first page will ask you to name your authentication, and state which type of authentication you wish to create ('Personal' or 'Organisational').
+
+As you can see, the next page asks you for your 'Access token'.
+
+In order to get these fields, head to your Widen dashboard. Click on the menu in top left corner and select 'Admin'
+
+In left sidebar in Global Settings select 'API setup', and then click on 'New integration' button in the top right corner of the screen.
+
+Fill out the name and description fields.
+
+Then click on 'Generate user access token' button to enter email and receive the access token.
+
+Once you have added the access token to your Tray.io authentication popup window, click on the 'Create authentication' button. Go back to your settings authentication field (within the workflow builder properties panel), and select the recently added authentication from the dropdown options now available.
+
+Your connector authentication setup should now be complete.
+
+## Available Operations
+
+The examples below show one or two of the available connector operations in use.
+
+Please see the [Full Operations Reference](#operationsFull) at the end of this page for details on all available operations for this connector.
+
+## Using the Raw HTTP Request ('Universal Operation')
+
+As of **version 1.0**, you can effectively create your own operations.
+
+This is a very powerful feature which you can put to use when there is an endpoint in Widen which is not used by any of our operations.
+
+To use this you will first of all need to research the endpoint in the [Widen API documentation v2.0](https://widenv2.docs.apiary.io/) , to<br/>**find the exact format** that Widen will be expecting the endpoint to be passed in.
+
+Note that you will only need to add the suffix to the endpoint, as the base URL will be automatically set (the base URL is picked up from the value you entered when you created your authentication).
+
+The base URL for Widen is: `https://api.widencollective.com/v2`
+
+For example, say that the 'List fields' operation did not exist in our Widen connector, and you wanted to use this endpoint, you would use the Widen API docs to find the relevant endpoint - which in this case is a `GET` request called: `/metadata/fields/viewable`.
+
+More details can be found [here](https://widenv2.docs.apiary.io/#reference/metadata/fields/viewable).
+
+As you can see there is also the option to include a query parameter, should you wish to do so. So if you know what your method, endpoint and details of your query parameters are, you can get the information about 10 fields with the following settings:
+
+Method: `GET`
+
+Endpoint: `/metadata/fields/viewable`
+
+Query Parameter: Key: `limit` Value: `10`
+
+Body Type : `none`
+
+Final Example outcome being: **https://api.widencollective.com/v2/metadata/fields/viewable?limit=100**
+
+## Example Usage
+
+Below is an example of a way in which you could potentially use the Widen connector, to retrieve information about a selection of assets.
+
+The steps will be as follows:
+
+1. Setup using a manual trigger and add 'List assets' step
+2. Add 'Loop collection' step to iterate through your assets
+3. Add 'Get asset' step to retrieved specific information about selected assets
+
+The final outcome should look like this:
+
+### 1 - Setup using a manual trigger and add 'List assets' step
+
+Once you have clicked 'Create new workflow' from your main Tray.io dashboard named it, select the Manual trigger from the trigger options available:
+
+After you have been redirected to the Tray.io workflow dashboard, from the connectors panel on the left, add a Widen connector to your second step. Set the operation to 'List assets'. As an example we are going to search for all the files in JPG format. To do that we will set 'Query' field to 'fn: ( *.jpg)'. (To read about other possible search option visit [Widen search reference page](https://community.widen.com/collective/s/article/How-do-I-search-for-assets)). Let's sort the collection of Assets by file name in ascending order. As the collection of Assets could be quite large, in this example we only going to get 10 items by setting 'Limit' field to 20.
+
+Feel free to re-name your steps as you go along to make things clearer for yourself and other users.
+
+### 2 - Loop Collection
+
+Next, search for the 'Loop collection' connector within your connector panel, and drag it into your workflow as your next step. Set your operations to 'Loop list'.
+
+The Loop Collection connector allows you to iterate through a list of results. In this example, we will use it to iterate through the data found within the previous 'List datasets' connector step.
+
+In order to specify the list you want to loop through, start by using the 'List' mapping icon (found next to the list input field, within the properties panel) to generate the connector-snake.
+
+While hovering over the 'List assets' step (with the tail end of the connector-snake), select `items` from the list of output properties displayed. This will auto-populate a jsonpath within your 'List' input field, and update the type selector to jsonpath.
+
+Now when the workflow is run, the Loop Collection step will iterate through the each item found within the previously created list.
+
+### 3 - Get dataset
+
+The final step is to drag a final Widen connector *INSIDE* of the actual Loop Collection step itself. Set the operation to 'Get asset'. As you can see, the 'Asset ID' fields is required.
+
+In the 'Asset ID' field use the connector-snake once more and assign it to the `id` value, produced by the Loop Collection connector from the previous step. In order to retrieve additional information about the assets select fields to expand in Expand section. In this case it will be 'Asset properties' and 'Metadata'.
+
+When run, this workflow will retrieve detailed information about each of the companies found:

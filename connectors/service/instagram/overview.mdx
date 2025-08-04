@@ -1,0 +1,112 @@
+---
+title: "Overview"
+description: "Overview of the Instagram connector"
+---
+
+# Overview
+
+## Overview
+
+Instagram is a social media app that allows users to share photos and videos from their lives, add captions, edit filters, tweak settings, engage with others, explore and creep, and so, so much more.
+
+## Authentication
+
+Before being able to use the Instagram connector, authentication will need to be created. To do so, add the Instagram connector to the workflow and hit the New Authentication button found in the input panel.
+
+With the new Instagram connector step highlighted, in the properties panel on the right, click on 'New Authentication' which is located under the 'Settings' heading.
+
+This will result in a Tray.io authentication pop-up window. You will first need to name your authentication ans select which type of authentication you wish to set up (personal or organisational). Proceed by clicking 'Next Step'. On the next page that appears you must choose the scopes that you need.
+
+Once you click 'Create authentication' it will redirect you to a Facebook login page where you can login into your account.
+
+Facebook will then ask you to grant permissions for the scopes selected in the previous screen. Press the OK button.
+
+Finally go to back to your authentication field (within the workflow dashboard properties panel from earlier), and select the recently added authentication from the dropdown options now available.
+
+Your connector authentication setup should now be complete.
+
+## Refreshing authentication
+
+**If re-authentication does not occur, the connector will fail after the authentication expires and your workflows will be affected by this.**
+
+Tray.io will send an email to the owner of the authentication warning that the authentication will expire soon. To re-authenticate, a link will be provided that will take you to the authentication page. Just click on the link provided in the email and re-authenticate.
+
+## Available Operations
+
+The examples below show one or two of the available connector operations in use.
+
+Please see the [Full Operations Reference](#operationsFull) at the end of this page for details on all available operations for this connector.
+
+## Using the Raw HTTP Request ('Universal Operation')
+
+As of **version 1.0**, it is now possible to effectively create your own operations.
+
+This is a very powerful feature which you can put to use when there is an endpoint in Instagram which is not used by any of our operations.
+
+To use this you will first of all need to research the endpoint in the [ Instagram API Documentation v3.2](https://developers.facebook.com/docs/instagram-basic-display-api) , to *find the exact format* that Instagram will be expecting the endpoint to be passed in.
+
+Note that you will only need to add the suffix to the endpoint, as the base url will be automatically set (the base url is picked up from the value you entered when you created your authentication).
+
+The base URL for Instagram is: `https://graph.facebook.com/v3.2`.
+
+For example, say that the 'Get media' operation did not exist in our Instagram connector, and you wanted to use this endpoint, you would use the Instagram API docs to find that the relevant endpoint - which in this case is a `GET` request called `media-id` at the following URL:
+
+So if you know what your `media_id` is, you can get the details of said endpoint with the following settings:
+
+Method: `GET`
+
+Endpoint: `/{media_id}`
+
+Final Example outcome being: **https://graph.facebook.com/v3.2/1234567890123/**
+
+In this particular case the endpoint/ media ID can be either hard-coded within the 'Endpoint' field itself:
+
+Or it can be added via the connector-snake, by dragging the field name to a previous step which returns the IDs for the media:
+
+When run, this will return details about the Instagram media object within your Instagram account.
+
+## Example usage
+
+Below is an example of a way in which you could potentially use the Instagram connector, to get all of the stories in your account one by one.
+
+The steps will be as follows:
+
+1. Setup your trigger and list the Instagram stories that are available.
+2. Add the Loop collection connector to iterate over each individual story.
+3. Gather the information available for each story.
+
+The final outcome should look like this:
+
+### 1 - Setup trigger & List Stories
+
+Once you have clicked 'Create new workflow' from your main Tray.io dashboard (and named said new workflow), select the Manual trigger from the trigger options available:
+
+After you have been redirected to the Tray.io workflow dashboard, from the connectors panel on the left, add an Instagram connector to your second step. Set the operation to 'List stories'.
+
+As you can see you will need your 'Page ID' and 'IG user ID'. Both should be available as dropdown options due to the authentication setup from earlier.
+
+*Feel free to re-name your steps as you go along to make things clearer for yourself and other users.*
+
+When run, this workflow will list all the stories found within your specified Instagram account.
+
+### 2 - Loop Collection
+
+The Loop Collection connector allows you to iterate through a list of results. In this example, we will use it to iterate through each story that was returned by the previous step.
+
+Search 'loop collection' using the 'search connectors' field on the left hand side of the panel, much like you did for your previous step, and drag the Loop Collection connector into your workflow as your next step. Set the operation to 'Loop list'.
+
+To specify the list you want to loop through, use the 'List' input field in conjunction with the connector-snake.
+
+Once you drag the latter end over your previous Instagram step, you will be able to assign this field to the 'data' array that is produced by the 'List stories' step:
+
+This will auto-generate a jsonpath to the list you wish to reference - which means even if the list name changes the workflow will not break.
+
+When run, this workflow will iterate through the list of stories provided.
+
+### 3 - Get Story Details
+
+Finally, drag another Instagram connector step *INTO* the Loop collection step itself, and select the operation 'Get story'.
+
+Use the same connector-snake method for generating the jsonpath to get the 'IG story ID' one by one.
+
+Now when you run your workflow, you will have a list generated and iterated through, with all the relevant information your might need per story!.

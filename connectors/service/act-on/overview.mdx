@@ -1,0 +1,36 @@
+---
+title: "Overview"
+description: "Overview of the Act-On connector"
+---
+
+# Overview
+
+## Overview
+
+The Act-On connector currently allows you to create, update, delete records as well as query lists and subscription information.
+
+## Authentication
+
+When using the Act-On connector, the first thing you will have to do is click on 'New Authentication' in the step editor:
+
+You can then name your authentication and continue with by pressing `Add authentication`.
+
+This will redirect you to a Act-On login screen. Add your login credentials and press the `Authorize app` button.
+
+If successful, you will be redirected back to your workflow and can now use the Act-On connector.
+
+## Example 1: Creating a record
+
+This example will show how you how to create a record for a list in Act-On.
+
+1. Add the Act-On connector to your workflow
+
+1. Select the 'Create record' operation and the authentication that has been created.
+
+1. Add the ID of the list that you wish to add the record to.
+
+1. To add fields to the record you will need to add properties to the `Record body` object. When adding a property the key represents the field name in Act-On. This has to be exactly as it appears in the Act-On system. If you are not sure what the fields names are, they can be found using the `Get List` operation. The response of the `Get List` contains an array named `headers` which contains all the fields that can be added to the record body.
+
+Below is an example record body that will be created. 
+
+1. Once the record body is ready, the workflow can be run. As can seen below, the creation was a success a new record has been created.

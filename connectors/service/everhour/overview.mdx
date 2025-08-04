@@ -1,0 +1,78 @@
+---
+title: "Overview"
+description: "Overview of the Everhour connector"
+---
+
+# Overview
+
+## Overview
+
+Everhour is a time-tracking platform that integrates with a number of work management systems (including Jira, Asana, Trello, and more), in order to make invoicing and payroll easier.
+
+## Authentication
+
+To begin using the connector, add an Everhour connector step to your workflow.
+
+With the connector step highlighted, click on the 'New authentication' button that should now be visible in the Properties panel (under 'SETTINGS') on the right hand side:
+
+In order to authenticate, you need an 'API Key'. You can retrieve your API key from the Everhour web app by going to 'My Profile'. *Click on your icon, and the option should appear.*
+
+Within your Settings page, scroll all the way down to the bottom, where you will find a section called 'Application Access', which is where your API token will be hosted:
+
+Copy said token and enter your key into the 'API Key' field inside the authentication window:
+
+Once you have clicked the 'Add authentication' button, go to back to your authentication field (within the workflow dashboard properties panel from earlier), and select the recently added authentication from the dropdown options now available.
+
+Your connector authentication setup should now be complete.
+
+## Available Operations
+
+The examples below show one or two of the available connector operations in use.
+
+Please see the [Full Operations Reference](#operationsFull) at the end of this page for details on all available operations for this connector.
+
+## Example usage
+
+Below is a brief example which demonstrates how to iterate through the projects stored in your Everhour account, and retrieve the tasks belonging to each.
+
+The steps are outlined as follows:
+
+1. Set up your manual trigger and first Everhour connector step to list projects available.
+2. Add a Loop connector to iterate through your projects list.
+3. Add a step to get the tasks belonging to each project.
+
+The end result should look something like this:
+
+### 1 - Setup trigger & List projects
+
+Once you have clicked 'Create new workflow' on your main Tray.io dashboard (and named said new workflow), select the Manual trigger from the trigger options available:
+
+Once you have been redirected to the Tray.io workflow dashboard, from the connectors panel on the left, add a Everhour connector to your second step. Set the operation to 'List projects''.
+
+The only field that is mandatory in this operation is 'Limit', but as it is already pre-filled for you, you need not worry about it at this stage.
+
+You can also filter the operation to only retrieve projects that match a specific query using the 'Search query' field, or project which belong to a particular integration using the 'Platform' field.
+
+*Feel free to name your step to make things clearer for yourself and other users.*
+
+Now, when this workflow is run, it will pull down a list of projects from the Everhour API. This means you will be able to view them when you click through your debug panel, and expend the output field.
+
+### 2 - Add a Loop step
+
+Next, we add a Loop Collection connector to the workflow. Set the operation to 'Loop list'.
+
+Use the connector-snake to generate the jsonpath you will need, by clicking and dragging on the orange circle mapping icon, left of the 'List operation' itself.
+
+Once you have dragged it over to the first Everhour step, you will see a dropdown list of options appear. Select the `results` array.
+
+The Loop input panel should then look something like this:
+
+This will enable us to iterate over the list of projects, and perform operations for each one, during each loop cycle.
+
+### 3 - Get client
+
+Finally, drag another Everhour connector step into the Loop collection itself, and select the operation 'List project tasks'.
+
+Use the same connector-snake method for generating the jsonpath once more, only this time it is to get the 'ID' field.
+
+From here, you can send the data from each project to another online service, manipulate the data in some way, or add another Loop collection to get each task individually.

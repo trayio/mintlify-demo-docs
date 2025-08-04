@@ -1,0 +1,44 @@
+---
+title: "Overview"
+description: "Overview of the Pardot connector"
+---
+
+# Overview
+
+## Overview
+
+Pardot is a lead marketing automation system that allows you to reach potential clients through a number of means.
+
+## Authentication
+
+When using the Pardot connector, the first thing you will need to do is go to your Tray.io account page and select the workflow you wish to work on. Once in the workflow builder itself, search and drag the Pardot connector from the connectors panel (on the left-hand side) onto your workflow.
+
+With the new Pardot connector step highlighted, in the properties panel on the right, click on the Authenticate tab followed by 'Add new authentication' (located under the 'Authentication' field).
+
+This will result in a Tray.io authentication pop-up window. The first page will ask you to name your authentication and state which type of authentication you wish to create ('Organization' or 'Personal').
+
+As you can see, the next page asks you for your 'Username', 'Password', 'Security token', and 'Business Unit ID' credentials. The 'Username' and 'Password' used here must be for a Salesforce SSO-enabled Pardot account.
+
+To get the Pardot 'Business Unit ID', head to the Salesforce UI and navigate to 'Setup' -> 'Pardot Account Setup'. You will find the 'Business Unit ID' in the Quick Find box. It begins with "0Uv" and is 18 characters long.
+
+If you cannot access the Pardot Account Setup information, ask your Salesforce Administrator to provide you with the Pardot Business Unit ID.
+
+Once you have added these fields to your Tray.io authentication pop-up window, click on the 'Create authentication' button.
+
+Go back to your settings authentication field (within the workflow builder properties panel), and select the recently added authentication from the dropdown options now available.
+
+Your connector authentication setup should now be complete.
+
+## Notes on operations usage
+
+### Pardot vs Pardot v3
+
+Some users may be aware that there are in fact 2 versions of the Pardot connector.
+
+**We encourage all users to utilise the main Pardot connector where possible**.
+
+The Pardot connector uses version 4 of the Pardot API and is well supported.
+
+The Pardot v3 connector uses version 3 of the Pardot API. It was created for specific development purposes, as there are a few nuance situations where using version 3 of the Pardot API is necessary.
+
+For more info please follow [this link](https://developer.pardot.com/) about the Pardot API versions available for more details.

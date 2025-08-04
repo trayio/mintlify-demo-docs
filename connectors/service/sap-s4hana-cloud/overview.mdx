@@ -1,0 +1,90 @@
+---
+title: "Overview"
+description: "Overview of the SAP S/4HANA Cloud connector"
+---
+
+# Overview
+
+## Overview
+
+The SAP S/4HANA Cloud connector allows you to access the APIs on the S/4HANA ERP platform. The connector has operations that allow you to retrieve supplier invoices from the S/4HANA ERP platform.
+
+## Authentication
+
+When using the SAP S/4HANA Cloud connector, the first thing you will need to do is go to your Tray.io account page, and select the workflow you wish to work on. Once in the workflow dashboard itself, search and drag the SAP S/4HANA Cloud connector from the connectors panel (on the left hand side) onto your workflow.
+
+With the new SAP S/4HANA Cloud connector step highlighted, in the properties panel on the right, click on 'New Authentication' which is located under the 'Settings' heading.
+
+This will result in a Tray.io authentication pop-up window. The first page will ask you to name your authentication appropriately, and state which type of authentication you wish to make ('Personal' or 'Organisational').
+
+As you can see, the next page asks you for your 'Host', 'Port' and 'API Key'.
+
+*At the bottom, there is also the option to use SAP's own sandbox API ('Use sandbox mode?'), if you're using this connector for testing purposes.*
+
+The required fields are explained as follows:
+
+- **Host**: This is the URL of your SAP S/4HANA Cloud server.
+- **Port**: Is the Port Number of your SAP S/4HANA Cloud server.
+- **API Key**: This is your key to authenticate with the API.
+
+Fill in the above details, and once you have clicked the 'Add authentication' button, go to back to your authentication field (within the workflow dashboard properties panel from earlier), and select the recently added authentication from the dropdown options now available.
+
+Your connector authentication setup should now be complete.
+
+## Available Operations
+
+The examples below show one or two of the available connector operations in use.
+
+Please see the [Full Operations Reference](#operationsFull) at the end of this page for details on all available operations for this connector.
+
+## Note on Operations usage
+
+### List supplier invoices
+
+The 'List supplier invoices' operation allows the user to filter invoices using the **OData query system**.
+
+This connector also has a 'Filter' which has 'Query Builder' and 'Query String' options.
+
+For example, if you wished to return a list of all supplier invoices more recent than the 2014 fiscal year, you would use the 'Query Builder':
+
+For more complex queries however, you can should use the 'Query String' option. This is a complex process and shoudl only be used by advanced Tray.io users.
+
+> 
+
+## Using the Raw HTTP Request ('Universal Operation')
+
+As of **version 1.1**, it is now possible to effectively create your own operations.
+
+This is a very powerful feature which you can put to use when there is an endpoint in SAP S/4HANA Cloud which is not used by any of our operations.
+
+To use this you will first of all need to research the endpoint in the [ SAP S/4HANA Cloud API documentation vX.X](https://api.sap.com/package/SAPS4HANACloud?section=Artifacts) , to *find the exact format* that SAP S/4HANA Cloud will be expecting the endpoint to be passed in.
+
+Note that you will only need to add the suffix to the endpoint, as the base URL will be automatically set (the base URL is picked up from the value you entered when you created your authentication).
+
+The base URL for SAP S/4HANA Cloud is: `https://{host}:{port}/sap/opu/odata/sap`
+
+> 
+
+For example, say that the 'List supplier invoices' operation did not exist in our SAP S/4HANA Cloud connector, and you wanted to use this endpoint, you would use the SAP S/4HANA Cloud API docs to first navigate to the relevant SAP S/4HANA Cloud API section, within the docs themselves, which in this case would be the [ Supplier Invoice API](https://api.sap.com/api/API_SUPPLIERINVOICE_PROCESS_SRV/overview) (as the SAP S/4HANA Cloud platform is simply a collection of APIs themselves).
+
+To get the second part of the URL suffix, you use the SAP S/4HANA Cloud - Supplier Invoice API docs themselves. Upon navigating to the relevant section it can be seen that the 'List supplier invoices' endpoint is available. This is a `GET` request at the following url:
+
+So if you know what your server 'Host' and 'Port' are, alongside the relevant API you wish to use as well as the Endpoint from said API, you can get your list of supplier invoices with the following settings:
+
+Host: `1234`
+
+Port: `8000`
+
+Method: `GET`
+
+API: `/API_SUPPLIERINVOICE_PROCESS_SRV`
+
+Endpoint: `/A_SupplierInvoice`
+
+*Pagination has also been added to limit the number of results using the query parameters available. In this case '$top' returns the first "n" items.*
+
+Final outcome:
+
+**https://1234:8000/sap/opu/odata/sap/API_SUPPLIERINVOICE_PROCESS_SRV/A_SupplierInvoice**
+
+This should now return a list of supplier invoices associated with your SAP S/4HANA Cloud account details.

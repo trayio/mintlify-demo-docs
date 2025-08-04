@@ -1,0 +1,123 @@
+---
+title: "Overview"
+description: "Overview of the Sitecore connector"
+---
+
+# Overview
+
+## Overview
+
+Sitecore is an integrated platform powered by .net CMS, commerce and digital marketing tools. Sitecore’s key product is the Sitecore Experience Platform (XP) which combines their powerful content management system (CMS) Sitecore Experience Manager and Sitecore Experience Database (xDB).
+
+## Authentication
+
+When using the Sitecore connector, the first thing you will need to do is go to your Tray.io account page, and select the workflow you wish to work on. Once in the workflow builder itself, search and drag the Sitecore connector from the connectors panel (on the left hand side) onto your workflow.
+
+With the new Sitecore connector step highlighted, in the properties panel on the right, click on the Authenticate tab followed by 'Add new authentication' (located under the 'Authentication' field).
+
+This will result in a Tray.io authentication pop-up window. The first page will ask you to name your authentication, and state which type of authentication you wish to create ('Organization' or 'Personal').
+
+As you can see, the next page asks you to select 'Environment'. This is based on whether you want to use your 'Prodcution' environment or want to test using your 'Development' environment.
+
+Once you have selected the 'Environment' you will need to provide your 'Base URL', 'Username', 'Password' and 'Domain' credentials as well as your 'Dev username' and 'Dev password' if you selected 'Development' environment.
+
+These are your standard Sitecore credentials that you use to login.
+
+Once you have added these fields to your Tray.io authentication popup window, click on the 'Create authentication' button. Go back to your settings authentication field (within the workflow builder properties panel), and select the recently added authentication from the dropdown options now available.
+
+Your connector authentication setup should now be complete.
+
+## Available Operations
+
+The examples below show one or two of the available connector operations in use.
+
+Please see the [Full Operations Reference](#operationsFull) at the end of this page for details on all available operations for this connector.
+
+## Using the Raw HTTP Request ('Universal Operation')
+
+As of **version 1.0**, you can effectively create your own operations.
+
+This is a very powerful feature which you can put to use when there is an endpoint in Sitecore which is not used by any of our operations.
+
+To use this you will first of all need to research the endpoint in the [Sitecore API documentation v9.0](https://doc.sitecore.com/developers/90/sitecore-experience-manager/en/the-restful-api-for-the-itemservice.html) , to<br/>**find the exact format** that Sitecore will be expecting the endpoint to be passed in.
+
+Note that you will only need to add the suffix to the endpoint, as the base URL will be automatically set (the base URL is picked up from the value you entered when you created your authentication).
+
+The base URL for the Sitecore connector is your custom Base URL you entered in the authentication with `/sitecore/api/ssc` appended to it. So if the Base URL you entered at authentication stage was `https://test-url.azurewebsites.net` then the full connector URL would be `https://test-url.azurewebsites.net/sitecore/api/ssc`.
+
+For example, say that the 'Get item' operation did not exist in our Sitecore connector, and you wanted to use this endpoint, you would use the Sitecore API docs to find the relevant endpoint - which in this case is a `GET` request called: `item/{id}?` where `{id}` is replaced by the ID of the item you wish to retrieve.
+
+More details can be found [here](https://doc.sitecore.com/developers/90/sitecore-experience-manager/en/the-restful-api-for-the-itemservice.html) if you navigate down to the `Retrieve an item by ID` section.
+
+As you can see there is also the option to include query parameters (referred to in the API docs as just parameters), should you wish to do so. The only required parameter here in the `ID` parameter.
+
+So if you know what your method, endpoint including ID and details of any query parameters you might like to add, you can get the item information with the following settings:
+
+Method: `GET`
+
+Endpoint: `item/23d14547-a0a2-46f7-be59-7324e584796f` where `23d14547-a0a2-46f7-be59-7324e584796f` is your item ID.
+
+Query Parameter: Key: `includeMetadata` Value: `true`
+
+Body Type : `none`
+
+Final Example outcome being: **https://test-url.azurewebsites.net/sitecore/api/ssc/23d14547-a0a2-46f7-be59-7324e584796f?includeMetadata=true**
+
+## Example Usage
+
+Below is an example of a way in which you could potentially use the Sitecore connector, to search for matching items and update them.
+
+The steps will be as follows:
+
+1. Setup using a manual trigger and Sitecore step to search
+2. Add a loop collection connector to loop through the list of results
+3. Add a text helper to update names of items
+4. Update each Sitecore item name using the new name from step 3
+
+The final outcome should look like this:
+
+### 1 - Setup Trigger & and Sitecore step to search
+
+Once you have clicked 'Create new workflow' from your main Tray.io dashboard named it, select the Manual trigger from the trigger options available:
+
+After you have been redirected to the Tray.io workflow dashboard, from the connectors panel on the left, add a Sitecore connector to your second step. Set the operation to 'Search items'.
+
+Then from within the input panel, enter the 'Term' you wish to search for, we are going to search for 'test' in this example.
+
+### 2 - Add a loop collection connector to loop through the list of results
+
+Next, search for the Loop collection connector within your connector panel, and drag it into your workflow as your next step. Set your operations to 'Loop list'.
+
+The Loop Collection connector allows you to iterate through a list of results. In this example, we will use it to iterate through the list of matching items you found within the previous Sitecore connector step.
+
+In order to specify the list you want to loop through, start by using the 'List' mapping icon (found next to the list input field, within the properties panel) to generate the connector-snake.
+
+While hovering over the 'sitecore-1' step (with the tail end of the connector-snake), select `Results` from the list of output properties displayed. This will auto-populate a jsonpath within your 'List' input field, and update the type selector to jsonpath.
+
+For more clarification on the pathways you have available, open the Debug panel to view your step's Input and Output.
+
+### 3 - Add a text helper to update names of items
+
+The next step is to drag a Text helper connector **inside** of the Loop Collection step itself. Set the operation to 'Replace'. As you can see, the 'Text value' and 'Pattern' fields are required.
+
+Use the 'Text value' mapping icon and drag to the 'loop-1' step, select `ItemName`. Next select which word you want to replace by entering it in the 'Pattern' input.
+
+In our example we are going to look for 'test'.
+
+The next step is to fill out tge 'Replacement' input with the word you want to replcae the 'Pattern' with or it can be left blank if you simply want to remove the word.
+
+Finally you can choose whether we want all match words are replaced and whether it should match the pattern case as well by checking/unchecking the final few inputs 'Replace all patterns?' and 'Case sensitive?'.
+
+sitecore-debug
+
+### 4 - Update each Sitecore item name using the new name from step 3
+
+The last step is to drag a Sitecore connector **inside** of the Loop Collection step again. Set the operation to 'Update item'. As you can see, the 'ID' field and 'Fields' inputs are required.
+
+Use the 'ID' mapping icon and drag to the 'loop-1' step and then select `ItemId`.
+
+Next select 'Add to fields' underneath the 'Fields' input. The name of the field we want to update is `ItemName` which should be entered under 'Key'. Finally use the 'Value' mapping icon and drag to the 'text-helpers-1' step and select `result`.
+
+The step is now setup and this will update the name of each item found in the first Sitecore search step.
+
+By running the workflow and going to the 'Debug' panel, you will be able to see the result. The 'Loop Collection' will result in running the 'text-helper-1' and 'sitecore-2' steps for all the items found in the 'sitecore-1' step.

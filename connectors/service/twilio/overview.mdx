@@ -1,0 +1,75 @@
+---
+title: "Overview"
+description: "Overview of the Twilio connector"
+---
+
+# Overview
+
+## Overview
+
+By making communications a part of every software developer’s toolkit, Twilio is enabling innovators across every industry — from emerging leaders to the world’s largest organizations — to reinvent how companies engage with their customers.
+
+## Authentication
+
+When using the Twilio connector, the first thing you will need to do is go to your Tray.io account page, and select the relevant workflow. Once in the workflow dashboard itself, search and drag the Twilio connector from the connectors panel (on the left hand side) onto your workflow.
+
+With the new Twilio connector step highlighted, in the properties panel on the right, click on 'New Authentication' which is located under the 'Settings' heading.
+
+As you can see from the image below you need to enter your api token and Account SID:
+
+These can be found in Twilio by going to the relevant product dashboard and clicking on 'Show API credentials':
+
+## Twilio Trigger
+
+If you wish your workflow to be kicked off by a inbound SMS in Twilio, you can use the Twilio Trigger.
+
+This is selected when you create a new workflow:
+
+The Twilio trigger allows you to receive notifications and trigger workflows when given events occur associated with the selected trigger operation.
+
+## Available Operations
+
+The examples below show one or two of the available connector operations in use.
+
+Please see the [Full Operations Reference](#operationsFull) at the end of this page for details on all available operations for this connector.
+
+## Example - triggering an SMS on Salesforce status update
+
+The following example will illustrate how you can auto-send and SMS message to an applicant based on their status being updated in Salesforce.
+
+The workflow in question looks like this:
+
+The steps followed are:
+
+1. The workflow is triggered by a Lead Status being updated in Salesforce
+2. The Id of the lead is used to get the lead details and status
+3. A boolean connector then checks if the status is 'Approved'
+4. If so then a Twilio connector is used to send a welcome SMS message to the applicant
+
+### Step 1 - set up the Salesforce Trigger
+
+When choosing the Trigger for your workflow you can choose the [Salesforce Trigger](/connectors/service/salesforce/#the-salesforce-trigger), set the **Operation** to 'On Record Field Change', **Record Type** to 'Lead' and **Field to Watch** to 'Status':
+
+### Step 2 - get the lead details and status
+
+Then we use the id returned by the trigger to get the details of the Lead, including First Name, Lead ID, Mobile Phone and status:
+
+It is vital to note here that we also have to set a **condition** such that Lead ID is equal to the id returned by the trigger, retrieved by the `$.steps.trigger.events[0].Id` jsonpath:
+
+.
+
+### Step 3 - check status = Approved
+
+Then we can use a boolean connector to check if the status has been updated to **Approved** by pulling the status using the `$.steps.salesforce-1.records[0].Status` jsonpath:
+
+### Step 4 - notify applicant by SMS
+
+Finally, if the status is approved, on the True branch we can automatically send a message to the applicant regarding their approved application.
+
+For this step you can see that we make use of the `$.steps.salesforce-1.records[0].MobilePhone` jsonpath to get the applicant's number.
+
+We can also use [Interpolation](/platform/working-with-data/basic-data-guide/#interpolated-mode) to enter the applicant's name in the **body** of the text to be sent, using the `{$.steps.salesforce-1.records[0].FirstName}` jsonpath:
+
+### Further steps
+
+To further develop this workflow you could add some extra steps to update the Lead in Salesforce - perhaos you may wish to change the status to somehting like 'Approved - notified'. See if you can work out how to do this!

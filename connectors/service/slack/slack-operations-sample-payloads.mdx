@@ -1,0 +1,252 @@
+---
+title: "Operations (sample payloads)"
+description: "Operations (sample payloads) documentation for Slack connector"
+---
+
+# Operations (sample payloads)
+
+## Main operations
+
+### Add reminder
+
+This method creates a reminder.
+
+**Sample Input**
+
+**Sample Output**
+
+### Archive conversation
+
+Archive a conversation in your Slack account.
+
+**Sample Input**
+
+**Sample Output**
+
+### Conversation exists?
+
+Checks to see whether a conversation exists in Slack.
+
+**Sample Input**
+
+**Sample Output**
+
+### Create conversation
+
+Create a public or private channel-based conversation.
+
+**Sample Input**
+
+**Sample Output**
+
+### Create pin
+
+Pin a message, file, or file comment to a channel.
+
+**Sample Input**
+
+**Sample Output**
+
+### Delete scheduled message
+
+Delete a pending scheduled message from the queue.
+
+**Sample Input**
+
+**Sample Output**
+
+### Generate channel name
+
+Given a piece of text (e.g. an Account name in Salesforce), generate a Slack friendly channel name in the format "my-channel-name". You can then pass this directly to the "Create Channel" operation.
+
+**Sample Input**
+
+**Sample Output**
+
+### Get conversation info
+
+Retrieve information about a conversation.
+
+**Sample Input**
+
+**Sample Output**
+
+### Get user
+
+Get details of a user in your Slack channel, using their unique ID.
+
+**Sample Input**
+
+**Sample Output**
+
+### Get user by email
+
+Get a user by their email address.
+
+**Sample Input**
+
+**Sample Output**
+
+### Invite user to conversation
+
+Invite a user to a conversation in your Slack account. The calling user must be a member of the channel.
+
+**Sample Input**
+
+**Sample Output**
+
+### Leave conversation
+
+Remove yourself (the authenticated user) from a conversation.
+
+**Sample Input**
+
+**Sample Output**
+
+### List conversations
+
+List of all channel-like conversations in a workspace.
+
+**Sample Input**
+
+**Sample Output**
+
+### List scheduled messages
+
+Returns a list of pending scheduled messages.
+
+**Sample Input**
+
+**Sample Output**
+
+### List users
+
+Get a list of all of the users in your Slack team.
+
+**Sample Input**
+
+**Sample Output**
+
+### List users conversations
+
+List conversations the calling user may access
+
+**Sample Input**
+
+**Sample Output**
+
+### Send ephemeral message
+
+Send a message that only a certain user can see in a public or private channel.
+
+**Sample Input**
+
+**Sample Output**
+
+### Send ephemeral response
+
+Send an ephemeral response message using the response_url parameter provided by Slack slash commands and actions. This will only be visible by the user.
+
+**Sample Input**
+
+**Sample Output**
+
+### Send message
+
+Send a message to a user or channel.
+
+**Sample Input**
+
+**Sample Output**
+
+### Set conversation purpose
+
+Set the purpose for a conversation. The calling user must be a member of the conversation. Not all conversation types may have a purpose set.
+
+**Sample Input**
+
+**Sample Output**
+
+### Set conversation topic
+
+Set the topic for a conversation. The calling user must be a member of the conversation. Not all conversation types may have a purpose set.
+
+**Sample Input**
+
+**Sample Output**
+
+### Set profile
+
+Set the user's presence and status.
+
+**Sample Input**
+
+**Sample Output**
+
+### Unfurl message links
+
+Unfurl one or more links in a Slack message, adding "attachments" that contain additional context to the message.
+
+**Sample Input**
+
+**Sample Output**
+
+### Update message
+
+Update a message that's previously been sent. Useful when reacting to actions like buttons and menus.
+
+**Sample Input**
+
+**Sample Output**
+
+### Upload file
+
+Uploads or creates a file. Optionally share to users or channels. This operation requires a scope to be enabled in your authentication, either files:write (for new Slack apps) or files:write:user.
+
+**Sample Input**
+
+**Sample Output**
+
+## DDL operations
+
+### List conversations (DDL)
+
+**Sample Input**
+
+**Sample Output**
+
+### List conversations non archived (DDL)
+
+**Sample Input**
+
+**Sample Output**
+
+### List filetypes (DDL)
+
+**Sample Input**
+
+**Sample Output**
+
+### List scheduled messages (DDL)
+
+**Sample Input**
+
+**Sample Output**
+
+### List users actual (DDL)
+
+**Sample Input**
+
+**Sample Output**
+
+### List users and conversations (DDL)
+
+**Sample Input**
+
+**Sample Output**
+
+### List users (DDL)
+
+**Sample Input**
+
+**Sample Output**

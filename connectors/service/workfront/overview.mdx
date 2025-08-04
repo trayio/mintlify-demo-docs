@@ -1,0 +1,70 @@
+---
+title: "Overview"
+description: "Overview of the Workfront connector"
+---
+
+# Overview
+
+## Overview
+
+The Workfront connector currently allows you to retrieve specified data about any type of object within Workfront.
+
+## Authentication
+
+To authenticate with the Workfront connector, please use the username and password you would use to access your Workfront account.
+
+The subdomain for your account is also required. For example, if the URL you use to login is this `https://company.name.workfront.com/login`, then the account specific subdomain here would be just `company.name`. There is no need to enter the `https://` or the `.workfront.com` part of the url.
+
+## Available Operations
+
+The examples below show one or two of the available connector operations in use.
+
+Please see the [Full Operations Reference](#operationsFull) at the end of this page for details on all available operations for this connector.
+
+## Example - Listing objects
+
+An `object` in this connector is what we call any entity that can be retrieved from your Workfront account. For example, `project`, `task` and `hour` are all object types within Workfront.
+
+In this example we'll try retrieving a list of projects. We'll only return certain fields and we will filter projects where the `status` is `CUR`.
+
+### Step 1 - Choosing object type
+
+The `List objects` operation enables you to list any type of object in Workfront, e.g. a project, an issue, an approval, etc.
+
+The first step is to choose which object type we would like to retrieve from Workfront, in this case, we want `Project`.
+
+### Step 2 - Choose fields
+
+By default, Workfront will only return a subset of most commonly used fields for the objects. The output schema will be dynamically generated each time the input properties change.
+
+If you don't see the fields you want returned in the default output schema, then the exact fields must be specified. We can do this by adding to the `Fields` list property.
+
+Each time we add to this list, the output schema will change.
+
+### Step 3 - Adding filters
+
+Once we've decided what information we want about the objects by choosing the fields, we can then decide if we want to list all the objects in Workfront or filter on specified fields.
+
+In this example we will try filtering out all projects where the `Status` field is not `CUR`.
+
+To do this, we add a filter, after which we will have three options to specify, field (name), operator (equal, greater than, etc) and value.
+
+So to filter on `Status`, we choose that from the `Field` list.
+
+We then want this to equal the value of `CUR`, so we choose `Equal` from the `Operator` dropdown.
+
+Finally, the value we want to filter on is `CUR`, so we enter that into the `Value` input property.
+
+When entering values, it is worth noting that some fields will have a limited list of options available as the value. To check for a valid list of options, please visit the Workfront documention [here](https://support.workfront.com/hc/en-us/articles/220633507-API-Explorer), and search on the object type and field type in the explorer.
+
+Another thing to note with values is that they need to match the data type of the field specified. For `Status` it is one a list of text options. However, `Last update date` would be of a date type, and would need to be entered as a date format i.e. MM-DD-YYYY.
+
+When you're done you should have a filter that looks like the below.
+
+More filters can be added to further narrow down the list retrieved.
+
+### Step 4 - Limit and Pagination
+
+If you would like to paginate through a large list of results, this can be achieved by using the `Limit` and `Offset` options. The default limit is 100. The maximum is 2000.
+
+If you want to retrieve more than 2000 items you can set `Limit` to 2000, retrieve the first 2000 items, and then make the call again but setting the `Offset` to 2000. This then retrieves the next 2000 objects from Workfront.

@@ -1,0 +1,368 @@
+---
+title: "Operations (sample payloads)"
+description: "Operations (sample payloads) documentation for Okta connector"
+---
+
+# Operations (sample payloads)
+
+## Main operations
+
+### Activate enrollment factor
+
+Activates a specific enrollment factor with a passcode.
+
+**Sample Input**
+
+**Sample Output**
+
+### Activate user
+
+Activates a user. This operation can only be performed on users with a STAGED status. Activation of a user is an asynchronous operation.
+
+**Sample Input**
+
+**Sample Output**
+
+### Add user to group
+
+Adds a user to a group with OKTA_GROUP type.
+
+**Sample Input**
+
+**Sample Output**
+
+### Create group
+
+Creates a new group with OKTA_GROUP type in your organisation.
+
+**Sample Input**
+
+**Sample Output**
+
+### Create user
+
+Creates a new user in your Okta organisation with or without credentials.
+
+**Sample Input**
+
+**Sample Output**
+
+### Deactivate user
+
+Deactivates a user. This operation can only be performed on users that do not have a DEPROVISIONED status. Deactivation of a user is an asynchronous operation.
+
+**Sample Input**
+
+**Sample Output**
+
+### Delete user
+
+Deletes a user permanently. This operation can only be performed on users that have a DEPROVISIONED status. Using this operation on a user that hasn’t been deactivated causes that user to be deactivated. A second delete operation is required to delete the user.
+
+**Sample Input**
+
+**Sample Output**
+
+### Enroll Okta call factor
+
+Enrolls a user with the Okta call factor and a call profile. A voice call with an OTP is made to the device during enrollment and must be activated.
+
+**Sample Input**
+
+**Sample Output**
+
+### Enroll Okta email factor
+
+Enrolls a user with an email factor. An email with an OTP is sent to the primary or secondary (depending on which one is enrolled) email address of the user during enrollment.
+
+**Sample Input**
+
+**Sample Output**
+
+### Enroll Okta security question factor
+
+Enrolls a user with the question factor and question profile.
+
+**Sample Input**
+
+**Sample Output**
+
+### Enroll Okta SMS factor
+
+Enrolls a user with the Okta SMS factor and an SMS profile. A text message with an OTP is sent to the device during enrollment and must be activated by following the activate link relation to complete the enrollment process.
+
+**Sample Input**
+
+**Sample Output**
+
+### Enroll Okta verify TOTP factor
+
+Enrolls a user with an Okta token:software:totp factor. The factor must be activated after enrollment by following the activate link to complete the enrollment process.
+
+**Sample Input**
+
+**Sample Output**
+
+### Get factor
+
+Retrieves a factor for the specified user.
+
+**Sample Input**
+
+**Sample Output**
+
+### Get group
+
+Retrieves a specific group from your organisation.
+
+**Sample Input**
+
+**Sample Output**
+
+### Get user
+
+Retrieves a user by id, login, or login shortname (if the shortname is unambiguous).
+
+**Sample Input**
+
+**Sample Output**
+
+### Get user profile custom field
+
+Retrieves a single user profile custom fields.
+
+**Sample Input**
+
+**Sample Output**
+
+### Get user schema
+
+Retrieves the schema for a type of user schema.
+
+**Sample Input**
+
+**Sample Output**
+
+### Get user schema property
+
+Retrieves the schema property for the default type of user schema.
+
+**Sample Input**
+
+**Sample Output**
+
+### Get user type
+
+Retrieves a user type by its ID.
+
+**Sample Input**
+
+**Sample Output**
+
+### List enrolled factors
+
+Lists all the enrolled factors for the specified user.
+
+**Sample Input**
+
+**Sample Output**
+
+### List factors to enroll
+
+Lists all the supported factors that can be enrolled for the specified user.
+
+**Sample Input**
+
+**Sample Output**
+
+### List group members
+
+Lists users that are a member of a group.
+
+**Sample Input**
+
+**Sample Output**
+
+### List groups
+
+Lists groups in your organisation.
+
+**Sample Input**
+
+**Sample Output**
+
+### List security questions
+
+Lists all available security questions for a user’s question factor.
+
+**Sample Input**
+
+**Sample Output**
+
+### List system logs
+
+Lists your Okta system logs.
+
+**Sample Input**
+
+**Sample Output**
+
+### List user profile custom fields
+
+Lists your user profile custom fields.
+
+**Sample Input**
+
+**Sample Output**
+
+### List users
+
+Lists users in your organisation.
+
+**Sample Input**
+
+**Sample Output**
+
+### Raw HTTP request (advanced)
+
+Perform a raw HTTP request with some pre-configuration and processing by the connector, such as authentication.
+
+**Sample Input**
+
+**Sample Output**
+
+### Reactivate user
+
+Reactivates a user. This operation can only be performed on users with a PROVISIONED status.
+
+**Sample Input**
+
+**Sample Output**
+
+### Remove user from group
+
+Removes a user from a group with OKTA_GROUP type.
+
+**Sample Input**
+
+**Sample Output**
+
+### Resends SMS as part of enrollment.
+
+Use the resend link to send another OTP if user doesn’t receive the original activation SMS OTP.
+
+**Sample Input**
+
+**Sample Output**
+
+### Reset factor
+
+Unenrolls an existing factor for the specified user, allowing the user to enroll a new factor.
+
+**Sample Input**
+
+**Sample Output**
+
+### Set user password (Admin)
+
+Sets passwords without validating existing user credentials. This is an administrative operation.
+
+**Sample Input**
+
+**Sample Output**
+
+### Suspend user
+
+Suspends a user. This operation can only be performed on users with an ACTIVE status.
+
+**Sample Input**
+
+**Sample Output**
+
+### Unlock user
+
+Unlocks a user with a LOCKED_OUT status and returns them to ACTIVE status. Users will be able to login with their current password.
+
+**Sample Input**
+
+**Sample Output**
+
+### Unsuspend user
+
+Unsuspends a user and returns them to the ACTIVE state. This operation can only be performed on users that have a SUSPENDED status.
+
+**Sample Input**
+
+**Sample Output**
+
+### Update group
+
+Updates the profile for a group with OKTA_GROUP type from your organisation.
+
+**Sample Input**
+
+**Sample Output**
+
+### Update user
+
+Updates a user‘s profile or credentials.
+
+**Sample Input**
+
+**Sample Output**
+
+## DDL operations
+
+### Get user schema (DDL)
+
+**Sample Input**
+
+**Sample Output**
+
+### List enrolled factors (DDL)
+
+**Sample Input**
+
+**Sample Output**
+
+### List factors to enroll (DDL)
+
+**Sample Input**
+
+**Sample Output**
+
+### List groups (DDL)
+
+**Sample Input**
+
+**Sample Output**
+
+### List security questions (DDL)
+
+**Sample Input**
+
+**Sample Output**
+
+### List totp providers to enroll (DDL)
+
+**Sample Input**
+
+**Sample Output**
+
+### List user profile custom fields (DDL)
+
+**Sample Input**
+
+**Sample Output**
+
+### List user types (DDL)
+
+**Sample Input**
+
+**Sample Output**
+
+### List users (DDL)
+
+**Sample Input**
+
+**Sample Output**

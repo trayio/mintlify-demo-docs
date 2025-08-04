@@ -1,0 +1,41 @@
+---
+title: "Overview"
+description: "Overview of the OneLogin connector"
+---
+
+# Overview
+
+## Overview
+
+OneLogin is a complete Identity & Access Management system.
+
+## Authentication
+
+- Access OneLogin as an account owner or administrator.
+- Go to **Developers** > **API Credentials**.
+- On the **API Access page**, click **New Credential**.
+- Give your credential a name. 
+- Click **Save**.
+- Copy the **client secret** and **client ID** 
+- Open the tray workflow, click on **New Authentication**
+- Paste the **client secret** and **client ID**
+- Click **Next** to save the authentication
+
+## The OneLogin Trigger
+
+The OneLogin trigger allows you to trigger a workflow when an event occurs, for example when a user role is updated.
+
+To setup the trigger, get the **Public URL** of your Tray Workflow, which can be found by clicking on the wheel in the top-left corner of the workflow editor:
+
+- Copy the **Public URL**
+- Access OneLogin as an account owner or administrator.
+- Go to **Developers** > **Webhooks**
+- Set the format type to **JSON Array**
+- Set the **Listener URL** to the **Workflow Public URL**
+- Click **Save** 
+
+## Example
+
+In this example we build a simple workflow to send a slack message when a user is added to a new role. Create a new workflow with the **OneLogin Trigger**, and select the **Specific event** operation, with the event type set to **USER_ASSIGNED_ROLE**. Add the **slack** service from the list on the left.
+
+You can then send the username to a Slack channel by using the Slack connector and setting its Message property value to a JSONpath of the Webhook's Request Query Parameters.

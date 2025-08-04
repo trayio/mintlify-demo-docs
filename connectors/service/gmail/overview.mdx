@@ -1,0 +1,30 @@
+---
+title: "Overview"
+description: "Overview of the Gmail connector"
+---
+
+# Overview
+
+## Overview
+
+Use the Tray Gmail connector to list, send and download emails as well as change system preferences.
+
+## API Information
+
+The Gmail connector has the following Base URL: **https://www.googleapis.com/gmail/v1**. More information can be found on their main [API documentation (v1)](https://developers.google.com/gmail/api) site. Details regarding their API limitations can be found [here](https://developers.google.com/gmail/api/reference/quota).
+
+## Authentication
+
+Once this is done, click the **Create new authentication** button:
+
+Name your authentication and specify the type ('Personal' or 'Organizational').
+
+The next page will prompt you to enter your **Service account email**, **Private key** and **Subject email. ** These fields are required only if you are using the **Send-as Alias** operation in the Gmail connector.
+
+Next, ensure you set appropriate Service Permissions for your project scopes and then click **Create Authentication**.
+
+Once redirected to Google, click on the **Allow** button to permit Tray to access your Google account.
+
+Once done go back to your authentication field (within the workflow dashboard properties panel from earlier), and select the recently added authentication from the dropdown options now available.
+
+This should validate and you will now be authenticated.

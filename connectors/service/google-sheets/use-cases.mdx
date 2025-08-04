@@ -1,0 +1,88 @@
+---
+title: "Use Cases "
+description: "Use Cases  documentation for Google Sheets connector"
+---
+
+# Use Cases 
+
+These examples showcase various ways to leverage the Google Sheets connector in combination with other services and AI capabilities. Remember to handle data transformations, error handling, and to respect rate limits when working with large datasets or frequent updates.
+
+### **Automated Sales Report Generation**
+
+**Objective:** Automatically generate a weekly sales report from various data sources. 
+
+**Steps:**
+
+1. **Trigger: **Use a[ Scheduled Trigger](#) to run the workflow every Monday morning.
+2. **Fetch Data: **Use connectors for your CRM, e-commerce platform, etc. to gather sales data.
+3. **Create Spreadsheet: **Use the create_spreadsheet operation to create a new report.
+4. **Add Worksheets: **Use the `create_worksheet `operation to add sheets for different sales categories.
+5. **Populate Data: **Use the `create_row `operation to add data to each worksheet.
+6. **Format Report: **Use the `update_cell_value `operation to add totals and formatting.
+
+### **AI-Powered Customer Feedback Analysis**
+
+**Objective:** Analyze customer feedback from various sources and summarize in a spreadsheet. 
+
+**Steps:**
+
+1. **Trigger: **Use a [Webhook Trigger ](#)to start the workflow when new feedback is received.
+2. **Fetch Feedback: **Use connectors to gather feedback from different platforms.
+3. **AI Analysis: **Use the [Merlin Functions connector's](/connectors/core/merlin-functions-beta/#sentiment-analysis)` sentiment_analysis` operation to analyze feedback sentiment.
+4. **Create/Update Spreadsheet: **Use `get_spreadsheet `to check if a feedback tracker exists, or `create_spreadsheet` if not.
+5. **Add Data: **Use `create_row `to add new feedback entries with sentiment scores.
+6. **Summarize: **Use [Merlin Functions'](/connectors/core/merlin-functions-beta/#generate-text)` generate_text` operation to create a summary of the feedback.
+7. **Update Summary: **Use [`update_cell_value`](/connectors/service/google-sheets/operations-sample-payloads/#update-cell-value) to add the AI-generated summary to a designated cell.
+
+### **Inventory Management and Reorder Alerts**
+
+**Objective:** Track inventory levels and generate reorder alerts. 
+
+**Steps:**
+
+1. **Trigger: **Use a [Scheduled Trigger ](/connectors/triggers/scheduled-trigger/)to run the workflow daily.
+2. **Fetch Inventory: **Use your inventory system's connector to get current stock levels.
+3. **Update Spreadsheet: **Use `update_values_in_spreadsheet `to refresh inventory data.
+4. **Check Thresholds: **Use `get_worksheet_data `to retrieve the updated data.
+5. **Generate Alerts: **Use Boolean Conditions to identify items below reorder thresholds.
+6. **Send Notifications: **Use a Slack or Email connector to send reorder alerts.
+
+### **AI-Assisted Data Cleansing and Standardization**
+
+**Objective:** Clean and standardize customer address data in a spreadsheet. 
+
+**Steps:**
+
+1. **Trigger: **Use a Manual Trigger or schedule as needed.
+2. **Fetch Data: **Use `get_worksheet_data `to retrieve customer address information.
+3. **Mask Sensitive Data: **Use Merlin Guardian's `mask_data `operation to protect sensitive information.
+4. **AI Processing: **Use an AI service (like OpenAI or a custom model) to standardize and correct addresses.
+5. **Unmask Data: **Use Merlin Guardian's `unmask_data `operation to reveal the processed data.
+6. **Update Spreadsheet: **Use `update_values_in_spreadsheet `to write back the cleaned data.
+
+### **Dynamic Project Management Dashboard**
+
+**Objective:** Create a real-time project management dashboard pulling data from various tools. 
+
+**Steps:**
+
+1. **Trigger: **Use a Scheduled Trigger to update hourly during work hours.
+2. **Fetch Project Data: **Use connectors for project management tools (e.g., Jira, Asana) to gather data.
+3. **Update Spreadsheet: **Use `update_values_in_spreadsheet `to refresh project status data.
+4. **Calculate Metrics: **Use `get_worksheet_data `and data transformation steps to calculate KPIs.
+5. **Update Dashboard: **Use `update_cell_value `to update KPI cells and status indicators.
+6. **Conditional Formatting: **Use `raw_http_request `to apply conditional formatting via Sheets API.
+
+### **AI-Enhanced Financial Forecasting**
+
+**Objective:** Generate financial forecasts using historical data and AI predictions. 
+
+**Steps:**
+
+1. **Trigger: **Use a Scheduled Trigger to run monthly.
+2. **Fetch Historical Data: **Use `get_worksheet_data `to retrieve past financial data.
+3. **AI Analysis: **Use an AI service (e.g., AWS Forecast via the AWS Bedrock connector) to generate predictions.
+4. **Create Forecast Sheet: **Use `create_worksheet `to add a new forecast sheet.
+5. **Populate Forecast: **Use `create_row `to add forecasted data points.
+6. **Generate Summary: **Use Merlin Functions' `generate_text `to create an executive summary of the forecast.
+7. **Update Summary: **Use `update_cell_value `to add the summary to the spreadsheet.

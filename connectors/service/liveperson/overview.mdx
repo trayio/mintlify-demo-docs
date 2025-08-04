@@ -1,0 +1,32 @@
+---
+title: "Overview"
+description: "Overview of the LivePerson connector"
+---
+
+# Overview
+
+## Overview
+
+LivePerson is a publicly held, global technology company that develops conversational commerce and AI software.
+
+## Authentication
+
+When using the LivePerson connector, the first thing you will have to do is click on 'New Authentication' in the step editor:
+
+## Available Operations
+
+The examples below show one or two of the available connector operations in use.
+
+Please see the [Full Operations Reference](#operationsFull) at the end of this page for details on all available operations for this connector.
+
+## Example
+
+In the following example we create a workflow that gets a list of users then fetches a specific user from the original list.
+
+To begin with, create a workflow with a **Manual Trigger**, then add a step from the **LivePerson** connector with the operation set to `List users`:
+
+We can run our workflow and view our list of users in the output panel of the workflow, as shown in this example:
+
+Next, add a step from the **LivePerson** connector and specify the operation as `Get user`. We then want to set the `User ID` field as the value of one of the Users returned by the `List users` operation in the previous step. We can do this by using a JsonPath as pictured in this example:
+
+We can then run the operation to get a single User as shown in the example:

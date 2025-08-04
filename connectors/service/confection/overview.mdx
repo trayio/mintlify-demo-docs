@@ -1,0 +1,60 @@
+---
+title: "Overview"
+description: "Overview of the Confection connector"
+---
+
+# Overview
+
+## Overview
+
+Confection uses innovative architecture to help businesses thrive in a privacy-first approach to their data. This architecture allows businesses to collect, store and distribute their data.
+
+## Authentication
+
+Within the builder, click on the Confection connector to display the connector properties panel. Select the 'Authentication' tab and click on the 'New authentication' button.
+
+In the Tray.io authentication pop-up modal, name the authentication in a way that will easily identify it within a potentially large list. For example, whether it is a Sandbox or Production auth, etc.
+
+Consider who/ how many people will need access to this authentication when choosing where to create this authentication ('Personal' or 'Organisational').
+
+The second page asks you for your 'Account ID', 'Public key' and 'Private key' Confection authentication credentials.
+
+In order to get these fields, head to the Confection dashboard. Click on the API keys tab on the far left.
+
+This will allow you to retrieve the 'Account ID', 'Public key' and 'Private key'.
+
+Once you have added these fields to your Tray.io authentication pop-up window, click the 'Create authentication' button.
+
+Your connector authentication setup should now be complete.
+
+## Available Operations
+
+The examples below show one or two of the available connector operations in use.
+
+Please see the [Full Operations Reference](#operationsFull) at the end of this page for details on all available operations for this connector.
+
+## Using the Raw HTTP Request ('Universal Operation')
+
+As of **version 1.0**, you can effectively create your own operations.
+
+This is a very powerful feature which you can put to use when there is an endpoint in Confection which is not used by any of our operations.
+
+To use this you will first of all need to research the endpoint in the [Confection API documentation v1.0](https://confection.io/developers/), to **find the exact format** that Confection will be expecting the endpoint to be passed in.
+
+Note that you will only need to add the suffix to the endpoint, as the base URL will be automatically set (the base URL is picked up from the value you entered when you created your authentication).
+
+The base URL for Confection is: `https://transmission.confection.io/{{YOUR_ACCOUNT_ID}}`
+
+For example, say that the 'List leads' operation did not exist in our Confection connector, and you wanted to use this endpoint. You would use the Confection API docs to find the relevant endpoint - which in this case is a `GET` request called: `/leads`.
+
+More details about this endpoint can be found [here](https://confection.io/developers/api).
+
+So if you know what your method, endpoint and details of your authentication parameters are, you can list all leads with the following settings:
+
+Method: `POST`
+
+Endpoint: `/leads`
+
+Body Type : Form-data : `key: `{{YOUR_PRIVATE_KEY}}``
+
+Final outcome being: **<Content type link TBD>**

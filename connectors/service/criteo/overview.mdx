@@ -1,0 +1,101 @@
+---
+title: "Overview"
+description: "Overview of the Criteo connector"
+---
+
+# Overview
+
+## Overview
+
+Criteo is a personalized retargeting company that works with Internet retailers to serve personalised online display advertisements to consumers.
+
+## Authentication
+
+When using the Criteo connector, the first thing you will need to do is go to your Tray.io account page, and select the relevant workflow. Once in the workflow dashboard itself, search and drag the Criteo connector from the connectors panel (on the left hand side) onto your workflow.
+
+With the new Criteo connector step highlighted, in the properties panel on the right, click on 'New Authentication' which is located under the 'Settings' heading.
+
+This will result in a Tray.io authentication pop-up window, that should look like this:
+
+As you can see, besides naming your authentication appropriately, you will need your 'Client ID' and 'Client Secret'. These are the same credentials you use to log on to the Criteo Management Center platform.
+
+> 
+
+When you click 'Add authentication', it is normal for you to see a window open and close, if you are already logged into your Criteo account. If this is not the case, you will be redirected to the Criteo login before continuing. This is the connector authenticating with Criteo.
+
+After ensuring that the authentication you have just created is selected, you can begin using the Criteo connector.
+
+## Available Operations
+
+The examples below show one or two of the available connector operations in use.
+
+Please see the [Full Operations Reference](#operationsFull) at the end of this page for details on all available operations for this connector.
+
+## Using the Raw HTTP Request ('Universal Operation')
+
+As of **version 1.1**, it is now possible to effectively create your own operations.
+
+This is a very powerful feature which you can put to use when there is an endpoint in Criteo which is not used by any of our operations.
+
+To use this you will first of all need to research the endpoint in the [Criteo Marketing API documentation v1.0](https://support.criteo.com/s/article?article=Criteo-Marketing-API-Intro&language=en_US), to *find the exact format* that Criteo will be expecting the endpoint to be passed in.
+
+Note that you will only need to add the suffix to the endpoint, as the base URL will be automatically set (the base URL is picked up from the value you entered when you created your authentication).
+
+The base url is in the format of `https://api.criteo.com/marketing/`.
+
+For example, say that the 'List Audiences' operation did not exist in our Criteo connector, and you wanted to use this endpoint, you would use the Criteo API docs to find that the 'List Audiences' endpoint is a GET request:
+
+You will note from the API documentation that this endpoint requires the "advertiserId" parameter.
+
+> 
+
+Once you know what your endpoint (audiences) and query parameter (advertiser ID) is, you can list your available audiences with the following settings:
+
+Endpoint: `/v1/audiences` *Remember to include  v1  within the URL of whatever endpoint you intend to use, as specified earlier!*
+
+Query Parameter: Key: `advertiserId`
+
+Query Parameter: Value: `45670`
+
+Final outcome: **https://api.criteo.com/marketing/v1/audiences?advertiserId=45678**
+
+As a result, this will return all Audience objects with the matching advertiserId.
+
+## Example usage
+
+Below is an example of a way in which you could potentially use the Criteo connector, to 'List advertisers', and retrieve a listing of the Advertiser ID(s) belonging to your portfolio, one of which can be passed by jsonpath into 'List audiences', by using the connector-snake.
+
+The steps will be as follows:
+
+1. Create a new workflow with the Manual Trigger and add a Criteo step in order to list the advertisers available.
+2. Add another Criteo step this time to list the audiences of said advertisers.
+
+The final outcome should look like this:
+
+### 1 - Setup trigger & List Advertisers
+
+Once you have clicked 'Create new workflow' on your main Tray.io dashboard (and named said new workflow).
+
+Select the Manual trigger from the trigger options available:
+
+Once you have been redirected to the Tray.io workflow dashboard, from the connectors panel on the left, add a Criteo connector to your second step. Set the operation to 'List advertisers'.
+
+*Feel free to rename your Step Titles as you go along to make things clearer for yourself and other users.*
+
+If you run your workflow now, and look in the Debug view, you will see within the Output section that a list of advertisers has been returned.
+
+For now, go back to the Build view.
+
+### 2. List Audiences
+
+Add another Criteo connector and drag it into the workflow. Set the operation to 'List audiences'.
+
+You will notice that the 'List audiences' operation requires an Advertiser ID.
+
+We know that the previous connector step (aka 'List Advertisers' connector) returned a list of advertisers. We can now use the connector-snake to generate a jsonpath, to one of those advertiser ID's for our next Criteo connector step: 'List Audiences'.
+
+Make sure to click on `advertiserId`:
+
+You output should look similar to the below:
+
+> 

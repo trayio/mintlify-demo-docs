@@ -1,0 +1,76 @@
+---
+title: "Overview"
+description: "Overview of the Pub / Sub connector"
+---
+
+# Overview
+
+The Pub/sub connector works in conjunction with the Pub/sub trigger.<br/><br/>They serve the following purposes:
+
+- The **Pub/sub connector can be used to publish information** to any specific topic
+- The **Pub/sub trigger can be used to subscribe** to any specific topic
+
+From an architectural point of view this can be very powerful.
+
+Rather than placing the responsibility on one source workflow to distribute information to other workflows (as per [callable workflows](#)) the source workflow can focus on simply gathering and publishing content.
+
+Any subscriber workflows can then be set up as and when they are needed.
+
+This allows for a more flexible 'ad-hoc' approach, but it will **not be suitable for the specific data processing use cases** outlined in the above callable workflows page - **where you want the source workflow to have tight control and visibility** over where data is being sent and for what purpose.
+
+## Authentication
+
+Any workflows that wish to connect and share content via pub/sub must use the same pub/sub authentication.
+
+You can create an auth when you add either a pub/sub connector or trigger to a workflow.<br/><br/>Or you can go to the 'Authentications' section of your dashboard and click 'Create new authentication':
+
+You can then give a name to your auth which will help identify what category of topics it will be publishing to:
+
+In the final screen then create a password:
+
+## How to publish and subscribe
+
+To **publish **you must add a Pub/sub connector to your workflow
+
+Then you need to set:
+
+- The **'Workspace'** to publish to ('Organization' or 'Same workspace')
+- The arbitrary **'Topic name'**
+- The **'Data'** that is being published
+
+Any **subscribing workflow** needs to choose the Pub/sub trigger upon creation:
+
+Then you need to set:
+
+- The **'Workspace'** ('Organization' or 'Same workspace')
+- The arbitrary **'Topic name' **being subscribed to
+
+## Example usage
+
+The following example imagines a scenario whereby one source workflow is gathering and publishing information about new leads, and two other workflows are subscribing to this information.
+
+### Publishing workflow setup
+
+The publishing workflow is using a [webhook trigger](#) which is receiving leads from an imaginary source in the following format:
+
+When publishing data you must specify the following:
+
+- The **'Workspace'** to publish to ('Organization' or 'Same workspace')
+
+- The arbitrary **'Topic name'**
+
+- The **'Data'** that is being published
+
+In this case by using `$.steps.trigger.body` we are dynamically picking up the data each time it comes through from the webhook trigger and publishing it as a simple json payload:
+
+### Subscribing workflow 1 setup
+
+In a subscriber workflow all we have to do is set the 'Worskpace' and 'Topic name':
+
+And as you can see from the logs, the trigger output will contain the topic content within a 'data' json payload:
+
+In this case we are grabbing the details of the new lead and sending a notification to Slack:
+
+### Subscribing workflow 2 setup
+
+The second subscribing workflow is set up in exactly the same way, but the data is instead sent to a Google Sheet:

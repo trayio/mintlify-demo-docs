@@ -1,0 +1,69 @@
+---
+title: "Overview"
+description: "Overview of the IBM Watson TTS connector"
+---
+
+# Overview
+
+## Overview
+
+IBM Watson TTS is a text-to-speech service, enabling IBM Cloud users to generate human-like audio from written text inputs.
+
+## Authentication
+
+When using the IBM Watson TTS connector, the first thing you will need to do is go to your Tray.io account page, and select the workflow you wish to work on. Once in the workflow dashboard itself, search and drag the IBM Watson TTS connector from the connectors panel (on the left hand side) onto your workflow.
+
+With the new IBM Watson TTS connector step highlighted, in the properties panel on the right, click on 'New Authentication' which is located under the 'Settings' heading.
+
+This will result in a Tray.io authentication pop-up window, that should look as displayed below. The first thing to do is to give your new authentication a name, and choose whether you want it to be accessible only by you or by your entire organization.
+
+Once you have decided that, click 'Next Step' to be taken to the next stage. As you can see, you will need to provide a Service URL and API Key.
+
+In order to get these fields, log in to your IBM Cloud dashboard and head to your resource list.
+
+If you don't yet have an instance of Watson TTS set up, click 'Create resource' in the top-right corner of the page, and search for 'Text to Speech' in the catalog.
+
+In order to retrieve your credentials, head to the configuration page of your Text to Speech service, which should be underneath the 'Services' drop-down in your resource list.
+
+Select your Text to Speech service, and your API credentials will then be on the next page that appears in the 'Credentials' section.
+
+Copy these credentials into their respective fields in the Tray.io authentication popup, and then click 'Add authentication'.
+
+Once you have clicked the 'Add authentication' button, go to back to your authentication field (within the workflow dashboard properties panel from earlier), and select the recently added authentication from the dropdown options now available.
+
+Your connector authentication setup should now be complete.
+
+## Available Operations
+
+The examples below show one or two of the available connector operations in use.
+
+Please see the [Full Operations Reference](#operationsFull) at the end of this page for details on all available operations for this connector.
+
+## Example usage
+
+Below is an example of a way in which you could potentially use the IBM Watson TTS connector, to generate synthesised audio from some text and then send the audio as an email attachment.
+
+The steps will be as follows:
+
+1. Add a Google Drive step to store your text
+2. Add an IBM Watson TTS step with the 'Get synthesized audio' operation
+
+The final outcome should look like this:
+
+### 1 - Setup trigger & add Data Storage step
+
+Once you have clicked 'Create new workflow' on your main Tray.io dashboard (and named said new workflow), select the Manual trigger from the trigger options available:
+
+Next, add an IBM Watson TTS step, and select the 'Get synthesized audio' operation. Enter into the 'Text' field the text that you want converted to audio. You can also select which voice you want, as well as the format of the audio output (under the 'Accept' field).
+
+*Feel free to re-name your steps as you go along to make things clearer for yourself and other users.*
+
+When this workflow is run, it will generate an audio file which will be uploaded to an S3 bucket.
+
+### 2 - Send email
+
+Next, add a 'Send Email' step to your workflow. Fill out the required fields by specifying recipients, a subject, and text body (the 'Content' field).
+
+You can then attach the audio file to the email by returning to the previous step ('Get synthesized audio' in the image above) and using the **connector-snake** to drag from the root of the output schema to to the 'Send Email' step:
+
+Now, when the workflow is run, it will first generate a synthesized audio file and then send that file to the specified email addresses.

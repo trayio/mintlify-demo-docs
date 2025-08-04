@@ -1,0 +1,52 @@
+---
+title: "Overview"
+description: "Overview of the Square connector"
+---
+
+# Overview
+
+## Overview
+
+Square allows users to send and receive money for free through a mobile application using Square Cash, and that lets merchants process payments via smartphone using Square Point-of-Sale.
+
+Below is an example of a way in which you could potentially use the Square connector, to get orders related to payments equal to a certain amount of money.
+
+The steps will be as follows:
+
+1. Setup using a manual trigger and Square connector to list payments
+2. Loop through the list of payments
+3. Get the order related to each payment
+
+### 1 - Setup Trigger & Square connector to list payments
+
+Once you have clicked 'Create new workflow' from your main Tray.io dashboard named it, select the Manual trigger from the trigger options available:
+
+From the connectors panel on the left, add a Square connector to your workflow. Set the operation to 'List payments'.
+
+Feel free to re-name your steps as you go along to make things clearer for yourself and other users. The operation names themselves often suffice.
+
+You can also filter the list of payments using the available fields on the properties panel. In our example, we are going to filter out all payments that are not exactly $100. To do this we add value `100` to the 'Total' field.
+
+Once this is setup, we are now returning all payments that are exactly $100.
+
+### 2 - Loop through the list of payments
+
+Next, search for the Loop collection connector within your connector panel, and drag it into your workflow as your next step. Set your operations to 'Loop list'.
+
+The Loop Collection connector allows you to iterate through a list of results. In this example, we will use it to iterate through the data found within the previous Square connector step.
+
+In order to specify the list you want to loop through, start by using the list mapping icon (found next to the list input field, within the properties panel) to generate the connector-snake.
+
+While hovering over the 'square-1' step (with the tail end of the connector-snake), select `payments` from the list of output properties displayed. This will auto-populate a jsonpath within your list input field, and update the type selector to jsonpath.
+
+For more clarification on the pathways you have available, open the [Debug panel] (/platform/troubleshooting/logs-and-debugging/) to view your step's Input and Output.
+
+### 3 - Get the order related to each payment
+
+The last step is to drag a Square connector **inside** of the Loop Collection step itself. Set the operation to 'Get order'. As you can see, the 'Order ID' field is required.
+
+Again use the 'Order ID' mapping icon to generate the connector-snake, this time hover the tail over the 'loop-1' step and select `order_id` from the output properties.
+
+The step is now setup and this will return each order that totalled exactly $100.
+
+By running the workflow and going to the 'Debug' panel, you will be able to see the result. The 'Loop Collection' will result in potentially running the 'square-2' step multiple times for all the items found in the 'square-1' step.

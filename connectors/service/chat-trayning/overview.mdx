@@ -1,0 +1,50 @@
+---
+title: "Overview"
+description: "Overview of the Chat Trayning connector"
+---
+
+# Overview
+
+## Overview
+
+The Chat Trayning connector is to be used as a part of a training exercise to become familiar with building workflows in tray.io. The Chat Trayning replicates a messaging platform, such as the Slack connector.
+
+## Exercises
+
+Please see the below link for more information on the workflow builder exercises which utilize this connector.
+
+[Build practice workflow exercises](https://tray.io/academy/courses/build-a-practice-workflow)
+
+## Authentication
+
+As this is a training connector it does not connect to a real API or service, meaning authentication is not required.
+
+## Note on Operation Usage
+
+All operations in the Chat Trayning connector return static fake data to be used in the workflow builder training exercises.
+
+The operations in this connector should only be used whilst following the exercises linked above.
+
+These operations accept the output from various connector steps in the practice workflows built in the exercises linked above and are designed to verify that this output is correct.
+
+If something has gone wrong in the workflow and the operations receive invalid data, they will throw an error which should have a helpful message to give a hint at which connector step should be checked.
+
+For example the following error message would mean that there is most likely an issue with the Data Mapper workflow step.:
+
+### Examples
+
+#### Send message to customer
+
+This operation simply expects the concatenated first and last name of a customer in order to send an automated message.
+
+The operation will verify that there is a matching customer name in the fake data that is output by the **List customers** operation in the [CRM Trayning](/connectors/service/crm-trayning/) connector.
+
+In order to use this operation, the [Text helpers concatenate operation](/connectors/helpers/text-helper/#concatenate) must be used to concatenate the name. You would then take the output from that connector step. The input to the connector would look something like this:
+
+#### Send thank you message
+
+This operation is designed to verify the output of an exercise that will require the use of several core connectors and helpers.
+
+The output of the **List customers** operation will be the starting point. From there, the [List helpers](/connectors/helpers/list-helper/), [Loop collection](/connectors/core/loop/), [Boolean Condition](/connectors/core/boolean-condition/), [Data Mapper](/connectors/core/data-mapper/) and [Text Helpers](/connectors/helpers/text-helper/) all need to be used in order to achieve the correct input for this operation.
+
+In the workflow builder, your input would look something like the below (notice the usage of [jsonpaths](/platform/working-with-data/basic-data-guide/) or the [connector snake](/platform/working-with-data/jsonpath-shortcuts/) to obtain the output of previous connector steps):

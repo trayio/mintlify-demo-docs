@@ -1,0 +1,42 @@
+---
+title: "Overview"
+description: "Overview of the Merlin Text Analysis (Beta) connector"
+---
+
+# Overview
+
+## Overview
+
+The Merlin Text Analysis connector is a powerful AI-driven tool in Tray's automation platform, designed to make analysis and classification capabilities simple to use within workflows. It offers a suite of advanced natural language processing operations that can be seamlessly integrated into various automation scenarios.
+
+## Operations
+
+### Classify Text
+
+The Classify Text function categorizes a given piece of text into one or more predefined categories based on its content.
+
+**Parameters**
+
+1. **Text**: The input text to be classified.
+2. **Categories**: The list of categories to classify into, if not predefined in the model.
+3. **Examples:** is used for in-context learning, where the model is given a few examples to guide its classification process. 
+
+In the following example, the workflow iterates over records from a Google Sheet that contains feature titles and descriptions. 
+
+The descriptions are provided as input to the Merlin Functions connector to classify each feature into specific categories. A list of categories is supplied to aid the categorization process. For more precise classification, you can also provide examples.
+
+### Sentiment Analysis
+
+Sentiment analysis, also known as opinion mining, is a powerful tool that has a wide range of applications across different industries and domains. 
+
+Its primary purpose is to understand the emotional tone behind a body of text, helping organizations and individuals make data-driven decisions. 
+
+The sentiment of the text is typically categorized as POSITIVE, NEGATIVE, or NEUTRAL.
+
+In the following example, the workflow is triggered whenever a new customer support ticket is created.
+
+The Merlin Functions connector employs the Sentiment Analysis operation to analyze the data received from the trigger and categorize the sentiments as positive, negative, or neutral.
+
+As depicted in the image below, the step output shows the sentiment categorized as 'NEUTRAL' along with its detailed score.
+
+ This detailed score provides actionable insights, enabling effective decision-making in how to respond and utilize the data. For instance, based on a negative sentiment score, appropriate actions like escalating the ticket can be taken if necessary.

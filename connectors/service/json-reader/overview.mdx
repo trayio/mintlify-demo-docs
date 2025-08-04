@@ -1,0 +1,79 @@
+---
+title: "Overview"
+description: "Overview of the JSON Reader connector"
+---
+
+# Overview
+
+## Overview
+
+The main purpose of the JSON Reader core connector is to allow for the pagination of very large JSON files.
+
+## Operations List
+
+- Paginate JSON
+
+## Example usage
+
+In this example we imagine a scenario where you need to add thousands of contacts that are in a JSON file, directly into your Salesforce account. The file that we are processing will look like this (with the `contacts` array containing the data we want to use):
+
+The steps will be as follows:
+
+1. Set up your trigger and download a large JSON file.
+2. Loop through said JSON file.
+3. Create a break condition for the loop connector.
+4. Either add the necessary contacts into a Salesforce account, or halt workflow.
+
+The complete workflow will look something like this:
+
+## 1 - Setup and download the JSON file
+
+First go to your Tray.io dashboard, click on the 'Create new workflow' button in the top right corner, and name your project workflow. Select 'Manual' as your trigger. *Your operation should automatically be set to 'trigger'*.
+
+Once redirected to the workflow dashboard, select the 'File Helpers' helper connector from the connector panel (on the left hand side). Place it on the next step of your workflow.
+
+> 
+
+Make sure your operation is set to 'Create File from URL'. The data we are testing with can be seen at the following URL. Make sure to copy the URL from the address bar accurately else the workflow will fail.
+
+The data and URL can be found [here](#)`.`
+
+*All your other inputs are either not mandatory or filled in for you.*
+
+Once we input the URL of where our file is hosted, it will return a file object that we can use in our JSON Reader workflow.
+
+## 2 - Loop through the JSON file
+
+Next you will need to add the 'Loop collection' core connector to the next step of your workflow, with its operation set to 'Loop forever'. This is to enable your workflow to "loop continuously" through the items in your JSON file.
+
+Then add the 'JSON Reader' core connector to your loop step. Make sure the operation is set to 'Paginate JSON'.
+
+Use the connector-snake to auto-generate your JSON path for the 'File' input field as displayed below:
+
+Your 'Is array?' option will automatically be ticked, so move to the next step and set your 'Path' to `Contacts`. Your 'Page size' will have `100` displayed which we have changed this to `10` for the sake of our demo. Finally generate your 'Page number' JSON path the same way you did for your 'File' field
+
+## 3 - Create a break clause
+
+We need a way to stop our workflow from looping forever once the task is complete, so the next step will be to add a 'Boolean condition' core connector so that our workflow can check if our results (or rather `$.steps.json-reader-1.results`), is equal to zero/ an empty array: `[]`. When this condition returns `true` we will then have looped through the entire JSON array and essentially finished our JSON pagination.
+
+Make sure the operation is set to 'Boolean condition' and that your "input selector" is set to 'jsonpath' for your '1st Value' (see highlighted section below for clarification). Use the connector-snake to get your previous step's results to fill in the field value.
+
+'Comparision type' should be 'Equal to', and the '2nd Value' has its "input selector" is set to 'string' with an empty array displayed: `[]`.
+
+## 4 - Add contacts or end workflow
+
+Add the Salesforce service connector to the FALSE branch of your loop. Set the operation to 'Create Record' with the record type set to 'Contact'.
+
+> 
+
+Click on the greyed out 'Add Field' button below to generate the number of fields required.
+
+You should get a new section created that looks like this:
+
+Keep adding as many fields as required. For our demo we have simply used name and email address from the field options available in our test.json file, but feel free to use more should you so wish.
+
+Note that the JSON path has once more been generated through the connector-snake and should be similar to this: `$.steps.json-reader-1.results[0].name` depending on your chosen fields.
+
+Then add a 'Break Loop' core connector to the TRUE branch of the boolean condition, making sure that the operation is set to 'Break' and that 'loop-1' is what is selected in the 'Break' field itself:
+
+Setup should now be complete!

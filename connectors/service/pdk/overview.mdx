@@ -1,0 +1,96 @@
+---
+title: "Overview"
+description: "Overview of the PDK connector"
+---
+
+# Overview
+
+## Overview
+
+PDK (ProdataKey) is a cloud-based access control system, enabling scalable, easy-to-manage building security. You can manage access control devices from the cloud, and from PDK's mobile app.
+
+## Authentication
+
+When using the PDK connector, the first thing you will need to do is go to your Tray.io account page, and select the workflow you wish to work on. Once in the workflow dashboard itself, search and drag the PDK connector from the connectors panel (on the left hand side) onto your workflow.
+
+With the new PDK connector step highlighted, in the properties panel on the right, click on 'New Authentication' which is located under the 'Settings' heading.
+
+This will result in a Tray.io authentication pop-up window. The first page will ask you to name your authentication appropriately, and state which type of authentication you wish to make ('Personal' or 'Organisational').
+
+As you can see, the next page asks you for your 'Client ID' and 'Client Secret' in order to complete authentication.
+
+Once you have clicked the 'Add authentication' button, go to back to your authentication field (within the workflow dashboard properties panel from earlier), and select the recently added authentication from the dropdown options now available.
+
+Your connector authentication setup should now be complete.
+
+## Available Operations
+
+The examples below show one or two of the available connector operations in use.
+
+Please see the [Full Operations Reference](#operationsFull) at the end of this page for details on all available operations for this connector.
+
+## Using the Raw HTTP Request ('Universal Operation')
+
+As of **version 1.0**, it is now possible to effectively create your own operations.
+
+This is a very powerful feature which you can put to use when there is an endpoint in PDK which is not used by any of our operations.
+
+To use this you will first of all need to research the endpoint in the [ PDK API documentation vX.X](https://pdkapi.docs.apiary.io/#reference) , to *find the exact format* that PDK will be expecting the endpoint to be passed in.
+
+Unfortunately, due to the fact that the API's base URL is modified depending on your Panel ID, you will need to supply a full URL, whereas with most connectors you would only need to supply an endpoint.
+
+The base URL for PDK is: `https://panel-{YOUR_PANEL_ID}.pdk.io/api`
+
+For example, say that the 'List persons' operation did not exist in our PDK connector, and you wanted to use this endpoint, you would use the PDK API docs to find the 'Retrieve All Persons' endpoint. Note that it is a `GET` request and if it has any required or extra fields:
+
+So using this, you can get the list of all persons associated with your account with the following settings:
+
+Method: `GET`
+
+Endpoint: `/persons`
+
+Final outcome being: **https://panel-{YOUR_PANEL_ID}.pdk.io/api/persons**
+
+This will now return all persons details as requested.
+
+## Example usage
+
+Below is an example of a way in which you could potentially use the PDK connector, to list all reports in your account, and then retrieve each report individually.
+
+The steps will be as follows:
+
+1. Setup the trigger and add list the reports available.
+2. Add a Loop collection step to work through said list.
+3. Finally add another PDK connector in order to get a report from the list.
+
+The final outcome should look like this:
+
+### 1 - Setup trigger & add 'List reports' step
+
+Once you have clicked 'Create new workflow' on your main Tray.io dashboard (and named said new workflow), select the Manual trigger from the trigger options available:
+
+Once you have been redirected to the Tray.io workflow dashboard, from the connectors panel on the left, add a PDK connector to your second step. Set the operation to 'List reports'. Also make sure to select your Panel ID in the input panel.
+
+*Feel free to re-name your steps as you go along to make things clearer for yourself and other users.*
+
+When this workflow is run, it will list all the reports associated with your account.
+
+### 2 - Add Loop Collection
+
+In order to retrieve information associated with each individual report, we have to use the Loop Collection helper to iterate through the list of reports.
+
+To do this, drag a Loop Collection step into your workflow. Set the operation to 'Loop List'.
+
+To tell the Loop Collection to iterate through our reports, use the connector-snake to assign the 'List' property in the input panel, to the `results` array that is output by the 'List reports' step.
+
+Now, when this workflow is run, the Loop Collection will iterate through each report. However, we are not currently doing anything with those reports.
+
+### 3 - Add 'Get report' step
+
+Next, add another PDK connector step to run **inside** the Loop Collection step. Select the operation 'Get report'. Once again, select your Panel ID in the input panel.
+
+Use the connector-snake once more to retrieve the `id` field from the Loop Collection.
+
+Now, when you run this workflow, a list of reports will first be pulled from the PDK API, and will then be iterated over and returned individually.
+
+From here, you can use this setup to modify each report, or to send this data to another service.

@@ -1,0 +1,87 @@
+---
+title: "Overview"
+description: "Overview of the Slack connector"
+---
+
+# Overview
+
+## Overview
+
+Slack is a versatile tool for messaging, sharing files, and collaboration within teams. It allows you to create channels for organized communication, react to important events, and configure the platform to suit your team’s unique tech stack. Whether it's integrating with other tools, automating workflows, or simply enhancing team communication, Slack provides a comprehensive environment tailored to your specific needs.
+
+## API Information
+
+The Base URL used for the Slack connector is** https://slack.com/api**. More information can be found on their main [API documentation (v1)](https://api.slack.com/docs) site. Details regarding their API limitations can be found [here](https://api.slack.com/docs/rate-limits).
+
+## Templates
+
+These Templates provide pre-configured (best practice) examples of how to work with Slack and integrate it with other services.
+
+## Authentication
+
+### Version 10
+
+When using the Slack connector for the first time, you need to create a new authentication.
+
+Name your authentication and specify the type (`Personal `or `Organizational`).
+
+The next page optionally asks for **User Scope** and **Slash Command Signing Secret**.
+
+- **User scope:** You can set additional permission scopes for users if needed, following [Slack's Permission scopes](https://api.slack.com/scopes) document.<br/>
+- **Slash Command Signing Secret**: This is only necessary if you intend to use Slash commands and want an added layer of security. Slash commands can work without signing secrets.<br/>
+
+The next step is to select your **service permissions**. Basic permissions are pre-selected for your convenience. Feel free to check or uncheck the permissions based on your specific use case.
+
+The last optional field allows you to set additional permission scopes for users, following  [Slack's Permission scopes](https://api.slack.com/scopes) document. For a detailed understanding, refer to the [User Scope vs. Extra Permission Scopes](https://tray.io/documentation/connectors/service/slack/slack.authentication#user-scope-vs-extra-permission-scopes) section.
+
+Once done, click **Create authentication. **
+
+In the dialog box, choose the workspace from the top right, and then click **Allow**.
+
+Return to the authentication field in the workflow builder properties panel, and select the newly created authentication from the available dropdown options. Your connector authentication setup for Slack version 10 is now complete.
+
+### Version 9.1
+
+When using the Slack connector for the first time, you need to create a new authentication.
+
+Name your authentication and specify the type ('Personal' or 'Organizational').
+
+The next page optionally asks for the **Slash Command Signing Secret**.
+
+This is only necessary if you intend to use Slash commands and want an added layer of security. Slash commands can function without signing secrets.
+
+Refer to the  [Slash Command Signing Secret](https://tray.io/documentation/connectors/service/slack/slack.authentication#slash-command-signing-secret) section for instructions on how to obtain your signing secret. Feel free to skip this field if it is not needed for your use case.
+
+The next step is to select your service permissions. For your convenience note that the basic permissions are already pre-selected. Feel free to check or un-check the permissions based on your use case. 
+
+The last field allows you to set additional permission scopes for users if needed, following  [Slack's Permission scopes](https://api.slack.com/scopes) document. For a detailed understanding, refer to the [User Scope vs. Extra Permission Scopes](https://tray.io/documentation/connectors/service/slack/slack.authentication#user-scope-vs-extra-permission-scopes) section.
+
+Once done, click **Create authentication. **
+
+In the dialog box, choose the workspace from the top right, and then click **Allow**.
+
+Go back to your settings authentication field (within the workflow builder properties panel), and select the recently added authentication from the available dropdown options . Your connector authentication setup for Slack's version 9.1 is now complete.
+
+Return to the authentication field in the workflow builder properties panel, and select the newly created authentication from the available dropdown options. Your Slack connector authentication setup for version 9.1 is now complete.
+
+## **Slash command signing secret**
+
+To locate your slash command signing secret:
+
+Go to the [Slack API ](https://api.slack.com/)page and click **Your apps** in the top right corner. On the next page select an app from your available list or create a new one if necessary. 
+
+You will be redirected to the **Basic Information** page of your App. Scroll down to the **App Credentials** section. 
+
+Your **Signing Secret** (i.e., Slash Command Signing Secret) can be found in this section.
+
+## User Scope vs. Extra Permission Scopes
+
+The User Scope field is available from version 10.
+
+|  | **User scope** | **Extra permission scopes** |
+| --- | --- | --- |
+| **Acceptable scopes** | accepts scopes that are relevant to both Users and Users + Bots | accepts scopes that are relevant to both Bot and Bot + Users |
+| **Requirement** | Use when need to send message as a User | Use when need to send message as a Bot |
+| **Forbidden scopes** | Does not accept Bot scopes; providing them leads to authentication failure. | Does not accept User scopes; providing them leads to authentication failure. |
+
+ 

@@ -1,0 +1,116 @@
+---
+title: "Overview"
+description: "Overview of the JSON Transformer connector"
+---
+
+# Overview
+
+## Overview
+
+The main purpose of the JSON Transformer is to transform JSON data using the [JSONata](https://jsonata.org/) query language.<br/><br/>The connector uses [JSONata version 1.8.6](https://docs.jsonata.org/1.8.0/overview).
+
+## Introduction to the JSONata language
+
+The JSON Transformer Connector is an implementation of the JSONata library.  
+
+This powerful tool allows you to take JSON data and do many things including: 
+
+- Reformatting / restructuring JSON
+- Querying JSON for values
+- Applying calculations to JSON data
+- Even writing your own functions in JSONata!
+
+The documentation for JSONata is extensive and worth reviewing - at minimum, we recommend [<u>watching the 5 minute demonstration video</u>](https://www.youtube.com/watch?v=ZBaK40rtIBM).  
+
+Below we will provide a gradual and simplified introduction to JSONata using a variety of examples with data you might see in Tray.
+
+## JSONata Sandbox
+
+These examples will be linked in a test / demo site ([try.jsonata.org](https://try.jsonata.org)) which is highly recommended when testing and troubleshooting your queries. <br/>You can set the connector version on the exerciser before writing your code. 
+
+Once you are happy with the result on the exerciser, you can move the code to the Tray workflow.
+
+## Extracting data
+
+### Walkthrough
+
+We can start working with the following dataset of books:
+
+Query link [here](https://try.jsonata.org/U03x9JxKY)
+
+If we begin our query with `library`, you will see that:
+
+- It matches the** key name at the top level **of the object
+- So returns everything in the **'library'** value
+- This is an object itself, containing **'books'**
+- **'books'** is an **array of objects** representing each book.  
+
+## Structuring output
+
+[More information about filtering and structuring data](https://www.stedi.com/docs/mappings/jsonata-cheatsheet)
+
+### Forcing a nested array
+
+There is a known bug within JSONata which will can cause errors if you are trying to nest a single array within an array. You will need to add a pair of square brackets `[]` at the end of your query to mitigate this.
+
+The sample code below forces a single JSONata item into a nested array. Here is the code within the [JSONata Exerciser](https://try.jsonata.org/bQw5ybxtN) itself for a closer look.
+
+## Operators
+
+JSONata has a list of simple operators which allow you to combine data and run simple comparisons.
+
+Here we will take you through some examples of putting operators to use, and provide links to the full list of operators in the JSONata documentation.
+
+## Functions
+
+JSONata also has a list of functions, which are more complex and powerful than operators.
+
+They are in the format of `$function()`
+
+Where 'arguments' must be passed inside the `()`
+
+For example in `$length("Hello World")` it is "Hello World" that is being passed as the argument.
+
+This gives the answer of '11' as there are 11 characters in "Hello World" (including the space).
+
+## Best practices and tips
+
+### Chaining queries
+
+The `~>` operator is a very useful way of simplifying your queries.
+
+If you want to make use of more than one function or operation it can allow you to pass the result of one as the input for the next. 
+
+### Creating variables
+
+Variables are useful whenever you want to store some piece of information and require it further down in your query. 
+
+Variables begin with `$` and are assigned using `:=`
+
+`$name := customer.name`
+
+`$age := customer.age`
+
+### Defining your own functions
+
+If your queries are getting too involved even for chaining, you can define your own functions.
+
+This will make your queries more readable and easy to structure.
+
+Defining functions is done by naming and declaring the function in the following format:
+
+`$functionName := ``**function**``(<required variables>){<build function using required variables>}`<br/>
+
+Note the use of `( )` to set the required variables and `{ }` to build the function itself.
+
+### Accessing arrays / objects with no name
+
+If you have a payload which presents just a simple array, you can access this using the `$$` root variable:
+
+Please see the section on the [built-in variables in the Stedi cheatsheet](https://www.stedi.com/docs/mappings/jsonata-cheatsheet#17-variables) for more info.
+
+## <br/>Notes on using the JSON Transformer
+
+When using the JSON Transformer in your workflows, you can use the connector snake to set the input data for the JSONata query: 
+
+You can also set this to an object and use multiple datasets for your query to reference:

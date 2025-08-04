@@ -1,0 +1,58 @@
+---
+title: "Overview"
+description: "Overview of the Crossbeam connector"
+---
+
+# Overview
+
+## Overview
+
+Crossbeam enables companies to perform account mapping, where they match their leads, opportunities, and customers against those of their partners, and share information to help both companies build a more valuable relationship with the client.
+
+Below is an example of a way in which you could potentially use the Crossbeam connector, to retrieve a list of records, export those records to a CSV file, and then upload that CSV to Google Drive.
+
+The steps will be as follows:
+
+1. Setup using a manual trigger and add a Crossbeam step, set to the 'List records' operation.
+2. Create a blank CSV file and add all the records form the previous step in the CSV using a loop.
+3. Export the CSV and upload it to Google Drive.
+
+Your completed workflow should look similar to this:
+
+### 1 - Setup Trigger & Add 'List records' Step
+
+Select the manual trigger from the trigger options available.
+
+From the connectors panel on the left, add a Crossbeam connector to your workflow. Set the operation to 'List records' and select the ID of the organization you want to retrieve records from.
+
+Feel free to re-name your steps as you go along to make things clearer for yourself and other users. The operation names themselves often suffice.
+
+### 2 - Create a blank CSV and add records to it
+
+Add a CSV Editor step. Set the operation to 'Create CSV', and then add columns for each piece of data you want stored in the CSV.
+
+Next, search for the Loop collection connector within your connector panel, and drag it into your workflow as your next step. Set your operation to 'Loop list'.
+
+The Loop Collection connector allows you to iterate through a list of results. In this example, we will use it to iterate through the data found within the previous Crossbeam connector step.
+
+In order to specify the list you want to loop through, start by using the list mapping icon (found next to the list input field, within the properties panel) to generate the connector-snake.
+
+While hovering over the 'List records' step (with the tail end of the connector-snake), select `items` from the list of output properties displayed. This will auto-populate a jsonpath within your list input field, and update the type selector to jsonpath.
+
+For more clarification on the pathways you have available, open the Debug panel to view your step's Input and Output.
+
+Now, when the workflow is run, a list of records will be retrieved and then iterated over. But as of yet, nothing will be done with these iterated objects.
+
+Drag another CSV Editor step **inside** the loop step. Set the operation to 'Add row'. Use the connector-snake to retrieve the ID of the blank CSV you created previously, and then assign the column names to their respective values from the loop connector.
+
+Now, when run, this workflow will add data from each record to the CSV file.
+
+### 3 - Export the CSV and upload it to Google Drive
+
+After the loop, drag in another CSV Editor step. Set the operation to 'Export CSV', and use the connector-snake to assign it to the ID of the CSV you have been building in this workflow.
+
+Next, drag in a Google Drive step. Set the operation to 'Upload file', and use the connector-snake to find the jsonpath for the CSV file from the 'Export CSV' step.
+
+Now, when the workflow is run, it will create a CSV file out of record data from Crossbeam, and it will then export that CSV and upload it to Google Drive.
+
+If anything goes wrong, you can use the debug panel to check the inputs and outputs of each step.

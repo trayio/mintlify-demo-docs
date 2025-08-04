@@ -1,0 +1,100 @@
+---
+title: "Overview"
+description: "Overview of the OptimoRoute connector"
+---
+
+# Overview
+
+## Overview
+
+OptimoRoute is a cloud-based software helps companies plan efficient routes and schedules for delivery drivers and service technicians.
+
+## Authentication
+
+When using the OptimoRoute connector, the first thing you will need to do is go to your Tray.io account page, and select the workflow you wish to work on. Once in the workflow dashboard itself, search and drag the OptimoRoute connector from the connectors panel (on the left hand side) onto your workflow.
+
+With the new OptimoRoute connector step highlighted, in the properties panel on the right, click on 'New Authentication' which is located under the 'Settings' heading.
+
+Besides from naming your authentication appropriately, you will need your to choose where do you want to create this authentication (Personal/Organization). Click on the 'Next step' and you should see that for a successful authentication you'll need to provide the 'API key':
+
+To enable the API and generate the API key, please log into the OptimoRoute account. In the "Administration" section select "Settings".
+
+This should be followed by choosing "WS API" from the left hand navigation pane. Once you enable the API, the API key itself will be auto-generated for you.
+
+Once you have clicked the 'Create authentication' button, go to back to your authentication field (within the workflow dashboard properties panel from earlier), and select the recently added authentication from the dropdown options now available.
+
+Your connector authentication setup should now be complete.
+
+## Available Operations
+
+The examples below show one or two of the available connector operations in use.
+
+Please see the [Full Operations Reference](#operationsFull) at the end of this page for details on all available operations for this connector.
+
+## Using the Raw HTTP Request ('Universal Operation')
+
+As of **v1.0**, it is possible to effectively create your own operations.
+
+This is a very powerful feature which you can put to use when there is an endpoint in OptimoRoute which is not used by any of our operations.
+
+To use this you will first of all need to research the endpoint in the [ OptimoRoute API documentation v1](https://optimoroute.com/api/#introduction) , to find the exact format that OptimoRoute will be expecting the endpoint to be passed in.
+
+Note that you will only need to add the suffix to the endpoint, as the base URL will be automatically set (the base URL is picked up from the value you entered when you created your authentication).
+
+The base URL for OptimoRoute: `https://api.optimoroute.com/v1`
+
+For example, say that the 'Get Scheduling Information' operation did not exist in our OptimoRoute connector, and you wanted to use this endpoint, you would use the OptimoRoute API docs to find that the 'Get Scheduling Information' endpoint is a `GET` request at the following URL:
+
+`https://api.optimoroute.com/v1/get_scheduling_info`
+
+So if you know what your order number is, you can get the scheduling information for the specified order with the following settings:
+
+Method: `GET`
+
+Endpoint: `/get_scheduling_info`
+
+Query parameters: `OrderNo:{ORDER_ID}`
+
+Final outcome: `https://api.optimoroute.com/v1/get_scheduling_info?orderNo=ID_44`
+
+This set up will now return the scheduling information desired.
+
+## Example usage
+
+Below is an example of a way in which you could potentially use the OptimoRoute connector, to create a new order and start planning a route for said order.
+
+The steps will be as follows:
+
+1. Setup your trigger and create a new order.
+2. Get OptimoRoute to start planning the route for this new order.
+3. Get the planning status of the route order.
+
+The final outcome should look like this:
+
+### 1 - Setup trigger & Create Order
+
+Once you have clicked 'Create new workflow' on your main Tray.io dashboard (and named said new workflow), select the Manual trigger from the trigger options available:
+
+Once you have been redirected to the Tray.io workflow dashboard, from the connectors panel on the left, add a OptimoRoute connector to your second step. Set the operation to 'Create order'.
+
+> 
+
+You will need your 'Order ID' and to select your 'Operation'. The rest of the values ar optional (but encouraged). As you can see from the gif below, you can be very specific with your order requirements if need be:
+
+### 2 - Start planning
+
+Add another OptimoRoute connector to your second step. Set the operation to 'Start planning'.
+
+Set your 'Date' field and scroll down within the properties panel until you find the 'Use orders' field. Click 'Add order' and provide the ID of the newly created order from the previous step.
+
+You can find this by opening your Debug pane and looking for the `order_no` itself within the data panels.
+
+*Please be aware the the  "location_no": "ID_XX",  is NOT the same os the  "order_no": "ID_44",  even though the results of both are very similar!*
+
+### 3 - Get planning status
+
+Add a OptimoRoute connector to your fourth and final step. Set the operation to 'Get planning status'.
+
+Here you will need to provide the 'Panning ID'. The best and simplest way to get this ID is by using the connector-snake to generate a jsonpath similar to the following: `$.steps.optimoroute-2.planningId`. Simply hover over the previous step ('Start planning') and select the new dropdown option `planningId` that becomes available.
+
+Congratulations! You just created a fully functional workflow. Click 'Run workflow' to see your results.

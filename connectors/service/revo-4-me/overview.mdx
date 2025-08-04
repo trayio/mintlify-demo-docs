@@ -1,0 +1,64 @@
+---
+title: "Overview"
+description: "Overview of the Revo 4me connector"
+---
+
+# Overview
+
+## Overview
+
+Revo 4me provides Managed Service Providers with the ability to boost their service management business by delivering agile service that will help gain and retain customers.
+
+## **API Information **
+
+The Base URL used for the Revo 4me connector is **https://graphql.{domain}**, where the 'domain' property is taken from your input when authenticating. More information can be found on their main [API documentation ](https://developer.4me.com/graphql/#authentication)site.
+
+## Authentication
+
+Within the builder, click on the Revo 4me connector to display the connector properties panel. Select the 'Auth' tab and click on the 'New authentication' button.
+
+In the Tray.io authentication pop-up modal, name the authentication in a way that will quickly identify it within a potentially large list. For example, whether it is a QA or Production auth, etc.
+
+Consider who/ how many people will need access to this authentication when choosing where to create this authentication ('Personal' or 'Organisational').
+
+The second page asks you which authentication method you would like to use, either 'OAuth 2 with client credentials' or 'Token based'.<br/>
+
+For the 'OAuth 2' method, you will be asked for your 'Domain', 'Account name', 'Client ID', and 'Client secret' credentials. <br/>
+
+<br/>You will need to register your OAuth application in the 'Applications' console of the 'My Profile' section. A registered OAuth application is assigned a unique client ID and Client Secret. The client secret should not be shared.
+
+For 'Token' based authentication, you will be asked for your 'Domain', 'Account name', and 'Personal access token' credentials. 
+
+To get these details, head to the Revo 4me dashboard. Click on 'My Profile' and then 'Personal Access Tokens'.<br/>Click the '+' icon to add a new token.  
+
+Fill in the details, adding any scopes you may need.<br/>
+
+Once you have added these fields to your Tray.io authentication pop-up window, click the 'Create authentication' button. 
+
+Your connector authentication setup should now be complete.
+
+## Available Operations
+
+The examples below show one or two of the available connector operations in use.
+
+Please see the [Full Operations Reference](#operationsFull) at the end of this page for details on all available operations for this connector.
+
+## Using the Raw HTTP Request ('Universal Operation')
+
+As of **version 1.0**, you can effectively create your own operations.
+
+This is a powerful feature that you can use when there is an endpoint in Revo 4me that is not used by any of our operations.
+
+To use this, you will first of all need to research the endpoint in the [Revo 4me - https://developer.4me.com/graphql/#authentication] API documentation to **find the exact format** that 4me will be expecting the endpoint to be passed in.
+
+For example, if you wanted to query the API for a list of people with a certain email address, you would use the Revo 4me API docs to find the relevant query information [here](https://developer.4me.com/graphql/object/person/).
+
+Note that all GraphQL requests are a `**POST` request**, and don't require a URL endpoint to be provided. You will need to provide the GraphQL query as raw JSON.
+
+Based on the information provided in the API documentation, you need to configure the following attributes on your Tray platform:
+
+- **Method: **`POST`
+- **URL: *** *
+- **Body Type:**
+
+Once the API call is executed successfully,  you should get the following results:

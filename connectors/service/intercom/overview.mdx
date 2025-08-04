@@ -1,0 +1,82 @@
+---
+title: "Overview"
+description: "Overview of the Intercom connector"
+---
+
+# Overview
+
+## Overview
+
+Intercom is a messaging platform which allows businesses to communicate with prospective and existing customers within their app, on their website, through social media, or via email.
+
+## API Information
+
+The Intercom connector has the following Base URL: **https://api.intercom.io**. More information can be found on their main [API documentation (v2)](https://developers.intercom.com/intercom-api-reference/reference) site. Details regarding their API limitations can be found [here](https://developers.intercom.com/intercom-api-reference/reference/rate-limiting).
+
+## v2.0
+
+### Authentication
+
+When using the Intercom connector, the first thing you will need to do is go to your Tray account page, and select the workflow you wish to work on. Once in the workflow builder itself, search and drag the Intercom connector from the connectors panel (on the left hand side) onto your workflow.
+
+With the new Intercom connector step highlighted, in the properties panel on the right, click on 'New Authentication' which is located under the 'Settings' heading.
+
+This will result in a Tray authentication pop-up window. The first page will ask you to name your authentication, and state which type of authentication you wish to create ('Personal' or 'Organisational').
+
+The next page will have a list of permission scopes for you to select (with the option for 'Extra scopes' found at the bottom of the authentication window).
+
+To include certain service permissions, such as 'List all events belonging to user.', tick the box associated with this permission within the Tray authentication window. Tick more as per your project needs.
+
+Click on the 'Create authentication' button once your scopes are set, and enter your Intercom credentials into the popup window that appears (this window is to allow Tray to access your Intercom account information) Then confirm the scopes again.
+
+ 
+
+Once you have clicked the 'Authorize access' button, go to back to your authentication field (within the workflow dashboard properties panel from earlier), and select the recently added authentication from the dropdown options now available.
+
+Your connector authentication setup should now be complete.
+
+### Available Operations
+
+The examples below show one or two of the available connector operations in use.
+
+Please see the [Full Operations Reference](.#operationsFull) at the end of this page for details on all available operations for this connector.
+
+### Using the Raw HTTP Request ('Universal Operation')
+
+As of **version 2.0**, you can effectively create your own operations.
+
+This is a very powerful feature which you can put to use when there is an endpoint in Intercom which is not used by any of our operations.
+
+To use this you will first of all need to research the endpoint in the [Intercom API documentation v2.0](https://developers.intercom.com/intercom-api-reference/reference), to *find the exact format* that Intercom will be expecting the endpoint to be passed in.
+
+Note that you will only need to add the suffix to the endpoint, as the base URL will be automatically set (the base URL is picked up from the value you entered when you created your authentication).
+
+The base URL for Intercom is: *https://api.intercom.io*
+
+For example, say that the 'List contacts' operation did not exist in our Intercom connector, and you wanted to use this endpoint, you would use the Intercom API docs to find the relevant endpoint - which in this case is a `GET` request called: `List all contacts`. More details can be found [here](https://developers.intercom.com/intercom-api-reference/reference#list-contacts).
+
+As you can see there is also the option to include a pagination option within a query parameter, should you wish to do so. So if you know what your method, endpoint and details of your query parameters are, you can get the contacts information with the following settings:
+
+Method: `GET`
+
+Endpoint: `/contacts`
+
+Query parameters: Key: `per_page`, Value: `100`
+
+Final Example outcome being: **https://api.intercom.io/contacts**
+
+### Example usage
+
+This should automatically generate a jsonpath that looks similar to: `$.steps.Intercom-1.data`.
+
+View the Debug panel for more details on the list data available:
+
+Now when the workflow is run, the Loop Collection step will iterate through the each item found within the previously created list.
+
+### 3 - List Attached Companies
+
+The final step is to drag a final Intercom connector *INSIDE* of the actual Loop Collection step itself. Set the operation to 'List attached companies'. As you can see, the 'Contact ID' field is required.
+
+In the 'Contact ID' field use the connector-snake once more and assign it to the `id` value, produced by the Loop Collection connector from the previous step.
+
+When run, this workflow will retrieve detailed information about each of the companies found:

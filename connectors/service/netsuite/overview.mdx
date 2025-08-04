@@ -1,0 +1,534 @@
+---
+title: "Overview"
+description: "Overview of the Netsuite connector"
+---
+
+# Overview
+
+## Overview
+
+Companies use NetSuite for enterprise resource planning (ERP) and to manage inventory, track their financials, host e-commerce stores and maintain customer relationship management (CRM) systems. This flexible platform can be applied to a range of business applications.
+
+There are two potential APIs to use within Tray.io and Netsuite, the document below is split into two sections. Please make sure as a user you only reference the relevant set (SOAP vs REST)
+
+## Netsuite templates
+
+Please note that we have the following Netsuite templates available:
+
+These will give you pre-configured best practice ways of working with Netsuite and integrating it with other connectors.
+
+However, please continue to at least read the Authentication and Trigger setup instructions on this page to enable you to get started with using Netsuite.
+
+## Documentation for REST API - Versions 2.X and above
+
+### Authentication: Prerequisites
+
+To enable REST Web Services and the SuiteAnalytics Workbook features, head over to the 'Setup' tab, then 'Company' and in the 'Setup Tasks' category click on 'Enable Features'.
+
+Now select the 'SuiteCloud' tab, scroll down to the 'Manage Authentication' section and check the 'TOKEN-BASED AUTHENTICATION' option. To use the feature, you must accept the SuiteCloud Terms of Service.
+
+On the same 'Enable Features' page, select the 'Analytics' tab and scroll down to the 'SuiteAnalytics Workbook' section and check the 'SUITEANALYTICS WORKBOOK' option.
+
+Now click 'Save' to enable your chosen features.
+
+To enable permissions for those features, head over to the 'Setup' tab, then 'Users/Roles' and in the 'User Management' category click on 'Manage Roles'.
+
+Either create a new role, or edit an existing role that you want to enable permissions for.
+
+On the 'Role' page select the 'Permissions' tab and then the 'Setup' sub-tab. Add permissions for 'Log in using Access Tokens' and 'REST Web Services'.
+
+Now select the 'Reports' sub-tab and add permission for 'SuiteAnalytics Workbook' to the role.
+
+Now click 'save' to enable those permissions on the role.
+
+You have now completed the pre-requisite steps to creating an authentication for a user.
+
+### Authentication: Creation
+
+When using the NetSuite connector, the first thing you will need to do is go to your Tray.io account page, and select the workflow you wish to work on. Once in the workflow builder itself, search and drag the NetSuite connector from the connectors panel (on the left hand side) onto your workflow.
+
+With the new NetSuite connector step highlighted, in the properties panel on the right, click on 'New Authentication' which is located under the 'Settings' heading.
+
+This will result in a Tray.io authentication pop-up window. The first page will ask you to name your authentication, and state which type of authentication you wish to create ('Personal' or 'Organisational').
+
+As you can see, the next page asks you for your 'Account ID', 'Consumer key', 'Consumer secret', 'Token ID' and 'Token secret' credentials.
+
+In order to get these fields, first head to your NetSuite [login page](https://system.netsuite.com/pages/customerlogin.jsp?country=US) and login with your email and password.
+
+After logging in, head over to the 'Setup' tab, then 'Company' and in the 'Setup Tasks' category click on Company Information.
+
+This will take you to another page where you can find your 'Account ID'.
+
+To get your 'Consumer Key' and 'Consumer Secret' you need to create an integration record. For this, go back to the main dashboard page of the NetSuite application and click the 'Setup' tab in the menu, then 'Integration' and in the 'Integration Management' category click on 'Manage Integrations'.
+
+On this page click on the 'New' button and fill in the information required. Make sure that you have enabled 'Token-Based Authentication' by checking the box. Click 'Save' and you will be redirected to a page where you will find your 'Consumer Key' and 'Consumer Secret'. Note that this information will only be shown once so please make a secure note of it.
+
+The next step is to generate a user 'Token ID' and a 'Token Secret'. On the main dashboard, access the 'Setup' menu and navigate through 'Users/Roles' and 'User Management' and click on the 'Access Tokens' sub-menu item.
+
+On the Access Tokens page, click 'New Access Token'.
+
+On the Access Token page, select the 'Application Name' (of the integration record that you created earlier), select the 'User' and select the 'Role'.
+
+The Token Name is already populated by default with a concatenation of Application Name, User, and Role. Enter your own name for this token, if desired. Click 'Save'.
+
+The confirmation page displays the Token ID and Token Secret. Make a secure note of these values.
+
+Warning: For security reasons, the only time the Token ID and Token Secret values are displayed is on the confirmation page. After you leave this page, these values cannot be retrieved from the system. If you lose or forget these credentials, you will need to create a new token and obtain new values. Treat these values as you would a password. Never share these credentials with unauthorized individuals and never send them by email.
+
+In the Tray.io application, once you have added these fields to your Tray.io authentication popup window, click on the 'Create authentication' button. Go back to your settings authentication field (within the workflow builder properties panel), and select the recently added authentication from the dropdown options now available.
+
+Your connector authentication setup should now be complete.
+
+## Available Operations
+
+The examples below show one or two of the available connector operations in use.
+
+Please see the [Full Operations Reference](#operationsFull) at the end of this page for details on all available operations for this connector.
+
+## Notes on using Netsuite
+
+### Find Records
+
+The 'Find Records' operation **gives you links to all the records but doesn't provide raw data**. As a result it forces you to make a subsequent API call in order to 'Get Record'.
+
+You can reduce the number of NetSuite calls into a single step by making a Raw HTTP Request call to the following API endpoint: `query.runSuiteQLPaged(options)`. The output of this query is in a flat JSON format and makes polling Netsuite much more efficient.
+
+#### With filtering:
+
+This operation requires that **users align the fields data type with the correct comparator**.
+
+For Example, `Strings` require 'CONTAINS', 'IS', etc, but will not work with 'EQUAL TO'. Use the [NetSuite REST API Browser](https://system.netsuite.com/help/helpcenter/en_US/APIs/REST_API_Browser/record/v1/2020.2/index.html#tag-account) to determine which field types are relevant to your use case.
+
+Follow the [SuiteTalk REST Web Services PDF](https://docs.oracle.com/cloud/latest/netsuitecs_gs/NSTRW/NSTRW.pdf) (see: Record collection filtering chapter) to learn about the allowed filters for each criteria.
+
+Note that if users are 'filtering' any transaction type record, they will need to apply the 'Find Transactions' permission to the role of the authenticated under.
+
+### Create Record
+
+**Please ensure that all Fields are correctly 'typed'**.
+
+That is to say, a sub-list of records would be an array of objects. An associated record should be an object with keys such as 'id', 'name', etc. Type errors often result in `500` status codes so do be mindful during setup.
+
+**Please ensure that there are no missing Fields and that the field requirements match the schema browser**.
+
+If there are required fields that are missing, then users will find they often receive a `400` status error, helpfully listing the missing fields.
+
+While this style of configuration is something users should expect, it can be confusing should if only minute field level errors are made. This is why it is imperative to pay attention to the field requirements in the schema browser. See the [NetSuite REST API Browser](https://system.netsuite.com/help/helpcenter/en_US/APIs/REST_API_Browser/record/v1/2020.2/index.html#tag-account) for more details.
+
+## Using the Raw HTTP Request ('Universal Operation')
+
+As of **version 2.0**, you can effectively create your own operations.
+
+This is a very powerful feature which you can put to use when there is an endpoint in NetSuite which is not used by any of our operations.
+
+To use this you will first of all need to research the endpoint in the [NetSuite REST API: Record API (Beta) v1](https://system.netsuite.com/help/helpcenter/en_US/APIs/REST_API_Browser/record/v1/2019.2/index.html), to 
+
+<u>find the exact format</u>
+
+ that NetSuite will be expecting the endpoint to be passed in.
+
+Note that you will only need to add the suffix to the endpoint, as the base URL will be automatically set (the base URL is picked up from the value you entered when you created your authentication).
+
+The base URL for NetSuite is: `https://[account_id].[domain_name].netsuite.com`
+
+For example, say that the 'List records' operation did not exist in our NetSuite connector, and you wanted to use this endpoint, you would use the NetSuite API docs to find the relevant endpoint - which in this case is a `GET` request called: `/employee`. More details can be found [here](https://system.netsuite.com/help/helpcenter/en_US/APIs/REST_API_Browser/record/v1/2019.2/index.html).
+
+As you can see there is also the option to include a query parameter, should you wish to do so. So if you know what your method, endpoint and details of your query parameters are, you can get an employees information with the following settings:
+
+Method: `GET`
+
+Endpoint: `/services/rest/record/v1/employee`
+
+Query Parameter: Key: `limit` Value: `100`
+
+Final Example outcome being: **https://[[account_id]].[[domain_name]].netsuite.com/services/rest/record/v1/employee**
+
+## Example usage
+
+Below is an example of a way in which you could potentially use the NetSuite connector, to list all employees in your account one by one.
+
+The steps will be as follows:
+
+1. Setup using a manual trigger and create a Journal Entry.
+2. Find a Journal Entry, filtering the results using the conditions input field.
+3. Add Loop collection step to iterate through each Journal Entry found in records.
+4. Get the relevant data available for each Journal Entry in records.
+
+The final outcome should look like this:
+
+### 1 - Setup Trigger & Create a Journal Entry
+
+Once you have clicked 'Create new workflow' from your main Tray.io dashboard named it, select the Manual trigger from the trigger options available:
+
+After you have been redirected to the Tray.io workflow dashboard, from the connectors panel on the left, add a NetSuite connector to your second step. Set the operation to 'Create record'. With this operation you can create any type of record, but with this example we will exemplify how to create a<br/>Journal Entry.
+
+In order to create a new Journal Entry you will have to fill in the required fields for this record type which are:
+
+- Currency
+- Subsidiary
+- Line
+
+Line input parameter is also a sublist of the Journal Entry and it can be created in this step. More details on how to create a sublist and a Journal Entry can be found below in this documentation.
+
+### 2 - Find Journal Entry
+
+There are two ways you can filter the data that you want to return. You can either choose to enter a raw query as a custom string through 'Filter Records (advanced query)' operation, or you can make the same query by filling out the fields from 'Find records' operation.
+
+Note that depending on your use case the input fields will vary. Also please feel free to re-name your steps (perhaps after their operational names?) as you go along, in order to make things clearer for yourself and other users what is occurring at each step.
+
+When run, the workflow will list the Journal Entries available within your NetSuite account, depending on the values that were added in the properties panel.
+
+### 3 - Loop Collection
+
+Next, search for the 'Loop collection' connector within your connector panel, and drag it into your workflow as your next step. Set your operations to 'Loop list'.
+
+The Loop Collection connector allows you to iterate through a list of results. In this example, we will use it to iterate through the data found within the previous NetSuite connector step.
+
+In order to specify the list you want to loop through, start by using the 'List' mapping icon (found next to the list input field, within the properties panel) to generate the connector-snake.
+
+While hovering over the 'Find Journal Entry' step (with the tail end of the connector-snake), select `items` from the list of output properties displayed. This will auto-populate a jsonpath within your 'List' input field, and update the type selector to jsonpath.
+
+For more clarification on the pathways you have available, open the Debug panel to view your step's Input and Output.
+
+### 4 - Get Journal Entry
+
+The last step is to drag a final NetSuite connector *inside* of the actual Loop Collection step itself. Set the operation to 'Get record'. As you can see, the 'Record type' and 'Record ID' fields are required.
+
+Use the same connector-snake method for auto-generating the jsonpath for the 'Record ID'. This time drag your mouse over the loop step previously and select `id` from within the value. This is further exemplified once more within the images below:
+
+Now when you run your workflow, you will have the necessary data available for each dashboard displayed within your Debug panel.
+
+### Create Journal Entry - explained in more detail
+
+The schema for create records is very generic so it can be used to create all types of records. In order to create a record, the NetSuite documentation has to be used along with the NetSuite platform and 'List record fields' operation.
+
+In our Create Journal Entry example, there are a few required fields that we need to pass in. One way to find out what these fields are we need to go into the NetSuite platform and see what are the required fields to create a new Journal Entry.
+
+To get to the Journal Entry page you can do a quick search on 'Make Journal Entry' in the NetSuite platform.
+
+This will take you to the page where you can create a Journal Entry.
+
+You will notice that there are some required fields already filled in for you. Those do not have to be added in the operation fields.
+
+Basic fields that you need to create Journal Entry are:
+
+- Currency
+- Subsidiary
+- Accounts in Lines field
+
+For this example we will add the 'Date Created' as well.
+
+To be able to know what type of data is 'Currency' or 'Subsidiary' or any other field we decide to add, we need to check the output of the 'List record fields' operation. This operation will get the metadata schema for the Journal Entry.
+
+Just select from the operations dropdown 'List record fields' and choose from the 'Record type' dropdown 'Journal Entry' and run the operation. This will retrieve all the fields for this record type and the metadata schema.
+
+Image for Currency metadata from 'List record fields' output.
+
+Image for Subsidiary metadata from 'List record fields' output.
+
+As we can see in the pictures above, Currency is type object that expects at least a string ID for a property.<br/>And same for 'Currency'.
+
+To add a Create date for this Journal Entry, we need to follow the NetSuite documentation which states that REST web services use datetime fields in ISO 8601 format and in the UTC time zone. For example:<br/>2017-07-21T17:32:28Z. The Create date, as we can see from the metadata schema is just a string type.
+
+Please note the difference between the date format the API expects for Create records and the date format for filtering the results in Find records -> Conditions -> Field (Date Created - createdDate), operator (Before), value (for date "10/1/2020").
+
+#### Creating sublists
+
+Sublists contain a list of references to other records.<br/>Sublists are fields that in the NetSuit documentation are presented as collections.
+
+The metadata schema for this field can also be seen in the output of 'List record fields'. We can notice that the schema for sublists will always be of this type:
+
+Image from NetSuite documentation on how to create a sublist.
+
+As you can notice, the field name (in this case line) is a type object that has an 'items array', which contains all the fields we need to add in order to create a Journal Entry. For this particular case (of a Journal Entry), two accounts have to be added in the properties panel and to get an ID and debit and credit to go with it, like in the example below.
+
+## Documentation for SOAP API: v1.X and below
+
+### Authentication: Prerequisites
+
+This guide is for Netsuite connector versions 1.X and below.
+
+The authentication process outlined is SOAP based and assumes you already have Netsuite access with a valid username/ email and password.
+
+In the section "Authentication: Creation" we have split the walkthrough into the following sub-sections:
+
+- Consumer Key & Consumer Secret
+- Enable Token based authentication
+- Create/ Assign Role
+- Token ID & Secret
+- Account ID
+- Display Internal ID
+- Add your credentials
+
+### Authentication: Creation
+
+Within the builder, click on the Netsuite connector to display the connector properties panel. Select the 'Authentication' tab and click on the 'New authentication' button.
+
+In the Tray.io authentication pop-up modal name the authentication in a way that will easily identify it within a potentially large list. For example whether it is a Sandbox or Production auth, etc.
+
+Consider who/ how many people will need access to this authentication when choosing where to create this authentication ('Personal' or 'Organisational').
+
+The next page asks you for the following NetSuite credentials as seen in the image below:
+
+To get these credentials you will need to set up a **new integration** with Netsuite.
+
+#### Consumer Key & Secret
+
+Go to the NetSuite homepage and head to the 'Integrations' page.
+
+You can do this by going through the top navigation options: 'Setup' -> 'Integration' -> 'Manage Integrations' -> 'New'. This method will land you directly in the 'New Integration' form page.
+
+If you would rather manage your integrations or view/ refresh them, click directly on 'Setup'. This will open the 'Setup Manager' navigation on the left hand side. Select 'Integrations' followed by 'Manage Integrations - new'.
+
+You will now be able to **refresh** or create a **new** integration.
+
+From here, click on 'New' to bring you to the primary 'New Integration' form page.
+
+Make sure your setup on the primary integration page is as follows:
+
+Integration:
+
+- NAME: ExampleName
+- STATE: **Enabled**
+
+Token-based Authentication:
+
+- TOKEN-BASED AUTHENTICATION: **Checked**
+- TBA: AUTHORIZATION FLOW: **Unchecked**
+
+OAuth 2.0:
+
+- AUTHORIZATION CODE GRANT: **Unchecked**
+
+From here you will be led to the secondary integration page.
+
+Consumer Key and Consumer Secret are found here (scroll down to the bottom). Copy and paste them somewhere safe for later use.
+
+#### Enable Token based authentication
+
+Head to 'Setup' in the main menu bar once more. Head from 'Setup' -> 'Company' -> 'Enable features'.
+
+On the 'Enable features' page select the "SuiteCloud" tab.
+
+As you scroll down you will see several sub-headings. It is the following two that are most important and that you must make sure are ticked:
+
+SuiteTalk (Web Services):
+
+- SOAP WEB SERVICES: Checked
+
+Manage Authentication:
+
+- TOKEN-BASED AUTHENTICATION: Checked
+
+#### Create/ Assign Role
+
+Next you need to head to the roles page.
+
+The easiest way to get to the Role's page is to type: `Page:Role` in the searchbar. Click enter
+
+Select 'Manage Roles'.
+
+Click on 'New role'.
+
+Name your role appropriately. Maybe something like 'Tray.io integration role' or similar.
+
+Make sure the following sub-headings are setup as follows.
+
+Subsidiary Restrictions:
+
+- ACCESSIBLE SUBSIDIARIES: All
+
+Permissions section: (Bottom of page: Permissions -> Setup -> PERMISSION)
+
+*You will need to search and select the following permissions. Make sure the 'LEVEL' is set to 'Full' for all*.
+
+- Setup:
+
+Then it is a case of adding all the permissions that you will need for your record types.
+
+For example 'Sales order' sits under the 'Transactions' tab in Salesforce and would be added there. Again remember to set the access level as well.
+
+Click 'Save' when youre done.
+
+Once more use the search bar to fasttrack find the next page you need, in this case 'Employees': `Page:Employees`.
+
+Find the **user** that you want to **assign the new role** to. Click through.
+
+At the very bottom of the page add your newly created role under 'Access' -> 'Roles' -> 'ROLE' tab.
+
+#### Token ID & Secret
+
+Now its time to create the Access token. Navigate through the search bar once more: `Page:Token`.
+
+Slect 'Access token' and 'New Access Token'.
+
+Make sure you choose the relevant dropdown options. For example:
+
+Primary Information:
+
+- APPLICATION NAME: Docs Demo SOAP Application
+- USER: *Your user name*
+- ROLE: Docs Demo SOAP Role
+- TOKEN NAME: *applcation name + user name + role name*
+
+Once you press 'Save', your page will expand and display your Token ID & Token Secret
+
+Consumer Key and Consumer Secret are found here (scroll down to the bottom). Copy and paste them somewhere safe for later use.
+
+#### Account ID
+
+Go to the main menu bar and select 'Setup' -> 'Integration' -> 'SOAP Web Services Preferences'
+
+Here you will find the 'Account ID' number.
+
+Under 'Name' add your user name and make sure you have a 'WEB SERVICES DEFAULT ROLE' allocated. Save and
+
+#### Display Internal ID
+
+While not mandatory this step is incredibly useful for Tray.io users as it automatically displays the internal ID for invoices. This comes in very handy when building.
+
+Click on 'Home' -> 'Set preferences' within the main menu bar.
+
+Make sure the 'SHOW INTERNAL IDS' option is checked.
+
+This will make building much easier for you in the long run.
+
+When you view your invoices, the internal ID will now automatically display for each.
+
+#### Add your credentials
+
+Now that setup is complete, add your credentials to your Tray.io authentication.
+
+### Basic Usage
+
+#### How to use this guide
+
+In this guide we'll describe how to work with NetSuite using Tray's NetSuite connector.
+
+You will need to have already set up your NetSuite authentication.
+
+The netsuite connector is designed to be generic, so relies on knowledge of the schema to build the input. Hence you will need to have the netsuite schema browser open alongside your Tray workflow.
+
+In Tray, the **Name** property refers to the field **name** in the schema browser.
+
+Whenever a field has subfields, the type of the **Value** property in the input panel should be set to 'Array', to allow multiple subfields to be added. Otherwise the type of **Value** will be 'String'.
+
+Finally, **Attributes** is always of 'Object' type, and contains key-value pairs corresponding to a field's attributes.
+
+The value of a Namespace in Tray is an alias of the namespace shown in Netsuite. For example, here the alias of **urn:relationships.lists.webservices.netsuite.com** is **listRel**. You can find a dictionary of netsuite namespaces and their alias in Tray in Appendix 1 at the bottom of this 'Basic Usage' tab.
+
+Once you have authenticated you can add a sequence of Netsuite steps to your workflow, we will take you through how to set up each one, using the Contact entity as an example.
+
+#### Get a Record
+
+**Netsuite schema browser page**: [RecordType](https://www.netsuite.com/help/helpcenter/en_US/srbrowser/Browser2016_1/schema/enum/recordType.html) **Tray.io operation**: Get record
+
+Getting records requires a Record Type and an Internal ID.
+
+The **Record type** field in Tray takes one of the values specified in the **Value** column in the schema browser.
+
+The **Internal ID** field will be a unique identifier of a contact record in netsuite, which you can find by navigating to a contact in the interface and looking at its URL, for instance:
+
+`https://tstdrv1774461.app.netsuite.com/app/common/entity/contact.nl?id=9647`
+
+#### Delete a Record
+
+**Netsuite schema browser page**: [RecordType](https://www.netsuite.com/help/helpcenter/en_US/srbrowser/Browser2016_1/schema/enum/recordType.html) **Tray.io operation**: Delete record
+
+To delete a record, use the same input as the Get record operation. There is also the option to include a Deletion Reason Code and Deletion Reason Memo. These are optional fields useful for keeping track of how a record has come to be deleted.
+
+You can find the list of valid Deletion Reason Codes from the NetSuite UI and going to Setup > Accounting > Accounting Lists.
+
+#### Add a Record
+
+**Example netsuite schema browser page**: [Contact](https://www.netsuite.com/help/helpcenter/en_US/srbrowser/Browser2016_1/schema/record/contact.html) **Tray.io operation**: Add record
+
+Adding a record requires two parameters to be set describing the record, followed by any number of fields. The Namespace parameter takes the alias of the namespace shown in the schema browser, which can be found in Appendix 1 at the bottom of this 'Basic Usage' tab
+
+When you have the schema browser open (see the link above), you will see all the fields available on the record that you can set in Tray.
+
+#### Dealing with record references
+
+In netsuite, fields often do not take a simple value, but refer to another entity. For example, contacts have a field called `\'Company\'` which links to a customer. In the schema browser, you will see that the value of the `\'Type\'` column for these fields is `\'RecordRef\'`, and requires the input to be slightly different.
+
+#### Dealing with custom fields
+
+When dealing with custom fields in netsuite, you need to know either the **scriptId** or **internalId** of the field. With the setting turned on for internal IDs, you can hover over fields in the interface and see their scriptId by clicking the question mark. For example, by clicking on the question mark for the field `\'CUSTOM CONTACT FIELD\'` in the following, we see that the *scriptId* is `\'custentity23\'`:
+
+Custom fields must be set within a field called `\'customFieldList\'` according to the schema, which accepts a list of custom fields to set.
+
+#### Update a Record
+
+**Example netsuite schema browser page**: [Contact](https://www.netsuite.com/help/helpcenter/en_US/srbrowser/Browser2016_1/schema/record/contact.html) **Tray.io operation**: Update record
+
+Updating a record works just like adding a record. You can follow the same instructions above with one exception - you must also provide an Internal ID - just like when you get a record.
+
+#### Search Records
+
+**Example netsuite schema browser page**: [ContactSearch](https://www.netsuite.com/help/helpcenter/en_US/srbrowser/Browser2016_1/schema/search/contactsearch.html) **Tray.io operation**: Search records
+
+Schemas for searches are slightly different to that for create/update. To find the search schema associated with an entity, navigate to the schema for the entity itself, for example `https://www.netsuite.com/help/helpcenter/en_US/srbrowser/Browser2016_1/schema/record/contact.html` for **Contact**. Then at the bottom of the page, you will find a table titled `\'Related Searches\'`. The first link is usually the main search schema page.
+
+We will show a basic search for a contact based on the their `\'entityId\'` here, but you can also perform search joins in Tray. Note you will have to make **Search criteria** an array for these more advanced searches.
+
+The `\'basic\'` field contains all the fields on the entity itself, and other fields at this level determine a search join to perform, for instance to return all customers related to a contact.
+
+## Appendix 1 - Table 1 (Namespace to Alias Mappings)
+
+## Appendix II - Further Documentation
+
+[ NetSuite Basic Search Docs](https://system.netsuite.com/app/help/helpcenter.nl?fid=section_N3514760.html&whence=) [ NetSuite NetSuite Schema Browser](http://www.netsuite.com/help/helpcenter/en_US/srbrowser/Browser2016_1/schema/record/account.html) [ NetSuite NetSuite Help Centre](https://system.netsuite.com/app/help/helpcenter.nl?topic=DOC_FRONTPAGE&whence=)
+
+### Advanced Searching and Custom Records
+
+#### Advanced Searching
+
+**Example netsuite schema browser page**: [ContactSearchAdvanced](https://www.netsuite.com/help/helpcenter/en_US/srbrowser/Browser2016_1/schema/search/contactsearchadvanced.html)
+
+**Tray.io operation**: Search records
+
+You can access the advanced search schema by going to a record type's schema, for instance the Contact schema ([Contact](https://www.netsuite.com/help/helpcenter/en_US/srbrowser/Browser2016_1/schema/search/contact.html)) and scrolling down to 'Related Searches', then clicking on 'ContactSearchAdvanced'.
+
+It may be desirable to only select certain fields to be returned, especially if performing a join, in order to reduce the data throughput in a workflow. With an advanced search, we define all the fields we wish netsuite to return, as well as the criteria to filter the results.
+
+#### Creating Custom Records
+
+**Netsuite schema browser page**: [CustomRecord](https://www.netsuite.com/help/helpcenter/en_US/srbrowser/Browser2016_1/schema/search/customrecord.html) **Tray.io operation**: Add record
+
+Custom records are entities that are non-standard in netsuite. For instance, on the contact record we have created a custom record called 'Tray user':
+
+By clicking on a custom record in the interface, such as 'Example name' in the above, on the resulting page you can see the **internalId** of the **record type** and the **record** itself:
+
+`https://tstdrv1774461.app.netsuite.com/app/common/custom/custrecordentry.nl?recType=476id=704`
+
+### Further Info
+
+NetSuite primarily deals in XML, but tray.io has taken steps to standardise our NetSuite connector such that it works using JSON. However, in order for NetSuite to process requests correctly, the input still requires a translation back to XML. Therefore, we have implemented a way to translate JSON back to XML, but this requires the JSON object to be in a certain format.
+
+Format: The object has 3 fields: `name` (required), `value`, and `attributes`.
+
+- The `name` field can only be a string which defines the XML property name.
+- The `value` field can either be a string, another object with the same three fields, or an array of objects with the same three fields.
+- The `attributes` field is an object which accepts any key/value pair (which has to be a string).
+
+Example JSON/input:
+
+translates to:
+
+## Common Resources
+
+### NetSuite SuiteTalk platform help
+
+For information on how SuiteTalk works, login into your NetSuite account, and proceed:
+
+Help Centre -> SuiteCloud -> SuiteTalk ->
+
+- **SuiteTalk (Web Services) Platform Guide** - use this section to understand the how the SuiteTalk API works and what each request requires.
+- **Web Services Operations** -> [relevant operation]
+- **SuiteTalk (Web Services) Records Guide** - use this section to understand how the data is represented, constructed, and related.
+
+## NetSuite/SuiteTalk WSDL and Schema definitions
+
+[ WSDL](https://webservices.netsuite.com/wsdl/v2017_1_0/netsuite.wsdl) [ Core XSD](https://webservices.netsuite.com/xsd/platform/v2017_1_0/core.xsd) [ Core Type XSD](https://webservices.netsuite.com/xsd/platform/v2017_1_0/coreTypes.xsd) [ Common XSD](https://webservices.netsuite.com/xsd/platform/v2017_1_0/common.xsd) [ Relationship XSD](https://webservices.netsuite.com/xsd/lists/v2017_1_0/relationships.xsd) **Schema and Records Browser**: [Browser](http://www.netsuite.com/help/helpcenter/en_US/srbrowser/Browser2017_2/schema/record/account.html)
+
+## NetSuite/SuiteTalk operation/request cross-reference

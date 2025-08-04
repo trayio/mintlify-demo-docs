@@ -1,0 +1,143 @@
+---
+title: "Overview"
+description: "Overview of the Loop Collection connector"
+---
+
+# Overview
+
+## Overview
+
+The main purpose of the 'Loop Collection' connector is to **loop through each result in a list so that they can be dealt with one-by-one** (using the **Loop List** operation).
+
+It can also be used to loop through individual fields associated with each customer/account/record etc. to make checks and perform actions on each field (using the **Loop Object** operation).
+
+So it may be that you have used a service connector (Salesforce, Intercom, Shopify etc.) to return a list of accounts which you want to check through one-by-one.
+
+What the Loop Collection connector allows you to do is **process your data** - within the loop you can set it so that the same set of actions is carried out for each item in the list.
+
+The examples below show you how you can use the Loop Collection connector to:
+
+1. Take certain actions for all records which are at a certain status
+2. Check the individual fields of each record to take certain actions if they are not entered/formatted correctly
+
+## Important notes 
+
+### Pagination & Loop Collection
+
+This page introduces the basics of using the Loop Collection connector to loop through lists of results. If you are dealing with large lists (i.e. hundreds or thousands of returned records/accounts) you will need to use the Loop Collection connector to set up a 'pagination' system for dealing with them in manageable batches.
+
+You can find a more detailed explanation and tutorials in our [section on pagination](/tray-uac/building-automations/batching-queueing-data/pulling-data-in-batches-pagination/)
+
+However, please continue to read this page first in order to familiarize yourself with the basics of the Loop Collection connector.
+
+### The Break Loop connector
+
+The **Break loop** connector is most often used in conjunction with the **Loop forever** operation as explained below in the [Example 2](https://tray.io/documentation/connectors/core/loop/#example-2---loop-forever) section.
+
+The **Break loop** connector stops 'Forever loops' from running once a condition has been met. Without this connector the **Loop forever** operation would not be able to stop.
+
+## Example 1 - Loop list
+
+The following example shows how you could list accounts from a subscription management service such as Recurly and use the Loop Collection Connector to deal with each account one-by-one.
+
+For each individual account you can then carry out any necessary actions, such as:
+
+1. Use a boolean connector to check the status of the account. In this case we are checking if it is 'inactive'
+2. Grab the account email address to send an email to that account holder
+3. Notify an internal Slack channel about the status of the account
+
+Note that we are using a manual trigger here for testing purposes, but in a production scenario you may prefer to use something more automated like a [Scheduled Trigger](/connectors/triggers/scheduled-trigger/)
+
+### Setting the Loop accounts step
+
+To set the Loop Collection connector to work through the list of accounts, we use the `$.steps.recurly-1.data` jsonpath to pull it from the first Recurly step.
+
+**Note:** the exact jsonpath will depend on the service which is providing the list of results, and the format in which its data is returned. Please see our [Basic Working with Data Guide](/tray-uac/building-automations/workflow-data-basics/mapping-data-between-steps/) for instructions on how to determine what jsonpaths you must use.
+
+### Getting output from the Loop accounts step
+
+When you have correctly set the list input for a Loop Collection connector, you can scroll down in the step editor to see what the output values will be, and you can right-click on any field to get the jsonpath:
+
+### Using output from the Loop accounts step
+
+Having grabbed the json value as just explained, the boolean check can then use the `$.steps.loop-1.value.state` to see if the account state is 'inactive':
+
+The **Send Email** step can then pick up the account holder's email address with `$.steps.loop-1.value.email`.
+
+A key trick here is that you can insert jsonpaths into any part of a normal 'string' text field such as **Name** and **Content**. This is done by enclosing the jsonpath in `{ }` - for example `{$.steps.loop-1.value.first_name}`:
+
+This is then used again in the **Notify Slack channel** step to send the email address and code for that user account:
+
+## Example 2 - Loop forever
+
+The **Loop forever** operation is useful for when you do not have a set list of results from a previous step to work through (unlike when you use the Loop list operation). 
+
+As a result you will most likely want to start a recurring action of some kind. One that will be able to make repeated checks to see if a piece of data meets a certain condition.
+
+Below are some** examples of the Loop forever operation being used in conjunction with the Break Loop **connector as found throughout Tray.io's documentation pages:
+
+- **Basic**: [Break loop example](/connectors/core/break-loop/) [Core connector]
+- **Intermediate**: [Update missing customer information](/platform/advanced-tray-usage/pagination/updating-missing-customer-info/) [Pagination example]
+- **Advanced**: [Workflow threads single list](https://tray.io/documentation/platform/standard-best-practices/processing-data-and-scaling/workflow-threads/) [Workflow threads]
+
+## Example 3 - Loop object
+
+As well as dealing with lists (also called 'arrays' in tech-speak) the Loop Collection connector can deal with 'objects'.
+
+In the above examples an 'object' would simply be an individual item within the list (i.e. an individual customer/account) and each piece of data associated with it.
+
+There may be some scenarios in which, for each customer/account (i.e. object) you wish to loop through each piece of data, make a check on it and carry out a particular action.
+
+In a scenario of working through a list of customers from the Stripe payment system, you may wish to **check to make sure that all data (name, email address etc.) has been entered for that customer** before, say, you wish to sync their details into Salesforce.
+
+The following workflow is a simplified demonstration of how we can achieve this with:
+
+What we are acheiving here is:
+
+1. Set a main loop to list the Stripe Customers and go through each one-by-one
+2. For each customer, create a customer object which extracts only the fields you wish to check (rather than checking the dozens of other fields)
+3. Set another sub-loop to go through each object field one-by-one
+4. For each field, check if it is empty/null
+5. If so, then send a notification to the account manager in Slack that the field has not been populated
+
+### Set up the main Stripe list customers loop
+
+The first Stripe step just uses the Stripe **List Customers** operation, and the **Loop customers** step uses **Loop List** with the `$.steps.stripe-1.data` as the input for the Loop:
+
+### Get customer and create customer object
+
+The Stripe **Get customer** uses the **Get customer** operation and takes the ID from the first loop step:
+
+The **Create customer object** step then uses the **Add key/value pairs** operation to create an object which contains only the fields you are concerned with (i.e. the fields you want to sync into Salesforce etc.)
+
+First you can add a 'name' property of 'customer' to the object source info:
+
+Then you can add the key/value items to the List by clicking **Add Item / Add more than one item**:
+
+You will see that each field (key) gets its associated value by grabbing it from the second Stripe using `$.steps.stripe-2.name` etc.
+
+in a successful run this would then produce debug output which looks like this:
+
+### Loop through the individual customer fields
+
+The second sub-loop can then take the `$.steps.object-helpers-1.result` as its input while using **Loop object** as the operation:
+
+Then for each field we can check if it is empty using a boolean connector (note that in this we are checking for a 'null' value as that is how Stripe returns empty data):
+
+Finally, in the True path of the boolean check, we format a message to an account manager in Slack:
+
+Note that the message uses `{ }` to include the Stripe ID and name of the field/key in the plain text box.
+
+This would result in a message appearing in Slack like:
+
+### Further automating the example 3 scenario
+
+Note that there is a lot more automation that you can do in this loop object scenario.
+
+The workflow below shows how you could use a scheduled trigger to run every hour/day/week/month etc. to run the above checks and automatically add customers to Salesforce if all of their fields are populated.
+
+It uses a combination of the [data storage](/connectors/core/data-storage/) and [math helpers](/connectors/helpers/math-helper/) connectors to count the missing fields for each customer and then does a final check to see if there are no empty fields - in which case they can be added to Salesforce.
+
+Because the workflow is run on a scheduled trigger it can be set so as to allow the account manager time to update the customer information in Stripe so that it will be automatically synced the next time the workflow runs.
+
+A full tutorial on this will follow soon, but in the meantime why not see if you can work out how to set this up correctly yourself?

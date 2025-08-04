@@ -1,0 +1,107 @@
+---
+title: "Overview"
+description: "Overview of the ZeroBounce connector"
+---
+
+# Overview
+
+## Overview
+
+ZeroBounce is a leading online email validation system created to ensure that companies sending complex and high volume emails avoid deliverability issues. The system works by reducing and eliminating invalid, abuse, complaint, inactive, and spam-trap email addresses.
+
+## Authentication
+
+When using the ZeroBounce connector, the first thing you will need to do is go to your Tray.io account page, and select the workflow you wish to work on. Once in the workflow builder itself, search and drag the ZeroBounce connector from the Connector library (on the left hand side, click to expand the connectors panel) onto your workflow.
+
+With the new ZeroBounce connector step highlighted, in the properties panel on the right, click on the Authenticate tab and 'Add new authentication' (located under the 'Authentication' field).
+
+This will result in a Tray.io authentication pop-up window. The first page will ask you to name your authentication, and state which type of authentication you wish to create ('Personal' or 'Organization').
+
+As you can see, the next page asks you for your 'API key'.
+
+To find your API key, log in to your ZeroBounce account, and go to 'API - Keys & Info':
+
+Then click on the 'Configure' icon for 'Your API Key':
+
+There you will be able to generate a new API key and view any existing ones:<br/>
+
+Once you have added these fields to your Tray.io authentication popup window, click on the 'Create authentication' button. Go back to your settings authentication field (within the workflow builder properties panel), and select the recently added authentication from the dropdown options now available.
+
+Your connector authentication setup should now be complete.
+
+## Available Operations
+
+The examples below show one or two of the available connector operations in use.
+
+Please see the [Full Operations Reference](#operationsFull) at the end of this page for details on all available operations for this connector.
+
+## Notes on using ZeroBounce
+
+## Example Usage
+
+Imagine collecting email addresses for newsletter sign-ups. We can use the ZeroBounce connector to validate the email addresses and ensure that we only use genuine email addresses.
+
+We will use the 'Script' and 'Loop collection' connectors to simulate these email addresses being collected in real-time, which the ZeroBounce connector will validate one at a time as they are collected.
+
+The steps will be as follows:
+
+1. Create a new workflow using a manual trigger
+2. Add the 'Script' connector and use the 'Execute Script' operation to provide a list of email addresses
+3. Add the 'Loop Collection' connector and use the 'Loop List' operation to loop through the list of email addresses
+4. Add the 'ZeroBounce' connector step and set up the 'Validate single email' operation to validate each email address
+
+The final outcome should look like this:
+
+### 1 - Create new workflow using a manual trigger
+
+Once you have clicked 'Create new workflow' from your main Tray.io dashboard named it, select the Manual trigger from the trigger options available:
+
+After clicking 'Create workflow' you will be redirected to the Tray.io workflow dashboard.
+
+You are now ready to begin building your workflow.
+
+### 2 - Execute Script
+
+After you have been redirected to the Tray.io workflow dashboard, from the Connector library on the left, add a 'Script' connector to your second step. Set the operation to 'Execute Script'.
+
+Paste this into the 'Script' input field (note that you don't need to worry about the 'Variables' field in this example, and can in fact delete these fields for now).
+
+Feel free to rename your steps as you go along to make things clearer for yourself and other users.
+
+Before we continue, let's look at what output from the 'Execute Script' operation looks like.
+
+Notice that the actual Output of the 'Execute Script' operation that is shown in the debug view does not match what appears in the Output tab of the 'Execute Script'.
+
+This will be important later because we will want to jsonpath the value of 'email' as our input for the ZeroBounce connector.
+
+Make it easier to jsonpath by clicking on 'Use output' as highlighted above. The Output tab of the 'Execute Script' operation now matches its actual output:
+
+We have now set up the 'dummy data' for the workflow.
+
+### 3 - Loop List
+
+Next, find the 'Loop Collection' connector from the Connector library, and drag it into your workflow as your third step. Set your operation to 'Loop List'.
+
+The 'Loop Collection' connector allows you to iterate through a list of results. In this example, we will use it to iterate through the data found within the previous 'Script' connector step.
+
+In order to specify the list you want to loop through, start by using the 'List' mapping icon (found next to the list input field within the properties panel) to generate the connector-snake.
+
+While hovering over the 'Execute Script' step (with the tail end of the connector-snake), select `result` from the list of output properties displayed. This will auto-populate a jsonpath within your 'List' input field, and update the type selector to jsonpath.
+
+For more clarification on the pathways you have available, open the Debug panel to view your step's Input and Output.
+
+This step will now loop through the list of email addresses and output them one at a time.
+
+### 4 - Validate single email
+
+The last step is to drag the 'ZeroBounce' connector from the Connector library to your workflow.
+
+Set the operation to 'Validate single email'.
+
+As you can see, the 'Email' field is required.
+
+Drag from the mapping icon (found next to the 'Email' input field within the properties panel) to generate the connector-snake. Continue dragging until the tail-end of the connector-snake hovers over the 'Loop List' step.
+
+Release the mouse button and select `email` from the list of output properties displayed. This will auto-populate a jsonpath within your 'List' input field, and update the type selector to jsonpath.
+
+Go to 'Debug' to see the results. As you can see, the 'Validate single email' operation returns useful information about each email address, such as whether they are valid:

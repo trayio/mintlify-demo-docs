@@ -1,0 +1,123 @@
+---
+title: "Overview"
+description: "Overview of the Alteryx connector"
+---
+
+# Overview
+
+## Overview
+
+Alteryx is a leading self-service data preparation and advanced analytics tool that is revolutionising how businesses blend, prepare and analyse their huge amount of data, from many different sources.
+
+## Authentication
+
+Within the workflow builder, highlight the Alteryx connector.
+
+In the Alteryx connector properties panel to the right of the builder, click on the Authenticate tab and the 'New authentication' button. This will result in a Tray.io authentication pop-up modal.
+
+Name the authentication something that will easily identify it in a larger list. For example, using the service account's name, whether it is a Sandbox or Production OAuth, etc.
+
+When choosing between the type of authentication you wish to create ('Personal' or 'Organisational'), consider who and how many people will need access to it.
+
+The second page asks you for your 'API key', 'API secret', and 'Instance URL' credentials.
+
+In order to get these fields, head to your Alteryx Gallery instance dashboard.
+
+The 'Instance URL' will be the first part of the base URL that the connector will use. The one specifically related to your instance. Its format is [protocol]://[IP_Address] (i.e. '[http://11.22.333.444'](http://11.22.333.444')).
+
+You can find your personal 'IP_Address' in your Alteryx instance URL bar as follows:
+
+To get the 'API key' and 'API secret', head to your Alteryx Gallery dashboard and open your profile info.
+
+Then, if you click on 'Keys', you will be able to access the required Authentication info.
+
+Once you have added these fields to your Tray.io authentication pop-up window, click the 'Create authentication' button.
+
+Go back to your settings authentication field (within the workflow builder properties panel), and select the recently added authentication from the dropdown options now available.
+
+Your connector authentication setup should now be complete.
+
+## Available Operations
+
+The examples below show one or two of the available connector operations in use.
+
+Please see the [Full Operations Reference](#operationsFull) at the end of this page for details on all available operations for this connector.
+
+## Using the Raw HTTP Request ('Universal Operation')
+
+As of **version 1.0**, you can effectively create your own operations.
+
+This is a very powerful feature which you can put to use when there is an endpoint in Alteryx which is not used by any of our operations.
+
+To use this you will first of all need to research the endpoint in the [Alteryx API documentation v1.0](https://gallery.alteryx.com/api-docs/), to **find the exact format** that Alteryx will be expecting the endpoint to be passed in.
+
+Note that you will only need to add the suffix to the endpoint, as the base URL will be automatically set (the base URL is picked up from the value you entered when you created your authentication).
+
+The base URL for Alteryx is: `{instance_url}/gallery/api`
+
+For example, say that the 'Get subscription workflows' operation did not exist in our Alteryx connector, and you wanted to use this endpoint. You would use the Alteryx API docs to find the relevant endpoint - which in this case is a `GET` request called: `/v1/workflows/subscription/`.
+
+More details about this endpoint can be found [here](https://gallery.alteryx.com/api-docs/).
+
+As you can see there is also the option to include a query parameter, should you wish to do so. So if you know what your method, endpoint and details of your query parameters are, you can get the workflows list information with the following settings:
+
+Method: `GET`
+
+Endpoint: `/v1/workflows/subscription/`
+
+Final outcome being: **{instance_url}/gallery/api/v1/workflows/subscription/**
+
+## Example Usage
+
+Below is an example of a way in which you could potentially use the Alteryx connector to get info regarding every single job related to an Alteryx analytics app/workflows.
+
+The steps will be as follows:
+
+1. Setup using a Manual trigger and list all the available workflows/apps.
+2. List all the jobs for a specific workflow/app.
+3. Add the Loop collection connector to iterate over each job.
+4. Get individual details for each job.
+
+Your completed workflow should look similar to this:
+
+### 1 - Setup Trigger & List Workflows
+
+With your trigger in place (be it [Manual](/connectors/triggers/manual-trigger/), [Scheduled](/connectors/triggers/scheduled-trigger/), [Callable](/connectors/triggers/callable-trigger/) etc) add a Alteryx connector. Set the operation to 'List workflows'.
+
+Feel free to re-name your steps as you go along to make things clearer for yourself and other users. The operation names themselves often suffice.
+
+When run, this workflow will list all workflows and apps available in your Alteryx account.
+
+### 2 - List jobs
+
+The second step consists of adding another Alteryx connector and set the operation to 'List jobs'.
+
+As you can notice, the 'App ID' field is required.
+
+In order to specify it, start by using the mapping icon (found next to the App ID input field, within the properties panel) to generate the connector-snake.
+
+While hovering over the 'List workflows' step (with the tail end of the connector-snake), select `results.id` from the list of output properties displayed. Make sure to select the required analytics app based on its index in the 'List workflows' step results array. This will auto-populate a jsonpath within your App ID input field, and update the type selector to jsonpath.
+
+If you run the workflow now you will get a list of all the jobs for the specified Alteryx analytics app.
+
+### 3 - Loop Collection
+
+Next, search for the Loop connector within your connector panel, and drag it into your workflow as your next step. Set your operation to 'Loop List'.
+
+The Loop connector allows you to iterate through a list of results. In this example, we will use it to iterate through the data found within the previous Alteryx connector step.
+
+In order to specify the list you want to loop through, start by using the list mapping icon to generate the connector-snake as seen while creating the previous step.
+
+While hovering over the 'List' field in the 'List jobs' step (with the tail end of the connector-snake), select `results` from the list of output properties displayed.
+
+For more clarification on the pathways you have available, open the Debug panel to view your step's Input and Output.
+
+This will enable us to iterate over the list of jobs, and perform operations for each one, during each loop cycle.
+
+### 4 - Get Job
+
+The last step is to drag an Alteryx connector **inside** the Loop connector step itself. Set the operation to 'Get job'. As you can see, the 'Job ID' field is required.
+
+Also, in this case you can select the 'Job ID' by using the connector snake to select `id` from the previous step list of output properties.
+
+When run, this workflow will now retrieve detailed information about each of the jobs found.

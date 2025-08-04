@@ -1,0 +1,82 @@
+---
+title: "Overview"
+description: "Overview of the Kanban Tool connector"
+---
+
+# Overview
+
+## Overview
+
+Kanban Tool is a kanban software solution that helps teams to work more efficiently, visualize workflow, analyze and improve business processes in line with the Kanban method.
+
+## Authentication
+
+When using the Kanban Tool connector, the first thing you will need to do is go to your Tray.io account page, and select the workflow you wish to work on. Once in the workflow dashboard itself, search and drag the Kanban Tool connector from the connectors panel (on the left hand side) onto your workflow.
+
+With the new Kanban Tool connector step highlighted, in the properties panel on the right, click on 'New Authentication' which is located under the 'Settings' heading.
+
+This will result in a Tray.io authentication pop-up window. The first page will ask you to name your authentication appropriately, and state which type of authentication you wish to make ('Personal' or 'Organisational').
+
+As you can see, the next page asks you for your 'Environment', 'Domain', and 'API Key'.
+
+For sale of ease, you can leave the 'Environment' field as 'Production'.
+
+To find your 'API Key' and 'Domain' name first make sure you are logged in to your account. Once you are within your account, click on your username and then select 'My profile' from the dropdown options available:
+
+Click on the "API access" option displayed:
+
+Copy and paste said API key from your Kanban Tool Account page into the Tray.io 'API Key' authentication field.
+
+Your 'Domain' name can be found in your URL - notice that you only need the FIRST section of the URL, and not the full URL. Copy it into the Tray.io authentication field as necessary.
+
+Once you have clicked the 'Add authentication' button, go to back to your authentication field (within the workflow dashboard properties panel from earlier), and select the recently added authentication from the dropdown options now available.
+
+Your connector authentication setup should now be complete.
+
+## Available Operations
+
+The examples below show one or two of the available connector operations in use.
+
+Please see the [Full Operations Reference](#operationsFull) at the end of this page for details on all available operations for this connector.
+
+## Example usage
+
+Below is an example of a way in which you could potentially use the Kanban Tool connector, to add a new task to a board.
+
+The steps will be as follows:
+
+1. Set up your Manual trigger and your first Kanban Tool connector to get the current user.
+2. List all boards for the current user in question.
+3. Add a final connector in order to create a task.
+
+The final outcome should look like this:
+
+### 1 - Setup trigger & Get Current User
+
+Once you have clicked 'Create new workflow' on your main Tray.io dashboard (and named said new workflow), select the Manual trigger from the trigger options available:
+
+Once you have been redirected to the Tray.io workflow dashboard, from the connectors panel on the left, add a Kanban Tool connector to your second step. Set the operation to 'Get current user'.
+
+*Feel free to re-name your steps as you go along to make things clearer for yourself and other users.*
+
+Now when this workflow is run, it will pull down details of the current user from the Kanban Tool API. This means you will be able to view it when you click through your debug panel, and expend the output field.
+
+### 2 - List all Boards
+
+Once you have added a second Kanban Tool connector to your third step, set the operation to 'List all boards for a user'.
+
+Use the Connector-snake to set the 'User ID', by clicking and dragging on the orange circle mapping icon.
+
+Once you have dragged it over to your first Kanban Tool step, you will see a dropdown list of options appear. Select the `user_id`. Your output should be similar to: `$.steps.kanban-tool-1.customizations[0].user_id`.
+
+Now when this workflow is run, it will pull down the list of boards of the current user from the Kanban Tool API. This means you will be able to view it when you click through your debug panel, and expend the output field.
+
+### 3 - Create task
+
+Once you have added a third and final Kanban Tool connector to your workflow, set the operation to 'Create task'.
+
+Use the same connector-snake method for generating the jsonpath to get the 'Board ID' field, only this time it will be taken from the 'List all boards for a user' step.
+
+You will also have to set the 'Name' and optionally the 'Description', 'Tags' and 'Priority' of said task within this operation.
+
+Now when this workflow is run, it will create a task with the given details to the board. You should see the details of the task as a result when you click on your debug panel, and expend the output field.

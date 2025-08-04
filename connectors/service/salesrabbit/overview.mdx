@@ -1,0 +1,193 @@
+---
+title: "Overview"
+description: "Overview of the SalesRabbit connector"
+---
+
+# Overview
+
+## Overview
+
+SalesRabbit is the complete outside sales app. It optimizes every aspect of your sales and management process. Track leads, manage areas, collect data, and crush sales records with a field-proven approach.
+
+## Authentication
+
+When using the SalesRabbit connector, the first thing you will need to do is go to your Tray.io account page, and select the workflow you wish to work on. Once in the workflow builder itself, search and drag the SalesRabbit connector from the connectors panel (on the left hand side) onto your workflow.
+
+With the new SalesRabbit connector step highlighted, in the properties panel on the right, click on 'New Authentication' which is located under the 'Settings' heading.
+
+This will result in a Tray.io authentication pop-up window. The first page will ask you to name your authentication, and state which type of authentication you wish to create ('Personal' or 'Organization').
+
+As you can see, the next page asks you for your 'Access token':
+
+Log in to your SalesRabbit dashboard in order to either view an existing access token, or generate a new one. In the left hand menu bar, find 'Integrations' and then click on 'API'.
+
+When the API Settings page is displayed, is will present all pre-existing API access tokens. If there are no existing API access tokens, or if you do not wish do use an existing one, click the API TOKEN button to create a new one.
+
+Copy your API access token and paste it into your Tray.io authentication popup window.
+
+Once you have added this field to your Tray.io authentication popup window, click on the 'Create authentication' button. Go back to your settings authentication field (within the workflow builder properties panel), and select the recently added authentication from the dropdown options now available.
+
+Your connector authentication setup should now be complete.
+
+## SalesRabbit Trigger
+
+If you wish your workflow to be kicked off by a particular action in SalesRabbit, you can use the SalesRabbit Trigger.
+
+The SalesRabbit trigger allows you to receive notifications and trigger workflows when given events occur associated with the selected trigger operation. Specifically, a workflow can be triggered when a SalesRabbit user fills and submits a form.
+
+### Trigger Operations available:
+
+- Webhook
+- Single form webhook
+
+### Webhook Setup
+
+#### Which trigger operation to use
+
+Using the 'Single form webhook' trigger operation is equivalent to adding only a single form in the Forms property of the 'Webhook' operation:
+
+The above examples show how to configure the trigger to receive submissions from only 'Solo Form'.
+
+#### Using the 'Webhook' operation
+
+When creating a new workflow, click the 'Create new workflow' button in the top right hand corner of your main Tray.io dashboard. When the trigger popup window opens, search and select the SalesRabbit trigger. Wait to be redirected to your new workflow and the workflow dashboard itself.
+
+With the new SalesRabbit trigger step highlighted, in the properties panel on the right, select 'Webhook' as the event you want your trigger to listen to (aka the operation), in order to set off the workflow itself.
+
+To create a new authentication, click on 'Add new authentication' which is located under the 'Authenticate' heading.
+
+Creating the authentication is described in detail in the Authorization section [above](#authentication).
+
+You can then give your webhook a name by populating the 'Name' property under the 'Input data' heading. The 'Web hook model' property only supports one value at present. You will find that the value 'form' is pre-populated for you. This means that the trigger will respond to SalesRabbit form submissions.
+
+By default, the 'Forms' property is empty. This means that the trigger will receive all form submissions from all SalesRabbit forms. If you wish to only receive submissions from one or more specific SalesRabbit forms you may add them to the 'Forms' property. In the example below we are receiving submissions from 'Form 1' and 'Form 2' only.
+
+## Available Operations
+
+The examples below show one or two of the available connector operations in use.
+
+Please see the [Full Operations Reference](#operationsFull) at the end of this page for details on all available operations for this connector.
+
+## Note on Operations Usage
+
+### Leads
+
+In order to create new lead statuses or custom lead fields (and to view or edit existing ones), you will need to go to the settings area in to your SalesRabbit account:
+
+Select 'Lead Statuses' if you would like to view and edit existing lead statuses, or define new leads statuses:
+
+Go to 'Custom Lead Fields' if you would like to view and edit existing custom fields, or define new custom fields: 
+
+#### Setting custom fields
+
+Please be aware that there are different types of custom fields and that **a custom field's type determines what values are accepted**.
+
+For your convenience, as well as listing the available custom fields, our DDL dropdown also includes in brackets the type of custom field. The type selector for the custom field 'Value' should be set to the compatible data type, as appropriate.
+
+Here are a couple examples of how you might work with SalesRabbit custom fields options:
+
+1. **Dropdown** Set up with a list of acceptable values.
+
+By default the 'Dropdown' custom field is set to `Single Select` - i.e. without enabling the `Multi Select` option. In this case, the input will be a **string** and therefore the type selector should also be set to 'string'.
+
+If the `Multi Select` option is enabled for a 'Dropdown' custom field, more than one item can be selected. In that case, the type selector of this custom field value should be changed to **array** so that you can specify the list of items that should be selected:
+
+Attempts to set a 'Dropdown' field to an unrecognized value will generally be ignored. However, **if using an Update Lead step, unrecognized values cause the field to be unset altogether**, i.e:
+
+- Trying to set a 'Single Select' Dropdown custom field to an unrecognized string.
+- Trying to pass a list of items to a 'Multi Select' and none of the items are valid.
+
+1. **Toggle**
+
+This custom field is used to indicate one of two states. Therefore it is appropriate to set the type selector to **boolean** since this field will store either `true` or `false`.
+
+Note that the 'Toggle' custom field automatically associates the right-hand-side value with `true` and begins in the `false` state.
+
+### Users
+
+To create new Roles or Organisations, or view/ edit existing ones - go to the settings area within your SalesRabbit account:
+
+Go to 'Roles & Permissions' to view and edit existing roles, or define new ones.
+
+Go to 'Org Chart' to view and edit existing Orgs, or define new ones.
+
+## Using the Raw HTTP Request ('Universal Operation')
+
+As of **version 1.0**, you can effectively create your own operations.
+
+This is a very powerful feature which you can put to use when there is an endpoint in SalesRabbit which is not used by any of our operations.
+
+To use this you will first of all need to research the endpoint in the [ SalesRabbit API documentation v1.0](https://developers.salesrabbit.com/v1) , to 
+
+<u>find the exact format</u>
+
+ that SalesRabbit will be expecting the endpoint to be passed in.
+
+Note that you will only need to add the suffix to the endpoint, as the base URL will be automatically set (the base URL is picked up from the value you entered when you created your authentication).
+
+The base URL for SalesRabbit is: `https://api.salesrabbit.com`
+
+For example, say that the 'List Users' operation did not exist in our SalesRabbit connector, and you wanted to use this endpoint, you would use the SalesRabbit API docs to find the relevant endpoint - which in this case is a `GET` request called: `Get multiple users`.
+
+More details can be found [ here](https://developers.salesrabbit.com/v1/users/users-1) .
+
+As you can see there is also the option to include a query parameter, should you wish to do so. So if you know what your method, endpoint, and details of your query parameters are, you can get a list of users' information with the following settings:
+
+Method: `GET`
+
+Endpoint: `/users`
+
+Query Parameter: Key: `email` Value: `tray@salesrabbit.com`
+
+Final outcome: **https://api.salesrabbit.com/users?email=tray@salesrabbit.com**
+
+## Example usage
+
+Below is an example of a way in which you could use the SalesRabbit connector, to read each Lead in a collection, in order to get a list of all file attachments.
+
+The steps will be as follows:
+
+1. Setup using a manual trigger and list all Leads available from within your SalesRabbit account.
+2. Loop through the collection of leads found.
+
+1. Use 'Loop Collection' to loop through the collection of Files of each Lead
+2. Use 'Data Storage' to add the file name of each file to a list
+3. Use 'Data Storage' to return the compiled list of filenames
+
+The final outcome should look like this:
+
+### 1 - Set up Manual Trigger & List Leads
+
+Once you have clicked 'Create new workflow' from your main Tray.io dashboard named it, select the Manual Trigger from the trigger options available:
+
+After you have been redirected to the Tray.io workflow dashboard, from the connectors panel on the left, add a SalesRabbit connector to your second step. Set the operation to 'List leads'.
+
+We can filter results so that only the Leads belonging to a particular user are returned. In this example, let's say that we are only interested in Leads owned by an individual named: 'Docs User'. Simply click on the 'Add to Owners' button and use the dynamic lookup drop-down now available in order to select said user.
+
+When run, this step will now return as planned, only leads pertaining to the user named: 'Docs User'.
+
+Feel free to re-name your steps as you go along to make things clearer for yourself and other users.
+
+### 2 - Loop through Leads
+
+Next, search for the 'Loop Collection' connector within your connector panel, and drag it into your workflow as your next step. Set the operation to 'Loop list'. For clarity, this step was renamed 'Loop Leads'.
+
+The Loop Collection connector allows you to iterate through a list of results. Here we will use it to iterate through the data returned by the previous SalesRabbit connector step.
+
+In order to specify the list you want to loop through, start by using the 'List' mapping icon (found next to the 'List' input field, within the properties panel) to generate the connector-snake.
+
+While hovering over the 'List Leads: Docs User' SalesRabbit step (with the tail end of the connector-snake), select `data` from the list of output properties displayed. This will auto-populate the jsonpath `$.steps.salesrabbit-1.data` within your 'List' input field, and update the type selector to jsonpath.
+
+For more clarification on the pathways you have available, open the Debug panel to view your step's Input and Output.
+
+This step will loop through the data collection (i.e list of leads from the previous step), returning the information available for each item one at a time.
+
+### 3 - Retrieve Lead Data
+
+Add a second SalesRabbit connector step **inside** the 'Loop Leads' step, and set the operation to 'Get lead'. As you can see, the 'Lead ID' field is required.
+
+In order to specify the 'Lead ID' repeat the connector-snake process from previously, this time using the 'Lead ID' mapping icon and by hovering over the new 'Loop Leads' step. Select `id` from the list of output properties displayed.
+
+If you were to open the Debug panel now to review step output, you will see that the 'Get Lead' step retrieves file attachments data, as a collection named `files`:
+
+The 'Get Lead' step has retrieved file attachments data, including filenames which we will be able to collate into a list.

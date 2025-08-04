@@ -1,0 +1,90 @@
+---
+title: "Overview"
+description: "Overview of the Pendo connector"
+---
+
+# Overview
+
+## Overview
+
+Pendo is a product experience platform that provides tools for usage analytics, user guidance, communication, feedback, and planning. It enables product managers to build a great software experience with fewer engineering resources.
+
+## Authentication
+
+When using the Pendo connector, the first thing you will need to do is go to your Tray.io account page, and select the workflow you wish to work on. Once in the workflow dashboard itself, search and drag the Pendo connector from the connectors panel (on the left hand side) onto your workflow.
+
+With the new Pendo connector step highlighted, in the properties panel on the right, click on 'New Authentication' which is located under the 'Settings' heading.
+
+This will result in a Tray.io authentication pop-up window. First name your authentication and choose your auth level ('Personal' or 'Organisation'). Once you've clicked 'Next Step' you will see that you need your 'x-pendo-keys', aka your 'Integration key' and your 'Track event secret key'.
+
+To find the 'Integration key', login to your Pendo account, and in the sidebar click the 'Settings' icon followed by the 'Integrations' option. On the page that appears, click on the 'Integration Keys' tab.
+
+You will see a list of integration keys that have already been created. You can either use an existing key, or create a new one by clicking 'Add Integration Key'.
+
+Once you have an integration key, copy it into the `Integration key` field within the Tray.io authentication popup.
+
+To find the 'Track event secret key', follow the same process as above except this time when you click 'Settings', select the option: 'Subscription Settings' instead. choose your app.
+
+Under the 'App Details', click on 'Show' next to 'Track Event Shared Secret'.
+
+Once you have an integration key, copy it into the `Track event secret key` field in the Tray.io authentication popup, and then click 'Add authentication'.
+
+Go to back to your authentication field (within the workflow dashboard properties panel from earlier), and select the recently added authentication from the dropdown options now available.
+
+Your connector authentication setup should now be complete.
+
+## Available Operations
+
+The examples below show one or two of the available connector operations in use.
+
+Please see the [Full Operations Reference](#operationsFull) at the end of this page for details on all available operations for this connector.
+
+## Note on Operations usage
+
+**SEND TRACK EVENT**
+
+Note that the 'Track event secret key' is *required* if you want to use the 'Send track event' operation.
+
+Every other operation needs the 'Integration key' minimum.
+
+## Example usage
+
+Below is an example of a way in which you could potentially use the Pendo connector, to list all of the reports in your account and export their contents in CSV format.
+
+The steps will be as follows:
+
+1. Add 'List reports' step
+2. Add Loop collection
+3. Add 'Get report contents as CSV' step
+
+The final outcome should look like this:
+
+### 1 - Setup trigger & add 'List reports' step
+
+Once you have clicked 'Create new workflow' on your main Tray.io dashboard (and named said new workflow), select the Manual trigger from the trigger options available:
+
+Once you have been redirected to the Tray.io workflow dashboard, from the connectors panel on the left, add a Pendo connector to your second step. Set the operation to 'List reports'.
+
+*Feel free to re-name your steps as you go along to make things clearer for yourself and other users.*
+
+When run, this workflow will list all users in your Pendo account.
+
+### 2 - Add Loop Collection
+
+The Loop Collection allows you to iterate through a list of results. In this example, we will use it to iterate through each user that was returned by the previous step.
+
+Search 'loop collection' and drag the connector into your workflow as the next step:
+
+You can specify the list you want to loop through using the 'List' input field. Use the connector-snake to assign this field to the 'data' array that is produced by the 'List reports' step:
+
+When run, this workflow will iterate through the list of reports provided. However, at the moment it doesn't do anything with that list.
+
+### 3 - Get report contents as CSV
+
+We are now going to use the Loop Collection to retrieve the contents of each report as a CSV file.
+
+First, add a new Pendo connector step inside of the Loop Collection, and select the operation 'Get report contents as CSV':
+
+Next, configure it with the right report ID. Use the connector-snake once more to assign the 'Report ID' field to the `id` value output by the Loop Collection:
+
+Now, when this workflow is run, it will first list every report, and then for each individual report, it will return its contents in CSV format.

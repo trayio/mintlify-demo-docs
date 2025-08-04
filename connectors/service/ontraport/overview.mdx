@@ -1,0 +1,85 @@
+---
+title: "Overview"
+description: "Overview of the Ontraport connector"
+---
+
+# Overview
+
+## Overview
+
+Ontraport is a customer relations management (CRM) and marketing automation platform designed for small businesses and entrepreneurs. It offers the advanced features typically found in enterprise-level platforms but through an easy-to-use interface for small, non-technical teams to use.
+
+As of v1.0, the Tray.io Ontraport connector provides operations to retrieve data on a specific campaign, and to list Contacts, Campaigns, Groups, and Tags. The Raw HTTP Request operation is included as an "universal operation" to make use of endpoints that the connector may not yet have implemented.
+
+## Authentication
+
+When using the Ontraport connector, the first thing you will need to do is go to your Tray.io account page, and select the workflow you wish to work on. Once in the workflow dashboard itself, search and drag the Ontraport connector from the connectors panel (on the left hand side) onto your workflow.
+
+With the new Ontraport connector step highlighted, in the properties panel on the right, click on 'New Authentication' which is located under the 'Settings' heading.
+
+This will result in a Tray.io authentication pop-up window, that should look like this:
+
+Begin creating your new authentication by giving it name and selecting whether the it should be a **Personal** authentication - usable only by you - or an **Organization** authentication - usable by everyone in your organization.
+
+Click 'Next step', and you will see that to finish creating the new authentication, you will need to enter your Ontraport **API Key** and **API AppID**.
+
+When you have entered these required values, click 'Create authentication' to save the authentication to your Tray.io account:
+
+Once you have clicked the 'Create authentication' button, go to back to your authentication field (within the workflow dashboard properties panel from earlier), and select the recently added authentication from the dropdown options now available:
+
+Your connector authentication setup should now be complete.
+
+### _If you need to generate your
+
+**API Key** and **API AppID**_
+
+1. To find your API Key and API AppID, log in to your Ontraport account and navigate to the Administration section by clicking on the link in the menu:
+
+1. In the **Admin** section, click **INTEGRATIONS** in the left-hand-side menu, and then click **ONTRAPORT API INSTRUCTIONS AND KEY MANAGER**
+
+1. On the page that appears, you will find your the values to use for **API Key** and **API AppID**: 
+2. Alternatively, if you have not yet generated your API Key and API AppID, you may do so by clicking on 'New API Key' to complete an Ontraport usage survey.
+
+## Available Operations
+
+The examples below show one or two of the available connector operations in use.
+
+Please see the [Full Operations Reference](#operationsFull) at the end of this page for details on all available operations for this connector.
+
+## Note on Operations usage
+
+### Rate limiting
+
+Each Ontraport account is allowed up to 180 requests per minute. This is a rolling limit that resets each minute.
+
+If you find that your application needs more than the allotted number of calls, you may wish to check that you are utilizing Ontraport pagination tools correctly and/or consider implementing cache functionality.
+
+You can track your rate limit status via response headers:
+
+*Ontraport support staff will consider reasonable requests to increase rate limits on a per-account basis so please contact them directly if you need higher limits.*
+
+> 
+
+## Using the Raw HTTP Request ('Universal Operation')
+
+As of **version 1.0**, it is possible to effectively create your own operations.
+
+This is a very powerful feature which you can put to use when there is an endpoint in Ontraport which is not used by any of our operations.
+
+To use this you will first of all need to research the endpoint in the [ Ontraport API documentation v.1](http://api.ontraport.com/doc/) , to *find the exact format* that Ontraport will be expecting the endpoint to be passed in.
+
+Note that you will only need to add the suffix to the endpoint, as the base url will be automatically set (the base url is picked up from the value you entered when you created your authentication).
+
+The base url is in the format of `https://api.ontraport.com/1`
+
+For example, say that the 'Get Specific Campaign Info' operation did not exist in our Ontraport connector, and you wanted to use this endpoint: you would use the Ontraport API docs to find that the 'Get Specific Campaign Info' endpoint is a GET request at the following url: `/CampaignBuilderItem`.
+
+You will note that this endpoint requires the **id** query parameter. If you know the ID of the Campaign that you wish to query is `2` then you can use a Raw HTTP Request to return its information by sending a GET request to the `/CampaignBuilderItem` endpoint, with the query parameter `id=2`:
+
+i.e. **GET https://api.ontraport.com/1/CampaignBuilderItem?id=2**
+
+1. Begin by configuring a Raw HTTP Request to send a GET request to the `/CampaignBuilderItem` endpoint:
+
+1. Click "Add Query Parameter" in the properties panel and specifying the following Query Parameter settings:
+
+1. A Raw HTTP Request will be set up as shown below. When this workflow step is run, it will return information for the Campaign that has `ID: 2`:

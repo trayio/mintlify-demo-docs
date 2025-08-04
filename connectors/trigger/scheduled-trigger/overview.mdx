@@ -1,0 +1,72 @@
+---
+title: "Overview"
+description: "Overview of the Scheduled Trigger connector"
+---
+
+# Overview
+
+## Overview
+
+The Scheduled Trigger allows you to start workflows on a custom schedule, such as every monday at 9am or on Thursday 11th November each year.
+
+## Operations
+
+- Every Day
+- Every Month
+- Every Week
+- Interval
+- Cron Schedule (Advanced)
+
+## Allowing scheduled runs to complete
+
+To do this first click on **Advanced Properties** and then tick the box as shown in the screenshot below.
+
+Your schedule should also be set so that you allow plenty of time for runs to complete. In a case where 3 attempts at starting a run are made while one is still completing, these runs are missed. They are not added to a queue.
+
+## Extracting date info from the Scheduled Trigger
+
+From the following screenshot you can see that the month of October is returned as '9' instead of '10'.
+
+Therefore it is recommended that you use the [Date Time Helpers](#) **Get Date Property** operation to extract whatever date parameters you need from the Scheduled Trigger:
+
+## Common Properties
+
+## Every Day
+
+The every day operation allows you to run a schedule once per day, at a particular time of the day and on certain days of the week.
+
+## Every Month
+
+The every month operation allows you to trigger the workflow once a month based on the day of the month and a time of the day you specify.
+
+## Every Week
+
+The every week operation allows you to trigger the workflow once a week on a specific day and at a specific time.
+
+## Interval
+
+The 'Interval' operation allows you to regularly trigger the workflow using a set interval, such as every minute or every week. The workflow will trigger first time when the first time interval elapses (unless you specify an after date) and the trigger time is based on when you either change the settings or start the workflow.
+
+## Cron Schedule (Advanced)
+
+The cron schedule operation is an advanced one which allows you to specify a cron expression to trigger the workflow in a custom schedule.
+
+## Cron Example
+
+Cron is an incredibly powerful operation for when you need to have your workflow run at very specific times of the day. This is particularly useful if you need your workflow to trigger at multiple times per day but not at regular intervals. For this example we will set the workflow to run in the morning, mid-day and at the end of a workday. So at 08:00, 12:00, 18:00. You would set the Scheduled Trigger operation to *Cron Schedule Advanced* Like so:
+
+Then in the Cron expression field you input `0 8,12,18 * * *`. This expression in english means at “At minute 0 past hour 8, 12, and 18”. If you wanted to have it run at 08:30, 12:30, and 18:30 then it would be `30 8,12,18 * * *`. The first number relating to how many minutes past the hour it should run. This is what it would look like in the input panel:
+
+You'll notice there are 3 more slots after the '18'. Those slots are for (in order) the day of the month, the month, and the day of the week. So in our example it would run every day of the month, every month and every day of the week. The asterisks represent any/ all. You can find out more about cron expressions and how to generate them here: [ crontab guru](https://crontab.guru/) .
+
+## Note on properties returned by the Scheduled Trigger
+
+The following information is important if you are wishing to use [jsonpaths](https://tray.io/documentation/platform/working-with-data/intro-to-data-jsonpaths/) to [pull data](https://tray.io/documentation/platform/working-with-data/basic-data-guide/) from the scheduled trigger.
+
+When looking at the output from the debug info for the scheduled trigger, note that both **month** and **day_of_week** are [ zero-indexed](https://en.wikipedia.org/wiki/Zero-based_numbering) .
+
+This means that January will be 0, February will be 1, etc.
+
+Likewise, Monday will be 0, Tuesday will 1 etc.
+
+The following debug screenshot shows how this is the case for Monday 27th January 2020:

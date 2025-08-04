@@ -1,0 +1,110 @@
+---
+title: "Overview"
+description: "Overview of the Lemlist connector"
+---
+
+# Overview
+
+## Overview
+
+Lemlist allows you to Personalize cold emails, automate follow-ups, and engage with leads across all channels.
+
+## Authentication
+
+Within the workflow builder, highlight the Lemlist connector.
+
+In the Lemlist connector properties panel to the right of the builder, click on the Authenticate tab and the 'New authentication' button.
+
+This will result in a Tray.io authentication pop-up modal. The first page will ask you to name your authentication and select the type of authentication you wish to create ('Personal' or 'Organisational').
+
+The next page asks you for your 'API key' credentials.
+
+In order to get these fields, head to the Lemlist dashboard. Click on the 'Editor' button available on the top left corner of the page.
+
+Select 'Settings' from the drop-down. Then Select'Integrations'.
+
+Your API key credentials will be available under the 'API' section.
+
+Once you have added these fields to your Tray.io authentication pop-up window, click the 'Create authentication' button.
+
+Go back to your settings authentication field (within the workflow builder properties panel), and select the recently added authentication from the drop-down options now available.
+
+Your connector authentication setup should now be complete.
+
+## Available Operations
+
+The examples below show one or two of the available connector operations in use.
+
+Please see the [Full Operations Reference](#operationsFull) at the end of this page for details on all available operations for this connector.
+
+## Using the Raw HTTP Request ('Universal Operation')
+
+As of **version 1.0**, you can effectively create your own operations.
+
+This is a very powerful feature which you can put to use when there is an endpoint in Lemlist which is not used by any of our operations.
+
+To use this you will first of all need to research the endpoint in the [Lemlist API documentation](https://developer.lemlist.com/), to **find the exact format** that Lemlist will be expecting the endpoint to be passed in.
+
+Note that you will only need to add the suffix to the endpoint, as the base URL will be automatically set (the base URL is picked up from the value you entered when you created your authentication).
+
+The base URL for Lemlist is: `https://api.lemlist.com`
+
+For example, say that the 'List campaigns' operation did not exist in our Lemlist connector, and you wanted to use this endpoint. You would use the Lemlist API docs to find the relevant endpoint - which in this case is a `GET` request called: `/api/campaigns`.
+
+More details about this endpoint can be found [here](https://developer.lemlist.com/#get-team-information).
+
+As you can see there is also the option to include a query parameter, should you wish to do so. So if you know what your method, endpoint and details of your query parameters are, you can list all contact lists with the following settings:
+
+Method: `GET`
+
+Endpoint: `/api/campaigns`
+
+Query Parameter: Key: `limit` Value: `100`
+
+Final outcome being: **https://developer.lemlist.com/#list-all-campaigns**
+
+## Example Usage
+
+Below is an example of a way in which you could potentially use the Lemlist connector, to create multiple leads in a campaign.
+
+The steps will be as follows:
+
+1. Pull the campaign details from the source (a Webhook trigger in this example)
+2. Add a Loop connector to iterate through all the data received from the Webhook trigger.
+3. Create campaign lead in Lemlist.
+
+The final outcome should look like this:
+
+### 1 - Setup a webhook trigger
+
+When using a Webhook trigger 'When webhook is received, auto respond with HTTP 200' is the most common operation, unless you want to specify a custom response.
+
+Be sure to click the 'Enable' button before continuing. This makes the workflow ready to receive incoming calls.
+
+In this example, the records received by the Webhook are in JSON format:
+
+Remember that the format in which you receive data will vary depending on where it is coming from - pulling records from Salesforce, Webform, etc., will have different results / views.
+
+### 2 - Create campaign lead
+
+Next, search for the Loop collection connector within your connector panel, and drag it into your workflow. Set the operations to 'Loop list'.
+
+Set the 'List' field to `$.steps.trigger.body`. You can also use the connector-snake to generate this automatically.
+
+After you set the field to `$.steps.trigger.body`, You will notice an **incompatible type** warning.
+
+Click on the Debug panel at the top of the screen. Select the most recent execution, select Webhook. On the output panel click `Use output`.
+
+This will make the webhook data available for the next steps.
+
+The last step is to drag the Lemlist connector **inside** of the Loop Collection step itself. Set the operation to 'Create campaign lead'. As you can see, the 'Campaign ID' field is required. From the available list, select the 'Campaign ID' the leads are being created for.
+
+Use the connector-snake to find the jsonpath for the 'Email' field from the 'Loop' step. It should appear similar to this: `$.steps.loop-1.value.data.email`.
+
+Next, add properties to the lead using the 'Add property to Lead information' button. We have added 'First name', 'Last name', and 'Company name' fields based on the information received from the trigger.
+
+Using connector-snake find the jsonpaths for each field from the 'Loop' step.
+
+Now when the webhook is triggered, the workflow will iterate through the list of data recieved, and create a campaign lead for each iteration.
+
+Click on the [Debug](/platform/troubleshooting/logs-and-debugging/) tab to view Input and Output for individual steps.

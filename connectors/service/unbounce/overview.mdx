@@ -1,0 +1,170 @@
+---
+title: "Overview"
+description: "Overview of the Unbounce connector"
+---
+
+# Overview
+
+## Overview
+
+Unbounce is a drag-and-drop builder that allows you to create custom landing pages optimized for conversion, with no code required.
+
+## Authentication
+
+Within the workflow builder, highlight the Unbounce connector.
+
+In the Unbounce connector properties panel to the right of the builder, click on the Authenticate tab and the 'Add new authentication' button.
+
+This will result in a Tray.io authentication pop-up modal. The first page will ask you to name your authentication and select the type of authentication you wish to create ('Personal' or 'Organisational').
+
+The next page asks you for your 'Client ID' and 'Client Secret' credentials.
+
+In order to get these values, you will need to have an OAuth Application registered with Unbounce.
+
+The "Getting Started" section of the Unbounce documentation describes two different methods of authentication for Unbounce. The Tray Platform uses the OAuth method.<br/>You can read more about this [here](https://developer.unbounce.com/getting_started/#Getting-Started).
+
+This authentication method requires the 'Client ID' and 'Client Secret' values. If you have already registered your application with Unbounce, you should have received these values via email to the address registered to your Unbounce account.
+
+If you have not yet registered your application, you can do so [here](https://developer.unbounce.com/getting_started/#Authorization), by scrolling down to the section called "Using OAuth" and selecting "Register a new OAuth Application" in the right-hand side panel.
+
+This will bring you to the following screen, where you can enter details about your application and request registration.
+
+You will receive your 'Client ID' and 'Client Secret' values shortly after registering.
+
+Once you have added these fields to your Tray.io authentication pop-up window, click the 'Create authentication' button.
+
+Go back to your settings authentication field (within the workflow builder properties panel), and select the recently added authentication from the drop-down options now available.
+
+Your connector authentication setup should now be complete.
+
+## Unbounce Trigger
+
+If you wish your workflow to be kicked off by a particular action in Unbounce, you can use the Unbounce Trigger.
+
+The Unbounce trigger allows you to receive notifications and trigger workflows when given events occur associated with the selected trigger operation.
+
+### Webhook Setup
+
+Select the Unbounce trigger. This can be done either at the create new workflow stage or updated within the workflow builder itself.
+
+Highlight the Unbounce trigger. In the Unbounce trigger properties panel to the right of the builder, click on the Authenticate tab and the 'Add new authentication' button.
+
+This will result in a Tray.io authentication pop-up modal. The first page will ask you to name your authentication, select the type of authentication you wish to create ('Personal' or 'Organisational'), and select the service you wish to authenticate with. In this drop-down list, you can select the 'Unbounce' service.
+
+The next page asks you for your 'Client ID' and 'Client Secret' credentials.
+
+Follow the instructions above to authenticate your trigger. Select 'Webhook' as the event you wish your trigger to listen to in order to set off the workflow itself.
+
+## Available Operations
+
+The examples below show some of the available connector operations in use.
+
+Please see the [Full Operations Reference](#operationsFull) at the end of this page for details on all available operations for this connector.
+
+## Using the Raw HTTP Request ('Universal Operation')
+
+As of **version 1.0**, you can effectively create your own operations.
+
+This is a very powerful feature which you can put to use when there is an endpoint in Unbounce which is not used by any of our operations.
+
+To use this you will first of all need to research the endpoint in the [Unbounce API documentation v0.4](https://developer.unbounce.com/api_reference/), to **find the exact format** that Unbounce will be expecting the endpoint to be passed in.
+
+Note that you will only need to add the suffix to the endpoint, as the base URL will be automatically set.
+
+The base URL for Unbounce is: `https://api.unbounce.com`
+
+For example, say that the 'List sub accounts' operation did not exist in our Unbounce connector, and you wanted to use this endpoint. You would use the Unbounce API docs to find the relevant endpoint - which in this case is a `GET` request called: `/accounts/{account_id}/sub_accounts`.
+
+More details about this endpoint can be found [here](https://developer.unbounce.com/api_reference/#id_accounts__account_id__sub_accounts).
+
+To use this endpoint, you will need to know your 'Account ID'. You could find this using the 'Get account' operation if you did not know it.<br/>You will need to input your Account ID within the URL, in place of the `{account_id}` section.
+
+As you can see, there is also the option to include query parameters, should you wish to do so. Note, the 'Limit' field is required and has a default value of 50. You may choose to increase this value for your particular project, but for this example we will leave it as the default.
+
+So if you know what your method, endpoint, and details of your query parameters are, you can get the list of Sub Accounts within your account with the following settings:
+
+Method: `GET`
+
+Endpoint: `/accounts/{account_id}/sub_accounts`
+
+Body Type : none
+
+Final outcome being: **https://api.unbounce.com/accounts/{account_id}/sub_accounts**
+
+## Example Usage
+
+Below is an example of a way in which you could potentially use the Unbounce connector to retrieve a list of leads for a specific webpage, and delete any leads related to a specific email address.
+
+The steps will be as follows:
+
+1. Setup using a manual trigger and list all the leads for the selected account.
+2. Loop through all the leads and fetch information for each page lead.
+3. Check each page lead for a matching email address and then delete a lead when a match is found.
+
+Your completed workflow should look similar to this:
+
+### 1 - Setup Trigger & list all the leads
+
+Select the manual trigger from the trigger options available.
+
+From the connectors panel on the left, add an Unbounce connector to your workflow. Set the operation to 'List page leads'.<br/>Using the drop-downs, select your main Account, the Sub Account the page belongs to, and the page whose leads you want to search through.
+
+Note that the 'Limit' field is required but is already set for you. You may wish to increase this value to ensure you retrieve all the page leads available.
+
+You will notice some additional filtering and sorting fields that you can set on this operation ('Count', 'From', 'To', 'Offset', etc). While none of these are mandatory, please feel free to add them according to your project needs. For this example, we want to retrieve the entire list of leads, so we won't use any of these additional fields.
+
+Now when this workflow is run, it will retrieve a list of leads for the specific web page.
+
+### 2 - Loop through and fetch info
+
+Next, search for the Loop collection connector within your connector panel, and drag it into your workflow as your next step. Set your operations to 'Loop list'.
+
+The Loop Collection connector allows you to iterate through a list of results. In this example, we will use it to iterate through the data found within the previous 'List leads' step.
+
+In order to specify the list, you want to loop through, start by using the list mapping icon (found next to the list input field, within the properties panel) to generate the connector-snake.
+
+While hovering over the 'List leads' step (with the tail end of the connector-snake), select 'leads' from the list of output properties displayed. This will auto-populate a jsonpath within your list input field, and update the type selector to jsonpath.
+
+For more clarification on the pathways you have available, open the Debug panel to view your step's Input and Output.
+
+This will enable us to iterate over the list of page leads, and perform operations for each one, during each loop cycle.
+
+Feel free to re-name your steps as you go along to make things clearer for yourself and other users.
+
+Next, drag an Unbounce connector **inside** of the Loop Collection step itself. Set the operation to 'Get page lead'. As you can see, the 'Account', 'Sub Account', and 'Page' fields are required. Set these to match the values you selected in Step 1 using the drop-down menus.
+
+The 'Lead ID' field is also required. In order to get the Lead ID for each item in the looped list, we will again use the connector-snake. Use the list mapping icon (found next to the list input field, within the properties panel) to generate the connector-snake.
+
+While hovering over the 'Loop leads' step (with the tail end of the connector-snake), select 'id' from the list of output properties displayed. This will auto-populate a jsonpath within your list input field, and update the type selector to jsonpath.
+
+Now when this workflow is run, you will be able to gather the information available for each individual lead. This means you will be able to view the lead's details when you click through your debug panel and expand the output.
+
+### 3 - Compare and delete when a match is found
+
+Next, we will add a 'Boolean Condition' connector **inside** the loop, after the 'Get each individual lead' step. This will allow us to apply a boolean condition to each lead individually, as the loop moves through the list of leads.
+
+In this case, we want to check the 'email' attribute of each lead against a known email address, so that these leads can eventually be deleted.
+
+To do this, we will start by setting the '1st Value' field within 'Conditions', again using the connector-snake. While hovering over the 'Get individual lead' step (with the tail end of the connector-snake), select the 'email' field from within the 'form data' section in the list of output properties displayed.
+
+Next, we will set the 'Comparison type' field. For this example, we want this set to 'Equal to'. This is the default value for this field, so we can leave it as it is.
+
+Lastly, we will need to fill in the '2nd Value' field with the value we would like the incoming data to be compared to. Note that in this case the value for email is of type 'array', so we will need to update the type selector to 'array'. Then we can add an element to this array where we will input the email address that we wish to compare to. This element will be of type 'string'.
+
+Now when this workflow is run, it will compare the email address of each lead to the email address we have specified.
+
+The final step is to delete any leads which match the specific email address.
+
+To do this, drag an Unbounce connector **onto** the 'TRUE' branch of the boolean-condition connector and set the operation to 'Delete page lead' operation.
+
+You will see that the 'Account', 'Sub Account', and 'Page' fields are required and can be set using the drop-downs to match the previous steps.
+
+The 'Lead ID' is also required. We will set this using the connector-snake. While hovering over the 'Get individual lead' step (with the tail end of the connector-snake), select the 'id' field from the list of output properties displayed.
+
+This will allow the 'Lead ID' to be inputted into this step **only** when we want the lead to be deleted.
+
+As we want to skip over any leads where the email address doesn't match, we will leave the 'FALSE' branch empty, and these leads will remain unedited.
+
+When you click through your debug panel and expand the output, you will be able to see any instances where the 'Boolean Condition' connector found a matching email address, followed by an instance of the 'Delete lead' step.
+
+This step will delete any lead when the boolean condition is 'true'.

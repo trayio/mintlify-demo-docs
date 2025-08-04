@@ -1,0 +1,99 @@
+---
+title: "Overview"
+description: "Overview of the XML Helper connector"
+---
+
+# Overview
+
+## Overview
+
+The XML Helper can be used to convert XML data into a more manageable JSON format. This output can then in turn be used to extract information via the use of jsonpaths, and used in conjunction with other connectors. It can also be used to convert JSON data into XML format easily.
+
+## Basic use case
+
+A common scenario where you might use the XML Helper is when a user has data coming in sent in XML format by a third-party service, that needs to be added to a secondary service which is not XML compatible.
+
+This example uses [Google sheets](/connectors/service/google-sheets/) as well as the [Loop](/connectors/core/loop/) connector to explain the XML Helper operations in more detail.
+
+## Operations
+
+### Convert XML to JSON
+
+**Description**: Takes XML as an input and converts to JSON.
+
+This operation is essentially a format converter. This particular operation is most useful when users need to manipulate XML data within their Tray.io workflows, as Tray.io works off the premise of jsonpaths.
+
+New data from a third-party service is coming into the workflow in an XML format. This is where the **Convert XML to JSON** operation comes in useful.
+
+Set the XML Helper connector operation to 'Convert XML to JSON' and the 'XML to parse' field to the trigger's output. Add a 'Loop' connector as your next step to iterate through the object itself.
+
+Usually the Loop connector iterates through lists, but it is not possible with this setup. Therefore make sure to set your Loop operation to **Loop object** before continuing. This will result in a list like output, which users can then iterate through to manipulate their data as desired.
+
+In this case, a simple Google sheets 'Create row' operation was used to import the data into a spreadsheet.
+
+The end result as seen below:
+
+### Convert JSON to XML
+
+**Description**: Takes JSON as an input and converts to XML.
+
+This operation is essentially a format converter. It is most useful when users need to convert their JSON data into an XML format so that third- party service can use the data accordingly.
+
+Note that when the data is returned, it will be returned as a **single entry/ line**. This means that further formatting may be required by end users.
+
+See the below images for more details.
+
+## Adding Attributes
+
+If you format the JSON correctly, there is a way for you to convert and include attributes.
+
+In this case, `_attributes` and `_text` are specific JSON object values that the connector recognizes to parse into XML, in a specific format:
+
+With the help of the Javascript connector, the code above can be used to the create the following results:
+
+## Example usage
+
+In this example we show you how to use the Paginate XML File operation. Imagine a scenario where you have an XML file that has thousands of information on feeds. The file that we are processing might look something like this:
+
+To paginate this file the steps will be as follows:
+
+1. Set up your trigger and download a large XML file.
+2. Paginate the XML file.
+
+The complete workflow will look something like this:
+
+### 1 - Setup and download the XML file
+
+First go to your Tray.io dashboard, click on the 'Create new workflow' button in the top right corner, and name your project workflow. Select 'Manual' as your trigger. *Your operation should automatically be set to 'trigger'*.
+
+We then need to get our XML file object into the workflow. For this example we are going to download our file from Google Drive.
+
+Once redirected to the workflow dashboard, select the 'Google Drive' connector from the connector panel (on the left-hand side). Place it on the next step of your workflow.
+
+Make sure your operation is set to 'Download file'. Then select or create an authentication and add the Google Drive 'File ID' of the XML file in the input panel.
+
+The data we are testing can be found [here](https://www.appsloveworld.com/download-free-sample-xml-file-with-multiple-records/).
+
+### 2 - Paginate the XML file
+
+Next you will need to add the 'XML Helpers' connector to your loop step. Make sure the operation is set to 'Paginate XML'.
+
+Use the connector-snake to auto-generate your JSON path for the 'File' input field.
+
+Your 'Page size' will have `10` displayed which we have changed this to `2` for the sake of our demo. We will leave the page number as `0` which will return the first two results.
+
+Using the XPath input, we can also paginate a particular element rather than the root element. So for example if we wanted to paginate the 'multiMedia' of the first 'feeds' entry, we could provide a 'XPath' value of `/root/feeds[1]/multimedia`.
+
+This selects the first 'feeds' element and then selects the 'multiMedia' element within the feed. This will now paginate and return elements from within this element. So with our pagination setup here, this will return the first two elements; '
+
+<Content type in custom component id TBD>
+
+' and '
+
+<Content type in custom component name TBD>
+
+'.
+
+For our example we want to paginate the root element and return the first two 'feeds' elements so we will leave 'XPath' blank.
+
+Setup should now be complete. If you run the workflow and then click 'Debug' we cam see the resultant paginated XML string.

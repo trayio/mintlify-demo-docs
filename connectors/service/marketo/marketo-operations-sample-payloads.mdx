@@ -1,0 +1,772 @@
+---
+title: "Operations (sample payloads)"
+description: "Operations (sample payloads) documentation for Marketo connector"
+---
+
+# Operations (sample payloads)
+
+## Main operations
+
+### Add leads to static list
+
+Add a list of leads to a static list
+
+**Sample Input**
+
+**Sample Output**
+
+### Approve custom activity type
+
+Approves the current draft of the type, and makes it the live version. This will delete the current live version of the type.
+
+**Sample Input**
+
+**Sample Output**
+
+### Check lead list membership
+
+Checks if leads are members of a given static list
+
+**Sample Input**
+
+**Sample Output**
+
+### Clone program
+
+Clones the target program.
+
+**Sample Input**
+
+**Sample Output**
+
+### Create bulk export activities job
+
+Creates and queues a bulk export activities job. Once completed, you can download the file as a CSV using the "Download Bulk Export Activities Job File" operation.
+
+**Sample Input**
+
+**Sample Output**
+
+### Create bulk export leads job
+
+Creates and queues a bulk export leads job. Once completed, you can download the file as a CSV using the "Download Bulk Export Leads Job File" operation.
+
+**Sample Input**
+
+**Sample Output**
+
+### Create bulk export program members job
+
+Creates and queues a bulk export program members job. Once completed, you can download the file as a CSV using the "Download Bulk Export Program Members Job File" operation.
+
+**Sample Input**
+
+**Sample Output**
+
+### Create bulk import custom object job
+
+Creates and queues a bulk import custom object job.
+
+**Sample Input**
+
+**Sample Output**
+
+### Create bulk import leads job
+
+Creates and queues a bulk import leads job. You can poll the status of the import using the Get import lead status operation.
+
+**Sample Input**
+
+**Sample Output**
+
+### Create custom activities
+
+This API is used to add custom activity for multiple leads. A maximum of 300 activity records can be submitted at a time.
+
+**Sample Input**
+
+**Sample Output**
+
+### Create custom activity type
+
+Creates a new custom activity type draft in the target instance.
+
+**Sample Input**
+
+**Sample Output**
+
+### Create custom activity type attributes
+
+Adds activity attributes to the target type. These are added to the draft version of the type.
+
+**Sample Input**
+
+**Sample Output**
+
+### Create static list
+
+Creates a new Static List.
+
+**Sample Input**
+
+**Sample Output**
+
+### Create/update multiple companies
+
+Create or update a list of companies in Marketo.
+
+**Sample Input**
+
+**Sample Output**
+
+### Create/update multiple custom objects
+
+Create or update custom object data in Marketo.
+
+**Sample Input**
+
+**Sample Output**
+
+### Create/update multiple leads
+
+Create or update a list of leads in Marketo.
+
+**Sample Input**
+
+**Sample Output**
+
+### Create/update multiple opportunities
+
+Create or update a list of opportunities in Marketo.
+
+**Sample Input**
+
+**Sample Output**
+
+### Create/update multiple opportunity roles
+
+Create or update a list of opportunity roles in Marketo.
+
+**Sample Input**
+
+**Sample Output**
+
+### Create/update multiple sales persons
+
+Create or update a list of sales persons in Marketo.
+
+**Sample Input**
+
+**Sample Output**
+
+### Create/update token
+
+Creates or updates a token in the parent folder.
+
+**Sample Input**
+
+**Sample Output**
+
+### Delete companies
+
+Delete multiple companies for a given criteria.
+
+**Sample Input**
+
+**Sample Output**
+
+### Delete custom activity type
+
+Deletes the target custom activity type. The type must first be removed from use by any assets, such as triggers or filters.
+
+**Sample Input**
+
+**Sample Output**
+
+### Delete invited user
+
+Delete a pending user. A pending user is a user that has not yet accepted an invitation.
+
+**Sample Input**
+
+**Sample Output**
+
+### Delete leads
+
+Delete multiple leads given their ID.
+
+**Sample Input**
+
+**Sample Output**
+
+### Delete leads from static list
+
+Removes a given set of person records from a target static list.
+
+**Sample Input**
+
+**Sample Output**
+
+### Delete opportunities
+
+Delete multiple opportunities for a given criteria.
+
+**Sample Input**
+
+**Sample Output**
+
+### Delete opportunity roles
+
+Delete multiple opportunity roles for a given criteria.
+
+**Sample Input**
+
+**Sample Output**
+
+### Delete sales persons
+
+Delete multiple sales persons for a given criteria.
+
+**Sample Input**
+
+**Sample Output**
+
+### Delete static list
+
+Deletes the designated Static List.
+
+**Sample Input**
+
+**Sample Output**
+
+### Describe custom activity type
+
+Returns metadata for a specific custom activity type.
+
+**Sample Input**
+
+**Sample Output**
+
+### Describe object
+
+Get full details about an object type in Marketo.
+
+**Sample Input**
+
+**Sample Output**
+
+### Download bulk export activities job file
+
+Downloads the CSV file that was exported as part of a bulk activities export job, using the export ID. NOTE: this will only work for jobs that have completed.
+
+**Sample Input**
+
+**Sample Output**
+
+### Download bulk export leads job file
+
+Downloads the CSV file that was exported as part of a bulk lead export job, using the export ID. NOTE: this will only work for jobs that have completed.
+
+**Sample Input**
+
+**Sample Output**
+
+### Download bulk export program members job file
+
+Downloads the CSV file that was exported as part of a bulk program member export job, using the export ID. NOTE: this will only work for jobs that have completed.
+
+**Sample Input**
+
+**Sample Output**
+
+### Get activities bulk export job status
+
+Gets the current status of a bulk activities export job.
+
+**Sample Input**
+
+**Sample Output**
+
+### Get activity types
+
+This API returns meta data about activity types (except change data value) available in Marketo.
+
+**Sample Input**
+
+**Sample Output**
+
+### Get and Create/Update lead
+
+Get a lead in Marketo by their ID. If the lead does not exist, create a new lead. If the lead does exist, update the lead.
+
+**Sample Input**
+
+**Sample Output**
+
+### Get custom activity types
+
+This API returns meta data about custom activity types (except change data value) available in Marketo.
+
+**Sample Input**
+
+**Sample Output**
+
+### Get folder by ID
+
+Retrieve a folder from its ID.
+
+**Sample Input**
+
+**Sample Output**
+
+### Get folder by name
+
+Retrieve a folder from its name.
+
+**Sample Input**
+
+**Sample Output**
+
+### Get lead activities
+
+Get a list of lead activities.
+
+**Sample Input**
+
+**Sample Output**
+
+### Get lead bulk export job status
+
+Gets the current status of a bulk lead export job.
+
+**Sample Input**
+
+**Sample Output**
+
+### Get lead by ID
+
+Get a lead in Marketo by their ID.
+
+**Sample Input**
+
+**Sample Output**
+
+### Get lead changes
+
+This API retrieves change data value for leads.
+
+**Sample Input**
+
+**Sample Output**
+
+### Get lead import failures
+
+Returns the list of failures for the import batch job in CSV format.
+
+**Sample Input**
+
+**Sample Output**
+
+### Get lead import warnings
+
+Returns the list of warnings for the import batch job in CSV format.
+
+**Sample Input**
+
+**Sample Output**
+
+### Get leads bulk import status
+
+Returns the status of a leads import batch job.
+
+**Sample Input**
+
+**Sample Output**
+
+### Get paging token
+
+This API returns a token for a given date.
+
+**Sample Input**
+
+**Sample Output**
+
+### Get program by ID
+
+Get a program in your Marketo account, using its unique ID.
+
+**Sample Input**
+
+**Sample Output**
+
+### Get program by name
+
+Get a program in your Marketo account, using its unique name.
+
+**Sample Input**
+
+**Sample Output**
+
+### Get program members bulk export job status
+
+Gets the current status of a bulk program member export job.
+
+**Sample Input**
+
+**Sample Output**
+
+### Get static list by ID
+
+Returns a list record by its ID.
+
+**Sample Input**
+
+**Sample Output**
+
+### Get static list by name
+
+Returns a list record by its name.
+
+**Sample Input**
+
+**Sample Output**
+
+### Get tokens by folder ID
+
+Retrieves the list of available My Tokens in the target folder.
+
+**Sample Input**
+
+**Sample Output**
+
+### Invite user
+
+Send an email invitation to a new user.
+
+**Sample Input**
+
+**Sample Output**
+
+### List campaigns
+
+Get a list of campaigns
+
+**Sample Input**
+
+**Sample Output**
+
+### List custom object types
+
+Get a list of all of the custom object types.
+
+**Sample Input**
+
+**Sample Output**
+
+### List custom objects
+
+Get a list of custom objects of a given type.
+
+**Sample Input**
+
+**Sample Output**
+
+### List deleted leads
+
+Return a list of leads deleted after a given date and time. Deletions greater than 14 days old may be pruned.
+
+**Sample Input**
+
+**Sample Output**
+
+### List folders
+
+Retrieve a list of child folders within a given root folder.
+
+**Sample Input**
+
+**Sample Output**
+
+### List landing pages
+
+Retrieves a list of accessible landing pages from the target instance.
+
+**Sample Input**
+
+**Sample Output**
+
+### List lead fields
+
+Retrieves metadata for all lead fields in the target instance.
+
+**Sample Input**
+
+**Sample Output**
+
+### List leads
+
+Get a list of leads.
+
+**Sample Input**
+
+**Sample Output**
+
+### List program leads
+
+Get a list of leads belonging to a particular program.
+
+**Sample Input**
+
+**Sample Output**
+
+### List programs
+
+Get a list of programs in your Marketo account.
+
+**Sample Input**
+
+**Sample Output**
+
+### List roles
+
+Return a list of all role records.
+
+**Sample Input**
+
+**Sample Output**
+
+### List smart campaigns
+
+Retrieve a list of smart campaigns.
+
+**Sample Input**
+
+**Sample Output**
+
+### List static lists
+
+Returns a set of static list records based on given filter parameters.
+
+**Sample Input**
+
+**Sample Output**
+
+### List user roles and workspaces
+
+Return a list of user role and workspace records.
+
+**Sample Input**
+
+**Sample Output**
+
+### List users
+
+Retrieve a list of all user records.
+
+**Sample Input**
+
+**Sample Output**
+
+### List workspaces
+
+Retrieve a list of workspace records.
+
+**Sample Input**
+
+**Sample Output**
+
+### Push lead
+
+Upsert a lead, and generate a Push Lead to Marketo activity.
+
+**Sample Input**
+
+**Sample Output**
+
+### Raw HTTP request (advanced)
+
+Perform a raw HTTP request with some pre-configuration and processing by the connector, such as authentication.
+
+**Sample Input**
+
+**Sample Output**
+
+### Search companies
+
+Retrieve multiple companies for a given search criteria.
+
+**Sample Input**
+
+**Sample Output**
+
+### Search leads
+
+This API will retrieve multiple leads for a given search criteria.
+
+**Sample Input**
+
+**Sample Output**
+
+### Search opportunities
+
+Retrieve multiple opportunities for a given search criteria.
+
+**Sample Input**
+
+**Sample Output**
+
+### Search opportunity roles
+
+Retrieve multiple opportunity roles for a given search criteria.
+
+**Sample Input**
+
+**Sample Output**
+
+### Search sales people
+
+Retrieve multiple companies for a given search criteria.
+
+**Sample Input**
+
+**Sample Output**
+
+### Sync program member data
+
+Changes the program member data of a list of leads in a target program. Only existing members of the program may have their data changed with this API.
+
+**Sample Input**
+
+**Sample Output**
+
+### Trigger campaign
+
+Trigger a campaign with specified input in Marketo.
+
+**Sample Input**
+
+**Sample Output**
+
+### Update static list metadata
+
+Updates the metadata of a static list asset.
+
+**Sample Input**
+
+**Sample Output**
+
+## DDL operations
+
+### Get activity type attributes (DDL)
+
+**Sample Input**
+
+**Sample Output**
+
+### Get activity types (DDL)
+
+**Sample Input**
+
+**Sample Output**
+
+### Get smart lists (DDL)
+
+**Sample Input**
+
+**Sample Output**
+
+### Get static lists (DDL)
+
+**Sample Input**
+
+**Sample Output**
+
+### List campaigns (DDL)
+
+**Sample Input**
+
+**Sample Output**
+
+### List custom activity types (DDL)
+
+**Sample Input**
+
+**Sample Output**
+
+### List custom object fields (DDL)
+
+**Sample Input**
+
+**Sample Output**
+
+### List custom object filter types (DDL)
+
+**Sample Input**
+
+**Sample Output**
+
+### List custom object type fields (DDL)
+
+**Sample Input**
+
+**Sample Output**
+
+### List custom object types (DDL)
+
+**Sample Input**
+
+**Sample Output**
+
+### List lead attributes (DDL)
+
+**Sample Input**
+
+**Sample Output**
+
+### List lead searchable fields (DDL)
+
+**Sample Input**
+
+**Sample Output**
+
+### List object fields (DDL)
+
+**Sample Input**
+
+**Sample Output**
+
+### List object filter types (DDL)
+
+**Sample Input**
+
+**Sample Output**
+
+### List program member attributes (DDL)
+
+**Sample Input**
+
+**Sample Output**
+
+### List programs (DDL)
+
+**Sample Input**
+
+**Sample Output**
+
+### List roles (DDL)
+
+**Sample Input**
+
+**Sample Output**
+
+### List users (DDL)
+
+**Sample Input**
+
+**Sample Output**
+
+### List workspaces (DDL)
+
+**Sample Input**
+
+**Sample Output**

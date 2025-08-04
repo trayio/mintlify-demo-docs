@@ -1,0 +1,112 @@
+---
+title: "Overview"
+description: "Overview of the Data Mapper connector"
+---
+
+# Overview
+
+## Overview
+
+Sometimes when working with data in your workflows, it is necessary to set up 'mappings' for your data. Two general scenarios which would necessitate use of the Tray Data Mapper are:
+
+1. You wish to automatically pass data from one service to another by specifying a mapping 'table' so that e.g. the 'name' field in Service 1 is automatically mapped to the 'item' field in Service 2.
+
+The Data Mapper has a **Map Keys** operation for this purpose.
+
+1. You are pulling data from a service and need the results to be formatted so as to update a particular field in a database with a value that is more helpful for the users of the database (e.g. 'landline call' and 'cellphone call' could both be mapped to 'phone call').
+
+The Data Mapper has a **Map one value** operation for this purpose.
+
+There is also a third **Map multiple values between objects** operation which is explained below.
+
+Note that the examples given below all use a dummy dataset which is generated using an Object Helpers step, with the 'JSON parse' operation:
+
+This replicates a scenario whereby you have received a customer list via a webhook trigger or another service connector
+
+The array of customers pasted into the **Source** box is:
+
+## Map keys example
+
+Sometimes you will need to transform the keys of your data into a format that is accepted by the service you are wishing to upload to.
+
+For example, Salesforce dictates that the keys for the first and last names of a contact should be **FirstName** and **LastName**.
+
+So if we have a list of customers such as the one above, we can loop through these customers with the loop connector and use the data mapper **Map keys** operation like this:
+
+In this case we set up the mappings as:
+
+And each customer in the above list will be transformed into the following format:
+
+## Map one value example
+
+Continuing with the above customer dataset, it may be that you are wanting to feed this into a database which records customers by **region** and not by **country**. In which case we would want to map values for certain countries into particular regions.
+
+So if we have set up a loop to go through the customers, we can then use a data mapper step and the **Map one value** operation.
+
+The one **Value** it takes in this case is `$.steps.loop-2.value.country`
+
+The full list of data mappings for this is:
+
+The result can then be fed into your chosen database.
+
+In this case we use Google Sheets and the 'create row' operation. Note that while the **id**, **first_name**, **last_name** and **email** fields take their data from the loop helper, **region** takes it from the Data Mapper using `$.steps.data-mapper-2.result`:
+
+So you will see that this operation does not return a complete object, but **only one value**.
+
+The end result is customers and their region recorded in your chosen database:
+
+## Map multiple values between objects example
+
+With the above customer dataset, you may wish to ensure that certain values are marked as confidential. In this case you can use the **Map multiple values between objects** operation.
+
+You can first set the available **Values** to be mapped to:
+
+Then in **Mappings** you can list the fields whose values should be replaced with the specified value:
+
+As a result a new object will be returned for each customer:
+
+And the end result in your database will look something like:
+
+## Map values
+
+The **Map values** operation allows you to map any number of values to any other value in an **array** or **object**. You can either map all occurrences of the values or map specific values for specific object keys. The resulting output has the same shape as the original data but with the specified values changed.
+
+With the above customer dataset, you may wish to map all instances of the value 'United States' to 'USA' regardless of key, and all `null` values associated with the **status** key to a value of 'NO DATA'. In this case you can use the **Map values** operation.
+
+You can set the available **Values** to be mapped to:
+
+As you can see, the input is referencing the customer array `$.steps.object-helpers-1.result` (as defined above) and the mappings are as follows:
+
+As a result a new object will be returned. Here is the workflow with the debug panel showing the input and output of the **Map values** operation:
+
+The full output showing all completed mappings is as follows:
+
+## Map objects to list
+
+Sometimes you may need to alter the format of existing JSON data to be used for a further process. For example, the [Microsoft SQL database](/connectors/service/microsoft-sql-database/) requires data in key and value pair to insert the data in one call into a selected Microsoft SQL database table.
+
+This is just an example for your understanding. There are several instances where this could be required.
+
+So to understand how this is done, consider that we are receiving JSON data from a [Webhook](/connectors/triggers/webhook-trigger/) trigger, in reality you may receive this data in any number of other ways such as from the [Salesforce](/connectors/service/salesforce/) or [SurveyMonkey](#) connector, through the [CSV Editor](/connectors/core/csv-editor/), and so on.
+
+In this example, the received JSON data is in the following format:
+
+The Data Mapper connector using the 'Map object to list' operation converts the above JSON into an array of field key and value objects.
+
+The expected output should look similar to this:
+
+Later this data could be stored in a third-party service. In this case, we are using Microsoft SQL Database as a generic placeholder for any service or database you may wish to use.
+
+## Map objects (Flattening nested JSON)
+
+Depending on the data source, sometimes there might be a requirement to flatten received nested JSON data.
+
+This is possible using the 'Map objects' operation of the Data Mapper connector.
+
+Consider the received nested JSON is in the following format:
+
+Using the 'Map objects' operation the 'Mapping' field transforms the nested structure i.e. `attributes.[column_name]`, to a flat structure, i.e. just the `[column_name]`. The 'Mapping' field contains a list of all the possible attributes that you wish to get a flat structure for.
+
+Make sure to uncheck the 'Included unmapped' field. If you do not uncheck this field, it will include the fields from the received JSON data that you haven't listed in the Mappings field, i.e., something like this:
+
+If the 'Included unmapped' field is unchecked the expected flat JSON output should look like this:

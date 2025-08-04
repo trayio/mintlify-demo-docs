@@ -1,0 +1,67 @@
+---
+title: "Overview"
+description: "Overview of the AWS Comprehend connector"
+---
+
+# Overview
+
+## Overview
+
+Amazon Web Services (AWS) Comprehend is a natural language processing (NLP) service that uses machine learning to find insights and relationships in text. It enables real-time analysis and you can extract key phrases or determine sentiment with the built-in models.
+
+## Authentication
+
+When using the AWS Comprehend connector, the first thing you will need to do is go to your Tray.io account page, and select the workflow you wish to work on. Once in the workflow dashboard itself, select and drag the AWS Comprehend connector from the connectors panel (on the left hand side) onto your workflow.
+
+With the new AWS Comprehend connector step highlighted, in the properties panel on the right, click on 'New Authentication' under the 'Settings' heading.
+
+This will result in a Tray.io authentication pop-up window, that should look like this:
+
+As you can see, besides naming your authentication appropriately, you will also need your 'Secret Access Key', 'Access Key ID' and 'Region'.
+
+In order to get these fields, go to your AWS Management Console. Click on your username and then select 'My Security Credentials' from the dropdown menu:
+
+In 'Your Security Credentials', click on the 'Create access key' button.
+
+This will generate a popup with the option of 'Show secret access key'. Clicking this will display your 'Access key ID' and your 'Secret access key':
+
+Once you have your 'Access key ID' and your 'Secret access key', go back to the Tray.io authentication popup box and enter them into the relevant fields.
+
+Make sure to also specify your AWS Region.
+
+Once you have clicked the 'Create authentication' button, go back to your authentication field (within the workflow dashboard properties panel from earlier), and select the recently added authentication from the dropdown options now available.
+
+Your connector authentication setup should now be complete.
+
+## Available Operations
+
+The examples below show one or two of the available connector operations in use.
+
+Please see the [Full Operations Reference](#operationsFull) at the end of this page for details on all available operations for this connector.
+
+## Example usage
+
+Below is an example of a way in which you could potentially use the AWS Comprehend connector, to extract key phrases from a text.
+
+The steps will be as follows:
+
+1. Set up your manual trigger
+2. Set up your AWS Comprehend connector
+
+The final outcome should look like this:
+
+### 1 - Setup trigger
+
+Once you have clicked 'Create new workflow' on your main Tray.io dashboard (and named said new workflow), select the Manual trigger from the trigger options available:
+
+### 2 - List key phrases
+
+Once you have been redirected to the Tray.io workflow dashboard, from the connectors panel on the left, add a AWS Comprehend connector to your second step. Set the operation to 'List key phrases'.
+
+Feel free to re-name your steps as you go along to make things clearer for yourself and other users.
+
+From the dropdown list, set the Language Code to the language of the input text.
+
+Insert your text into the Text input field.
+
+Once the workflow is set up, click 'Run workflow' and then click on the 'Debug' tab to look through the input and output of a successful run of the workflow.

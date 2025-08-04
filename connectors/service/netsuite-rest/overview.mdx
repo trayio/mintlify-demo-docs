@@ -1,0 +1,104 @@
+---
+title: "Overview"
+description: "Overview of the NetSuite REST connector"
+---
+
+# Overview
+
+## Overview
+
+Companies use NetSuite REST for enterprise resource planning (ERP) and to manage inventory, track their financials, host e-commerce stores and maintain customer relationship management (CRM) systems. This flexible platform can be applied to a range of business applications.
+
+## **API Information**
+
+The Base URL used for the NetSuite REST connector is **https://{account-id}.suitetalk.api.netsuite.com**. More information can be found on their main API documentation (**v1.0**) - [NetSuite REST documentation](https://docs.oracle.com/en/cloud/saas/netsuite/ns-online-help/chapter_1540391670.html) site.
+
+## Authentication
+
+### Prerequisites
+
+To use NetSuite REST web services the relevant **REST Web Services and SuiteAnalytics webhook features must be enabled **within your NetSuite account. 
+
+Additionally the REST web services **user must have the required permissions assigned to said user’s** **role**.
+
+If you already have your features and permission setup then please move straight to **Stage 3: **[Creation](https://staging.tray.io/documentation/connectors/service/netsuite/#creation).
+
+### Stage 1: Enable Features
+
+This accordion guides you through the process of **enabling token authentication and SuiteAnalytics** for NetSuite REST API authentication integration with Tray.io.
+
+### Stage 2: Enable Permissions
+
+This accordion guides you through the process of** setting the permissions required** for the respective features enabled in the previous section.
+
+### Stage 3: Create
+
+This section begins and ends in the Tray.io builder so **please have your workflow space set up before continuing**.
+
+## Available Operations
+
+The examples below show one or two of the available connector operations in use.
+
+Please see the [Full Operations Reference](#operationsFull) at the end of this page for details on all available operations for this connector.
+
+## Notes on key operations
+
+### Find record
+
+### Create Record
+
+You **must be very precise** **when using this operation**. It is critical that you keep in mind the following points:
+
+- All field references are correctly 'typed' - object / string / boolean, etc
+- There are no missing fields
+- Any field requirements match the schema
+
+### Execute SuiteQL (advanced query)
+
+You execute SuiteQL queries by sending a `POST` request to the `suiteql resource` and specifying the query in the `request body` after the body parameter "`q`".
+
+Check out the following links for more information:
+
+- [Executing SuiteQL Queries](https://docs.oracle.com/en/cloud/saas/netsuite/ns-online-help/section_157909186990.html)
+- [NetSuites SuiteQL Syntax and Examples](https://docs.oracle.com/en/cloud/saas/netsuite/ns-online-help/section_156257790831.html)
+
+### NetSuite Sales orders
+
+There are 3 main points to be aware of when creating a NetSuite Sales order:
+
+- Your associated NetSuite Role has the correct permissions.
+- It is possible to 'use' your item within a sales order.
+- The data being sent to NetSuite is being sent in the format it requires.
+
+### Renaming fields
+
+Any fields customers may have renamed within their NetSuite instance **will still display as their native name** **within any of the dropdown options available inside the Tray.io properties panel**.
+
+The NetSuite UI may display your updated field name but what it is referring to in the NetSuite database will not have.
+
+Look for your endpoint in the [REST API Browser](https://system.netsuite.com/help/helpcenter/en_US/APIs/REST_API_Browser/record/v1/2023.1/index.html#/definitions/) and under the **I****nsert record** -> **Request body** select the clickable 'endpoint' link to see a list of **Fields**. This will display the native name for all the field references. 
+
+## Using the Raw HTTP Request ('Universal Operation')
+
+As of **version 2.0** you can effectively create your own operations.
+
+This is a very powerful feature which you can use if you need an endpoint that is not currently provided.
+
+Please the example below for a full walkthrough.
+
+## NetSuite REST templates
+
+Please note that we have the following NetSuite REST templates available.
+
+These will give you pre-configured best practice ways of working with NetSuite REST and integrating it with other connectors.
+
+## Further Info (REST & SOAP)
+
+The following sections are mainly relevant to SOAP users however there is some cross over for our REST customers. 
+
+Please see the [NetSuite SOAP: Further Info](https://tray.io/documentation/connectors/service/netsuite-soap/#further-info-rest--soap) section for references pertaining to:
+
+- [Reverting XML schema](https://tray.io/documentation/connectors/service/netsuite-soap/#reverting-xml-schema)
+- [SuitTalk Guides](https://tray.io/documentation/connectors/service/netsuite-soap/#suittalk-guides)
+- [Appendix I: Namespace to Alias Mappings](https://tray.io/documentation/connectors/service/netsuite-soap/#appendix-i-namespace-to-alias-mappings)
+- [Appendix II: Further Documentation](https://tray.io/documentation/connectors/service/netsuite-soap/#appendix-ii-further-documentation)

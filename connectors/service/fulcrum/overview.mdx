@@ -1,0 +1,182 @@
+---
+title: "Overview"
+description: "Overview of the Fulcrum connector"
+---
+
+# Overview
+
+## Overview
+
+Fulcrum is a cloud-based mobile data collection platform, designed to simplify the process of managing geographic data captured in the field. The platform consists of web-based form building, user management, and quality control tools, along with native mobile clients for fieldwork, and integration points for extensibility.
+
+## Authentication
+
+When using the Fulcrum connector, the first thing you will need to do is go to your Tray.io account page, and select the workflow you wish to work on. Once in the workflow builder itself, search and drag the Fulcrum connector from the connectors panel (on the left hand side) onto your workflow.
+
+With the new Fulcrum connector step highlighted, in the properties panel on the right, click on the Authenticate tab and 'Add new authentication' (located under the 'Authentication' field).
+
+This will result in a Tray.io authentication pop-up window. The first page will ask you to name your authentication, and state which type of authentication you wish to create ('Personal' or 'Organization').
+
+As you can see, the next page asks you for your 'API Token' credentials.
+
+In order to get the 'API Token', head to your Fulcrum dashboard. Click on the API menu item within the Settings menu on the left.
+
+To create a new API token, click the '+ NEW API TOKEN' button.
+
+Enter a description for the API token that you wish to create and then click 'CREATE TOKEN'.
+
+You will be shown your API token. Please copy it so that it can be added to the Tray.io authorisation.
+
+Once you have added the API token to your Tray.io authentication popup window, click on the 'Create authentication' button. Go back to your settings authentication field (within the workflow builder properties panel), and select the recently added authentication from the dropdown options now available.
+
+Your connector authentication setup should now be complete.
+
+## Fulcrum Trigger
+
+If you wish your workflow to be kicked off by a particular action in Fulcrum, you can use the Fulcrum Trigger.
+
+The Fulcrum Trigger allows you to receive notifications and trigger workflows when given events occur associated with the selected trigger operation.
+
+### Trigger Operations available:
+
+- Webhook
+
+### Webhook Setup
+
+When creating a new workflow, click the 'Create new workflow' button in the top right hand corner of your main Tray.io dashboard. When the trigger popup window opens, search and select the Fulcrum trigger. Wait to be redirected to your new workflow and the workflow dashboard itself.
+
+With the new Fulcrum trigger step highlighted, in the properties panel on the right, click on the Authenticate tab and on 'Add new authentication' (located under the 'Authentication' field).
+
+This will result in a Tray.io authentication pop-up window. The first page will ask you to name your authentication, and state which type of authentication you wish to create ('Personal' or 'Organization').
+
+As you can see, the next page asks you for your 'API Token' credentials.
+
+After following the instructions above to authenticate your trigger, the 'Webhook' operation should already be selected.
+
+Go to the 'Input data' tab, and you will be able to give your webhook a 'Name' and select whether you want to 'Trigger workflow on': 'All events' or only 'Selected event(s)':
+
+Now enable the workflow if it isn't already, wait for the trigger to finish initializing, and you will be able to log into the Fulcrum dashboard where you will see that the webhook has been created:
+
+From there, you can test the webhook is working by clicking on the 'Test' button to cause a test event to be emitted:
+
+This will typically be a `record.create` event, which would trigger your workflow if you had chosen to Trigger workflow on 'All events' as in this example, or had selected 'Record create' as one of the 'Selected event(s)':
+
+## Available Operations
+
+The examples below show one or two of the available connector operations in use.
+
+Please see the [Full Operations Reference](#operationsFull) at the end of this page for details on all available operations for this connector.
+
+## Note on Operations Usage
+
+When using the update operations, the entire entity is required to be submitted when making an update. Omitting fields with existing data will result in data loss
+
+The typical technique for updating an existing entity is to fetch the entity object, modify it, and then re-submit the entire updated object. You may find it easier to use the Raw HTTP Request to do this.
+
+## Using the Raw HTTP Request ('Universal Operation')
+
+As of **version 1.0**, you can effectively create your own operations.
+
+This is a very powerful feature which you can put to use when there is an endpoint in Fulcrum which is not used by any of our operations.
+
+To use this you will first of all need to research the endpoint in the [Fulcrum API documentation v2](https://learn.fulcrumapp.com/dev/rest/intro), to **find the exact format** that Fulcrum will be expecting the endpoint to be passed in.
+
+Note that you will only need to add the suffix to the endpoint, as the base URL will be automatically set.
+
+The base URL for Fulcrum is: `https://api.fulcrumapp.com`
+
+For example, say that the 'Update choice list' operation did not exist in our Fulcrum connector, and you wanted to use this endpoint, you would use the Fulcrum API docs to find the relevant endpoint - which in this case is a `PUT` request called: `/api/v2/choice_lists/:id.json`.
+
+More details can be found [here](https://learn.fulcrumapp.com/dev/rest/endpoints/choice-lists).
+
+Assuming that you know the ID of the choice list that you want to update, you can insert the ID into the endpoint by replacing `:id` with the ID value.
+
+e.g. for a choice list ID of `22e70b5d-ab4b-4132-bb05-2283fe1685b8` the endpoint will be `/api/v2/choice_lists/22e70b5d-ab4b-4132-bb05-2283fe1685b8.json`
+
+Method: `PUT`
+
+Endpoint: `/api/v2/choice_lists/22e70b5d-ab4b-4132-bb05-2283fe1685b8.json`
+
+Headers/Header: `Content-Type: application/json`
+
+Body Type : Raw :
+
+Final Example outcome being: **https://api.fulcrumapp.com/api/v2/choice_lists/22e70b5d-ab4b-4132-bb05-2283fe1685b8.json**
+
+## Example Usage
+
+Below is an example of a way in which you could potentially use the Fulcrum connector, to get a choice list, edit its properties, and then save the updated choice list in Fulcrum.
+
+The steps will be as follows:
+
+1. Setup using a manual trigger
+2. Get an existing choice list
+3. Add extra options to the choice list array
+4. Update the choice list object with the new choice
+5. Save the changes to the choice list
+
+The final outcome should look like this:
+
+### 1 - Setup Trigger
+
+Once you have clicked 'Create new workflow' from your main Tray.io dashboard and named it, select the Manual trigger from the trigger options available:
+
+After you have been redirected to the Tray.io workflow dashboard, from the connectors panel on the left, add a Fulcrum connector to your second step. Set the operation to 'Get choice list'.
+
+Now we have a workflow with the first Fulcrum operation ready to be configured.
+
+### 2 - Get an existing choice list
+
+In this example, we assume that you know the ID of the choice list that you want to retrieve and update.
+
+With the Fulcrum connector selected in the workflow, select the 'Input data' tab of the properties panel and enter the choice list ID value.
+
+Now we can retrieve the choice list details and modify them.
+
+### 3 - Add extra options to the choice list array
+
+From the connectors panel on the left, add a Lodash connector to your third step. Set the operation to 'Call operation'.
+
+Select the 'Input data' tab of the properties panel and enter 'concat' as the operation name. We are going to add (concatenate) extra values to the choice list.
+
+Next, add a parameter and use the connector snake to link the parameter to the jsonpath '$.steps.fulcrum-1.choice_list.choices'.
+
+Next,
+
+- Add another parameter to parameters and set its type to array.
+- Click 'Add to Parameter' and change the type of the added parameter (0) to object.
+- Click 'Add property to 0' and enter 'label' as the name.
+- Do the same again and enter 'value' as the name.
+- Now you can enter the label and value that you want to add to the choice list.
+
+You have successfully added a new choice to the choice list array.
+
+### 4 - Update the choice list object with the new choice
+
+From the connectors panel on the left, add another Lodash connector to your fourth step. Set the operation to 'Call operation'.
+
+Select the 'Input data' tab of the properties panel and enter 'set' as the operation name. We are going to replace (set) the existing choice list with our new choice list.
+
+Next,
+
+- Add a parameter and use the connector snake to link the parameter to the jsonpath '$.steps.fulcrum-1.choice_list'.
+- Add another parameter to parameters and set its value to 'choices'.
+- Add a final parameter to parameters and use the connector snake to link the parameter to the jsonpath '$.steps.lodash-1.result'.
+
+You have successfully updated the choice list with a new choice.
+
+### 5 - Save the changes to the choice list
+
+From the connectors panel on the left, add another Fulcrum connector to your fifth step. Set the operation to 'Update choice list'.
+
+Select the 'Input data' tab of the properties panel and use the connector snake to link the 'ID' input parameter to the first Fulcrum connector step using the jsonpath '$.steps.fulcrum-1.choice_list.id'.
+
+Next,
+
+- Use the connector snake to link the 'Name' input parameter to the first Fulcrum connector step using the jsonpath '$.steps.fulcrum-1.choice_list.name'.
+- Similarly, use the connector snake to link the 'Description' input parameter to the first Fulcrum connector step using the jsonpath '$.steps.fulcrum-1.choice_list.description'.
+- Finally, use the connector snake to link the 'Choices' input parameter to the last Lodash connector step using the jsonpath '$.steps.lodash-2.result.choices'.
+
+You have successfully saved the updated choice list to the Fulcrum app.
+
+If you now run your workflow and switch to the debug panel, you should see a successful workflow execution with inputs and outputs similar those shown below:

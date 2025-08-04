@@ -1,0 +1,116 @@
+---
+title: "Overview"
+description: "Overview of the Bynder connector"
+---
+
+# Overview
+
+## Overview
+
+Brands that leverage media, graphics and documents for marketing or sales efforts are can use Bynder's portal to collaborate globally, produce, review and approve new marketing collateral and circulate company content.
+
+## Authentication
+
+When using the Bynder connector, the first thing you will need to do is go to your Tray.io account page, and select the relevant workflow. Once in the workflow dashboard itself, search and drag the Bynder connector from the connectors panel (on the left hand side) onto your workflow.
+
+With the new Bynder connector step highlighted, in the properties panel on the right, click on 'New Authentication' which is located under the 'Settings' heading.
+
+This will result in a Tray.io authentication pop-up window, that should look like the image below.
+
+In order to fully authenticate with Tray.io and Bynder, you will need to name your authentication appropriately, not to mention the 'Domain' and 'Permanent Token'.
+
+These can be found in your Bynder account portal page.
+
+When you log into your Bynder account, copy the domain name used and paste it into your [Tray.io](https://tray.io/) 'Bynder domain' authentication. *You can also copy it from your browser URL once you are logged in*.
+
+You can access the page where you log into your Asset Library by typing the account URL in your browser. Normally, the URL is : [YourOrganisationName].bynder.com. However it might happen that your company uses a custom URL. In this case you will need to contact your system administrator.
+
+To get the 'Permanent Token', you will first need to navigate to the 'Settings' icon on the right hand side of your Bynder dashboard, and then click on the 'Advanced settings' option to reveal 'Portal settings'.
+
+Once you have navigated this far, click on 'Permanent Tokens' which should be located under another 'Settings' menu.
+
+> 
+
+Having followed all of the above, you should have all the requirements you need for your [Tray.io](https://tray.io/) authentication box. Once you have added your 'Domain' and 'Permanent token', simply click the 'Add authentication' button to finish the process.
+
+Congratulations! You have now completed the authentication process and can use the Bynder connector. Your auth field will now automatically select the Bynder auth created until stipulated otherwise.
+
+## Available Operations
+
+The examples below show one or two of the available connector operations in use.
+
+Please see the [Full Operations Reference](#operationsFull) at the end of this page for details on all available operations for this connector.
+
+## Note on Operations Usage
+
+### List Metaproperties
+
+The 'List metaproperties' operation lists all available Metaproperties. *Each Metaproperty returns options by default.*
+
+For example, the 'Language Metaproperty' has English, French, etc, available to choose from.
+
+The 'Region Metaproperty' includes options such as Europe, Asia, Africa, etc.
+
+You can unselect the include options property to skip options as displayed below:
+
+### Modify Asset
+
+You may assign Metaproperties to your assets using the 'Modify asset' operation.
+
+You must include at least one option of the Metaproperty you are targeting.
+
+The 'ID' refers to each unique Metaproperty.
+
+You can only send one request per Metaproperty. If you'd like to add more metaproperties, you need will need to edit your input and click on Run workflow again.
+
+We are currently working on a feature to enable you to send multiple request per Metaproperty.
+
+### Upload Asset
+
+To upload files to Bynder you will need to get the file information (such as URL size and name).
+
+Bynder requires files to have an extension i.e. "image.jpg". Note that file managing connectors such as [Google Drive](/connectors/service/google-drive/) will automatically provide the file extension, but [Workfront](/connectors/service/workfront/) doesn't so please be aware of this when using this kind of operation.
+
+> 
+
+> 
+
+## Example Usage
+
+In this example we imagine a scenario where we would like to grab one of our metaproperties and look at what information they contain.
+
+The steps will be as follows:
+
+1. Setup a manual trigger & use your first Bynder connector to list the Metaproperties available.
+2. Get the Metaproperty ID.
+3. Get the Metaproperty information from the ID specified.
+
+The final outcome should look like this:
+
+### 1 - Setup trigger & list Metaproperties
+
+Once you have named your new workflow, select the [Manual Trigger](/connectors/triggers/manual-trigger/) from the options available:
+
+Add a Bynder connector to your second step. Set the operation to 'List metaproperties'. Your 'Limit' field should be prepopulated for you, but feel free to change it as you see fit.
+
+*You can turn off Include options for this example.*
+
+### 2 - Copy the Metaproperty ID
+
+Click on 'Run workflow' followed by the Debug tab at the top of your workflow dashboard.
+
+You will now be able to see the input you sent and the data you received from Bynder. In the output window click on Expand to view your result more easily:
+
+For this example I am going to choose the region metaproperty. So I look for the keyword 'ID', which is within 'region'. Copy the ID *without the ID keyword and double quotes*.
+
+e.g: `67A2A361-9177-43BD-861998E686XXXXXX` or whatever your own region ID would be.
+
+### 3 - Get the Metaproperty
+
+Now select another Bynder connector and add it to your workflow.
+
+> 
+
+Alternatively you can JSON path the ID field to grab it from List metaproperties. Here I only change the name of the metaproperty to "region":
+
+Following Step 2 to get to the output via the Debug tab here are the output result:

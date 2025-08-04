@@ -1,0 +1,101 @@
+---
+title: "Overview"
+description: "Overview of the NetSuite SOAP connector"
+---
+
+# Overview
+
+## Overview
+
+Companies use NetSuite for enterprise resource planning (ERP) and to manage inventory, track their financials, host e-commerce stores and maintain customer relationship management (CRM) systems. This flexible platform can be applied to a range of business applications.
+
+## Authentication
+
+### Prerequisites
+
+To use NetSuite SOAP web services the relevant **SOAP Web Services must be enabled **within your NetSuite account. 
+
+Additionally the SOAP web services **user must have the required permissions** **assigned to said user’s role**.
+
+If you already have your features and permission setup then please move straight to **Stage 3: **[Creation](https://staging.tray.io/documentation/connectors/service/netsuite/#creation).
+
+### Stage 1: Enable Features
+
+This accordion guides you through the process of enabling token authentication and SuiteAnalytics for NetSuite REST API authentication integration with Tray.
+
+### Stage 2: Enable Permissions
+
+This accordion guides you through the process of** setting the permissions required** for the respective features enabled in the previous section.
+
+### Stage 3: Creation
+
+This section begins and ends in the Tray builder so **please have your workflow space set up** before continuing.
+
+## Available Operations
+
+The examples below show one or two of the available connector operations in use.
+
+Please see the [Full Operations Reference](#operationsFull) at the end of this page for details on all available operations for this connector.
+
+## Notes on key operations
+
+### Search records
+
+Sometimes you may wish to only select certain fields to be returned. This is especially true if you are intent on performing a "join" in order to reduce the amount of data coming through your workflow.
+
+With an "advanced search records" setup, you can define all the fields you want NetSuite to return as well as a criteria for said records in order to filter the results down further.
+
+**Please see the** **walkthrough below for a demonstration on how you could potentially set up the Tray properties panel**, in order to use with the Contact endpoint (when using the Search records operation).
+
+### Add Record (& Custom records)
+
+This section essentially walks you through **how to reference a custom record **in NetSuite.
+
+Users need to be aware that **custom records are non-standard entities in NetSuite**. You need to adhere to NetSuite's non-standard entity rules when using the **Add record** operation.
+
+**Please see the walkthrough below for a demonstration on how you could potentially set up the Tray properties panel**, in order to use with the Contact endpoint (when using the Add record operation).
+
+## Further Info (REST & SOAP)
+
+The following sections are mainly relevant to SOAP users however there is some cross over for our REST customers.  
+
+## Reverting XML Schema
+
+Despite the fact that the NetSuite APIs (REST and SOAP) primarily deals in XML Tray has taken steps to standardise our NetSuite connectors so that they work using JSON instead. 
+
+However in order for NetSuite to process requests correctly, the input still requires a translation back to XML.
+
+Therefore we have implemented a way to transform JSON back into XML. However this still **requires the JSON object to be in a specific format** in order to talk to NetSuite.
+
+Check out the simple demo below for formatting details and example input / output schemas.
+
+## SuitTalk Guides
+
+### SuiteTalk platform help
+
+For information on how SuiteTalk works login into your NetSuite account and head to the **Help Centre** -> **SuiteCloud** -> **SuiteTalk** section. 
+
+Here you can then select the following options:
+
+- **SuiteTalk (Web Services) Platform Guide**: Explains how the SuiteTalk API works and what each request requires.
+- **Web Services Operations**: Relevant operation
+- **SuiteTalk (Web Services) Records Guide**: Explains how the data is represented, constructed, and related.
+
+### SuiteTalk WSDL and Schema definitions
+
+- [WSDL](https://webservices.netsuite.com/wsdl/v2017_1_0/netsuite.wsdl)
+- [Core XSD](https://webservices.netsuite.com/xsd/platform/v2017_1_0/core.xsd)
+- [Core Type XSD](https://webservices.netsuite.com/xsd/platform/v2017_1_0/coreTypes.xsd)
+- [Common XSD](https://webservices.netsuite.com/xsd/platform/v2017_1_0/common.xsd)
+- [Relationship XSD](https://webservices.netsuite.com/xsd/lists/v2017_1_0/relationships.xsd)
+- **Schema and Records** [Browser](http://www.netsuite.com/help/helpcenter/en_US/srbrowser/Browser2017_2/schema/record/account.html)
+
+### SuiteTalk operation / request cross-reference
+
+## Appendix I: Namespace to Alias Mappings
+
+## Appendix II: Further Documentation
+
+- [NetSuite Basic Search Docs](https://system.netsuite.com/app/help/helpcenter.nl?fid=section_N3514760.html&whence=)
+- [NetSuite Schema Browser](http://www.netsuite.com/help/helpcenter/en_US/srbrowser/Browser2016_1/schema/record/account.html)
+- [NetSuite NetSuite Help Centre](https://system.netsuite.com/app/help/helpcenter.nl?topic=DOC_FRONTPAGE&whence=)

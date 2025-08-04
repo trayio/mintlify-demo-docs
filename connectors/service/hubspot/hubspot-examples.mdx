@@ -1,0 +1,48 @@
+---
+title: "Examples"
+description: "Examples documentation for HubSpot connector"
+---
+
+# Examples
+
+## List contacts & Get Contact by ID 
+
+Below is an example of a way in which you could potentially use the HubSpot connector to list all the available contacts within the database and then add each contact by their ID to a Google spreadsheet.
+
+#### Workflow
+
+#### End result
+
+## Create / Update: Singular vs Batch
+
+There are essentially two variations of the 'create / update' (i.e. upsert) operations. One is **singular** and the other processes data in **batches**. Both will either add information to the HubSpot database or update the fields if they already already exist. 
+
+We have briefly outlined both options in the steps below. Both examples assume that a Google sheets form has been submitted via a Tray.io form trigger, and the Google sheet information is either updated or added to the HubSpot database accordingly using one of these operations.
+
+I would recommend using the following [Template](https://tray.io/documentation/templates/revops/export-leads-from-google-sheet-to-hubspot/) if you are looking for inspiration regarding  the beginning steps outlined above. Bear in mind that you may need to alter some parts of it in order to work with your individual use case. 
+
+#### Workflow/s
+
+## Using the Raw HTTP Request
+
+As of **version 4.1** you can effectively create your own operations.
+
+To use this you will first of all need to research the endpoint in the [HubSpot API documentation](https://developers.hubspot.com/docs/api/overview) to **find the exact format** that HubSpot will be expecting the endpoint to be passed in.
+
+Note that you will only need to add the suffix to the endpoint, as the base URL will be automatically set (the base URL is picked up from the value you entered when you first created your authentication).
+
+The base URL for HubSpot is: `https://api.hubapi.com`
+
+For example, say that you are using the latest version of the HubSpot connector, and the 'List All Contacts' operation did not exist. You would need to use the Hubspot API docs in order to find the relevant endpoint - which in this case is a `GET` request called: `Get all contacts`.
+
+More details about this endpoint can be found [here](https://legacydocs.hubspot.com/docs/methods/contacts/get_contacts).
+
+So if you know what your method, endpoint (and details of your query parameters are should you have any), you can get a list of current contacts available with the following settings:
+
+**Method**: `GET`
+
+**Endpoint**: `/contacts/v1/lists/all/contacts/all`
+
+**Body Type**: `none`
+
+**Final outcome**: **`https://api.hubapi.com/contacts/v1/lists/all/contacts/all`**

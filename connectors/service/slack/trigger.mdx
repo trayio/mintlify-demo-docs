@@ -1,0 +1,30 @@
+---
+title: "Trigger"
+description: "Trigger documentation for Slack connector"
+---
+
+# Trigger
+
+To initiate your workflow based on a specific action in Slack, use the **Slack Trigger**.
+
+The Slack trigger allows you to receive notifications and start workflows when certain events occur that are associated with the selected trigger operation.
+
+## Available Trigger operations:
+
+- On action (button or menu click)
+- On Slack event
+- On slash command
+
+## Webhook Setup
+
+**Select the Slack Trigger**: You can do this either when creating a new workflow or by updating an existing workflow within the workflow builder.
+
+Select the Slack trigger. This can be done either at the create new workflow stage or updated within the workflow builder itself.
+
+Follow the instructions from the Authentication section to authenticate your trigger. Select the event you want your trigger to listen to in order to kick off the workflow.
+
+## Slack Sub Types
+
+**Note**: The **Also send to channel** option in your Slack messages may not function as expected.
+
+Replies in Slack will trigger a workflow execution via the Slack trigger. However, using the **Also send to channel** feature (replying and posting simultaneously) will not trigger the workflow. This limitation is due to how Slack handles related `sub_types` in their API.

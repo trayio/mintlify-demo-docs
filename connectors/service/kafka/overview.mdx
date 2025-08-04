@@ -1,0 +1,53 @@
+---
+title: "Overview"
+description: "Overview of the Kafka connector"
+---
+
+# Overview
+
+## Overview
+
+Kafka is used for building real-time data pipelines and streaming apps. It is horizontally scalable, fault-tolerant, wicked fast, and runs in production in thousands of companies
+
+## Authentication
+
+Add a **Kafka** connector step to your workflow. Click on the 'New Authentication' option now available in the right hand panel and name as appropriate.
+
+In this example we will be using IBM Event Streams to provide our kafka service. The setup should be similar for any kafka service.
+
+From IBM Event Streams you will get a config that looks like this:
+
+Note: The values below are expired and you will need to provide your own credentials
+
+The first thing we need to do is put our brokers list into a single comma separated string, so the brokers list will turn from this:
+
+to this:
+
+The next option is SASL, in the case of IBM event stream this is 'Scram sha 256' and can be selected from the drop down.<br/>Please check with your kafka provider on which SASL option needs to be selected.
+
+The next options are for username and password:<br/>These can be taken from the 'user' and 'password' fields from the config.<br/>So in this case the username is 'token' and the password is 'ihoq38thyei3xxxxxxxxxxxxxxxtye8y748af45'
+
+The next options are for SSL, for ibm event stream you can leave these as the default.<br/>If your kafka service doesn't support SSL, you will need to untick 'Enable SSL?'<br/>If your kafka service is using a self signed certificate, you will need to untick 'Verify server certificate?'
+
+In this example the final authentication looks like:
+
+## Operations List
+
+- Consume messages
+- Produce messages
+
+## Produce messages
+
+The **produce message** operation allows you to send message to a specific topic in Kafa, in this case `RDC_CUSTOMER`.
+
+You can send as many messages as you would like, by clicking the the 'Add Item' button and setting the value of the message.
+
+## Consume messages
+
+The **Consume messages** operations allows you to receive messages from a specific topic and group.
+
+To consume the messages that you just produced:
+
+1. set the 'topic' to `RDC_CUSTOMER`.
+2. You can change the default group, if you already have group, you can use that or you can leave it as 'tray.io'
+3. Tick 'From beginning', this will ensure that all previous messages get sent to this new 'tray.io' group

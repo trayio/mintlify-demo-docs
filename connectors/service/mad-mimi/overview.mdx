@@ -1,0 +1,112 @@
+---
+title: "Overview"
+description: "Overview of the Mad Mimi connector"
+---
+
+# Overview
+
+## Overview
+
+Mad Mimi is an email marketing service which enables users to create, send, and track email campaigns without using templates.
+
+## Authentication
+
+When using the Mad Mimi connector, the first thing you will need to do is go to your Tray.io account page and select the workflow you wish to work on. Once in the workflow builder itself, search and drag the Mad Mimi connector from the connectors panel (on the left hand side) onto your workflow.
+
+With the new Mad Mimi connector step highlighted, in the properties panel on the right, click on 'New Authentication' which is located under the 'Settings' heading.
+
+This will result in a Tray.io authentication pop-up window. The first page will ask you to name your authentication, and state which type of authentication you wish to create ('Personal' or 'Organisational').
+
+As you can see, the next page asks you for your 'API Key' and 'Username' credentials.
+
+In order to get your API Key, head to your Mad Mimi dashboard. Click on Account and then select API. Copy the Api Key and paste it into the Tray.io authentication window from earlier.
+
+The Username required is the same email address you use to sign into your Mad Mimi account.
+
+Once you have added these fields to your Tray.io authentication popup window, click on the 'Create authentication' button. Go back to your settings authentication field (within the workflow builder properties panel), and select the recently added authentication from the dropdown options now available.
+
+Your connector authentication setup should now be complete.
+
+## Available Operations
+
+The examples below show one or two of the available connector operations in use.
+
+Please see the [Full Operations Reference](#operationsFull) at the end of this page for details on all available operations for this connector.
+
+## Using the Raw HTTP Request ('Universal Operation')
+
+As of **version 1.0**, you can effectively create your own operations.
+
+This is a very powerful feature which you can put to use when there is an endpoint in Mad Mimi which is not used by any of our operations.
+
+To use this you will first of all need to research the endpoint in the [ Mad Mimi API documentation v3.0](https://madmimi.com/api/v3/docs) , to<br/>
+
+<u>find the exact format</u>
+
+ that Mad Mimi will be expecting the endpoint to be passed in.
+
+Note that you will only need to add the suffix to the endpoint, as the base URL will be automatically set (the base URL is picked up from the value you entered when you created your authentication).
+
+The base URL for Mad Mimi is: `https://api.madmimi.com`
+
+For example, lets say that the 'Create subscriber list' operation did not exist in our Mad Mimi connector, if you wanted to use this endpoint you would use the Mad Mimi API docs to find the relevant endpoint needed - which in this case is a `POST` request called: `/api/v3/subscriberLists`. More details can be found [ here](https://madmimi.com/api/v3/docs#!/subscriberLists/subscriber_list_create) .
+
+As you can see, you have the option to also include body parameters should you wish to do so. So if you know what your method, endpoint and details of your body parameters are, you can create a subscriber list with the following settings:
+
+Method: `POST`
+
+Endpoint: `/api/v3/subscriberLists`
+
+Body type: `raw`
+
+Property name: `name`
+
+Property value: `Tray subscriber list`
+
+Final Example outcome being: **https://api.madmimi.com/api/v3/subscriberLists**
+
+## Example usage
+
+Below is an example of a way in which you could potentially use the Mad Mimi connector, to add a subscriber to a subscriber list.
+
+The steps will be as follows:
+
+1. Setup using a manual trigger and your first Mad Mimi connector to create a subscriber.
+2. Set up your second Mad Mimi connector to list subscriber lists.
+3. Set up your third Mad Mimi connector to add your subscriber to a subscriber list.
+
+The final outcome should look like this:
+
+### 1 - Setup Trigger & Create subscriber
+
+Once you have clicked 'Create new workflow' from your main Tray.io dashboard (and named said new workflow), select the Manual trigger from the trigger options available:
+
+After you have been redirected to the Tray.io workflow dashboard, from the connectors panel on the left, add a Mad Mimi connector to your second step. Set the operation to 'Create subscriber'.
+
+Feel free to re-name your steps as you go along to make things clearer for yourself and other users.
+
+Make sure to give an 'Email'. You will notice that there are quite a few additional configuration fields that you can set on this operation ('First name', 'Last name', 'City', etc). While none of these are mandatory, please feel free to add them according to your project needs.
+
+Now when this workflow is run, it will create a subscriber with the given details. You should see your subscriber's details as a result when you click on your debug panel and expand the output.
+
+### 2 - List subscriber lists
+
+Next, we add the second Mad Mimi connector to the workflow and set the operation to 'List subscriber lists'.
+
+You can limit the result set by setting the Query parameter to e.g. 'tray' and the operation will only return subscriber lists where the name includes the word 'tray' (like the one created via the 'Raw HTTP request' operation described above).
+
+### 3 - Add subscriber to a subscriber list
+
+Finally, drag another Mad Mimi connector step into your workflow and set the operation to 'Update subscriber list memberships'.
+
+In order to specify the list you want to update, start by using the 'Subscriber list ID' mapping icon (found next to the list input field, within the properties panel) to generate the connector-snake.
+
+While hovering over the 'List subscriber list' step (with the tail end of the connector-snake), select `id` from within the `subscriberLists` list of output properties displayed. This will auto-populate a jsonpath within your 'Subscriber list ID' input field, and update the type selector to jsonpath.
+
+Your output should be similar to: `$.steps.mad-mimi-2.subscriberLists[0].id`.
+
+For more clarification on the pathways you have available, open the Debug panel to view your step's Input and Output.
+
+In order to specify the subscriber, click on the 'Add Subscriber ID' and use the same connector-snake method for generating the jsonpath to get the 'Subscriber ID' field, only this time it will be taken from the first Mad Mini step, and `id` itself is to be selected.
+
+Congratulations! you have completed the Mad Mini connector tutorial. Check your Debug to see your results!

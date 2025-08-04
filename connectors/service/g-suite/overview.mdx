@@ -1,0 +1,38 @@
+---
+title: "Overview"
+description: "Overview of the G-Suite connector"
+---
+
+# Overview
+
+## Overview
+
+The Tray.io G Suite connector allows you to manage your organisation in G Suite.
+
+## Authentication
+
+**Note:** Before authenticating this Google connector, you will need to whitelist the Tray.io Google authentication app. Please follow the instructions [here](/platform/connectors/auth-with-google/) before continuing with the authentication process.
+
+Once this is done, you can click on the **New Authentication** button:
+
+Check every scope to allow Tray the correct permissions, then proceed to log in to your G Suite account.
+
+## Available Operations
+
+The examples below show one or two of the available connector operations in use.
+
+Please see the [Full Operations Reference](#operationsFull) at the end of this page for details on all available operations for this connector.
+
+## Example
+
+In the following example we create a workflow that retrieves a list of users and assigns one of the users to a group.
+
+To begin with, create a workflow with a **Manual Trigger**, then add a step from the **G Suite** connector with the operation set to `List Users`. Set the 'Customer' parameter to **"my_customer"**, this is a keyword that specifies your own account. This will output a list of users:
+
+Next, we add a step from the G Suite connector with the operation set to `Get user`, to retrieve one of the users from the list. Set the `User key` to the ID of one of the users, by using a JsonPath as shown in the example:
+
+Then, we add a step with the operation set to `List groups`, enter the domain associated with our account, and in the output we retrieve a list of groups in our account:
+
+We use the output of this step to find the ID of a group. We add another step with the operation set to `Add member to group`, set the `Group key` to the `id` of one of the groups, and the `User key` to the `primaryEmail` of the user we returned in `Get user`:
+
+Finally, we use the `Check group membership` operation to verify the membership, setting the `Group key` as above, and setting the `Member key` to the `primaryEmail` of the user, as in the `User key` above. The operation should return `isMember: true` in the output:

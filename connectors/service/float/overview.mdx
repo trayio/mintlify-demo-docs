@@ -1,0 +1,30 @@
+---
+title: "Overview"
+description: "Overview of the Float connector"
+---
+
+# Overview
+
+## Overview
+
+The float connector makes resource planning simple.
+
+## Authentication
+
+When using the float connector, the first thing you will have to do is click on 'New Authentication' in the step editor:
+
+You will need to enter the API Key.
+
+- Log into your Float account and click and the **settings icon** in the top right
+- Select **Integrations**
+- Copy the **API Key**
+
+You can then **paste** the **API Key** into the tray authentication page.
+
+## Example
+
+In this example we build a simple workflow to retrieve the list of projects from float.
+
+Create a new workflow with a **Manual Trigger**, and add a step from the **float** connector, with the operation set to **List Projects**. You can specify some properties, such as *Page* or *Per Page*.
+
+The output will be an object with a the domain overview from each database.

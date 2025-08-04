@@ -1,0 +1,48 @@
+---
+title: "Overview"
+description: "Overview of the GitLab connector"
+---
+
+# Overview
+
+## Overview
+
+GitLab offers free unlimited (private) repositories and unlimited collaborators.
+
+## **API Information **
+
+The Base URL used for the GitLab connector is dynamic it could either be **https://gitlab.com **or your instance URL provided when you authenticate using the on-premise service environment e.g **https://gitlab.yourinstance.com**. More information can be found on their main [API documentation (v4)](https://gitlab.com/gitlab-org/gitlab/-/blob/master/doc/api/openapi/openapi.yaml#/) site.
+
+## Authentication
+
+Within the builder, click on the GitLab connector to display the connector properties panel. Select the 'Auth' tab and click on the 'New authentication' button.
+
+In the Tray.io authentication pop-up modal, name the authentication in a way that will quickly identify it within a potentially large list. For example, whether it is a Sandbox or Production auth, etc.
+
+Consider who/ how many people will need access to this authentication when choosing where to create this authentication ('Personal' or 'Organisational').
+
+Click the 'Create authentication' button, authentication setup should now be complete. 
+
+The GitLab connector provides flexible authentication options tailored to different service environments: Production, On-Premise, or 'Use Your Own OAuth App'. In this guide, we'll explore how to harness the power of 'Use Your Own OAuth App' for creating authentications
+
+Click on 'Use your own OAuth app' if you would like to use your own credentials to create a new authorization app.
+
+Input the '**Authorization app name**' and the '**Description**' then click next.
+
+The second page asks you for your '**App key**' and '**App Secret**' credentials.<br/>To get these fields, head to the GitLab dashboard. In the top-right corner, select your avatar. Click on the **Edit profile**.
+
+On the left sidebar, select **Applications**.
+
+Enter a **Name**, **Redirect URI **and OAuth 2 scopes as defined in [Authorized Applications](https://docs.gitlab.com/ee/integration/oauth_provider.html#authorized-applications). The **Redirect URI **is the URL where users are sent after they authorize with GitLab.
+
+Select **Save application**. GitLab provides the OAuth 2 'Client ID' in the **Application ID** field and the OAuth 2 'Client Secret'.
+
+Once you have added these fields to your Tray.io authentication pop-up window, click the 'Create authentication' button. 
+
+Your connector authentication setup should now be complete.
+
+## Available Operations
+
+The examples below show one or two of the available connector operations in use.
+
+Please see the [Full Operations Reference](#operationsFull) at the end of this page for details on all available operations for this connector.

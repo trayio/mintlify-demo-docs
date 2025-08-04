@@ -1,0 +1,66 @@
+---
+title: "Overview"
+description: "Overview of the NewsCred connector"
+---
+
+# Overview
+
+## Overview
+
+Supercharge your team's ability to plan, execute, and manage exceptional campaigns and content, and elevate the performance of marketing with marketing management software and content marketing services from NewsCred.
+
+## NewsCred Trigger
+
+If you wish your workflow to be kicked off by a particular action in NewsCred, you can use the NewsCred Trigger.
+
+The NewsCred trigger allows you to receive notifications and trigger workflows when given events occur associated with the selected trigger operation.
+
+### Trigger Operations available:
+
+- Asset added
+- Asset removed
+- Asset modified
+
+### Webhook Setup
+
+When creating a new workflow, click the 'Create new workflow' button in the top right hand corner of your main Tray.io dashboard. When the trigger popup window opens, search and select the NewsCred trigger. Wait to be redirected to your new workflow and the workflow dashboard itself.
+
+With the new NewsCred trigger step highlighted, in the properties panel on the right, click on the Authenticate tab and 'Add new authentication' (located under the 'Authentication' field).
+
+This will result in a Tray.io authentication pop-up window.
+
+### Version 2.0 +
+
+The first page will ask you to name your authentication, and your 'Client ID' and 'Client secret'.
+
+In order to get these fields, head to your NewsCred dashboard. Click on the user name and the 'App & Webhooks'.
+
+Click on your app.
+
+You can find your credentials under the Apps tab.
+
+Copy and paste the Client ID and Client secret from the NewsCred web app into the relevant fields in the above Tray authentication dialog.
+
+### Version 1.0 and earlier
+
+The first page will ask you to name your authentication, and state which type of authentication you wish to create ('Personal' or 'Organisational').
+
+As you can see, the next page asks you for your 'username' and 'password' login credentials. If already signed into NewsCred on an alternate tab, this step will be skipped.
+
+To finish setting up your trigger you will need to register the trigger through the NewsCred API.
+
+To do this, head to the [NewsCred](https://www.newscred.com/) website and log into your NewsCred account. Go to the 'Apps & Webhooks' section of the app through the dropdown option in the top right corner.
+
+Here click the 'Register a Webhook' button. The next page will ask you for the 'Callback URL' and 'Secret'. Leave these blank for now but save the page for mater use.
+
+To get your 'Callback URL' head back to your workflow, click the ellipses in the top left corner and click 'Workflow settings'.
+
+Copy the 'Workflow public URL'.
+
+Paste this into the NewsCred 'Callback URL' field within the Apps and Webhook page:
+
+The 'Secret' is created by you and must match the secret used when registering the webhooks. Enter your secret into the NewsCred trigger section and be sure to tick all the 'Library' events you want this web hook to listen to.
+
+Lastly to finish the setup of your trigger, head back to your workflow and enter your secret into the operation then click enable.
+
+Huzzah! your trigger is now lying in wait.

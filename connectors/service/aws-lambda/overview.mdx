@@ -1,0 +1,87 @@
+---
+title: "Overview"
+description: "Overview of the AWS Lambda connector"
+---
+
+# Overview
+
+## Overview
+
+AWS Lambda connector provides you the ability to interact with your Lambda functions provisioned on AWS. It allows you to manage or use the function's response payload in an effective manner.
+
+## Authentication
+
+When using the AWS Lambda connector, the first thing you will need to do is go to your Tray.io account page and select the workflow you wish to work on. Once in the workflow builder itself, search and drag the AWS Lambda connector from the connectors panel (on the left-hand side) onto your workflow.
+
+With the new AWS Lambda connector step highlighted, in the properties panel on the right, click on the Authenticate tab and 'Add new authentication' (located under the 'Authentication' field).
+
+This will result in a Tray.io authentication pop-up window. The first page will ask you to name your authentication and state which type of authentication you wish to create ('Personal' or 'Organisational').
+
+As you can see, the next page asks you for your 'AWS Access Key', 'AWS Secret Key', and 'Region'.
+
+Users receive the required AWS Access and Secret key when they add a new user to the AWS console. See below for more details.
+
+If you don't have these security credentials (AWS access and secret key) already saved somewhere, then you will need to generate new credentials for the user you wish to authenticate with.
+
+To create a new access key, head to your AWS console and navigate to the 'Identity and Access Management (IAM)' page. On this page, under the 'Security credentials' tab, create a new key using the 'Create access key' button.
+
+Once you click on the 'Create access key' button, follow along with the said instructions.
+
+To get value for the 'Region' field, head to your AWS console and navigate to your 'AWS Lambda' page. You can find a list of region names on the top right corner of the page.
+
+For example, if your region name is 'Europe(Ireland) eu-west-1' then your region value would be: `eu-west-1`.
+
+Add this regional value to the Tray.io authentication modal window.
+
+Once you have added these fields to your Tray.io authentication popup window, click on the 'Create authentication' button. Go back to your settings authentication field (within the workflow builder properties panel), and select the recently added authentication from the dropdown options now available.
+
+Your connector authentication setup should now be complete.
+
+## Available Operations
+
+The examples below show one or two of the available connector operations in use.
+
+Please see the [Full Operations Reference](#operationsFull) at the end of this page for details on all available operations for this connector.
+
+## Example Usage
+
+This example demonstrates how to use the AWS Lambda 'Invoke Function' operation. Once invoked, the function gets processed and will return a response (in this case, 'Hello world').
+
+The steps will be as follows:
+
+1. Setup the trigger and choose the Lambda function you wish to work with.
+2. Invoke the Lambda function using the Lambda connector.
+
+The final outcome should look like this:
+
+### 1 - Setup trigger & Lambda function
+
+Once you have clicked 'Create new workflow' from your main Tray.io dashboard and named it, select the 'Manual trigger' from the trigger options available:
+
+Next you will need a function to process. This example uses the following code, which you can recreate in your own AWS console:
+
+The above code concatenates and returns the following text: `Hello` + `['name']` + `!`. The 'name' variable is set later on within the Lambda connector itself.
+
+### 2 - Invoke the Lambda function
+
+Add an 'AWS Lambda' connector as your second step. Authenticate the connector using the authentication method described above. Set the operation to 'Invoke Function'.
+
+With the AWS Lambda connector step highlighted, on the properties panel (on the right-hand side), you will notice that the connector requires a 'Function Name'.
+
+The 'Function Name' field can be the name of your Lambda function, version, or alias. There are three possible formats for this field, please see below examples for more details.
+
+- Function name: `my-function` (name-only) OR `my-function:v1` (with alias)
+- Function ARN: `arn:aws:lambda:us-west-2:123456789012:function:my-function`
+- Partial ARN: `123456789012:function:my-function`
+
+The rest of the fields are optional.
+
+The 'Qualifier' field is the version, or alias, used to invoke a published version of the function. As it is an optional field, note that the default value for this is: `$LATEST`.
+
+The 'Payload' field is the key value pair that you want to provide for your Lambda function as an input. In this case it is `name` : `Tray`.
+
+There are also four checkbox options, three of which are ticked by default. Feel free to change these as per your use case/ needs.
+
+Once you are done configuring the Lambda connector, run the workflow using the 'Run workflow' button available at the bottom right-hand side.
+
+After successful execution of the workflow, the Lambda connector response should look like this:

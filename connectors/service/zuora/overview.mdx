@@ -1,0 +1,28 @@
+---
+title: "Overview"
+description: "Overview of the Zuora connector"
+---
+
+# Overview
+
+## Overview
+
+Zuora's applications automate billing, commerce, and finance operations.
+
+## Exporting documents
+
+Tray's Zuora connector allows the creation of files from ZOQL queries. There are two steps to this process. Step 1 - Create an export request
+
+Use the Create Export operation to run a ZOQL query and generate a file. The connector will execute the query and will output an Export ID:
+
+## Step 2 - Attempt to retrieve the export
+
+The export can take some time. More complex queries will take longer for the export to run. Use the **Attempt Export** operation to send a request to retrieve the file that has been exported. You will need to provide the **Export ID** that was returned when you sent the **Create Export** request.
+
+If the export has yet to complete you will get a playload like the one below. Note that the **ready** field is *false*. You can use a [Boolean Connector](/connectors/core/boolean-condition/) to check whether the export has completed yet.
+
+Once the export has completed the *ready* field is set to true and a URL for downloading the file is returned:
+
+## Step 3 - Process the file
+
+Use another connector to process the saved file. If you have saved the file as a CSV you can use the CSV Connector to process the results.

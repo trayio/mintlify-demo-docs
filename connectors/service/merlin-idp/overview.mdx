@@ -1,0 +1,41 @@
+---
+title: "Overview"
+description: "Overview of the Merlin Intelligent Document Processing connector"
+---
+
+# Overview
+
+## Overview
+
+The Merlin Extract Connector is a versatile tool designed to extract specific information from various document like PDFs, TIFF, PNG  and JPEG. Using advanced natural language processing, it enables users to input queries in natural language to retrieve targeted data efficiently.
+
+## **Operations**
+
+### Extract text (image/pdf)
+
+The workflow below demonstrates Merlin Extract connector's **Extract text** operation.
+
+The operation extracts text from a single image (JPEG or PNG) or a multi-page file (PDF or TIFF).  
+
+For demonstration purposes, we use a sample invoice file in PDF format.
+
+The operation accepts the following parameters:
+
+1. **File name: **The name of the file to be processed.
+2. **File url**: The web address where the file is located.
+3. **File mime_type**: Specifies the Multipurpose Internet Mail Extensions (MIME) type of the file to help the AI determine how to handle it. Supported MIME types include:
+4. **File expire**: Indicates when the file or the URL access will expire.
+5. **Queries**: Allows users to specify particular information they want to extract from the document, making the function more flexible and targeted in its text extraction.
+
+In this example we are using the following queries to extract the required information: 
+
+1. `What is the Price for Proposal Design?`
+2. `What is the invoice date?`
+3. `What is the subtotal of an invoice?`
+
+The extracted data can be processed further based on your requirements. In this example, we are storing the extracted data in a Google Sheet.
+
+### Usage Limits
+
+1. Merlin IDP connector can support up to 20 pages per execution 
+2. Merlin IDP connector is limited to 1000 pages per month by default

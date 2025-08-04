@@ -1,0 +1,64 @@
+---
+title: "Overview"
+description: "Overview of the Snowflake (Okta) connector"
+---
+
+# Overview
+
+## Overview
+
+Snowflake (Okta) offers an alternative way of connecting to Snowflake, by allowing you to authenticate with Okta.
+
+## Authentication
+
+Within the workflow builder, highlight the Snowflake (Okta) connector.
+
+In the Snowflake (Okta) connector properties panel to the right of the builder, click on the Authenticate tab and the 'Add new authentication' button.
+
+This will result in a Tray.io authentication pop-up modal. The first page will ask you to name your authentication and select the type of authentication you wish to create ('Personal' or 'Organisational').
+
+The next page asks you for your 'Client ID', 'Client secret', 'Authorization URL', 'Token URL' and 'Role' credentials.
+
+In order to get these fields, head to your Okta dashboard. Click on the 'Applications' tab in the navigation bar.
+
+Next navigate to your chosen app from the list of applications. Your 'Client ID' and 'Client secret' credentials can be found here.
+
+If you do not have an application set up, you will need to do this now. [You can follow this guide](https://developer.okta.com/docs/guides/implement-auth-code/setup-app/).
+
+To get both of the URLs, click on the 'Settings' tab inside of your authorization server and click on the link beside 'MetaData URI'
+
+This will open a new page in your browser containing a JSON object.
+
+Search this document (using 'control+F' or 'command+F') for `token_endpoint` and `authorization_endpoint`. This will highlight both of the URLs needed.
+
+They should look like this:
+
+`authorization_endpoint:"https://your-okta-domain-name.oktapreview.com/oauth2/000000000/v1/authorize"`
+
+`token_endpoint:"https://your-okta-domain-name.oktapreview.com/oauth2/000000000/v1/token"`
+
+To get the 'Role' credential, head to your Snowflake dashboard.
+
+The role currently assigned to your user appears under your username in the navigation bar.
+
+You can view all of the roles your user has available (including which one is the current default) by clicking on the arrow beside your username and selecting 'Switch Role'.
+
+To add your Snowflake role scopes to your authorization server, navigate back to your Okta dashboard and click on the 'Scopes' tab located inside of your authorization server and click on the 'Add Scope' button.
+
+You can create a new scope for each role from your Snowflake account if you wish.
+
+You will also have to make sure that you have these scopes enabled in your Access Policy.
+
+To check this, navigate to the 'Access Policies' tab and select the rule associated with your authorization server. If you do not have one you will have to create one.
+
+Next, check that you either have 'Any scopes' selected or that you have added these scopes under 'The following scopes' option.
+
+Your scopes should now have been added successfully.
+
+Once you have added these fields to your Tray.io authentication popup window, click the 'Create authentication' button.
+
+Go back to your settings authentication field (within the workflow builder properties panel), and select the recently added authentication from the dropdown options now available.
+
+Your connector authentication setup should now be complete.
+
+Please refer to the standard [Snowflake documentation](/connectors/service/snowflake/) for instructions on using operations.

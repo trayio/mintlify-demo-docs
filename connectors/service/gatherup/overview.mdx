@@ -1,0 +1,127 @@
+---
+title: "Overview"
+description: "Overview of the GatherUp connector"
+---
+
+# Overview
+
+## Overview
+
+GatherUp (formerly GetFiveStars) is a customer experience and online review engine that enables insights, empowers marketing and converts customers. Gather customer feedback and reviews into one place to drive sales up for your business.
+
+## Authentication
+
+When using the gatherup connector, the first thing you will need to do is go to your Tray.io account page, and select the workflow you wish to work on. Once in the workflow builder itself, search and drag the gatherup connector from the connectors panel (on the left hand side) onto your workflow.
+
+With the new gatherup connector step highlighted, in the properties panel on the right, click on the Authenticate tab and 'Add new authentication' (located under the 'Authentication' field).
+
+This will result in a Tray.io authentication pop-up window. The first page will ask you to name your authentication, and state which type of authentication you wish to create ('Personal' or 'Organisational').
+
+As you can see, the next page asks you for your 'Client iD' and 'Bearer Token' credentials.
+
+In order to get these fields, head to your gatherup dashboard. Click on your profile in the top right and select 'Account Owner Details' from the dropdown. There you can find your 'Client ID' and 'Bearer Token'.
+
+Once you have added these fields to your Tray.io authentication popup window, click on the 'Create authentication' button. Go back to your settings authentication field (within the workflow builder properties panel), and select the recently added authentication from the dropdown options now available.
+
+Your connector authentication setup should now be complete.
+
+## Available Operations
+
+The example below shows one of the available connector operations in use.
+
+Please see the [Full Operations Reference](#operationsFull) at the end of this page for details on all available operations for this connector.
+
+## Using the Raw HTTP Request ('Universal Operation')
+
+As of **version 1.0**, you can effectively create your own operations.
+
+This is a very powerful feature which you can put to use when there is an endpoint in gatherup which is not used by any of our operations.
+
+To use this you will first of all need to research the endpoint in the [GatherUp API documentation](https://app.gatherup.com/api/doc), to **find the exact format** that GatherUp will be expecting the endpoint to be passed in.
+
+Note that you will only need to add the suffix to the endpoint, as the base URL will be automatically set.
+
+The base URL for GatherUp is: `https://app.gatherup.com/api`
+
+For example, say that the 'Get Customer' operation did not exist in our GatherUp connector, and you wanted to use this endpoint, you would use the GatherUp API docs to find the relevant endpoint - which in this case is a `POST` request called: `/customer/get`.
+
+More details can be found [here](https://app.gatherup.com/api/doc/customer/get).
+
+As you can see there is also the option to include a query parameter, should you wish to do so. So if you know what your method, endpoint and details of your query parameters are, you can get the customer information with the following settings:
+
+Method: `POST`
+
+Endpoint: `/customer/get`
+
+Endpoint properties set up:
+
+We need to include a body with this request and we can do that with the following:
+
+Body Type : `Raw`
+
+Set the 'type' of the 'raw' field to an object.
+
+Click the 'add a property to raw' button and fill in the popup with 'customerId' and hit save. This is how we will specify which customer we would like to get information for.
+
+Now we need to set the 'type' of our newly created 'customerId' field to number and fill it in with the ID of an existing customer. In our case it's 92716601.
+
+Final body setup:
+
+## Example Usage
+
+Below is an example of a way in which you could potentially use the GatherUp connector, to request feedback from a new customer.
+
+The steps will be as follows:
+
+1. Use a Salesforce trigger set up to trigger when contacts are created.
+2. Add a loop step to loop over incoming Salesforce records.
+3. Position a Salesforce connector inside loop to get customer details.
+4. Add a Gatherup connector directly after the Salesforce connector to add a new customer and send feedback request.
+
+The final outcome should look like this:
+
+### 1 - Setup Trigger
+
+Once you have clicked 'Create new workflow' from your main Tray.io dashboard and then named it, select the Salesforce trigger from the trigger options available:
+
+After you have been redirected to the Tray.io workflow dashboard, select the trigger and inside the properties panel on the right select 'Contact' as the 'Record type'. This will trigger the workflow whenever a new contact is created.
+
+### 2 - Add a loop
+
+Next, search for the Loop collection connector within your connector panel, and drag it into your workflow as your next step. Set your operations to 'Loop list'.
+
+The Loop Collection connector allows you to iterate through a list of results. In this example, we will use it to iterate through the data received from the Salesforce trigger.
+
+In order to specify the list you want to loop through, start by using the 'List' mapping icon (found next to the list input field, within the properties panel) to generate the connector-snake.
+
+While hovering over the 'trigger' step (with the tail end of the connector-snake), select `events` from the list of output properties displayed. This will auto-populate a jsonpath within your 'List' input field, and update the type selector to jsonpath.
+
+For more clarification on the pathways you have available, open the Debug panel to view your step's Input and Output.
+
+Salesforce will always a send a list of contacts that were created. Now we're able to deal with each of those contact records individually, inside of the loop.
+
+### 3 - Look up Contact in Salesforce
+
+Now we'll add a Salesforce connector inside of our loop step. Salesforce will only send back the ID of the contact that was created so we need to make a call to Salesforce to get the contact details that we need to create a new customer in GatherUp.
+
+We'll start to set up the Salesforce connector by selecting 'Contact' for the 'Record type' field. In the following input fields we will describe the fields we would like returned from Salesforce. For this example we're going to request that 'First Name', 'Last Name' and 'Email' be returned.
+
+To make sure we get back the correct contact from Salesforce we need to set up the 'Conditions' fields. Click the 'Add to Conditions' button to allow you to set up a single condition.
+
+From there we'll select 'Contact ID' from the 'Field' dropdown and 'Equal to' form the 'Operator'. We want the Contact ID to be equal to the ID of the loop output. Using the connector snake set the 'Value' field to the ID output of the loop. Your JSON path should be `$.steps.loop-1.value.id`.
+
+At this point we are triggering the workflow whenever new contacts are created in Salesforce, looping over each contact in the list sent by Salesforce and getting relevant details for each particular contact.
+
+### 4 - Create a customer in GatherUp and request feedback
+
+The last step is to drag a GatherUp connector to just after the Salesforce connector **inside** of the Loop Collection step itself. Set the operation to 'Create customer'. As you can see, the 'Business ID', 'Customer Email', 'Customer first name' and 'Customer last name' fields are required.
+
+You'll have to log in to GatherUp to get your business ID. You can find it on any page within GatherUp as long as you have the business that you're trying to add a customer to selected. In our case we can see from the screenshot that the london business is selected and the business ID is 86396.
+
+The rest of the fields we will get from our previous Salesforce step. We can again use the connector snake to set the 'Customer Email', 'Customer first name' and 'Customer last name' fields to the ouput of the Salesforce connector that's inside the loop.
+
+We also want to immediately send feedback to this customer so we will also want to select 'True' from the 'Send feedback request' field. This will send an immediate feedback request to our newly created customer.
+
+Here's the final workflow with a successful run.
+
+Now whenever a new contact is created in Salesforce a customer will be created in GatherUp and sent a feedback request.

@@ -1,0 +1,108 @@
+---
+title: "Overview"
+description: "Overview of the Ordway connector"
+---
+
+# Overview
+
+## Overview
+
+The Ordway billing and revenue automation platform is the flexible bridge between CRM, business systems, and general ledger that accomplishes all the billing and revenue management tasks in between.
+
+## Authentication
+
+Within the workflow builder, highlight the Ordway connector.
+
+In the Ordway connector properties panel to the right of the builder, click on the Authenticate tab and the 'Add new authentication' button.
+
+This will result in a Tray.io authentication pop-up model. The first page will ask you to name your authentication and select the type of authentication you wish to create ('Personal' or 'Organisational').
+
+The next page asks you for your 'Company', 'User email', 'User token', and 'API key' credentials.
+
+In order to get these fields, head to your Ordway dashboard. Navigate to Menu -> Setup -> Organization Structure -> Company Profile to get the Company Name.
+
+To get the 'User email' and 'User token', head to Setup -> Organization Structure -> Users.
+
+In order to get API key, please contact Ordway customer success team and it will be generated for your company.
+
+Once you have added these fields to your Tray.io authentication pop-up window, click the 'Create authentication' button.
+
+Go back to your settings authentication field (within the workflow builder properties panel), and select the recently added authentication from the dropdown options now available.
+
+Your connector authentication setup should now be complete.
+
+## Available Operations
+
+The examples below show one or two of the available connector operations in use.
+
+Please see the [Full Operations Reference](#operationsFull) at the end of this page for details on all available operations for this connector.
+
+## Using the Raw HTTP Request ('Universal Operation')
+
+As of **version 1.0**, you can effectively create your own operations.
+
+This is a very powerful feature which you can put to use when there is an endpoint in Ordway which is not used by any of our operations.
+
+To use this you will first of all need to research the endpoint in the [Ordway API documentation v1.0](https://ordwaylabs.api-docs.io/v1/introduction/overview), to **find the exact format** that Ordway will be expecting the endpoint to be passed in.
+
+Note that you will only need to add the suffix to the endpoint, as the base URL will be automatically set (the base URL is picked up from the value you entered when you created your authentication).
+
+The base URL for Ordway is: `https://api.ordwaylabs.com/api/v1`
+
+For example, say that the 'List products' operation did not exist in our Ordway connector, and you wanted to use this endpoint. You would use the Ordway API docs to find the relevant endpoint - which in this case is a `GET` request called: `/products`.
+
+More details about this endpoint can be found [here](https://ordwaylabs.api-docs.io/v1/products/list-products).
+
+As you can see, there is also the option to include a query parameter, should you wish to do so. So if you know what your method, endpoint, and details of your query parameters are, you can get the list of products information with the following settings:
+
+Method: `GET`
+
+Endpoint: `/products`
+
+Query Parameter: Key: `size` Value: `10`
+
+Body Type: None
+
+Final outcome being: **https://api.ordwaylabs.com/api/v1/products?size=10**
+
+## Example Usage
+
+Below is an example of a way in which you could potentially use the Ordway connector, to retrieve detailed information about customers.
+
+The steps will be as follows:
+
+1. Setup using a manual trigger and retrieve a list of all the customers.
+2. Add a Loop connector to iterate through the list of customers.
+3. Get detailed information for an individual customer.
+
+The final outcome should look like this:
+
+### 1 - Setup a manual trigger
+
+Once you have clicked 'Create new workflow' from your main Tray.io dashboard named it, select the Manual trigger from the trigger options available:
+
+### 2 - Fetch customers and loop through the list
+
+After you have been redirected to the Tray.io workflow dashboard, from the connectors panel on the left, add an Ordway connector to your second step. Set the operation to 'List customers'.
+
+Feel free to re-name your steps as you go along to make things clearer for yourself and other users.
+
+When run, this workflow will list all the customers within the Ordway account under your credentials.
+
+Next, search for the 'Loop collection' connector within your connector panel, and drag it into your workflow as your next step. Set your operations to 'Loop list'.
+
+The Loop Collection connector allows you to iterate through a list of results. In this example, we will use it to iterate through the data found within the previous 'List datasets' connector step.
+
+In order to specify the list you want to loop through, start by using the 'List' mapping icon (found next to the list input field, within the properties panel) to generate the connector-snake.
+
+While hovering over the 'List customers' step (with the tail end of the connector-snake), select `items` from the list of output properties displayed. This will auto-populate a jsonpath within your 'List' input field and update the type selector to jsonpath.
+
+Now, when the workflow is run, the Loop Collection step will iterate through each item found within the previously created list.
+
+### 3 - Get all customer information
+
+The final step is to drag a final Ordway connector *INSIDE* of the actual Loop Collection step itself. Set the operation to 'Get all customer information'. As you can see, the 'Customer ID' fields is required.
+
+In the 'Customer ID' field use the connector-snake once more and assign it to the `id` value, produced by the Loop Collection connector from the previous step.
+
+When run, this workflow will retrieve detailed information about each of the customers found:

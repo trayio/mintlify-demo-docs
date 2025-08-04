@@ -1,0 +1,62 @@
+---
+title: "Overview"
+description: "Overview of the Groove connector"
+---
+
+# Overview
+
+## Overview
+
+Groove allows users to converse with their customers on multiple channels - such as email, live chat, social media, and phone calls - through one platform. Key features include ticketing, live chat, knowledge management, reporting tools, and customer self-service.
+
+## Authentication
+
+Within the workflow builder, highlight the Groove connector.
+
+In the Groove connector properties panel to the right of the builder, click on the Authenticate tab and the 'Add new authentication' button.
+
+This will result in a Tray.io authentication pop-up modal. The first page will ask you to name your authentication and select the type of authentication you wish to create ('Personal' or 'Organisational').
+
+The next page asks you for your 'Access token' credential.
+
+In order to get the access token, head to your Groove dashboard. Click on the 'Settings' menu, represented by a gear icon. Next, click on the 'Organization' tab.
+
+Within 'Organization', click on 'API'. Here you can find your 'Private Token'. For more information on this, you can visit the Groove API documentation [here](https://www.groovehq.com/docs).
+
+Once you have added these fields to your Tray.io authentication pop-up window, click the 'Create authentication' button.
+
+Go back to your settings authentication field (within the workflow builder properties panel), and select the recently added authentication from the dropdown options now available.
+
+Your connector authentication setup should now be complete.
+
+## Available Operations
+
+Please see the [Full Operations Reference](#operationsFull) at the end of this page for details on all available operations for this connector.
+
+## Using the Raw HTTP Request ('Universal Operation')
+
+As of **version 1**, you can effectively create your own operations.
+
+This is a very powerful feature which you can put to use when there is an endpoint in Groove which is not used by any of our operations.
+
+To use this you will first of all need to research the endpoint in the [Groove API documentation v1](https://www.groovehq.com/docs), to **find the exact format** that Groove will be expecting the endpoint to be passed in.
+
+Note that you will only need to add the suffix to the endpoint, as the base URL will be automatically set within the Tray app.
+
+The base URL for Groove is: `https://api.groovehq.com`
+
+For example, say that you wanted to use the 'Finding one customer' endpoint. You would use the Groove API docs to find the relevant endpoint - which in this case is a `GET` request called: `/v1/customers/:customer_email`. In this example, you would replace the `:customer_email` section of the URL endpoint with the email address of the customer whose details you wish to retrieve.<br/>In this example, our 'customer_email' value is `hello@groovehq.com`.
+
+More details about this endpoint can be found [here](https://www.groovehq.com/docs/customers#finding-one-customer).
+
+So if you know the method, endpoint, and customer email address, you can get the customer information with the following settings:
+
+Method: `GET`
+
+Endpoint: `/v1/customers/:customer_email`
+
+URL Parameter: Key: `customer_email` Example Value: `hello@groovehq.com`
+
+Body Type : `none`
+
+Final outcome being: `https://api.groovehq.com/v1/customers/hello@groovehq.com`

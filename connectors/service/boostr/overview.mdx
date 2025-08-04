@@ -1,0 +1,36 @@
+---
+title: "Overview"
+description: "Overview of the Boostr connector"
+---
+
+# Overview
+
+## Overview
+
+Experience an Ad Sales CRM + Multi-Channel OMS designed entirely to run your media business. Save time, improve forecast accuracy and grow sales.
+
+## Authentication
+
+When using the Boostr connector, the first thing you will need to do is go to your Tray.io account page, and select the workflow you wish to work on. Once in the workflow builder itself, search and drag the Boostr connector from the connectors panel (on the left hand side) onto your workflow.
+
+With the new Boostr connector step highlighted, in the properties panel on the right, click on the Authenticate tab and 'Add new authentication' (located under the 'Authentication' field).
+
+This will result in a Tray.io authentication pop-up window. The first page will ask you to name your authentication, and state which type of authentication you wish to create ('Personal' or 'Organisational').
+
+As you can see, the next page asks you for your 'Email' and 'Password', and if you are using version 2, for your 'Environment'.
+
+### Version 2.0 +
+
+### Version 1.0 and earlier
+
+Once you have added these fields to your Tray.io authentication popup window, click on the 'Create authentication' button. Go back to your settings authentication field (within the workflow builder properties panel), and select the recently added authentication from the dropdown options now available.
+
+Your connector authentication setup should now be complete.
+
+## Example
+
+In this example we will build a simple workflow to retrieve a list of deals from Boostr.
+
+Create a new workflow with a **Manual Trigger**, and add a step from the **Boostr** connector, with the operation set to **List deals**. You can either run the workflow immediately or specify some filters, such as *Closed at* or *Updated at*.
+
+The result will be a list of deals. You can access this list in subsequent steps by using the jsonPath *$.steps.boostr-1.results* .

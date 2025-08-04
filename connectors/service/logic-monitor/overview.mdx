@@ -1,0 +1,78 @@
+---
+title: "Overview"
+description: "Overview of the Logic Monitor connector"
+---
+
+# Overview
+
+## Overview
+
+Logic Monitor is the leading SaaS-based IT Infrastructure Monitoring Platform for enterprise IT. With it you can monitor on-premises, cloud and hybrid datacenters from a single platform.
+
+## Authentication
+
+When using the Logic Monitor connector, the first thing you'll need to do is go to your Tray.io account page and select your workflow. Once in the workflow builder, on the LHS panel, search for and drag the Logic Monitor connector onto your workflow.
+
+With the new connector step highlighted, in the properties panel on the right click on 'New Authentication' under the 'Settings' heading.
+
+This will result in a Tray.io authentication pop-up window, that should look like this:
+
+As you can see, besides from naming your authentication appropriately, you will need your 'Account Name', 'Access ID', and 'Access key' (please scroll down within the popup window in order to view the final required key).
+
+In order to get these fields, head to your Logic Monitor dashboard.
+
+Your account name can be viewed in your Logic Monitor URL. For example: `https://ACCOUNTNAME.logicmonitor.com/santaba/rest`, where ACCOUNTNAME is your assigned company name ie. "docsdemo". It should look something like this:
+
+In order to get your account ID & access key, navigate to the User & Roles panel (go to the left hand side menu, and click through: "Settings" -> "User Access" -> "User & Roles").
+
+Select the "API Tokens" tab, and look for the small plus button in the right hand corner.
+
+This will open up a new section that will allow you to find and create/ copy one of your User's account ID and access Key's. Using the search field, select your user from the dropdown options available:
+
+As you can see, the fields will auto-populate. Copy this information and paste it into you your original Tray.io authentication popup window.
+
+Once you verify your account
+
+## Available Operations
+
+The examples below show one or two of the available connector operations in use.
+
+Please see the [Full Operations Reference](#operationsFull) at the end of this page for details on all available operations for this connector.
+
+## Example usage
+
+Below is an example of a way in which you could potentially use the Logic Monitor connector to programmatically manage the user roles in your account. In the example below we take the privileges from an existing role and assign them automatically to a new role.
+
+The steps will be as follows:
+
+1. List all current roles within your organization
+2. Get data for a specific role
+3. Use data from that role to create a new role
+
+The final outcome should look like this:
+
+## 1 - Setup manual trigger and List roles operation
+
+Once you have clicked 'Create new workflow' on your main Tray.io dashboard (and named said new workflow), select the Manual trigger from the trigger options available:
+
+Once you have been redirected to the Tray.io workflow dashboard, from the connectors panel the left, add a Logic Monitor connector to your second step. Set the operation to 'List roles'.
+
+With the list operation you have the ability to customize the response you get back from Logic Monitor using the 'Filter', 'Sort', and 'Fields' input fields. *In example above, we keep things simple and add no customization, which means it will return a standard response from the Logic Monitor API as opposed to a tailored one, but as always feel free to experiment with you own workflows*.
+
+## 2 - Get details for a specific role
+
+Now that we have a list of roles, the next step in our workflow will be to get the details of a specific role. We do that by using the 'Get role' operation.
+
+This operation requires an ID input that is taken from the previous step, via the connector snake. The output should be similar to this: `$.steps.logicmonitor-1.items[0].id`.
+
+In the image above we select the first record returned from the output of the previous Logic Monitor step. The orange circle denotes that this input is the result of jsonpaths (you will note that the input type has also changed to the jsonpath symbol).
+
+.
+
+## 3 - Create a new role
+
+`$.steps.logicmonitor-2.privileges`
+
+The final step of the workflow is to pull data from the previous step to create a new role, based on the settings from the role we singled out on the previous step (meaning we can replicate the privileges).
+
+And that's it. We've built a basic workflow that allows you to pull information from your Logic Monitor account in order to create a new role!

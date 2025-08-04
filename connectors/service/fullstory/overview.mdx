@@ -1,0 +1,65 @@
+---
+title: "Overview"
+description: "Overview of the Fullstory connector"
+---
+
+# Overview
+
+## Overview
+
+FullStory enables users to track and monitor each customer activity. From clicks to page transitions, everything is indexed automatically.
+
+## Authentication
+
+Within the builder, click on the Fullstory connector to display the connector properties panel. Select the 'Authentication' tab and click on the 'New authentication' button.
+
+In the Tray.io authentication pop-up modal, name the authentication in a way that will easily identify it within a potentially large list. For example, whether it is a Sandbox or Production auth, etc.
+
+Consider who/ how many people will need access to this authentication when choosing where to create this authentication ('Personal' or 'Organisational').
+
+The second page asks you for your 'API Key'.
+
+In order to get these fields, head to the Fullstory dashboard. Click on the vertical hamburger icon on the top right corner and select 'Settings'.
+
+Navigate to 'Integrations' > 'API Keys'.
+
+Here you can create an API Key using the 'Create key' button.
+
+Once you have added these fields to your Tray.io authentication pop-up window, click the 'Create authentication' button.
+
+Your connector authentication setup should now be complete.
+
+## Available Operations
+
+The examples below show one or two of the available connector operations in use.
+
+Please see the [Full Operations Reference](#operationsFull) at the end of this page for details on all available operations for this connector.
+
+## Notes on using Fullstory
+
+### Get user
+
+The Get user operation provides the data about users who have been identified in the browser. It uses 'User ID' to fetch the user details from Fullstory.
+
+User ID is a six-digit number found in the User's profile on your Fullstory dashboard.
+
+## Example Usage
+
+Below is an example of a way in which you could potentially use the Fullstory connector to list session details for a given email address.
+
+These sessions are then counted and a daily notification of the total session count is sent to [Slack](/connectors/service/slack/), to keep track of daily browser activities.
+
+Note that you could also send this information to a [Google Sheet](/connectors/service/google-sheets) or a SQL database.
+
+The overall logic of the workflow is:
+
+1. The workflow is triggered by a **scheduled trigger** that runs daily.
+2. It **gets the List of all the sessions** based on the specified email address.
+3. Loops through the **Session Dates** and compares each with the **Last Run Date** to see if there are any new sessions.
+4. **Is new Session?** is a boolean step which checks if each session **occurred after the last run date**. If so, the **Session count is incremented**.
+5. Then the **Total Session Count is fetched** and sent as a **Slack notification**.
+6. Finally, the **Last Run Date** is set, which will be used in the next run of the workflow
+
+Your completed workflow should look similar to this:
+
+### Step-by-step Explanation

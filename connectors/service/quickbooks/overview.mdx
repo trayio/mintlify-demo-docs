@@ -1,0 +1,42 @@
+---
+title: "Overview"
+description: "Overview of the QuickBooks connector"
+---
+
+# Overview
+
+## Overview
+
+QuickBooks is an accounting software package developed and marketed by Intuit.
+
+## API Information
+
+The Quickbooks connector has the following Base URL: **https://quickbooks.api.intuit.com**. More information can be found on their main [API documentation (v3)](https://developer.intuit.com/app/developer/qbo/docs/learn/explore-the-quickbooks-online-api) site. Details regarding their API limitations can be found [here](https://developer.intuit.com/app/developer/qbo/docs/learn/rest-api-features#limits-and-throttles).
+
+## QuickBooks templates
+
+Please note that we have the following QuickBooks templates available:
+
+These will give you pre-configured best practice ways of working with QuickBooks and integrating it with other connectors.
+
+However, please continue to at least read the Authentication setup instructions on this page to enable you to get started with using QuickBooks.
+
+## Authentication
+
+When using the QuickBooks connector, the first thing you will have to do is click on 'New Authentication' in the step editor:
+
+You will need to select either the *Development* or *Production* environment, then click *Next* and allow Tray to connect to your company.
+
+## Important note on authentication
+
+To allow for this, we have created a **version 2.0** of the QuickBooks connector, which connects to QuickBooks using the OAuth 2.0 protocol.
+
+All new workflows which make use of the QuickBooks connector will automatically use version 2.0.
+
+However, some old workflows will still be using version 1.0, and will need to be upgraded.
+
+To do this you can click on 'Show advanced properties' on any QuickBooks connector step and scroll back up to set the connector version:
+
+To complete the upgrade you will need to re-authenticate by clicking on 'New Authentication' and re-entering your QuickBooks login details.
+
+Note, however, that it is recommended that you first of all test your QuickBooks operations in a separate workflow to make sure they work as expected in terms of data being returned and so you can be absolutely certain that the upgrade will not break your live workflows.

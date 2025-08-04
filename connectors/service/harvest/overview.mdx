@@ -1,0 +1,101 @@
+---
+title: "Overview"
+description: "Overview of the Harvest connector"
+---
+
+# Overview
+
+## Overview
+
+Harvest is a software for simple time tracking, fast online invoicing, and powerful reporting. It's goal is to simplify employee timesheets and billing. The Harvest connector allows you to interact with your Harvest account programmatically. You can track time, log expenses, create projects, and more.
+
+## Authentication
+
+When using the Harvest connector, the first thing you will need to do is go to your Tray.io account page, and select the workflow you wish to work on. Once in the workflow builder itself, search and drag the Harvest connector from the connectors panel (on the left hand side) onto your workflow.
+
+With the new Harvest connector step highlighted, in the properties panel on the right, click on the ‘Authenticate’ panel followed by ‘Add new Authentication’ (located under the Authentication input field).
+
+This will result in a Tray.io authentication pop-up window. The first page will ask you to name your authentication, and state which type of authentication you wish to create ('Personal' or 'Organisational').
+
+As you can see, the next page asks you for your 'Access Token', 'Account ID' and 'User Agent' credentials.
+
+In order to get these fields, head to your Harvest dashboard. Click on the 'Developer' tab.
+
+Harvest preffered method to authenticate to their API is using an 'Access Token' rather than the 'OAuth2'. For this reason we use the 'Personal Access Tokens' method to authenticate on Tray.io. Click on the 'Access Token' if you have created one already or click on the 'Create New Personal Access Token' to create a new one.
+
+Clicking the 'Access Token' will show you the the generated token for your specified account as well as your 'Account ID'.
+
+You may also add a 'User Agent' parameter that is a non-mandatory field. The acceptable format is to include the name of your application followed by a link to your application or email address wrapped inside brackets. For example:
+
+User Agent: `Trello (http://trello.com/contact)`
+
+User Agent: `John's Harvest Integration (john@example.com)`
+
+Once you have added these fields to your Tray.io authentication popup window, click on the 'Create authentication' button. Go back to your settings authentication field (within the workflow builder properties panel), and select the recently added authentication from the dropdown options now available.
+
+Your connector authentication setup should now be complete.
+
+## Available Operations
+
+The examples below show one or two of the available connector operations in use.
+
+Please see the [Full Operations Reference](#operationsFull) at the end of this page for details on all available operations for this connector.
+
+## Note on Operations Usage
+
+Basic use of the Harvest Operations is generally quite self-explanatory. However, to use the `Create time entry via duration` and `Create time entry via start and end time`, you would need to specify your 'Timer mode' of your account setting. Once logged in to the Harvest dashboard, click on you application
+
+Click on the Settings button to go to your account settings.
+
+In the 'Timer Mode' section you can see and edit the mode of your time entry.
+
+## Example Usage
+
+Below is an example of a way in which you could potentially use the Harvest connector, to create a project and assign all of your tasks to it.
+
+The steps will be as follows:
+
+1. Setup using a manual trigger and create a project
+2. List all of you tasks
+3. Setup a loop collection to go through each task
+4. Assign each task to your newly reated project
+
+The final outcome should look like this:
+
+### 1 - Setup Trigger & Create A Project
+
+Once you have clicked 'Create new workflow' from your main Tray.io dashboard named it, select the Manual trigger from the trigger options available:
+
+After you have been redirected to the Tray.io workflow dashboard, from the connectors panel on the left, add a Harvest connector to your second step. Set the operation to 'Create project'.
+
+Feel free to re-name your steps as you go along to make things clearer for yourself and other users.
+
+As you can see, you would need to fill the required fields. Add your desired prject 'Name' and select your 'Client ID'. The required boolean and selectable fields have default values, feel free to change them.
+
+### 2 - List All Tasks
+
+Next, add another Harvest connector to your next step and set it to 'List all tasks'.
+
+This will allow you to have a list of all your taks. Feel free to edit the return result by updating the available parameters.
+
+### 3 - Add Loop Collection
+
+Next, search for the 'Loop collection' connector within your connector panel, and drag it into your workflow as your next step. Set your operations to 'Loop list'.
+
+The Loop Collection connector allows you to iterate through a list of results. In this example, we will use it to iterate through the data found within the previous Harvest connector step.
+
+In order to specify the list you want to loop through, start by using the 'List' mapping icon (found next to the list input field, within the properties panel) to generate the connector-snake.
+
+While hovering over the 'List all tasks' step (with the tail end of the connector-snake), select `tasks` from the list of output properties displayed. This will auto-populate a jsonpath within your 'List' input field, and update the type selector to jsonpath.
+
+For more clarification on the pathways you have available, open the Debug panel to view your step's Input and Output.
+
+### 4 - Assign Each Task To The Project
+
+The last step is to drag a Harvest connector **inside** of the Loop Collection step itself. Set the operation to 'Assign task to project'. As you can see, the 'Project ID' and 'Task ID' fields are required.
+
+To get the 'Project ID', use the 'Project ID' mapping icon and hover over the 'Create Project' step (with the tail end of the connector-snake), select `id` from the list of output properties displayed. This will auto-populate a jsonpath within your 'Project ID' input field, and update the type selector to jsonpath.
+
+And to generate the 'Task ID', use the 'Task ID' mapping icon and hover over the 'Loop Collection' step (with the tail end of the connector-snake), select `value` from the list of output properties displayed and manually add `id` to it by typing fullstop followed by 'id' like: `.id` This will auto-populate a jsonpath within your 'Task ID' input field, and update the type selector to jsonpath.
+
+By running the workflow and going to the 'Debug' panel, you will be able to see the result. The 'Loop Collection' will result running the last step for all the number of tasks you have and the 'Assign task to project' step will assign each task to the newly created proejct.

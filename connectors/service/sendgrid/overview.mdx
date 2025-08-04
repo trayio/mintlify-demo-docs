@@ -1,0 +1,28 @@
+---
+title: "Overview"
+description: "Overview of the Sendgrid connector"
+---
+
+# Overview
+
+## Overview
+
+The Sendgrid connector allows you to send emails and interact with your Sendgrid data directly within your Tray workflows. You can send individual emails, send bulk emails, and manage contact lists within Tray - all via the Sendgrid API.
+
+### Authentication
+
+You can authenticate with Sendgrid using an API key. You can create in your Sendgrid Dashboard > Settings > API Keys.
+
+### Sending emails in bulk
+
+The **Send Email** operation allows you to send emails to up to 1,000 people at a time. If you'd like to do this, **read carefully** - as the implementation is important!
+
+In the operation settings, you'll notice a "Personalizations" field:
+
+Each personalization can be thought of as an individual email message that you might send out to one or more people from your inbox. **Everyone** who is addressed to in the To, Cc, and Bcc sections can see the other people that the email has been sent to.
+
+This is usually find if you're sending a one off message to a few people who all know each other - but it's not good if you're sending an email to 1,000 people!
+
+**Key point: use many personalizations**
+
+If you're sending emails in bulk, add one personalization for each recipient. You can also use "substitutions" to substitute in merge fields (e.g. First name) intelligently for each personalization.

@@ -1,0 +1,42 @@
+---
+title: "Notes for Embedded customers"
+description: "Notes for Embedded customers documentation for HubSpot connector"
+---
+
+# Notes for Embedded customers
+
+## Developer & CRM Accounts
+
+Embedded users MUST: 
+
+1. Have a Developer account in order to create OAuth applications. 
+2. Have a CRM account in order to test as an end user.
+
+You will also need to use said Developer account when creating your authentications. **Otherwise your workflows will not work.**
+
+## Custom OAuth apps
+
+You can create a custom OAuth app in order to [White-label](/embedded/core-topics/whitelabelling/the-config-wizard/) your authentications dialog in during your integrations.
+
+Simply follow the steps outlined below.
+
+### Custom OAuth apps and webhooks
+
+It is possible to configure your custom OAuth app to work with webhooks and the Tray HubSpot trigger.
+
+Having created a Custom OAuth app as above and retrieved your ClientID:
+
+You can then go to the Webhooks section of your app and add a custom Tray webhook url.
+
+Please reach out to your customer success representative to obtain this url.
+
+This will work for any event subscription (not custom actions) - e.g. new contact creation etc.
+
+## Scopes
+
+Please be aware of the following points when dealing with scopes while using an Embedded account:
+
+- **The scopes you use for your source / master workflow are the scopes that your end users will have when creating the auth**. 
+- You can also override scopes in the solution editor. This will allow you to specify that **only a subset of the scopes set in the master workflow are available to your End Users**. Please reach out to your Tray technical support if you wish to activate this feature.
+
+- When creating an OAuth app in the Hubspot UI, you shouldn't set granular scopes. This way, you would have to create a custom OAuth app for every integration that you create for this service to enforce scope limitation.

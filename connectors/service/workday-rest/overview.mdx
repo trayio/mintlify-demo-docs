@@ -1,0 +1,110 @@
+---
+title: "Overview"
+description: "Overview of the Workday REST connector"
+---
+
+# Overview
+
+## Overview
+
+Workday REST API is a powerful system that enables secure, scalable, and structured interaction with Workday's core human resource management data. The Tray.io Workday REST API connector allows users to automate HR-related workflows such as retrieving worker details, handling inbox tasks, and managing job changes.
+
+## **API Information **
+
+The Workday REST API connector has the following Base URL: **https://{TENANT}.workday.com**. More information can be found on their main API documentation (v1.0) site. Details regarding their API limitations can be found here.
+
+## Authentication
+
+Within the builder, click on the Workday REST API connector to display the connector properties panel. Select the **Auth** tab and click on the **New authentication** button.
+
+In the Tray.io authentication pop-up modal, name your authentication in a way that will quickly identify it within a potentially large list. For example, whether it is a Sandbox or Production auth.
+
+Consider who/how many people will need access to this authentication when choosing where to create this authentication ('Personal' vs 'Organisational').
+
+The next page asks you for your **Base URL**, **Client ID**, **Client Secret**, **Tenant**, and **Authorization URL** credentials.
+
+Once you have added these fields to your Tray.io authentication pop-up window, click the **Create authentication** button.
+
+Your connector authentication setup should now be complete. Please run the simplest operation available to test and make sure you can retrieve data as expected.
+
+## Available Operations
+
+The examples below show one or two of the available connector operations in use.
+
+Please see the [Full Operations Reference](#operationsFull) at the end of this page for details on all available operations for this connector.
+
+## Notes on using Workday REST API
+
+**Get Worker by ID**<br/> Use this operation to fetch detailed information about an individual worker using their Workday ID. This can be useful for building profiles or pulling HR data for reporting.
+
+**List Supervisory Org Workers**<br/> Returns all workers in a specific supervisory organization (team/department). This is often used in workflows for managing team-based processes or communications.
+
+**Approve or Reject Inbox Task**<br/> This operation lets you programmatically approve or reject tasks pending in Workday's inbox — such as job change approvals or requests for information.
+
+**List Inbox Tasks for Worker**<br/> This operation lists all tasks assigned to a specific worker, helping automate monitoring of outstanding HR approvals or required actions.
+
+**Create Job Change**<br/> Allows you to initiate job-related changes for a worker, including title changes, manager reassignments, or other updates that trigger Workday workflows.
+
+**Search Workers**<br/> Searches workers across your Workday instance by name, title, or other identifiers. Useful for dynamically finding workers to use in subsequent workflow steps.
+
+## Using the Raw HTTP Request ('Universal Operation')
+
+As of **version 1.0**, you can effectively create your own operations.
+
+This is a powerful feature that you can use when there is an endpoint in Workday REST API that is not used by any of our operations.
+
+To use this, you will first need to research the endpoint in the Workday REST API documentation v1.0 to find the exact format that Workday will be expecting the endpoint to be passed in.
+
+For example, say that the `List all workers` operation did not exist in our Workday REST API connector, and you wanted to use this endpoint. You would use the Workday REST API docs to find the relevant endpoint — which in this case is a `GET` request called: `/workers`.
+
+More details about this endpoint can be found here.
+
+Based on the information provided in the above API call doc, you need to configure the following attributes on your Tray platform:
+
+- **Method:** GET
+- **Endpoint:** `/workers`
+- **Headers:** Authorization: Bearer `<your_access_token>`
+- **Query parameters:** limit=100 (example)
+- **Body Type:** None
+
+Once the API call is executed successfully, you should receive a list of workers and their associated metadata.
+
+## Example Usage
+
+Below is an example of a way in which you could potentially use the Workday REST API connector to **list all workers within a supervisory organization and retrieve their pending inbox tasks**.
+
+The overall logic of the workflow is:
+
+- Setup using a manual trigger and supervisory organization input.
+- List all workers under that supervisory organization.
+- Loop through each worker and retrieve inbox tasks.
+- Optionally approve tasks that meet certain conditions.
+
+Your completed workflow should look similar to this:
+
+### Step-by-step Explanation
+
+#### Step 1 - Manual Trigger
+
+Start the workflow with a manual trigger to initiate the process.
+
+#### Step 2 - List Supervisory Org Workers
+
+Use the **List Supervisory Org Workers** operation and provide the necessary org ID.
+
+#### Step 3 - Loop through Workers
+
+Add a Loop Collection connector to iterate through each worker retrieved in Step 2.
+
+#### Step 4 - List Inbox Tasks for Worker
+
+Inside the loop, use **List Inbox Tasks for Worker** to pull pending tasks for each worker.
+
+#### Step 5 - Loop through Tasks and Approve if Needed
+
+Add a nested Loop Collection to iterate over tasks and conditionally approve using **Approve or Reject Inbox Task**.
+
+***Note: ***
+
+- *Do not edit the below accordion. Create a new one and delete this one from your connector doc.*
+- *Make sure you add an image in each accordion item for each step in your workflow.*

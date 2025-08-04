@@ -1,0 +1,61 @@
+---
+title: "Overview"
+description: "Overview of the News API connector"
+---
+
+# Overview
+
+## Overview
+
+The Tray News API connector helps to search and retrieve live news articles from all over the web.
+
+## Authentication
+
+When using the News API connector, the first thing you will have to do is click on 'New Authentication' in the step editor and add your News API key, obtained from the [News API getting started page](https://newsapi.org/) :
+
+## Authentication
+
+When using the News API connector, the first thing you will need to do is go to your Tray.io account page, and select the workflow you wish to work on. Once in the workflow dashboard itself, search and drag the News API connector from the connectors panel (on the left hand side) onto your workflow.
+
+With the new News API connector step highlighted, in the properties panel on the right, click on 'New Authentication' which is located under the 'Settings' heading.
+
+This will result in a Tray.io authentication pop-up window, that should look like the below. As you can see you will also need your News API, 'API Key':
+
+You can get this from the [News API](https://newsapi.org/) website - if you have not yet signed in, just press the 'Get API' button displayed below. *If you are already signed in, click the same button, except this time it will display with your account email address*.
+
+It will then send you to your account details page where you can get the 'API key' you need to complete your Tray.io authentication set up.
+
+## Available Operations
+
+The examples below show one or two of the available connector operations in use.
+
+Please see the [Full Operations Reference](#operationsFull) at the end of this page for details on all available operations for this connector.
+
+## Example Usage
+
+Below is two examples of how you could potentially use the News API connector, first get a list of asteroids and second to get a list of sources.
+
+The steps will be as follows:
+
+1. Set up manual trigger and get a list of sources available.
+2. Get the top headlines form the sources available, and search for specific terms within.
+
+The final outcome should look like this:
+
+### 1 - Setup trigger & List Sources
+
+Once you have clicked 'Create new workflow' on your main Tray.io dashboard (and named said new workflow), select the Manual trigger from the trigger options available:
+
+Once you have been redirected to the Tray.io workflow dashboard, from the connectors panel on the left, add a News API connector to your second step. Set the operation to 'Get list of sources'.
+
+As you can see, you can further specify both the language (which while not mandatory is highly recommended) and the category as well if you wish.
+
+### 2 - Get Headlines available & Search for specific terms
+
+Add another News API connector to the next step of your workflow and set the operation to 'Get list of top headlines'.
+
+Again, you can set parameters depending on what outcome you are expecting. Note that the page number is automatically set to 20 and that the page number will start at 1.
+
+Add a final News API connector and set the operation to 'Search in all articles'. As you can see again, there are several parameters you can set including the ability to exclude news sources, time frames, and more.
+
+Feel free to get more specific or inventive depending on your workflow needs. Whatever the output generated, it will end up looking similar to the below (barring in mind the parameters within our own example):

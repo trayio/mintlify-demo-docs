@@ -1,0 +1,84 @@
+---
+title: "Overview"
+description: "Overview of the MongoDB Shell connector"
+---
+
+# Overview
+
+## Overview
+
+MongoDB Shell is the quickest way to connect to (and work with) MongoDB. Easily query data, configure settings, and execute other actions with this modern, extensible command-line interface — replete with syntax highlighting, intelligent autocomplete, contextual help, and error messages.
+
+## Authentication
+
+Within the builder, click on the MongoDB Shell connector to display the connector properties panel. Select the 'Authentication' tab and click on the 'New authentication' button.
+
+In the Tray.io authentication pop-up modal name the authentication in a way that will easily identify it within a potentially large list. For example whether it is a Sandbox or Production auth, etc.
+
+Consider who/ how many people will need access to this authentication when choosing where to create this authentication ('Personal' or 'Organisational').
+
+The second page asks you for your MongoDB 'Connection string', 'Username' and 'Password' credentials.
+
+e.g. To connect to an Atlas Cloud MongoDB the connection string would be similar to:
+
+`mongodb+srv://cluster0.example.mongodb.net/myFirstDatabase`
+
+Once you have added these fields to your Tray.io authentication pop-up window, click the 'Create authentication' button.
+
+Your connector authentication setup should now be complete.
+
+## Notes on using MongoDB Shell
+
+The connector only has one operation, 'Run script'. This operation accepts JavaScript code that is to be run against the authenticated MongoDB database.
+
+The script can contain one or more commands. It is possible to create very simple or very complex scripts. For guidance on the acceptable commands that can be issued please consult the [MongoDB Manual](https://docs.mongodb.com/mongodb-shell/reference/methods/) for all of the `mongosh` methods that can be invoked.
+
+### Output
+
+The output of the 'Run script' operation is structured like this:
+
+The 'output' key is a representation of the output that the shell displays when the script's commands were run against it. It can consist of strings, arrays of objects, objects, or a mixture of the above. If the shell string output can be converted to a JSON object then it will be so that it is easier to process in subsequent workflow steps.
+
+In order to assist the conversion of the shell output to JSON please wrap your method calls with `EJSON.stringify();`. Tray will convert any valid JSON strings into objects.
+
+e.g. `db.stats()` will output the stats as individual strings:
+
+but, if we convert the output to JSON,
+
+e.g. `EJSON.stringify(db.stats());` will output the stats as a JSON object, which is far more accessible:
+
+### Warnings
+
+The 'warnings' key contains a list of warnings that have been issued by the MongoDB Shell.
+
+### Errors
+
+The 'error' key contains a list of errors that have been issued by the MongoDB Shell. Note that these 'errors' are not necessarily serious issues. For instance, the shell may report `Error: Could not open history file.` This will not effect the running of the shell methods, so can be ignored.
+
+If there is a problem running the shell script or connecting to the database then the workflow will error and retry the workflow step.
+
+## Available Operations
+
+The examples below show one or two of the available connector operations in use.
+
+Please see the [Full Operations Reference](#operationsFull) at the end of this page for details on all available operations for this connector.
+
+## Example Usage
+
+Below is an example of a way in which you could potentially use the MongoDB Shell connector, to iterate over a dataset and output records that match certain criteria. In this case, we will be finding accommodation listings with 18 beds available and listing them in the connector's output as JSON objects.
+
+The steps will be as follows:
+
+1. Setup using a manual trigger and run the MongoDB Shell script.
+
+Your completed workflow should look similar to this:
+
+### 1 - Setup Trigger & run the MongoDB Shell script
+
+With your trigger in place (be it [Manual](/connectors/triggers/manual-trigger/), [Scheduled](/connectors/triggers/scheduled-trigger/), [Callable](/connectors/triggers/callable-trigger/) etc) add a MongoDB Shell connector. Set the operation to 'Run script'.
+
+Set the 'Script' value to be:
+
+Feel free to re-name your steps as you go along to make things clearer for yourself and other users. The operation names themselves often suffice.
+
+This step has successfully found and listed accommodations with 18 beds available.

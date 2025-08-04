@@ -1,0 +1,34 @@
+---
+title: "Overview"
+description: "Overview of the BMC Remedy connector"
+---
+
+# Overview
+
+## Overview
+
+BMC Remedy is a useful tool for problem & incident management, an easy tool for raising tickets, managing incident changes, & keeping its records.
+
+## Authentication
+
+Within the workflow builder, highlight the BMC Remedy connector.
+
+In the BMC Remedy connector properties panel to the right of the builder, click on the Authenticate tab and the 'Add new authentication' button.
+
+This will result in a Tray.io authentication pop-up modal. The first page will ask you to name your authentication and select the type of authentication you wish to create ('Personal' or 'Organisational').
+
+The next page asks you for your 'Host', 'Username', and 'Password'.
+
+In order to get the 'Host', head to the BMC Remedy dashboard. You can find the Host as part of your dashboard's URL. The URL should be similar to:`https://202104060608590567.lightning.force.com/lightning/page/home`. The Host is the hash that comes after `https://`.
+
+In this example, that makes the Host as: `202104060608590567`.
+
+The 'Username' and 'Password' are your BMC Remedy login credentials.
+
+You can also optionally provide the 'Port' and 'Authentication String'. To know more about Ports in BMC Remedy, refer to the document on [Port information](https://docs.bmc.com/docs/itsm91/port-information-608491641.html).
+
+Once you have added these fields to your Tray.io authentication pop-up window, click the 'Create authentication' button.
+
+Go back to your settings authentication field (within the workflow builder properties panel), and select the recently added authentication from the dropdown options now available.
+
+Your connector authentication setup should now be complete.

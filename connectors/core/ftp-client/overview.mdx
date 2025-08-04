@@ -1,0 +1,79 @@
+---
+title: "Overview"
+description: "Overview of the FTP Client connector"
+---
+
+# Overview
+
+## Overview
+
+The FTP Client allows you to list, upload and download files on an FTP server.
+
+## Prerequisites
+
+You will need to have an FTP server set up for use in order to be able to test the Tray FTP Client.
+
+Instructions for setting up an FTP server can be found on popular tutorial sites such as Digital Ocean.
+
+If you want to get it running on an AWS EC2 instance you would follow one of these tutorials and bear the following points in mind:
+
+1. Create an AWS EC2 instance (using ubuntu server or similar)
+2. Log in to the instance and install an FTP server such as vstfpd
+3. Instead of using the system firewall you would use the AWS security group to configure your AWS ports something like: 
+4. As per the tutorial you are following, add a user, create a password and set their access to an ftp folder on the server
+5. As per the tutorial you are following, edit the 'vsftpd.conf' file to set the ports, enable file uploading etc.
+
+Note that if you attempt to test accessing files on the FTP server by opening a terminal on your personal computer and logging in with the user created in step 4, you may find that your network firewall settings will prevent you from accessing files.
+
+You can test using a client such as Filezilla or just using the List files operation in the Tray FTP Client.
+
+For testing purposes it is obviously simpler to only set up FTP without configuring SFTP, which you would want for a production environment.
+
+## Authentication
+
+Within the builder, click on the FTP Client connector to display the connector properties panel. Select the 'Auth' tab and click on the 'New authentication' button.
+
+In the Tray.io authentication pop-up modal, name the authentication in a way that will quickly identify it within a potentially large list. For example, whether it is a Sandbox or Production auth, etc.
+
+Consider who/ how many people will need access to this authentication when choosing where to create this authentication ('Personal' or 'Organisational').
+
+The second page asks you for the following credentials:
+
+- **Protocol type:** select the protocol type from the drop-down.
+- **Host:**  IP of your AWS EC2 instance that is hosting your FTP server
+- **Username** and **Password: **this is what you configured in **step 4** of the **Prerequisites** section above.
+- **Port: **The default Port for FTP is 21 or 22
+
+You can also configure the optional credentials based on your requirements. 
+
+Once you have added these fields to your Tray.io authentication pop-up window, click the 'Create authentication' button. 
+
+Your connector authentication setup should now be complete.
+
+## Note on security when using FTP
+
+It is recommended that you use SFTP as the more secure method (this will require extra setup steps on your FTP server).
+
+We also recommend the use of SSH keys over passwords.
+
+The procedure for configuring SSH on your FTP server and Tray workflows would be something like:
+
+1. Generate an SSH key pair on your local device (It’s best to create a separate key pair for your Tray workflows rather than use existing keys, as if they’re compromised, they could be used to gain access to other programs)<br/>You can 
+2. Add the FTP auth in Tray and enter the **private SSH key** from your local device.
+3. Add the **public SSH key** from your key pair to the authorized key file of your SFTP server which Tray will be connecting to.
+
+## Error: 'access denied'
+
+When uploading to an SFTP/FTP server if the file name is not allowed the connector may return 'Access Denied' with no other context.
+
+## Example - Creating a file from content and uploading to the FTP server
+
+For this example we will make use of the **File Helpers** connector to create a file from content and then upload it to the FTP server. The workflow looks like this:
+
+For testing purposes a Manual Trigger is used.
+
+For the File Helpers step you can set the operation to **Create File from Content** and just leave as the default name and content (to see a more realistic example of using the File Helper to create a file from data pulled from a service such as Salesforce, please see the [File Helpers](/connectors/helpers/file-helper/) documentation page:
+
+Then set the FTP Client operation to **FTP upload**, grabbing the file using the `$.steps.file-helpers-1.file` jsonpath and setting the filepath (note that this will have to be a recognised file path on your FTP server):
+
+You can then click 'Run workflow' and go to the Debug tab to check if the workflow has run successfully and inspect the input and output data:

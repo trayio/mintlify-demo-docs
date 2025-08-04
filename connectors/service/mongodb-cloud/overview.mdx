@@ -1,0 +1,54 @@
+---
+title: "Overview"
+description: "Overview of the MongoDB Cloud connector"
+---
+
+# Overview
+
+## Overview
+
+MongoDB Cloud is a service connector. It is a general purpose, document-based, distributed database built for modern application developers and for the cloud era.
+
+## Authentication
+
+When using the MongoDB Cloud connector, the first thing you will need to do is go to your Tray.io account page, and select the workflow you wish to work on. Once in the workflow builder itself, search and drag the MongoDB Cloud connector from the connectors panel (on the left hand side) onto your workflow.
+
+With the new MongoDB Cloud connector step highlighted, in the properties panel on the right, click on 'New Authentication' which is located under the 'Settings' heading.
+
+This will result in a Tray.io authentication pop-up window. The first page will ask you to name your authentication, and state which type of authentication you wish to create ('Personal' or 'Organisational').
+
+As you can see, the next page asks you for your 'Username' and 'Password' credentials.
+
+In order to get these fields, head to your MongoDB dashboard. Click on the 'Access Manager' menu and select Project Access.
+
+Here you can create new API keys or find existing keys under the API keys tab.
+
+Once you have added these fields to your Tray.io authentication popup window, click on the 'Create authentication' button. Go back to your settings authentication field (within the workflow builder properties panel), and select the recently added authentication from the dropdown options now available.
+
+Your connector authentication setup should now be complete.
+
+## Available Operations
+
+The examples below show one or two of the available connector operations in use.
+
+Please see the [Full Operations Reference](#operationsFull) at the end of this page for details on all available operations for this connector.
+
+## Example usage
+
+Below is an example of a way in which you could potentially use the MongoDB Cloud connector, to download log data from your account.
+
+The steps will be as follows:
+
+1. Setup using a manual trigger and download logs
+
+### 1 - Setup Trigger & download logs
+
+Once you have clicked 'Create new workflow' from your main Tray.io dashboard named it, select the Manual trigger from the trigger options available:
+
+After you have been redirected to the Tray.io workflow dashboard, from the connectors panel on the left, add a MongoDB Cloud connector to your second step. Set the operation to 'Download logs'.
+
+*Feel free to re-name your steps as you go along to make things clearer for yourself and other users.*
+
+Here you will need to provide the 'Project ID', 'Host name' and 'Log name' to retrive the data from. You also have the option to select a date range to filter the log data. Dates will be sent to the API in UTC timestamp format.
+
+When run, this workflow will download a compressed log data file (.gz) from your MongoDB account and a file object will be available to you.

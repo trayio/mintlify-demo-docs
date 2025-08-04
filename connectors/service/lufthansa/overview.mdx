@@ -1,0 +1,96 @@
+---
+title: "Overview"
+description: "Overview of the Lufthansa connector"
+---
+
+# Overview
+
+## Overview
+
+Lufthansa Group is increasingly turning to application programming interfaces (APIs) as a way to expand its digital reach, cut out aggregators and diversify its direct sales channels.
+
+## Authentication
+
+When using the Lufthansa connector, the first thing you will need to do is go to your Tray.io account page, and select the workflow you wish to work on. Once in the workflow builder itself, search and drag the Lufthansa connector from the connectors panel (on the left hand side) onto your workflow.
+
+With the new Lufthansa connector step highlighted, in the properties panel on the right, click on 'New Authentication' which is located under the 'Settings' heading.
+
+This will result in a Tray.io authentication pop-up window. The first page will ask you to name your authentication, and state which type of authentication you wish to create ('Personal' or 'Organisational').
+
+As you can see, the next page asks you for your 'Client Key' and 'Client Secret'.
+
+In order to get these fields, head to your [ Lufthansa login page](https://developer.lufthansa.com/login/login?r=https%3A%2F%2Fdeveloper.lufthansa.com%2Fmember%2Fregister&h=9b3690886a1ff6c98c048f2f8a3e916c) and sign in.
+
+If you don't already have an account click 'Register'.
+
+Fill in all the required fields with your data then click the new 'Register' button, found at the bottom of the page.
+
+Then will then be taken to a page where you have the option to create an application, you need one of these in order to get your 'Client Key' and 'Client Secret' details.
+
+Under the 'Next steps' heading, select the link within the 'Apply for access to the **API**' from step 1:
+
+This will take you to the registration form for said application. Once more fill in the required fields and click on the 'Register Application' button at the bottom of the page.
+
+If application registration was successful, you will now be able to see your 'Client Key' and 'Client Secret' displayed:
+
+Once you have added these fields to your Tray.io authentication popup window, click on the 'Create authentication' button. Go back to your settings authentication field (within the workflow builder properties panel), and select the recently added authentication from the dropdown options now available.
+
+Your connector authentication setup should now be complete.
+
+## Available Operations
+
+The examples below show one or two of the available connector operations in use.
+
+Please see the [Full Operations Reference](#operationsFull) at the end of this page for details on all available operations for this connector.
+
+## Example usage
+
+Below is an example of a way in which you could potentially use the Lufthansa connector, to to iterate through the airports stored within the Lufthansa app.
+
+The steps will be as follows:
+
+1. Setup using a manual trigger and get a list of airports in operation.
+2. Add a Loop connector to iterate through the airports found.
+3. Get all the available data for each airport, individually.
+
+The final outcome should look like this:
+
+### 1 - Setup Trigger & List Airports
+
+Once you have clicked 'Create new workflow' from your main Tray.io dashboard (and named said new workflow), select the Manual trigger from the trigger options available:
+
+After you have been redirected to the Tray.io workflow dashboard, from the connectors panel on the left, add a Lufthansa connector to your second step. Set the operation to 'List airports'.
+
+As 'Limit' and 'Offset' are pre-filled for you, there are no mandatory fields you need to worry about at this stage. Though you can filter your results further via selecting 'Language' or 'Lufthansa operated only' should you wish to.
+
+*Feel free to re-name your steps as you go along to make things clearer for yourself and other users.*
+
+In order to check that your trigger has been activated and your first step is working correctly, check the results found within the Debug panel, after your first run:
+
+When run, this workflow will list all the airports available within the Lufthansa app under your credentials.
+
+### 2 - Loop Collection
+
+Next, search for the 'Loop collection' connector within your connector panel, and drag it into your workflow as your next step. Set your operations to 'Loop list'.
+
+The Loop Collection connector allows you to iterate through a list of results. In this example, we will use it to iterate through the data found within the previous Lufthansa connector step.
+
+In order to specify the list you want to loop through, start by using the 'List' mapping icon (found next to the list input field within the properties panel) to generate the connector-snake.
+
+While hovering over the 'List airports' step (with the tail end of the connector-snake), select `Airport` from the list of output properties displayed. This will auto-populate a jsonpath within your 'List' input field, and update the type selector.
+
+*For more clarification on the pathways you have available, open the Debug panel to view your step's Input and Output.*
+
+When run, this workflow will iterate through the list of airports provided by the earlier step.
+
+### 3 - Get Airport
+
+Add a Lufthansa connector step *INSIDE* of the previous 'Loop List' step. Set the operation to 'Get airport'.
+
+In order to specify the input you want to reference, use the 'Airport' field with the mapping icon and connector-snake once more. Assign this property to the `value` option displayed from the 'Loop List' step.
+
+In order to get each individual airport, **the final section of the auto-generated jsonpath,  .AirportCode , needs to be manually filled in**.
+
+So your end result will end up being: `$.steps.loop-1.value.AirportCode` within the 'Airport' field. This action is needed because the response that is being returned from the Lufthansa API is different than the standard API responses.
+
+When run, the workflow will now iterate through the list of airports provided, and get all the details available for each individual airport. See the Debug panel once again for more details on the output provided:

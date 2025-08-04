@@ -1,0 +1,98 @@
+---
+title: "Overview"
+description: "Overview of the Mixpanel connector"
+---
+
+# Overview
+
+## Overview
+
+Get valuable customers insights to make smarter decisions and act faster based on how customers use your product or website with Mixpanel.
+
+## Authentication
+
+When using the Mixpanel connector or Trigger, the first thing you will have to do is click on 'New Authentication' in the step editor (RHS panel):
+
+You will then need to add 3 seperate pieces of information to authenticate your mixpanel app:
+
+- a token
+- an API key
+- an API sceret
+
+All 3 can be found by heading to your Mixpanel interface >> clicking on settings clog in top RHS panel >> under "Project Settings", select the project you want to authenticate >> Overview >> ACCESS KEYS.
+
+Once you've entered the relevant details, click add authentication.
+
+## Create/Update Profile Operation
+
+This operation (Op) is designed to allow you to either create or update profile information of a mixpanel user, either manually or as part of a workflow that pulls data from another app in the Tray.io ecosystem.
+
+The Op has 3 required fields:
+
+1. Distinct ID: the unique ID that will identify a Mixpanel user. For more information on how Mixpanel handles distinct IDs it is highly recommended you review their [Identity Management: Best Practises](https://help.mixpanel.com/hc/en-us/articles/115004497803-Identity-Management-Best-Practices)
+2. The type of action you want to take, either Create or Update: It's a subtle difference but when you select update we add to additional properties to your request - $ignore_time and $ignore_alias - that stops Mixpanel overwriting profile properties such as 'Last Seen'.
+3. Profile operation: This refers to the actual operation you'd like to perform to manipulate your user profile data. Mixpanel provides a total of 8 profile operations.
+
+### Example workflow using "Set Once" operation to "update" a user profile
+
+1. Once your Mixpanel account has been authenticated, you can select the operation in the RHS step builder panel dropdown:
+
+1. Following this enter the users Distinct ID:
+
+1. Select the type of action and the profile operation:
+
+1. Enter the properties you'd like to update by clicking add item:
+
+1. Select the type of property to update. This can be a special property or a custom property. A special property is one which Mixpanel has in-built into their system to help manage how data is analysed. A custom property is one which Mixpanel you define yourself. We'll create both types:
+
+1. Press the "Run Workflow" button in the bottom RHS panel.
+
+## Using the Batch Profile Update Operation
+
+The Mixpanel API supports creating and updating profiles in bulk. There are some key points to keep in mind when using this operation:
+
+- The request can contain no more than 50 profiles to update
+- Each profile must be pre-formatted. The format follows a similar structure to a request that is sent using the create/update profile operation that deals with a single profile.
+- Whereas in the individual operation you can input properties such as Distinct ID and custom properties via the step editor, you cannot do the same with the batch operation.
+- The batch operation is intended to be used when, for example, you want to migrate data from one application to Mixpanel, in bulk. Thus, the likely hood is that the input properties such as name and email will already be defined in a previous step.
+- To construct the input object for the batch operation you can utilise a script helper that will create an object with the correct properties. Below is an example of a sample workflow that pulls data from Salesforce, splits the list of contacts into 'chunks' of 50 contacts each and then formats that data before passing it to Mixpanel.
+
+### Sample Workflow
+
+1. Set the trigger, where it be manual or a trigger. In this example we use a manual trigger
+2. Select application from which you'd like to pull data from, in the example we use Salesforce and the 'Find records' operation and pull the users ID and Name.
+3. Use the list helper to split the list pulled from Salesforce into ‘chunks’ of 50
+
+1. We now have a list of lists. Say we pulled 200 records from Salesforce and used the list helper to chunk these records into lists of 50, this gives us a 'bucket' of 4 profile-lists that contain 50 records each. But we now have to format each profile-list so that we can send it to Mixpanel. To do so we have to 'loop' over each list in the bucket and perform and action on it. This is where the "Loop Collection" connector comes into play to feed each list in the bucket to the script helper in the next step.
+
+#### Input to Script helper:
+
+- Above image highlights the properties pulled from Salesforce in a list format
+
+1. Now we have a list of 50 profiles we need to correctly format.
+
+- On this step you will need to add 2 input variables that will be utilised in the script:
+- the actual list
+
+- your Mixpanel access token which you can access by scrolling down the RHS panel and clicking advanced setting and then scrolling back up and adding a new authentication
+
+- An example script is provided below. Note the 'input' argument being passed to the function on line 3. This input is used to reference the input variables we passed above.
+
+- Please refer to the create/update profile operation to make sure you select correct input information e.g. what operation to use. Please note, if you are updating the list you will need to add 2 additional properties $ignore_time and $ignore_alias that will stop Mixpanel overwriting data such as 'Last Seen'.
+
+#### Output from Script helper:
+
+- Above image highlights the formatted output from script helper
+
+1. Once you have implemented the script the next step is to pass the formatted list to the Mixpanel: 
+
+## Notes on other operations
+
+### Batch Import Events & Import Event
+
+- Important to note that these operations only work with events that are less than 5 days old
+
+### List Event Names
+
+- This operation is useful to get a list of events that are being tracked in your Mixpanel account to use in other operation like count events and track events
+- The time period cannot be greater than 10 days otherwise the operation will return an error.

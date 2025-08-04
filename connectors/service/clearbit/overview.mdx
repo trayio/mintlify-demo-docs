@@ -1,0 +1,107 @@
+---
+title: "Overview"
+description: "Overview of the Clearbit connector"
+---
+
+# Overview
+
+## Overview
+
+Clearbit develops business intelligence to help companies find more information on customers in order to increase sales and reduce fraud.
+
+## Authentication
+
+When using the Clearbit connector, the first thing you will have to do is click on 'New Authentication' in the step editor:
+
+You will then need to add your Clearbit API key, obtained from the Clearbit Admin UI:
+
+## Available Operations
+
+The examples below show one or two of the available connector operations in use.
+
+Please see the [Full Operations Reference](#operationsFull) at the end of this page for details on all available operations for this connector.
+
+## Note on Operations Usage
+
+### The Discovery API
+
+Queries entered for the **Discovery API** should be used in accordance with the [Clearbit Discovery API Documentation](https://dashboard.clearbit.com/docs#discovery-api-queries). So for example you might enter the following as a query:
+
+### The Prospector API
+
+When using the **Prospector API**, from **connector version 2.0**, it is possible to change which [Clearbit Prospector API version](https://dashboard.clearbit.com/docs#versioning) to use. The default Clearbit Prospector API version for connector 2.0 is **2019-12-19**.
+
+You should check which version of the API you are using in your [Clearbit dashboard](https://dashboard.clearbit.com/api):
+
+You can upgrade any of the APIs if necessary.
+
+Then to specify which Prospector API version to use in your Tray.io workflow, first ensure that you are using connector version 2.0 or above:
+
+Then select the 'Prospector API' operation and click 'Show advanced properties' at the bottom of the list of inputs, to reveal the 'API Version' input:
+
+## Examples
+
+Note that the below examples demonstrate how to use some Clearbit Operations and the data they return. They use a single lead / email address to demonstrate this. In a production environment you would likely be working with lists of emails etc. pulled from other services, and would be using our tools such as the List Helper, Loop Connector an the methods explained in our section on [Pagination](/platform/standard-best-practices/pagination/intro-to-pagination/)
+
+## Example 1 - obtaining data for lead scoring
+
+You can use Clearbit to find out key lead scoring information on an individual and their company - using metrics such as executive position, social following and annual company revenue.
+
+A way to do this would be to use the **Enrichment - person & company by email** operation, whereby all you need to do is enter a company email address.
+
+To try this, create a new workflow with a manual trigger and a Clearbit connector:
+
+Authenticate your Clearbit connector as above and use the **Enrichment - person & company by email** operation, entering the email address in question:
+
+After clicking 'Run Workflow' you can use the 'Debug' tab to inspect the results.
+
+From the 'employment' section you can see that he is the CEO:
+
+And from the Twitter section you can see how many followers he has:
+
+We can then look at the company details and get some data on revenue and number of employees:
+
+And also on geographical location:
+
+### Creating the Lead in Salesforce
+
+You can then add a Salesforce step to your workflow (please see our [Salesforce documentation](/connectors/service/salesforce/) for instructions on authenticating with Salesforce):
+
+Then set it to create a new Lead:
+
+After clicking **'Add Fields'** it is then possible to grab any data from the Clearbit step using `$.steps.clearbit-1.person.` and `$.steps.clearbit-1.company` jsonpaths:
+
+The jsonpaths for any piece of data can be automatically picked up by using the Tray 'Connector Snake':
+
+Make sure you grab all the necessary pieces of data before running/enabling your workflow.
+
+From here you could use several of the metrics to assign a 'cold/warm/hot' status to the lead in Salesforce.
+
+Some of the Tray system connectors can help you here - as will be shown in the next example!
+
+## Example 2 - Update the Rating of a Lead based on follower count increase
+
+This example shows how you can use Tray to make periodic checks to see if a Lead's Twitter following has increased significantly over a certain period of time - in which case you can update their Lead Rating in Salesforce.
+
+The complete workflow looks like this:
+
+The following steps:
+
+1. Create a workflow with a scheduled trigger to check perhaps every week or two weeks
+2. Add the **Find Lead in Salesforce** connector to find the Lead by email. This is done by specifying that **Lead ID** and **Followers** are the fields returned:
+
+and by using the 'Conditions' parameter to find by email:
+
+**Note:** This example manually inserts the email, but in a production environment you would be working with batches of leads - in which case you would list your Leads from Salesforce and work through them one-by-one. An explanation of how you can work with data in this way can be found in our section on [Pagination](/embedded/embedded-apis/intro-to-the-apis/pagination)
+
+1. Add the Clearbit **Get new follower count** connector:
+
+1. Add the **Get follower increase** math helper and subtract the old follower count from the new follower count:
+
+1. Add the **More than 1000 new?** boolean condition to check if the result from the math helper is over 1000:
+
+1. On the **True** branch add the **Update Rating and Followers in Salesforce** connector and grab the Lead Id as the record to update:
+
+then update the Rating and Followers count:
+
+1. On the **False** branch you can duplicate the True branch connector, but remove the update to the Rating, so that only Followers are updated for the next time the check is made.

@@ -1,0 +1,109 @@
+---
+title: "Overview"
+description: "Overview of the Chargback connector"
+---
+
+# Overview
+
+## Overview
+
+Real-time dispute management platform built to empower internal teams with expert knowledge and robust automation.
+
+## Authentication
+
+When using the Chargback connector, the first thing you will need to do is go to your Tray.io account page, and select the workflow you wish to work on. Once in the workflow dashboard itself, search and drag the Chargback connector from the connectors panel (on the left hand side) onto your workflow.
+
+With the new Chargback connector step highlighted, in the properties panel on the right, click on 'New Authentication' which is located under the 'Settings' heading.
+
+Besides from naming your authentication appropriately, you will need your to choose where do you want to create this authentication (Personal/Organization). Click on the 'Next step' and you should see that for a successful authentication you'll need to provide the 'Public key', 'Private key' and 'Environment':
+
+To obtain your 'Public key' and 'Private key', please log into the Chargback account. Be careful: Private key is technically also the 'secret' and known only to their owner.
+
+Depending on the access controls granted to the key authorizing the request, some actions may be unavailable.
+
+To access the Chargeback API in different environments, change the base URL in your requests.
+
+The base url for the Chargeback API Sandbox is: `https://api-sandbox.chargeback.com/[version]/`
+
+The base url for the Chargeback Live API is: `https://api.chargeback.com/[version]/`
+
+Once you have clicked the 'Create authentication' button, go to back to your authentication field (within the workflow dashboard properties panel from earlier), and select the recently added authentication from the dropdown options now available.
+
+Your connector authentication setup should now be complete.
+
+## Available Operations
+
+The examples below show one or two of the available connector operations in use.
+
+Please see the [Full Operations Reference](#operationsFull) at the end of this page for details on all available operations for this connector.
+
+## Using the Raw HTTP Request ('Universal Operation')
+
+As of **v1.0**, it is possible to effectively create your own operations.
+
+This is a very powerful feature which you can put to use when there is an endpoint in Chargback which is not used by any of our operations.
+
+To use this you will first of all need to research the endpoint in the [Chargback API documentation](https://docs.chargeback.com/?version=latest), to find the exact format that Chargback will be expecting the endpoint to be passed in.
+
+Note that you will only need to add the suffix to the endpoint, as the base URL will be automatically set (the base URL is picked up from the value you entered when you created your authentication).
+
+The base URL for Chargback `https://[environment].chargeback.com/[version]/`
+
+For example, say that the 'List Customers' operation did not exist in our Chargback connector, and you wanted to use this endpoint, you would use the Chargback API docs to find that the 'List Customers' endpoint is a `GET` request at the following URL:
+
+`https://[environment].chargeback.com/v2/customers`
+
+Let's consider we're using sandbox enjoinment. You can get list of existing customers for the specified order with the following settings:
+
+Method: `GET`
+
+Endpoint: `/customers`
+
+Final outcome: `https://api-sandbox.chargeback.com/v2/customers`
+
+This set up will now return the scheduling information desired.
+
+## Example usage
+
+Below is an example of a way in which you could potentially use the Chargback connector, to filter list of disputes by disposition and process result.
+
+The steps will be as follows:
+
+1. Setup your trigger and get the list of disputes.
+2. Find disputes with disposition equal "won"
+3. Format message with 'lost' and 'pending' dispositions and send ot to slack chanel.
+4. Find invoices with the same 'Transaction ID' as 'won disputes'
+
+The final outcome should look like this:
+
+### 1 - Setup trigger & Create Order
+
+Once you have clicked 'Create new workflow' on your main Tray.io dashboard (and named said new workflow), select the Manual trigger from the trigger options available:
+
+Once you have been redirected to the Tray.io workflow dashboard, from the connectors panel on the left, add a Chargback connector to your second step. Set the operation to 'List disputes'.
+
+### 2 - Loop collection
+
+Find 'Loop Collection' connector in the 'Core' section of the panel and add it to your third step. Choose 'Loop List' operation. To set the loop connector to work through the list of disputes, we use the `$.steps.chargeback-1.data` jsonpath to pull it from the first Chargback step.
+
+### 3 - Boolean condition
+
+Find 'Boolean Condition' connector in the 'Core' section of the panel and add it to your third step. Choose 'Boolean condition' operation. To set the boolean connector to check if disposition equal "won" we use the `$.steps.loop-1.value.attributes.disposition` jsonpath to pull it from 'Loop Collection' step.
+
+### 3 - Process FALSE condition
+
+Now we need to decide what to do if our condition is true and false. False condition will run if dispositions anything but 'won'. In our case it's 'pending' and 'lost'.
+
+Let's format message using 'Text helpers' and send this message to Slack chanel. Find 'Text helpers' connector in the 'Helpers' section of the panel and add it to the FALSE brunch.
+
+Select 'Concatenate' operation and use the `$.steps.loop-1.value.xomi_id` and `$.steps.loop-1.value.attributes.disposition` jsonpaths to pull it from 'Loop Collection' step. You can choose any separator for the values, we chose a colon:
+
+Next step will be sending Slack message. Add a Slack connector to your FALSE brunch. Select 'Send message' operation, chanel and use the `$.steps.text-helpers-2.result` jsonpath to pull it from 'Format message' step:
+
+### 4 - Process TRUE condition
+
+For TRUE condition we decided to list invoices with the same Transaction ID as 'won' disputes. Add a Slack connector to your TRUE brunch and select 'List invoices' operation.
+
+To filter result use the `$.steps.loop-1.value.attributes.transaction_id` as an input for 'Transaction ID' field:
+
+Congratulations! You just created a fully functional workflow. Click 'Run workflow' to see your results.

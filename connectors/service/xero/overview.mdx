@@ -1,0 +1,100 @@
+---
+title: "Overview"
+description: "Overview of the Xero connector"
+---
+
+# Overview
+
+## Overview
+
+Xero is an easy-to-use but powerful cloud-based online accounting system. Xero provides business owners with real-time visibility of their financial position and performance in a simple, smart, and secure way.
+
+## Authentication
+
+When using the Xero connector, the first thing you will need to do is go to your Tray.io account page and select the workflow you wish to work on. Once in the workflow builder itself, search and drag the Xero connector from the connectors panel (on the left-hand side) onto your workflow.
+
+With the new Xero connector step highlighted, in the properties panel on the right, click on the Authenticate tab and 'Add new authentication' (located under the 'Authentication' field).
+
+This will result in a Tray.io authentication pop-up window. The first page will ask you to name your authentication, and state which type of authentication you wish to create ('Personal' or 'Organisational').
+
+As you can see, the next page asks you to select which scopes you would like to enable for your created authentication.
+
+Once you have selected the desired scopes in the Tray.io authentication popup window, click on the 'Create authentication' button. Upon clicking 'Create authentication', you will be prompted to sign in to your Xero account.
+
+After you have logged in with your Xero account, you will be asked to confirm the access you are granting to Tray.io. Once you have reviewed the permissions, click 'Allow access'.
+
+Go back to your settings authentication field (within the workflow builder properties panel), and select the recently added authentication from the dropdown options now available.
+
+Your connector authentication setup should now be complete.
+
+## Xero Trigger
+
+If you wish your workflow to be kicked off by a particular action in Xero, you can use the Xero Trigger.
+
+The Xero trigger allows you to receive notifications and trigger workflows when given events occur associated with the selected trigger operation.
+
+### Trigger Operations available:
+
+- Webhook
+
+### Webhook Setup
+
+When creating a new workflow, click the 'Create new workflow' button in the top right-hand corner of your main Tray.io dashboard. When the trigger pop-up window opens, search and select the Xero trigger. Please wait to be redirected to your new workflow and the workflow dashboard itself.
+
+The Xero trigger uses the same authentication as the Xero connector. To authenticate, either select a previous authentication from the available option or create a new one as instructed in the Authentication section above.
+
+To initialise the Webhook, you will need to provide a 'Tenant ID'. Follow the instructions from the [Example usage](#tenant-id) section, in order to obtain this ID.
+
+Once you have provided the 'Tenant ID', choose one or more events of your choice from the 'Events' section available on the properties panel.
+
+You should now have a complete working Xero trigger that will activate when the selected events occur.
+
+## Available Operations
+
+The examples below show one or two of the available connector operations in use.
+
+Please see the [Full Operations Reference](#operationsFull) at the end of this page for details on all available operations for this connector.
+
+## Note on Operations usage
+
+Your Xero User Account can be associated with more than one Organisation. When you authenticate to Xero, Tray.io will be able to interact with all of the Organisations associated with your User Account (so long as your account has sufficient privileges to do so).
+
+In order for Xero to know which Organisation you want to interact with, a 'Tenant ID' (which identifies an organisation) must be supplied when executing the operation. For information on how to obtain your 'Tenant ID', please refer to the example below.
+
+## Example Usage: Obtaining your 'Tenant ID'
+
+Your 'Tenant ID' can be obtained using the 'List tenancies' operation. This operation does not require any additional input and will simply list the tenancies associated with your account. The following steps will guide you through the process.
+
+The steps will be as follows:
+
+1. Create a new workflow with a manual trigger and Xero connector step.
+2. Use the debug panel to obtain your 'Tenant ID'.
+3. Verify 'Tenant ID'
+
+### 1. Setup manual trigger & first Xero step
+
+Create a new workflow in your Tray.io account, and make sure to use the 'Manual Trigger' as your starting point. Once you're in the workflow builder dashboard, drop a new Xero step onto the workflow by searching in the connector panel by name (displayed in the image below).
+
+### 2. Configue the Xero step and run the workflow
+
+In the workflow builder, click on the Xero step you created. Once highlighted, the input panel for this step will appear on the right hand side of the workflow builder.
+
+In the input panel, select 'List tenancies' from the drop-down options in the 'Operations' menu. Once this has been configured, click on 'Run workflow' on the bottom-right of the workflow builder.
+
+### 3. Obtain 'Tenant ID'
+
+Now that the workflow has executed, we can take a look at the output of the workflow to get hold of the 'Tenancy ID'.
+
+Click on the 'Debug' tab; this will open the debug panel on the left of the workflow builder itself. Here, you can select the workflow run that was just executed. A further panel will appear that will show the output of each step. In this case, we want to see the output of the Xero step.
+
+Once we click on the output of this step, we can see the output of the 'List tenancies' operation. The response we receive from Xero will include the 'Tenant ID' of the organisation tied to your User Account.
+
+If we take a closer look at this output, we can see that it contains a parameter called 'tenantId'. This is the 'Tenant ID' that can be used to run your operations.
+
+### 3. Verify 'Tenant ID'
+
+We can now test to see if this 'Tenant ID' will allow us to run operations correctly. We will first copy the 'Tenant ID' from the output obtained in the previous step.
+
+Next, we can then change the operation on our Xero connector step to be 'List invoices' (as this requires a 'Tenant ID' to execute). Once we have selected the operation, we can add the copied 'Tenant ID' to the required field in the input panel.
+
+You can then click 'Run workflow' and check the output in the 'Debug' panel to check the output of the step. If the step executes correctly, then you can use this 'Tenant ID' on all operations that require it.

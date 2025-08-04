@@ -1,0 +1,74 @@
+---
+title: "Overview"
+description: "Overview of the Postscript connector"
+---
+
+# Overview
+
+## Overview
+
+The Postscript connector allows you to list keywords that you can use to add subscribers to your Shopify store. Unlock a new marketing channel guaranteed to drive revenue, not just clicks.
+
+## Authentication
+
+When using the Postscript connector, the first thing you will need to do is go to your Tray.io account page, and select your workflow. Once in the workflow dashboard itself, select and drag the Postscript connector from the connectors panel (on the left hand side) onto your workflow.
+
+With the new Postscript connector step highlighted, in the properties panel on the right, click on 'New Authentication' under the 'Settings' heading.
+
+As you can see from the image below, in order to complete authentication set up, Tray.io requires that you input your 'API Key'.
+
+To find your API Key, click on the cog on your Postscript Dashboard page.
+
+Your API key is in the Settings section.
+
+Copy and paste the API Key from your Postscript Account page into the API Key field in the above Tray.io authentication dialog. Once you have added the authentication, it will already be selected in the authentication section in the Tray.io properties panel.
+
+You have now completed the authentication process and can use the Postscript connector. Your auth field will now automatically select the Postscript authentication created until stipulated otherwise.
+
+## Available Operations
+
+The examples below show one or two of the available connector operations in use.
+
+Please see the [Full Operations Reference](#operationsFull) at the end of this page for details on all available operations for this connector.
+
+## Example usage
+
+Below is a brief example which demonstrates how to iterate through the keywords stored within your Postscript app.
+
+This example imagines a scenario whereby the first step is manually triggered. This in turn kicks off the Tray workflow and will get the keywords in the Postscript account one by one.
+
+The outlined is as follows:
+
+1. Set up your manual trigger and first Postscript connector step.
+2. Add a Loop connector to iterate through your keywords.
+3. Add a step to add subscriber to each keyword individually.
+
+### 1 - Setup trigger & List available keywords
+
+Once you have clicked 'Create new workflow' on your main Tray.io dashboard (and named said new workflow), select the Manual trigger from the trigger options available:
+
+Once you have been redirected to the Tray.io workflow dashboard, from the connectors panel on the left, add a Postscript connector to your second step. Set the operation to 'List available keywords'.
+
+*Feel free to re-name your steps as you go along to make things clearer for yourself and other users.*
+
+Now when this workflow is run, it will pull down a list of keywords from the Postscript API. This means you will be able to view them when you click through your debug panel, and expend the output field.
+
+### 2 - Add a Loop step
+
+Next, we add a Loop connector to the workflow and set the operation to 'Loop list'.
+
+Use the connector-snake to generate the jsonpath you will need, by clicking and dragging on the orange circle mapping icon, left of the 'List' field name.
+
+Once you have dragged it over to your first Postscript step, you will see a dropdown list of options appear. Select the `keywords` array. Your output should be similar to: `$.steps.postscript-1.keywords`.
+
+This will enable us to iterate over the list of keywords, and perform operations for each one, during each loop cycle.
+
+### 3 - Add subscriber to keyword
+
+Finally, drag another Postscript connector step into the Loop Collection itself, and set the operation 'Add subscriber'.
+
+In this example the 'Phone' has been hard coded, however this is just to demonstrate that it is possible. Best practices dictate that jsonpaths are used to automate the answer, incase they change at some point in the future.
+
+Use the same connector-snake method for generating the jsonpath to get the 'keyword' field, only this time it will be taken from the loop step.
+
+This will mean that a reply will automatically be sent based on the keywords previously found, per each loop iteration.

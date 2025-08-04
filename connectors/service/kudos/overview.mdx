@@ -1,0 +1,60 @@
+---
+title: "Overview"
+description: "Overview of the Kudos connector"
+---
+
+# Overview
+
+## Overview
+
+Kudos is an employee recognition, feedback, and organizational communication platform, focusing on employee relationships and organizational culture. Other features include custom rewards, culture analytics and manager reporting, rewards catalog, leaderboards, birthdays and milestones, photo sharing, and more.
+
+## Authentication
+
+When using the Kudos connector, the first thing you will need to do is go to your Tray.io account page and select the workflow you wish to work on. Once in the workflow builder itself, search and drag the Kudos connector from the connectors panel (on the left-hand side) onto your workflow.
+
+With the new Kudos connector step highlighted, in the properties panel on the right, click on the Authenticate tab and 'Add new authentication' (located under the 'Authentication' field).
+
+This will result in a Tray.io authentication pop-up window. The first page will ask you to name your authentication and state which type of authentication you wish to create ('Personal' or 'Organisational').
+
+The next page asks you for the 'base URL' and your 'token' credentials.
+
+Once you have added these fields to your Tray.io authentication pop-up window, click on the 'Create authentication' button.
+
+Go back to your settings authentication field (within the workflow builder properties panel), and select the recently added authentication from the dropdown options now available.
+
+Your connector authentication setup should now be complete.
+
+## Available Operations
+
+The examples below show one or two of the available connector operations in use.
+
+Please see the [Full Operations Reference](#operationsFull) at the end of this page for details on all available operations for this connector.
+
+## Using the Raw HTTP Request ('Universal Operation')
+
+As of **version 1.0**, you can effectively create your own operations.
+
+This is a very powerful feature which you can put to use when there is an endpoint in Kudos which is not used by any of our operations.
+
+Note that you will only need to add the suffix to the endpoint, as the base URL will be automatically set (the base URL is picked up from the value you entered when you created your authentication).
+
+The base URL for Kudos is the custom base URL you entered in the authentication with `/api` appended to it, i.e. `https://give.kudosnow.com/api`
+
+For example, say that the 'Create/update users' operation did not exist in our Kudos connector, and you wanted to use this endpoint. So if you know what your method and endpoint are, you can create or update users providing the raw body as JSON object with the Object Helpers. The Object Helpers connector allows to interact with objects more easily and efficiently.
+
+Method: `POST`
+
+Endpoint: `/user_provisioning`
+
+Body Type : raw :
+
+First, search for the Object Helpers connector within your connector panel, and drag it into your workflow as your first step. Set your operations to 'JSON parse'.
+
+In order to pass this object to the Kudos connector, start by using the 'raw' mapping icon (found next to the raw input field, within the properties panel) to generate the connector-snake.
+
+While hovering over the 'Object Helpers' step (with the tail end of the connector-snake), select `result` from the list of output properties displayed. This will auto-populate a jsonpath within your 'raw' input field, and update the type selector to jsonpath.
+
+For more clarification on the pathways you have available, open the Debug panel to view your step's Input and Output.
+
+Final outcome being: **https://give.kudosnow.com/api/**

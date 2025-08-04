@@ -1,0 +1,32 @@
+---
+title: "Overview"
+description: "Overview of the Strava connector"
+---
+
+# Overview
+
+## Overview
+
+The Strava connector on Tray allows you to interact with the data in your Strava account in any way you choose. The majority of the API is currently supported on Tray.
+
+## Authentication
+
+Before being able to use the Strava connector, authentication will need to be created. To do so, add the Strava connector to the workflow and hit the New Authentication button found in the input panel.
+
+The next windows provides you the opportunity to name the authentication as well as displaying the scopes that will be requested. Once you have named the authentication and choosen the scope are ticked, press the `Add authentication` button.
+
+## Example 1 - Get authenticated athlete
+
+This example will walkthrough how to get information of the authenticated athlete. The first step is to add the Strava connector to the workflow.
+
+To use this operation, select the `Get authenticated athlete` operation in the input panel. Information about the authenticated athelete will be returned.
+
+Below you can see that the workflow ran successfully and the authenticated user's information is returned.
+
+## Example 2 - Get club
+
+This example will walkthrough how to get information of a club with a club ID. The first step is to add the Strava connector to the workflow.
+
+The ID of the club we want to query needs to be provided. To find this ID, get authenticated athlete operation can be used. This will return data about the club for the given ID.
+
+To use this operation, select the `Get club` operation in the input panel.

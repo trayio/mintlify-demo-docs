@@ -1,0 +1,104 @@
+---
+title: "Overview"
+description: "Overview of the Oracle Responsys connector"
+---
+
+# Overview
+
+## Overview
+
+Oracle Responsys is an email marketing tools and functionalities system that helps manage interactions with customers across various communication channels, improve conversions, strengthen customer relationships, and lessen messaging fragmentation.
+
+## Authentication
+
+When using the Oracle Responsys connector, the first thing you will need to do is go to your Tray.io account page and select the workflow you wish to work on. Once in the workflow dashboard itself, search and drag the Oracle Responsys connector from the connectors panel (on the left-hand side) onto your workflow.
+
+With the new Oracle Responsys connector step highlighted, in the properties panel on the right, click on the Authenticate tab and 'Add new authentication' (located under the 'Authentication' field).
+
+This will result in a Tray.io authentication pop-up window. The first page will ask you to name your authentication and state which type of authentication you wish to make ('Personal' or 'Organisational').
+
+As you can see, the next page asks you for your 'User Name', 'Password', and 'Login endpoint'.
+
+The 'User Name' and 'Password' are the same as what you would use to sign in to your Responsys dashboard.
+
+The 'Login Endpoint' depends on which system hosts your account. For example:
+
+- **Interact 2**: `login2.responsys.net`
+- **Interact 5**: `login5.responsys.net`
+- **Interact 8**: `login.rsys8.net/`
+
+Once you have clicked the 'Add authentication' button, go back to your authentication field (within the workflow dashboard properties panel from earlier), and select the recently added authentication from the dropdown options now available.
+
+Your connector authentication setup should now be complete.
+
+## Available Operations
+
+The examples below show one or two of the available connector operations in use.
+
+Please see the [Full Operations Reference](#operationsFull) at the end of this page for details on all available operations for this connector.
+
+## Using the Raw HTTP Request ('Universal Operation')
+
+As of **v1.0**, it is possible to effectively create your own operations.
+
+This is a very powerful feature which you can put to use when there is an endpoint in Oracle Responsys which is not used by any of our operations.
+
+To use this you will first of all need to research the endpoint in the [ Oracle Responsys API documentation v1.3](https://docs.oracle.com/en/cloud/saas/marketing/responsys-rest-api/) , to *find the exact format* that Oracle Responsys will be expecting the endpoint to be passed in.
+
+Note that you will only need to add the suffix to the endpoint, as the base URL will be automatically set (the base URL is picked up from the value you entered when you created your authentication).
+
+The base URL for Oracle Responsys is: `<your_login_endpoint>/rest/api/v1.3`
+
+For example, say that the 'List campaigns' operation did not exist in our Oracle Responsys connector, and you wanted to use this endpoint, you would use the Oracle Responsys API docs to find the equivalent, aka the 'Fetch All Campaigns' endpoint. Note that it is a `GET` request at the following URL:
+
+So you can then retrieve all campaigns with the following settings:
+
+Method: `GET`
+
+Endpoint: `/campaigns`
+
+Login Endpoint: **Interact 2** `login2.responsys.net`
+
+Final outcome being: **login2.responsys.net/rest/api/1.3/campaigns**
+
+This setup should now return the campaign details as requested.
+
+## Example usage
+
+Below is an example of a way in which you could potentially use the Oracle Responsys connector, to list all lists in your Responsys account and all the extensions associated with each one.
+
+The steps will be as follows:
+
+1. Setup a manual trigger and list the lists that are available.
+2. Loop through the list collection itself.
+3. List the extensions of each item within the original list.
+
+The final outcome should look like this:
+
+### 1 - Setup trigger & List Lists
+
+Once you have clicked 'Create new workflow' on your main Tray.io dashboard (and named said new workflow), select the Manual trigger from the trigger options available:
+
+Once you have been redirected to the Tray.io workflow dashboard, from the connectors panel on the left, add an Oracle Responsys connector to your second step. Set the operation to 'List lists'.
+
+*Feel free to re-name your steps as you go along to make things clearer for yourself and other users.*
+
+When run, this workflow will retrieve all the lists available within your Oracle Responsys account.
+
+### 2 - Loop through Collection
+
+In order to iterate over this collection of lists, drag a Loop Collection connector into your workflow as your next step and set the operation to 'Loop list'.
+
+Using the connector-snake, make sure to drag the 'List' field from the properties panel over your previous Oracle Responsys connector step. From the dropdown list available, select `results`.
+
+This should automatically generate a jsonpath that looks similar to this: `$.steps.oracle-responsys-1.results`.
+
+Now when this workflow is run, the Loop Collection step will iterate through the each item found within the list.
+
+### 3 - List Extensions
+
+The final step is to drag another Oracle Responsys connector *INSIDE* of the actual Loop Collection step itself. Set the operation to 'List extensions'.
+
+As you can see, the 'List name' field is required. Use the connector-snake once more to assign it to the `name` value produced by the Loop Collection connector from the previous step.
+
+When run, this workflow will now list all of the extensions belonging to each list in your Responsys account.

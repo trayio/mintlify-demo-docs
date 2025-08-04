@@ -1,0 +1,118 @@
+---
+title: "Overview"
+description: "Overview of the ClickUp connector"
+---
+
+# Overview
+
+## Overview
+
+ClickUp is a productivity platform that provides a fundamentally new way to work. More than just task management - ClickUp offers notes, reminders, goals, calendar, scheduling, and even an inbox. Fully customizable, ClickUp works for every type of team, so all teams can use the same app to plan, organize, and collaborate.
+
+## Authentication
+
+Within the workflow builder, highlight the ClickUp connector.
+
+In the ClickUp connector properties panel to the right of the builder, click on the Authenticate tab and the 'Add new authentication' button.
+
+This will result in a Tray.io authentication pop-up modal. The first page will ask you to name your authentication and select the type of authentication you wish to create ('Personal' or 'Organisational').
+
+The next page asks you for your 'Client ID', 'Client secret', 'Authentication URL', 'Access token URL', and 'Base URL'.
+
+In order to get your 'Client ID' and 'Client secret', you need to create your own ClickUp app. To do so, refer to the ClickUp document on [Create your own app](https://help.clickup.com/hc/en-us/articles/6303422883095-Create-your-own-app-with-the-ClickUp-API).
+
+Ensure the first redirect url on ClickUp oauth app is `https://auth.tray.io/oauth2/token`
+
+Once you are done creating your own ClickUp app; as a result, you receive values for the Client ID and Client Secret fields. Copy and paste these credentials on the authentication pop-up window.
+
+The other fields i.e., 'Authentication URL', 'Access token URL', and 'Base URL', are auto-populated for ease of the users.
+
+Now, click the 'Create authentication' button.
+
+Go back to your settings authentication field (within the workflow builder properties panel), and select the recently added authentication from the dropdown options now available.
+
+Your connector authentication setup should now be complete.
+
+## ClickUp trigger
+
+If you wish your workflow to be kicked off by a particular action in ClickUp, you can use the ClickUp Trigger.
+
+The ClickUp trigger allows you to receive notifications and trigger workflows when given events occur within ClickUp. This can be set up using the **Selected event(s)** operation and configuring the options to your needs.
+
+### Trigger operations available:
+
+- Selected event(s)
+
+When creating a new workflow choose ClickUp as your trigger at the 'Create new workflow' section and wait to be redirected to your new workflow.
+
+Use the instructions above to authenticate your trigger, and select the 'Selected event(s)' operation. Select the events you would like the workflow to be triggered from. from the options available the event you want your trigger to listen to, in order to set off the workflow itself:
+
+To identify what event occurred to trigger the workflow, a field called 'event' is always present within the trigger payload. This field provides a string identifying what event occurred to trigger the workflow.
+
+Check out the [example below](#example-usage---clickup--slack) regarding how to extract and use the information from the trigger.
+
+## Available Operations
+
+The examples below show one or two of the available connector operations in use.
+
+Please see the [Full Operations Reference](#operationsFull) at the end of this page for details on all available operations for this connector.
+
+## Example usage
+
+This example will walk through the creation of a workflow that will alert the project manager when a task has changed status in ClickUp, via Slack. It uses the ClickUp trigger and connector as well as the Slack connector.
+
+> 
+
+1. Setup the Clickup trigger to be list specific.
+2. Get the task information.
+3. Message a member of your team to notify them about the update using the Slack trigger.
+
+The final outcome should look like this:
+
+### 1 - Setup trigger
+
+Once you have clicked 'Create new workflow' on your main Tray.io dashboard (and named said new workflow), select the 'Clickup Trigger' from the trigger options available:
+
+Once you have been redirected to the Tray.io workflow dashboard, select your Clickup authentication, and set the operation to 'Selected event(s)'. You will see the option to select 'Subscribe to all events' - we will not be needing this ability as we will be looking to trigger our workflow based on a specific event occurring, instead of "all".
+
+Under 'Selected events' you will see the option to add an item, by pressing the grey 'Add Item' button.
+
+Choose the dropdown option 'Task Status Updated'. This will mean that whenever a task has changed its status, ClickUp will send a notification and trigger your workflow.
+
+In this example, we *want to only receive notifications when tasks in a certain list have been changed*.
+
+This can be achieved by using 'List ID' input. To further our specifications, we also only want to receive notifications when a task in the list 'Sprint 1' has been updated.
+
+Your trigger setup should eventually end up looking similar to below - depending on your Team ID's etc:
+
+### 2 - Get task info
+
+The trigger should now return us a `task_id` in the payload. You can view this in the debug panel, within the output section.
+
+> 
+
+To get more information about the task that has been changed, we need to use the operation 'Get task'.
+
+From the connectors panel the left, add an Clickup connector to your second step and set the operation as specified ('Get task').
+
+Using JSONPaths we can provide the ID from the trigger into the required 'Task ID' field in the 'Get task' operation. The JSONPath we will use `$.steps.trigger.task_id`.
+
+Note that this can be easily generated using the connector-snake:
+
+### 3 - Notify via Slack
+
+Now we have the information about the task that has changed, we can send a message to our project manager via Slack.
+
+Select the Slack connector and bring it into the workflow's next step. To send a message, we use the 'Send message' operation. The recipient of our message will be '@project-manager' and we want the message to be readable and useable for them to understand.
+
+This message can be created using jsonpaths AND string interpolation:
+
+In the snippet below, we are creating a string that will pull information from the first connector step 'clickup-1' (note that this is technically the SECOND step in the actual workflow, after the trigger). More specifically we will be pulling in the name of the task, and it's new status:
+
+For example, if a task with the name of "Example Task" had its status changed to "In Progress", then the actual output that would be generated would be:
+
+Your step should look similar to this:
+
+Now, when a task has had its status changed in the list: 'Sprint 1', a message is sent to the project manager in Slack.
+
+Within three steps we have managed to create a very useful workflow that will let the Project Manager stay on top of all work going on within ClickUp - congratulations!

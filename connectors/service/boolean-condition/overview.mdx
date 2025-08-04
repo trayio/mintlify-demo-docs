@@ -1,0 +1,144 @@
+---
+title: "Overview"
+description: "Overview of the Boolean Condition connector"
+---
+
+# Overview
+
+## Overview
+
+As mentioned in [How to use Tray.io](/platform/getting-started/how-to-use-tray/the-basic-tools/) The 'Boolean Condition' connector allows you to ask crucial questions before deciding what action to take in your workflow, such as:
+
+1. Did the new customer opt-in to marketing? If so tag them as 'opt-in' in our CRM
+2. Does this company have annual revenue above a certain amount? If so add them as a prospect and collect all the data we have on them
+3. Does this person have missing payment information? If so pull it from our database and update
+4. Is it more than 3 months since we last contacted this person? If so then change their status in Salesforce/Marketo and send a reminder to contact them via Slack
+5. Is it less than a month before this person's subscription runs out? If so then send them an email reminder, update their status in Salesforce and alert their account manager
+6. Is this person's order status 'unfulfilled'? If so add it to a priority processing queue
+
+## How it works
+
+When using the boolean condition we set up a series of one or more **conditions**. If those conditions are met then the steps on the **“TRUE”** branch will run. If they are not met then the steps on the **“FALSE”** branch will run instead.
+
+## Conditions
+
+Conditions are made up of two values and a **comparison type**. We compare these two values to determine whether a condition is met.
+
+## Strictness
+
+The Boolean connector has an option call 'Strictness'. This determines whether ALL of the conditions have to be satisfied or ANY of the conditions need to be satisfied.
+
+If you select Satisfy ALL conditions then every one of the conditions needs to be satisfied in order for the workflow to follow the TRUE path. If you select Satisfy ANY conditions then only one of the conditions needs to be satisfied for the workflow to follow the TRUE path.
+
+## Values
+
+Values can be any of the usual Tray types. You can compare, strings, numbers, booleans, objects and arrays. Also, you can set either of these values to be null. Usually both values will be of the same type.
+
+## 2nd of 2 values to compare
+
+'2nd value' is the option presented to you when you select the Boolean data type.
+
+How the comparison is made, will depend on whether or not the checkbox is ticked:
+
+- **Checkbox ticked**: The connector **checks to see if the value, of the 1st Value, is true**. This is the most commonly used method.
+- **Checkbox NOT ticked**: Should the returned value be **anything other than true, the workflow will continue down the false path** instead.
+
+## Simple boolean example
+
+Here's how to set up a workflow that checks to see if a Slack channel exists or not, and then send a different message based on the result.
+
+1. Create a new workflow, using a manual trigger.
+2. Add a Slack connector, and choose the "Channel Exists?" operation. Type a channel name that does exist for now:
+
+1. Add a boolean condition connector to the workflow, and use the `$.steps.slack-1.exists` jsonpath to pass the "exists" property from Slack to the **1st Value** property in the boolean condition:
+
+We know to use the `$.steps.slack-1.exists` jsonpath as this is what is picked up by the data 'connector snake':
+
+1. Change the type of the "2nd Value" property to "boolean"
+
+Ensure that the **checkbox is ticked**. (This means "true").
+
+**Note**: we've changed the type of the "2nd Value" to a "boolean" type because the type of the "exists" property coming from Slack is also a boolean.
+
+In other circumstances you might leave the type as 'string' (i.e. plain text) and check for something simple such as account status is equal to 'open' or marketing prefence is equal to 'opt-in'.
+
+1. Add a Slack connector to the "TRUE" branch, to send you a message indicating that the channel exists in Slack.
+
+1. Click 'Run workflow now' - you should see a message appearing in Slack!
+2. Add another Slack connector to the "FALSE" branch, to send you a message indicating the channel doesn't exist:
+
+1. Change the channel name in the first Slack step you added (the one to check if the channel exists) to a channel that doesn't exist.
+
+1. Run the workflow again - you should see the message from the FALSE branch this time!
+
+## Checking log output
+
+It is always useful to inspect the log output (by clicking on 'Debug') of connectors to see what data you are checking for when using the Boolean connector.
+
+In the above example we can check the output of the first Slack step which uses the **Channel Exists?** operation:
+
+This confirms that we should use the `$.steps.slack-1.exists` jsonpath as we did.
+
+## Further notes on general usage
+
+## Comparison Types
+
+Comparison types can be different depending on what you're comparing. Every comparison is either TRUE or FALSE.
+
+### Equality (Equal to / Not equal to)
+
+Any type can be compared like this. It simply checks whether the values are the same.
+
+True Examples:
+
+- “Tray is awesome” Equal to “Tray is awesome”
+- 5 Equal to 5
+- “Up” Not Equal to “Down”
+
+False Examples:
+
+- True Equal to False
+- 100 Equal to 2
+- null Equal to “String”
+
+### Numerical Comparison (Smaller than / Smaller or equal than / Greater than / Greater or equal than)
+
+These comparisons are used to compare numbers.
+
+True Examples:
+
+- 5 Greater than 2
+- 5 Greater or equal than 5
+- 0 Smaller than 1
+
+False Examples:
+
+- 10 Smaller than 5
+- 1 Greater or equal to 2
+- 2 Greater than 2
+
+### Lists (In list/Not in list)
+
+These comparison types are for determining whether a given value is in a list. **It is great for when you don't necessarily know what the exact response is going to be or the data type that will be returned**.
+
+For these comparison types the second of the two values needs to be an array. It will return TRUE if the value exists in the list and FALSE if it does not. If the second value is not an array then this will error.
+
+This short video explains how you can use the Boolean Condition **In List** option to make sure that your output is checked no matter the data type returned (boolean condition 'true' vs string 'true').
+
+### Property existence check
+
+Sometimes you might need to check a property exists and that the value returned is not null within a single boolean.
+
+We recommend setting up your Boolean connector with a "**Is not null" **parameter. So you would set the **Condition Type** within the property panel to **'Not equal to'** and the **2nd Value** to `null`.
+
+You should **also create a **[Fallback value](https://tray.io/documentation/platform/working-with-data/fallback-values) so that your property can be replaced with a value of your choosing.
+
+## The Property Exists operation
+
+The other operation available within the Boolean Condition connector is Property Exists. This takes a JSON path and returns true if the given path exists and it has a value. This is useful for checking that incoming data is valid before processing it.
+
+You can see an example of it on our page on [Conditional Logic](/tray-uac/building-automations/workflow-data-basics/conditional-logic/)
+
+## Further Examples
+
+You can see more examples of use cases for the Boolean connector at the above page on [Conditional Logic](/tray-uac/building-automations/workflow-data-basics/conditional-logic/)

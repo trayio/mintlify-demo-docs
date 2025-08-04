@@ -1,0 +1,74 @@
+---
+title: "Overview"
+description: "Overview of the Lever connector"
+---
+
+# Overview
+
+## Overview
+
+Lever provide an application tracking software (ATS) with features such as The Lever Hire and Lever Nature, which allow leaders to grow, source and build their people pipelines. 
+
+## Authentication
+
+Within the builder, click on the Lever connector to display the connector properties panel. Select the 'Auth' tab and click on the 'New authentication' button.
+
+In the Tray.io authentication pop-up modal, name the authentication in a way that will quickly identify it within a potentially large list. For example, whether it is a QA or Production auth, etc.
+
+Consider who/ how many people will need access to this authentication when choosing where to create this authentication ('Personal' or 'Organisational').
+
+The second page asks you which authentication method you would like to use, either 'OAuth 2' or 'Token based'.
+
+For the 'OAuth 2' method, you will be asked for your 'Scope', 'Environment', 'Client ID', and 'Client secret' credentials. 
+
+To get these details you will need to follow the [documentation](https://hire.lever.co/developer/documentation) to set up OAuth and you will be able to get the 'Client ID' and 'Client Secret'.
+
+For 'Token' based authentication, you will be asked for your 'API Key', and 'Environment' credentials. 
+
+<br/>Create and manage your API keys from the [Integrations and API page in Settings](https://hire.lever.co/settings/integrations) of your Lever account, on the API Credentials tab. Make sure to keep confidentiality in mind when creating keys.
+
+For both methods, you need to select the Environment which is either 'Sandbox' or 'Production'
+
+Once you have added these fields to your Tray.io authentication pop-up window, click the 'Create authentication' button. 
+
+Your connector authentication setup should now be complete.
+
+Below is an example of a way in which you could potentially use the Lever connector, to list all notes for an opportunity, loop through these notes and retrieve information regarding each note.
+
+The steps will be as follows:
+
+1. Setup using a manual trigger and List notes
+2. Add a Loop connector
+3. Get note
+
+Your completed workflow should look similar to this:
+
+### 1 - Setup Trigger & List notes
+
+With your trigger in place (be it [Manual](/connectors/triggers/manual-trigger/), [Scheduled](/connectors/triggers/scheduled-trigger/), [Callable](/connectors/triggers/callable-trigger/) etc) add a Lever connector. Set the operation to 'List notes'.
+
+Feel free to re-name your steps as you go along to make things clearer for yourself and other users. The operation names themselves often suffice.
+
+This will list all the notes currently in the selected opportunity, in this example within the 'Connector Dev' opportunity.
+
+### 2 - Add a Loop connector
+
+Next, search for the Loop connector within your connector panel, and drag it into your workflow as your next step. Set your operation to 'Loop List'.
+
+The Loop connector allows you to iterate through a list of results. In this example, we will use it to iterate through the data found within the previous Lever connector step.
+
+In order to specify the list you want to loop through, start by using the list mapping icon (found next to the list input field, within the properties panel) to generate the connector-snake.
+
+While hovering over the 'List' field in the 'List notes' step (with the tail end of the connector-snake), select `data` from the list of output properties displayed. This will auto-populate a jsonpath within your list input field, and update the type selector to jsonpath.
+
+For more clarification on the pathways you have available, open the Debug panel to view your step's Input and Output.
+
+When run, this workflow will iterate through the list of notes provided by the earlier step.
+
+### 3 - Get note
+
+The last step is to drag a Lever connector **inside** the Loop Collection step itself. Set the operation to 'Get note. As you can see, the 'Opportunity ID' and 'Note ID' fields are required. Please ensure that the 'Opportunity ID' selected from the dropdown is the same as the ID provided in the 'List notes' step.
+
+Use the connector-snake to find the jsonpath for the 'Note ID' field from the loop step. It should appear similar to this `$.steps.loop-1.value.id`.
+
+When run, the workflow will now iterate through the list of notes, and retrieve information for each note.

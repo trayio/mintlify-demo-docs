@@ -1,0 +1,58 @@
+---
+title: "Overview"
+description: "Overview of the Aventri connector"
+---
+
+# Overview
+
+## Overview
+
+Aventri offer technical solutions for event professionals to streamline their event management lifecycle through their user-friendly and customisable cloud-based platform.
+
+## **API Information **
+
+The Base URL used for the Aventri connector depends on the server host region your account is attached to. This is specified during authentication. The host regions and corresponding Base URLs are as follows:
+
+**- Asia Pacific (APAC) region - **Base URL: **https://api-apac.eventscloud.com**
+
+**- North America (NA) region - **Base URL: **https://api-na.eventscloud.com/**
+
+**- Europe, Middle East, Africa (EMEA) region - **Base URL: **https://api-emea.eventscloud.com/**
+
+ More information can be found on their main [API documentation (v1.0) ](https://developer.aventri.com/#api-endpoints)site.
+
+## Authentication
+
+Within the builder, click on the Aventri connector to display the connector properties panel. Select the 'Auth' tab and click on the 'New authentication' button.
+
+In the Tray.io authentication pop-up modal, name the authentication in a way that will quickly identify it within a potentially large list. For example, whether it is a Sandbox or Production auth, etc.
+
+Consider who/ how many people will need access to this authentication when choosing where to create this authentication ('Personal' or 'Organisational').
+
+The second page asks you for your Aventri 'Account ID',  'API key', and 'Host region'.
+
+To get these fields, more information can be found in the Aventri [documentation.](https://developer.aventri.com/#getting-an-api-key)
+
+Once you have added these fields to your Tray.io authentication pop-up window, click the 'Create authentication' button. 
+
+Your connector authentication setup should now be complete.
+
+## Available Operations
+
+The examples below show one or two of the available connector operations in use.
+
+Please see the [Full Operations Reference](#operationsFull) at the end of this page for details on all available operations for this connector.
+
+## Example Usage
+
+Below is an example of a way in which you could potentially use the Aventri connector, to list all attendees for an event, loop through these attendees and retrieve information regarding each attendee.
+
+The overall logic of the workflow is:
+
+1. Setup using a manual trigger and List attendees
+2. Add a Loop connector
+3. Get attendee
+
+Your completed workflow should look similar to this:
+
+### Step-by-step Explanation

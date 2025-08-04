@@ -1,0 +1,58 @@
+---
+title: "Overview"
+description: "Overview of the Spotdraft connector"
+---
+
+# Overview
+
+## Overview
+
+SpotDraft is a contract lifecycle management software.
+
+## **API Information **
+
+The Base URL used for the spotdraft connector is **https://api.spotdraft.com/api/v2**. More information can be found on their main [**Spotdraft API**](https://api.spotdraft.com/api/docs/) site.
+
+## Authentication
+
+Within the builder, click on the spotdraft connector to display the connector properties panel. Select the 'Auth' tab and click on the 'New authentication' button.
+
+In the Tray.io authentication pop-up modal, name the authentication in a way that will quickly identify it within a potentially large list. For example, whether it is a Sandbox or Production auth, etc.
+
+Consider who/ how many people will need access to this authentication when choosing where to create this authentication ('Personal' or 'Organisational').
+
+The second page asks you for your '**Client ID**' , '**Client secret**', '**User email**' and '**Base api url**'.
+
+To get these fields, connect with your customer success rep to get a **client_id** and **client_secret** that you can use to make build out a custom integration with SpotDraft.
+
+Once you have added these fields to your Tray.io authentication pop-up window, click the 'Create authentication' button. 
+
+Your connector authentication setup should now be complete.
+
+## Available Operations
+
+The examples below show one or two of the available connector operations in use.
+
+Please see the [Full Operations Reference](#operationsFull) at the end of this page for details on all available operations for this connector.
+
+## Using the Raw HTTP Request ('Universal Operation')
+
+As of **version 1.2**, you can effectively create your own operations.
+
+This is a powerful feature that you can use when there is an endpoint in spotdraft that is not used by any of our operations.
+
+To use this, you will first of all need to research the endpoint in the [**Spotdraft API**](https://api.spotdraft.com/api/docs/) API documentation v2 to **find the exact format** that spotdraft will be expecting the endpoint to be passed in.
+
+For example, say that the **'Get template metadata'** operation did not exist in our spotdraft connector, and you wanted to use this endpoint. You would use the
+
+spotdraft API docs to find the relevant endpoint - ***which in this case is a ***`***GET***`*** request called: ***`/public/templates/{template_id}/metadata`
+
+More details about this endpoint can be found [here](https://api.spotdraft.com/api/docs/#tag/V2-Template-APIs/operation/v2_public_templates_metadata_list).
+
+Based on the information provided in the above API call doc, you need to configure the following attributes on your Tray platform:
+
+- **Method:** `GET`
+- **URL: ***  *
+- **Body Type: **`None`
+
+Once the API call is executed successfully,  you should get the following results:

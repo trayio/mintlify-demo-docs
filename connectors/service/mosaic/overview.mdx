@@ -1,0 +1,51 @@
+---
+title: "Overview"
+description: "Overview of the Mosaic connector"
+---
+
+# Overview
+
+## Overview
+
+Mosaic APIs easily **integrate financing options right into the tools contractors use every day**. Companies can incorporate Mosaic into their platforms to add additional value for their contractors. Individual contractors and installers can also quickly integrate Mosaic financing options into their CRMs.
+
+## **API Information **
+
+The Base URL used for the Mosaic connector is [https://prod-api-server.mosaicapp.com/api.](https://prod-api-server.mosaicapp.com/api) More information can be found on their main [API documentation](https://readme.mosaicapp.com/reference) site.
+
+## Authentication
+
+Within the builder, click on the Mosaic connector to display the connector properties panel. Select the 'Authentication' tab and click on the 'New authentication' button.
+
+In the Tray.io authentication pop-up modal, name the authentication in a way that will quickly identify it within a potentially large list. For example, whether it is a Sandbox or Production auth, etc.
+
+Consider who/ how many people will need access to this authentication when choosing where to create this authentication ('Personal' or 'Organisational').
+
+ Click on the 'Next step' button.
+
+The second page asks you for your 'API Token', and 'X Origin' credentials, to get these fields head to the Mosaic dashboard.<br/>
+
+Once you have added these fields to your Tray.io authentication pop-up window, click the 'Create authentication' button. 
+
+Your connector authentication setup should now be complete.
+
+## Available Operations
+
+## Using the Raw HTTP Request ('Universal Operation')
+
+As of **version 1.0**, you can effectively create your own operations.
+
+This is a powerful feature that you can use when there is an endpoint in Mosaic that is not used by any of our operations.
+
+To use this, you will need to research the endpoint in the Mosaic [API documentation](https://readme.mosaicapp.com/reference) to **find the exact format** that Mosaic will be expecting the endpoint to be passed in.
+
+For example, say that the 'Fetches all activity phases' info operation did not exist in our Mosaic connector, and you wanted to use this endpoint, you would use the Mosaic API docs to find the relevant endpoint - ***which in this case is a `GET` request called: `*****Fetches all activity phases*****`.***
+
+More details about this endpoint can be found [here](https://readme.mosaicapp.com/reference/activityphasesindex).
+
+Based on the information provided in the above API call documentation, you need to configure the following attributes on your Tray platform:
+
+- **Method:** GET
+- **URL:**
+
+Once the API call is executed successfully you should get the following results:<br/>

@@ -1,0 +1,61 @@
+---
+title: "Overview"
+description: "Overview of the PDF Helpers connector"
+---
+
+# Overview
+
+## Overview
+
+PDF helpers allows you to parse and analyses PDF documents. It provides features to extract raw data and interactive input fields and convert them to JSON object.
+
+## Authentication
+
+When the a PDF connector step is selected, in the properties panel on the right you will notice that no authentication is necessary. This is because it does not need to authenticate with an outside API service.
+
+## Available Operations
+
+- Convert PDF to JSON
+
+Please see the [Full Operations Reference](https://tray.io/documentation/connectors/helpers/pdf-helper/operations/) for details on all available operations for this connector.
+
+## Note on Operations Usage
+
+## Example Usage
+
+This example will demonstrate how to upload PDF file a using 'Google Drive' and convert file content to JSON format.
+
+The steps will be as follows:
+
+1. Setup using a manual trigger and Google Drive connector
+2. Get List fils from Google Drive account
+3. Download PDF File to parse
+4. Convert chosen file to JSON
+
+The final outcome should look like this:
+
+## 1 - Setup trigger & Google Drive connector
+
+Once you have clicked 'Create new workflow' on your main Tray.io dashboard (and named said new workflow), select the Manual trigger from the trigger options available
+
+Once you have been redirected to the Tray.io workflow dashboard, from the connectors panel on the left, add a Google Drive connector to your second step. Set the operation to 'List files'.
+
+## 2 - Get List fils from Google Drive account
+
+You will receive a paginated list of files available on your Google Drive. Find the one you want to convert. You can filter the results by name and folder
+
+## 3 - Download PDF File to parse
+
+From the connectors panel on the left, add a Google Drive connector to your third step. Set the operation to 'Download file'. This operation requires File ID as an input parameter. You can copy ID from the 'List files' step or you can use the $.steps.drive-1.files[1].id to pull it from the first Google drive step.
+
+## 4. Convert chosen file to PDF
+
+Find 'PDF helpers' connector in the 'Helpers' section of the panel and add it to your forth step. Choose 'Convert PDF to JSON' operation. To set the connector downloaded we use the $.steps.drive-2.file jsonpath to pull it from 'Download file' step. Set the operation to 'Convert PDF to JSON'. 'Include raw tetx content' checkbox will include all non-interactive text content from te initial PDF file.
+
+Click 'Run workflow' to see your result and go to the debug tab to see the result
+
+Let's break down our result output:
+
+`document_title` - The title from the original PDF document<br/>`interactive_form_fields` - The user input from the ordinal document (forms, dropdowns etc)<br/>`raw_text_content` - Everything but user input from the original document, deviled by new lines
+
+Congratulations! You just created a fully functional workflow.

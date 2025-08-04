@@ -1,0 +1,87 @@
+---
+title: "Overview"
+description: "Overview of the PagerDuty connector"
+---
+
+# Overview
+
+## Overview
+
+PagerDuty sits at the heart of your technology ecosystem and analyzes digital signals from virtually any software-enabled system. It helps you intelligently pinpoint issues like outages, as well as capitalize on opportunities, empowering teams to take the right real-time action.
+
+## Authentication
+
+In order to use the PagerDuty connector in your workflows, an authentication for the service will need to be created. This allows Tray.io to access your PagerDuty account on your behalf. Authentication is a simple process and only needs to be performed once.
+
+There are two different methods of authentication depending on the version of the PagerDuty connector you are using. Instructions on each method can be found below.
+
+> 
+
+### Version 2.0+
+
+To authenticate to PagerDuty, drop the PagerDuty connector into your workflow and click on the step so that it is selected.
+
+The input panel for the step will be displayed on the right hand side of the workflow builder. Here, you will find the authentication section. Click on the the 'New Authentication' button located underneath the drop-down field.
+
+In the popup window that will occur, name your authentication appropriately. *This name is purely to help you identify the authentication when selecting it for other PagerDuty connector steps and can be edited later if required.*
+
+Once you have chosen a name for your authentication and have selected the permissions, click 'Add authentication'.
+
+You will get another popup window, which will ask you to enter in your PagerDuty credentials. After you have logged in with your PagerDuty account, you will be asked to confirm the access you are granting to Tray.io.
+
+Once you have reviewed the permissions, click 'Allow Access'.
+
+Once you have clicked the 'Add authentication' button, you will now be able to select your PagerDuty authentication from the drop down on the 'Input Panel' in all future PagerDuty steps (including in other workflows).
+
+### Version 1.0
+
+When using the PagerDuty connector, the first thing you will have to do is click on 'New Authentication' in the step editor:
+
+You will then be presented with the PagerDuty authentication dialog:
+
+To complete this you will need a PagerDuty API token. You can get this by going to your PagerDuty account page.
+
+In your main PagerDuty dashboard, navigate through to "Configuration" > "API Access".
+
+From here you should be able to click on "Create New API Key".
+
+Copy said key, and paste it in the Tray.io authentication popup window from earlier.
+
+Once you have clicked the 'Add authentication' button, you will now be able to select your PagerDuty authentication from the drop down on the 'Input Panel' in all future PagerDuty steps (including in other workflows).
+
+## Example - Syncing tickets from Zendesk to PagerDuty
+
+As an example of what can be done in terms of pulling data from another service and importing it to PagerDuty, we will show you how to create PagerDuty incidents based on tickets created in Zendesk.
+
+The workflow in question here looks like this:
+
+The steps followed are:
+
+1. The workflow is triggered by a new ticket being created in Zendesk
+2. The name of the assignee is pulled from Zendesk
+3. A system of branches is set up to divert tickets according to the service they have been tagged with in Zendesk, ensuring they go to the correct service in PagerDuty
+4. Within each branch a PagerDuty incident is created and assigned to the appropriate service and user, pulling in the title and description from Zendesk
+
+## Step 1 - set up the Zendesk Trigger
+
+When choosing the Trigger for your workflow you can choose the [Zendesk Trigger](/connectors/service/zendesk/#zendesk-trigger) and set it to be triggered 'On Ticket Create':
+
+## Step 2 - get the email address of the ticket assignee
+
+**Note:** this example shows how to sync the 'assignee' in Zendesk to the 'assigned to' person in PagerDuty. This may not be how you want to work - you might want to assign tickets to someone based on some other tags in Zendesk, what service the tickets are being routed to, or some other [conditional logic](/platform/standard-best-practices/conditional-logic/) based on the data coming from Zendesk.
+
+You can see from the debug output of the trigger that Zendesk doesn't return the email address of the assignee, so we have to grab the id and then add another Zendesk step and use the **Get user** operation which picks up the id using the `$.steps.trigger.ticket.assignee_id` jsonpath:
+
+## Step 3 - set up branches according to the service
+
+Now we can set up the branches to start the process of making sure that they are routed to the correct service, according to the tag given the ticket in Zendesk:
+
+Note that the values entered for each branch must match the tags given to the new Zendesk ticket exactly:
+
+## Step 4 - create incident in PagerDuty
+
+Now for each branch you can create an incident by pulling the assignee email and subject from Zendesk:
+
+Scrolling down you can also add the description:
+
+The end result will be that you will have incidents building up in PagerDuty:

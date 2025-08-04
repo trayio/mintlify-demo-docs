@@ -1,0 +1,110 @@
+---
+title: "Overview"
+description: "Overview of the Sift connector"
+---
+
+# Overview
+
+## Overview
+
+Sift is a world-class automated fraud detection and prevention software that is powered by a cloud-based machine learning platform designed to prevent fraud and abuse and help your customers enjoy their shopping experience without worrying about their accounts breached and their information stolen.
+
+## Authentication
+
+Within the workflow builder, highlight the Sift connector.
+
+In the Sift connector properties panel to the right of the builder, click on the Authenticate tab and the 'Add new authentication' button.
+
+This will result in a Tray.io authentication pop-up modal. The first page will ask you to name your authentication and select the type of authentication you wish to create ('Personal' or 'Organisational').
+
+The next page asks you for your 'API key' and 'Account ID' credentials.
+
+In order to get these fields, head to the 'Developer' tab in your Sift dashboard. Then go to the 'API Keys' section.
+
+You will be able to find the API key under the 'REST API Key' heading. The 'Account ID' can also be found on the same page. You can use the credentials under Sandbox if you would like to send data without impacting scores in production (this is usually used for testing). Otherwise, use the information under 'Production Keys' tab.
+
+Once you have added these fields to your Tray.io authentication popup window, click the 'Create authentication' button.
+
+Go back to your settings authentication field (within the workflow builder properties panel), and select the recently added authentication from the dropdown options now available.
+
+Your connector authentication setup should now be complete.
+
+## Sift Trigger
+
+If you wish your workflow to be kicked off by a particular action in sift, you can use the Sift Trigger.
+
+The Sift trigger allows you to receive notifications and trigger workflows when given events occur associated with the selected trigger operation.
+
+### Trigger Operations available:
+
+- Transaction
+- Chargeback
+- Create order
+- Update order
+
+### Webhook Setup
+
+Select the Sift trigger. This can be done either at the create new workflow stage or updated within the workflow builder itself.
+
+Highlight the Sift trigger. In the Sift trigger properties panel to the right of the builder, click on the Authenticate tab and the 'Add new authentication' button.
+
+Follow the instructions from the 'Authentication' section above to authenticate your trigger. Select 'Webhook' as the event you wish your trigger to listen to in order to set off the workflow itself.
+
+## Available Operations
+
+The examples below show one or two of the available connector operations in use.
+
+Please see the [Full Operations Reference](#operationsFull) at the end of this page for details on all available operations for this connector.
+
+## Example Usage
+
+Below is an example of a way in which you could potentially use the Sift connector to notify your customers when there has been a chargeback to their account.
+
+The steps will be as follows:
+
+1. Setup using a Sift trigger
+2. Add an email connector notification step
+
+Your completed workflow should look similar to this:
+
+### 1 - Setup Trigger
+
+Select the Sift trigger from the trigger options available.
+
+Set the operation to 'Webhook'. Click the 'Add to Enabled events' button and select the appropriate value for the 'Event' field from the available drop-down options. In this case, we are selecting the value as 'Chargeback'. Optionally, you may add a 'Name' and 'Description' to the webhook.
+
+Feel free to re-name your steps as you go along to make things clearer for yourself and other users. The operation names themselves often suffice.
+
+This step will create a 'webhook' which will trigger the workflow whenever Sift registers a chargeback event.
+
+### 2 - Create a message with the Text Helper
+
+Add the Text Helper connector below the Sift trigger and select the 'Concatenate' operation.
+
+Click the 'Add more than one item to Values' button to get several fields to join together. In this example, we are going to need 4 'Value' fields.
+
+Using this operation, we wish to send a personalized message to the customer to acknowledge their request.
+
+To do so, add 'Hi' in the first 'Value' field. For the second 'Value' field, drag the connector snake from the second field onto the Sift trigger and select customer name from the list of output properties displayed. This will auto-populate a jsonpath within your list input field and update the type selector to jsonpath. The jsonpath should be similar to: `$.steps.trigger.shipping_address.name`.
+
+In the third 'Value' field, write' the suitable or similar confirmation message: `.We confirm that we have received your chargeback request concerning the following order:`.
+
+For the last 'Value' field, drag the connector-snake from the last field onto the Sift trigger and select order_id from the list of output properties displayed. This will auto-populate a jsonpath, which should be similar to: `$.steps.trigger.items[0].product_title`.
+
+Finally, set the 'Separator' input to a space `' '`.
+
+This step will create a personalised message to send to the client by using the values from the Sift trigger. You can run the workflow and check the debug panel to make sure it is in the correct format.
+
+### 3 - Notify the user via email
+
+Drag the Send Email connector onto your workflow as your next step and set the operation as 'Send email'.
+
+Click the 'Add to To recipients' button to add fields under 'To recipients' section.
+
+Use the connector-snake to find the value for the 'Email' field from the Trigger step. It should appear similar to: `$.steps.trigger.user_email`.
+
+Add an appropriate subject, something similar to `Chargeback confirmation` in the 'Subject' field. Use the connector-snake to find the jsonpath for the 'Content' field from the Text Helpers step. It should appear similar to: `$.steps.text-helpers-1.result`.
+
+This step sends the message you composed with the Text Helper connector to the user.
+
+The final confirmation message should look like this:

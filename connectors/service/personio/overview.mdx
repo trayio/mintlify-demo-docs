@@ -1,0 +1,121 @@
+---
+title: "Overview"
+description: "Overview of the Personio connector"
+---
+
+# Overview
+
+## Overview
+
+Personio is the all-in-one HR software for small and medium-sized companies. The Personio solution includes human resources, recruiting and payroll and supports all core HR processes every business needs to do.
+
+## Authentication
+
+When using the Personio connector, the first thing you will need to do is go to your Tray.io account page, and select the workflow you wish to work on. Once in the workflow builder itself, search and drag the Personio connector from the connectors panel (on the left hand side) onto your workflow.
+
+With the new Personio connector step highlighted, in the properties panel on the right, click on 'New Authentication' which is located under the 'Settings' heading.
+
+This will result in a Tray.io authentication pop-up window. The first page will ask you to name your authentication, and state which type of authentication you wish to create ('Personal' or 'Organisational').
+
+As you can see, the next page asks you for your 'Client ID', 'Client Secret' and 'Application Identifier' API credentials.
+
+In order to get these fields, head to your Personio dashboard. Click on the settings tab on the left hand side of the screen. Once in the settings menu click on the API tab of the secondary menu. Once there you will click on the 'Generate new credentials' button which will download a txt file with your client ID and client secret.
+
+The HTTP headers sent for every request will vary if the 'Application Identifier' is provided in the authentication process or not. Go back to your settings authentication field (within the workflow builder properties panel), and select the recently added authentication from the dropdown options now available.
+
+Once you have added these fields to your Tray.io authentication popup window, click on the 'Create authentication' button. Your connector authentication setup should now be complete.
+
+## Note on Operations Usage
+
+### Adding fields to access list
+
+Only a few fields will be available to you when you first make requests to Personio to get information about an employee. You'll need to add any additional fields that you would like to see manually within the Personio settings.
+
+Log in to your Personio account and head to the settings tab. Within the setting sub menu, just to the right of settings tab, click on the 'API' tab. Once inside the API menu you can click on the 'Access' tab.
+
+There you'll see the 'Allowed employee attributes' which is a list of fields that will be available when making requests for employee information. To add to this list click the 'edit' button and the fields you require.
+
+## Using the Raw HTTP Request ('Universal Operation')
+
+As of **version 1.0**, you can effectively create your own operations.
+
+This is a very powerful feature which you can put to use when there is an endpoint in Personio which is not used by any of our operations.
+
+To use this you will first of all need to research the endpoint in the [Personio API documentation v1.0](https://developer.personio.de/reference#introduction), to **find the exact format** that Personio will be expecting the endpoint to be passed in.
+
+Note that you will only need to add the suffix to the endpoint, as the base URL will be automatically set (the base URL is picked up from the value you entered when you created your authentication).
+
+The base URL for Personio is: `https://api.personio.de/v1`
+
+For example, say that the 'Get Employees' operation did not exist in our Personio connector, and you wanted to use this endpoint, you would use the Personio API docs to find the relevant endpoint - which in this case is a `GET` request called: `/company/employ`.
+
+More details can be found [here](https://developer.personio.de/reference#get_company-employees).
+
+If you wanted to get a list of employees you would use the following set up:
+
+Method: `GET`
+
+URL: `Endpoint`
+
+Endpoint: `company/employees`
+
+Body: `none`
+
+## Example Usage
+
+Below is an example of a way in which you could potentially use the Personio connector, to change the location of the office. In this scenario we've moved the London office to Sandbrooke and so everyone that is located in the London office will need to be updated to the Sandbrooke office.
+
+The steps will be as follows:
+
+1. Create a new workflow with a manual connector and add a Personio connector to return a list of employees.
+2. Add a loop connector to loop over the employees.
+3. Add and setup a boolean condition connector to decide if we want to modify that employee.
+4. Add and setup a Personio connector to change the office location of the employee.
+
+The final outcome should look like this:
+
+### 1 - Setup manual trigger and list employees
+
+Once you have clicked 'Create new workflow' from your main Tray.io dashboard named it, select the Manual trigger from the trigger options available:
+
+After you have been redirected to the Tray.io workflow dashboard, from the connectors panel on the left, add a Personio connector to your second step. Set the operation to 'List Employees'.
+
+### 2 - Loop over employees
+
+Next, search for the 'Loop collection' connector within your connector panel, and drag it into your workflow as your next step. Set your operations to 'Loop list'.
+
+The Loop Collection connector allows you to iterate through a list of results. In this example, we will use it to iterate through the data found within the previous Personio connector step.
+
+In order to specify the list you want to loop through, start by using the 'List' mapping icon (found next to the list input field, within the properties panel) to generate the connector-snake.
+
+While hovering over the 'personio-1' step (with the tail end of the connector-snake), select `data` from the list of output properties displayed. This will auto-populate a jsonpath within your 'List' input field, and update the type selector to jsonpath.
+
+For more clarification on the pathways you have available, open the Debug panel to view your step's Input and Output.
+
+At this point if we run the workflow by clicking 'Run Workflow' at the bottom right hand side of the screen we will generate a list of employees and then loop over each employee individually.
+
+### 3 - Set up Boolean Condition
+
+Next, search for the Boolean Condition connector and drop the connector **inside** the loop itself. Make sure that the operation is set to 'Boolean condition'.
+
+For our conditions we want to compare the office location of the employee to the text of 'London' (or whichever the name of the office is that you would like to change). That will tell us if we need to update the name of the office.
+
+To get the name of the office we'll use the connector snake from the '1st Value' property and drag it onto the 'loop-1' step. You should see 'office' in the list of output properties but we specifically want the name.
+
+So within the office heading you'll see a 'name' property within the 'attributes' of the 'office' property. Select 'name' to create the jsonpath that will give use the name of the office for each employee we loop over.
+
+With this step we can now look at each employee and, depending on which office they are located at, we can decide to do something with that employee or not.
+
+### 4 - Update employee
+
+The last step is to drag a Personio connector **inside** of the Loop Collection step itself just after the Boolean Condition. Set the operation to 'Update employee'. As you can see, the 'Employee ID' field is required.
+
+We want the employee ID to be the ID of the person we're currently looping over. So, much like the last step that we did we will want to set this value to the output of the loop step. Specifically we will select the 'value' of the 'id' attribute as shown in the screen shot below.
+
+Now that we have the Employee ID set we want to change the office for that employee. To do that we will need to scroll down the properties panel to the 'Additional attributes' section. There we can click the 'Add to Additional attributes' button. That will give us an 'Attribute' and 'Value' field.
+
+The dropdown for 'Attribute' will only list fields that you've made available through the Personio API settings. If you don't see the field you're looking for, you can add that field to the access list from the Personio API settings (see 'Adding fields to access list' section) or if you know the API field value then you can manually set it.
+
+In this example we've made the 'Office' field available through the API settings and so we can just select it from the dropdown. After selecting 'Office' we can type in the name of the new office, which in this example is 'Sandbrooke'.
+
+After running the workflow we can look at the logs and see that the we looped through each employee, checked to see if their office was 'London' and if it was we successfully updated the 'Office' field to 'Sandbrooke'.

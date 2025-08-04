@@ -1,0 +1,153 @@
+---
+title: "Overview"
+description: "Overview of the List Helpers connector"
+---
+
+# Overview
+
+## Overview
+
+When you are dealing with one or more lists / arrays of data, the List Helpers connector **provides a range of operations to help you manage and manipulate your listed**<u>** **</u>**data as required**.
+
+You can combine data from multiple sources, sort it, extract certain values, find common items, create batches for processing...the "list" goes on!
+
+See our operation summaries below for more ideas and information on your potential list and data manipulation options.
+
+## List Helper Templates
+
+Below are some relevant templates you may wish to use or learn from. The full range can be found in our [Templates Library](https://tray.io/documentation/templates/).
+
+Templates demonstrate **pre-configured best practices / common use cases** as well as examples of **how to use** this connector and **how best to integrate it** with others.
+
+## Important notes
+
+### Your returned items
+
+Note that the List Helper will **always return its results** in the **form of an array INSIDE of an object**.
+
+You will need to form a level of extraction to the results in order play with the array results themselves. 
+
+### Data types
+
+Note you can select a number of type formats whenever you are adding an item to a list.
+
+This is not applicable to every property / operation but is very common and great for multiple use cases.
+
+## Operations
+
+## Add item to list
+
+Allows you to **add an individual item** to a pre-existing list.
+
+Note that the operation doesn't store any data - it just adds to a list and then "forgets" the information. 
+
+## Add multiple items to list
+
+Allows you to **add multiple items** to a pre-existing list
+
+## Chunk
+
+**Creates smaller list sets** from the original.
+
+You will then need to use the [Loop Connector](#) to loop through each batch (which will often need to be sent to a [sub-processing workflow](/platform/processing-data-and-scaling/using-callable-workflows/#processing-large-volumes-of-data) to manage the scale and complexity of your data processing)
+
+## Concatenate
+
+**Joins two lists** together
+
+## Contains
+
+**Checks** your list **for** **specified item**
+
+Returns:
+
+- **True **if found
+- **False **if not
+
+## Count items
+
+**Counts** how many items are in your list
+
+## Delete items from list
+
+Allows you to **remove items you specify** from a list 
+
+## Difference
+
+Allows you to **compare two lists **
+
+**Returns** only the **items that do not exist within the second**
+
+## Filter
+
+Allows you to **filter** your list **for items** for **specific values**
+
+## Find object in list
+
+## First
+
+**Returns** the **first item** **found **within your list
+
+## Get item by index
+
+Allows you to **numerically select** the **item you want to return**
+
+## Get list of page numbers
+
+**Divides** your list **into separate pages**
+
+## Get unique items by key
+
+Builds a new list of items based on the Key reference
+
+## Intersection
+
+For **two given lists** this operation **returns** only the** items that exist in BOTH **lists. 
+
+## Iterative transform
+
+Goes through the fields available and **alters them as requested** (capitalize, camelCase etc.)
+
+## Join
+
+**Joins** all the list items into a **singular string**
+
+## Last
+
+**Returns** the **last item** within a list
+
+## Pluck
+
+A **list of values** is created from the item property referenced. Useful for extracting e.g. all email addresses for every contact in a list.
+
+## Remove duplicates
+
+Removes all duplicates from a list. Can be used for removing both simple items and objects
+
+## Rename keys
+
+Updates the name of a particular field
+
+## Reverse
+
+**Reverses** the **order** of a list
+
+## Rotate first item
+
+Puts the **first item** in a list **at the bottom**
+
+## Simple sort
+
+Sorts a list in **ascending** or **descending** order
+
+## Slice
+
+Creates a new list based on a **section of your current list**
+
+## Sort objects
+
+Allows you to put your **items** in **ascending** or **descending **order
+
+## Zip
+
+Takes **two lists and combines them** with key / value pairs created for each item

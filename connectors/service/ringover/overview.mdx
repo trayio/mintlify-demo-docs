@@ -1,0 +1,112 @@
+---
+title: "Overview"
+description: "Overview of the Ringover connector"
+---
+
+# Overview
+
+## Overview
+
+Ringover is a business phone system that gives you unlimited calls to 110 countries, video conferencing, SMS and group messaging, call recording, call whispering and more features focused on improving your team's productivity.
+
+## Authentication
+
+Within the workflow builder, highlight the Ringover connector.
+
+In the Ringover connector properties panel to the right of the builder, click on the Authenticate tab and the 'Add new authentication' button.
+
+This will result in a Tray.io authentication pop-up modal. The first page will ask you to name your authentication and select the type of authentication you wish to create ('Personal' or 'Organisational').
+
+The next page asks you for your 'API Key'.
+
+In order to get these fields, log into your Ringover dashboard. Click on the Crown that will navigate you to the Dashboard.
+
+To get the API Key, head to the Developer tab.
+
+You can find your API keys in the list or you can create a new API key by clicking on 'Create an API key'.
+
+Once you have added these fields to your Tray.io authentication popup window, click the 'Create authentication' button.
+
+Go back to your settings authentication field (within the workflow builder properties panel), and select the recently added authentication from the dropdown options now available.
+
+Your connector authentication setup should now be complete.
+
+## Available Operations
+
+The examples below show one or two of the available connector operations in use.
+
+Please see the [Full Operations Reference](#operationsFull) at the end of this page for details on all available operations for this connector.
+
+## Using the Raw HTTP Request ('Universal Operation')
+
+As of **version 1.0**, you can effectively create your own operations.
+
+This is a very powerful feature which you can put to use when there is an endpoint in Ringover which is not used by any of our operations.
+
+To use this you will first of all need to research the endpoint in the [Ringover API documentation v2.0.3](https://developer.ringover.com/#section/Authentication/Authorization), to **find the exact format** that Ringover will be expecting the endpoint to be passed in.
+
+Note that you will only need to add the suffix to the endpoint, as the base URL will be automatically set (the base URL is picked up from the value you entered when you created your authentication).
+
+The base URL for Ringover is: `https://public-api.ringover.com/v2`
+
+For example, say that the 'List calls' operation did not exist in our Ringover connector, and you wanted to use this endpoint. You would use the Ringover API docs to find the relevant endpoint - which in this case is a `GET` request called: `/calls`.
+
+More details about this endpoint can be found [here](https://developer.ringover.com/#tag/calls/paths/~1calls/get).
+
+As you can see, there is also the option to include a query parameter, should you wish to do so. So if you know what your method, endpoint, and details of your query parameters are, you can get the list of the first 10 calls with the following settings:
+
+Method: `GET`
+
+Endpoint: `/calls`
+
+Query Parameter: Key: `limit_count` Value: `10`
+
+Body Type : `none`
+
+Final outcome being: **https://public-api.ringover.com/v2/calls?limit_count=10**
+
+## Example Usage
+
+Below is an example of a way in which you could potentially use the Ringover connector, to get contact information.
+
+The steps will be as follows:
+
+1. Setup using a manual trigger and list contacts in your account.
+2. Add the Loop collection connector to iterate over each individual contact.
+3. Gather the information available for each contact.
+
+Your completed workflow should look similar to this:
+
+### 1 - Setup Trigger & List contacts
+
+Select the Manual trigger from the trigger options available.
+
+From the connectors panel on the left, add a Ringover connector to your workflow. Set the operation to 'List contacts'.
+
+You will notice that there are a lot of additional configuration fields that you can set on this operation ('Pagination', 'Alphabetical order', etc). While none of these are mandatory, please feel free to add them according to your project needs.
+
+Please note that the 'Limit offset' and 'Limit count' fields are already pre-filled for you, so you need not worry about it at this stage.
+
+Feel free to re-name your steps as you go along to make things clearer for yourself and other users. The operation names themselves often suffice.
+
+Now when this workflow is run, it will retrieve a list of contacts from the Ringover API.
+
+### 2 - Add a loop collection
+
+Next, search for the Loop collection connector within your connector panel, and drag it into your workflow as your next step. Set your operation to 'Loop list'.
+
+The Loop Collection connector allows you to iterate through a list of results. In this example, we will use it to iterate through the data found within the previous Ringover connector step.
+
+In order to specify the list you want to loop through, start by using the list mapping icon (found next to the list input field, within the properties panel) to generate the connector-snake.
+
+While hovering over the 'List contacts' step (with the tail end of the connector-snake), select `contact_list` from the list of output properties displayed. This will auto-populate a jsonpath within your list input field, and update the type selector to jsonpath.
+
+For more clarification on the pathways you have available, open the Debug panel to view your step's Input and Output.
+
+This will enable us to iterate over the list of contacts, and perform operations for each one, during each loop cycle.
+
+### 3 - Get contact
+
+The last step is to drag a Ringover connector **inside** of the Loop Collection step itself. Set the operation to 'Get contact'. As you can see, the 'Contact ID' field is required. Use the connector-snake to find the jsonpath for the 'contact_id' field from the loop step.
+
+Now when this workflow is run, you will be able to gather the information available for each contact. This means you will be able to view the contact's details when you click through your debug panel and expand the output.

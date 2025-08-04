@@ -1,0 +1,66 @@
+---
+title: "Overview"
+description: "Overview of the Anthropic (Claude) connector"
+---
+
+# Overview
+
+Tray's Anthropic connector enables API access to Claude, a next-generation AI assistant based on Anthropic’s research into training helpful, honest, and harmless AI systems.
+
+Claude is capable of a wide variety of conversational and text processing tasks while maintaining a high degree of reliability and predictability.
+
+Claude can help with use cases including summarization, search, creative and collaborative writing, Q&A, coding, and more. 
+
+## Authentication
+
+In order to authenticate you will need your Anthropic API key:
+
+## The 'Create Message' operation
+
+This operation makes use of [Claude's Messages API (beta)](https://docs.anthropic.com/claude/reference/messages_post)
+
+When creating prompts the following guides in Claude's docs are helpful:
+
+- [Introduction to prompt design](https://docs.anthropic.com/claude/docs/introduction-to-prompt-design)
+- [Migrating from text completions to messages](https://docs.anthropic.com/claude/reference/migrating-from-text-completions-to-messages)
+
+The basic idea is that you set:
+
+- A 'System' role where you pass contextual information (files, relevant documents etc.) and instructions as to how to behave and answer.
+- A 'User' role where you pass the query coming from the user of your application
+
+The following example imagines a scenario whereby you have built an external application which allows users to submit questions to Claude via a [webhook-triggered](/connectors/triggers/webhook-trigger/) workflow.
+
+This screenshot shows Postman replicating the behavior of an external app and sending the question to the webhook url of the workflow (note the response which has come back from the Tray workflow):
+
+The workflow itself shows how you:
+
+1. Create vector embeddings for the query (using OpenAI or another LLM / model):
+
+2. Pass the query vector to a vector db (e.g. Pinecone) to retrieve the closest matching files / documents:
+
+3. Pass the user query to Claude using the user role:
+
+And include the matched vectors as the context for the system role:
+
+4. Return the response:
+
+## The 'Create Completion' operation
+
+This operation makes use of Claude's [Text Completion API](https://docs.anthropic.com/claude/reference/complete_post)
+
+When sending prompts to Claude you will need to follow the [guidance as per their API documentation](https://docs.anthropic.com/claude/docs/introduction-to-prompt-design#human--assistant-formatting) <br/><br/>Specifically you will have to format prompts in the following format where the question is asked by the 'Human' and you leave an empty response to be filled in by the 'Assistant'<br/>
+
+This has already been done for you, so you can just ask the question in the prompt format.
+
+Note that you can pull the prompt in programatically from a previous workflow step using [interpolated mode](https://tray.io/documentation/tray-uac/building-automations/workflow-data-basics/mapping-data-between-steps/#interpolated-mode) as shown in the example below.
+
+The following example imagines a scenario whereby you have built an external application which allows users to submit questions to Claude via a [webhook-triggered](/connectors/triggers/webhook-trigger/) workflow.
+
+This screenshot shows Postman replicating the behavior of an external app and sending the question to the webhook url of the workflow (note the response which has come back from the Tray workflow):
+
+And in the workflow we see the question from the external being passed to Claude's prompt dialog:
+
+The response from Claude can then be accessed using e.g. `$.steps.anthropic-1.completion<br/>`
+
+In this case we are using 'Trigger event reply' to send the reply back to the external service which called the workflow:

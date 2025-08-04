@@ -1,0 +1,55 @@
+---
+title: "Overview"
+description: "Overview of the Bluesnap connector"
+---
+
+# Overview
+
+## Overview
+
+BlueSnap helps businesses increase sales and reduce costs through an innovative approach to accepting global payments. 
+
+## **API Information **
+
+The Base URL used for the sandbox environment on the BlueSnap connector is [https://sandbox.bluesnap.com](https://sandbox.bluesnap.com/). More information can be found on their main [API documentation (v2.0)](https://developers.bluesnap.com/docs) site for the production Base URL.
+
+## Authentication
+
+Within the builder, click on the BlueSnap connector to display the connector properties panel. Select the 'Auth' tab and click on the 'New authentication' button.
+
+In the Tray.io authentication pop-up modal, name the authentication in a way that will quickly identify it within a potentially large list. For example, whether it is a Sandbox or Production auth, etc.
+
+Consider who/ how many people will need access to this authentication when choosing where to create this authentication ('Personal' or 'Organisational').
+
+ Click on the Next Button.
+
+The second page asks you for your 'Username',  'Password', and 'BlueSnap instance type' credentials. To get these fields, head to the BlueSnap dashboard and click on the 'Settings-> API Settings' at the right top, as shown in the image. 
+
+You will be redirected to the below page where you can get 'username' and password.
+
+For 'BlueSnap Instance type', you have to choose from the below two links as shown in the image. 
+
+ Once you have added these fields to your Tray.io authentication pop-up window, click the 'Create authentication' button. 
+
+Your connector authentication setup should now be complete.
+
+## Using the Raw HTTP Request ('Universal Operation')
+
+As of **version 1.0**, you can effectively create your own operations.
+
+This is a powerful feature that you can use when there is an endpoint in BlueSnap that is not used by any of our operations.
+
+To use this, you will need to research the endpoint in the BlueSnap [API documentation](https://developers.bluesnap.com/docs) to **find the exact format** that BlueSnap will be expecting the endpoint to be passed in.
+
+For example, say that the Get Conversion Rates info operation did not exist in our BlueSnap connector, and you wanted to use this endpoint, you would use the BlueSnap API docs to find the relevant endpoint - ***which in this case is a `GET` request called: `*****Get Conversion Rates*****`.***
+
+More details about this endpoint can be found [here](https://developers.bluesnap.com/v8976-Tools/docs/get-conversion-rates).
+
+Based on the information provided in the above API call documentation, you need to configure the following attributes on your Tray platform:
+
+- **Method:** GET
+- **URL:**
+
+- **Query parameters:  **base-currency=EUR&quote-currency=JPY
+
+Once the API call is executed successfully you should get the following results:

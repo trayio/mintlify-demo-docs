@@ -1,0 +1,132 @@
+---
+title: "Overview"
+description: "Overview of the Workplace connector"
+---
+
+# Overview
+
+## Overview
+
+Workplace is a communication tool that connects everyone in a company. It includes familiar features like groups, chat and video calls to get people talking and working together. Workplace also allows to integrating apps from Microsoft, Google, Dropbox, and more.
+
+## Authentication
+
+Within the workflow builder, highlight the Workplace connector.
+
+In the Workplace connector properties panel to the right of the builder, click on the Authenticate tab and the 'Add new authentication' button.
+
+This will result in a Tray.io authentication pop-up modal. The first page will ask you to name your authentication and select the type of authentication you wish to create ('Personal' or 'Organisational').
+
+The next page asks you for your 'Access Token' and 'App Secret' credentials.
+
+In order to get these fields, head to the Workplace dashboard. Click on the Admin Panel, open the Integrations tab, and click on your custom integration under the Custom integrations section.
+
+Here you can find the required credentials and also reset your 'Access Token' if needed.
+
+Once you have added these fields to your Tray.io authentication pop-up window, click the 'Create authentication' button.
+
+Go back to your settings authentication field (within the workflow builder properties panel), and select the recently added authentication from the dropdown options now available.
+
+Your connector authentication setup should now be complete.
+
+## Available Operations
+
+The examples below show one or two of the available connector operations in use.
+
+Please see the [Full Operations Reference](#operationsFull) at the end of this page for details on all available operations for this connector.
+
+## Notes on using Workplace
+
+### Pagination
+
+If you need to paginate your results with Workplace then we strongly recommend you use the **Page offset token method**.
+
+What is rather unique about Workplace is that **the "next page" information received from Workplace comes in the format of a full URL**. Instead of a Stock Keeping Unit (SKU) which is more often the case in these scenarios.
+
+With this in mind you should setup your pagination workflow as expected (see links below for examples). Only this time make the **first data storage connector's default value the **`original URL`** instead of the usual **`null`** value**. 
+
+That is to say, use a data storage connector to set your endpoint at the start of the workflow. You then overwrite this value each time the `paging.next` field contains another url as shown in the output above. When there are no more url links available you can break out of the Forever loop.
+
+For some basic examples using pagination please check out the following pages:
+
+- Article - [Intro to Pagination](https://tray.io/documentation/platform/standard-best-practices/pagination/intro-to-pagination/)
+- Template - [Paginate through Salesforce Records](https://tray.io/documentation/templates/sales/paginate-salesforce-records/)
+
+## Using the Raw HTTP Request ('Universal Operation')
+
+As of **version 1.0**, you can effectively create your own operations.
+
+This is a very powerful feature which you can put to use when there is an endpoint in Workplace which is not used by any of our operations.
+
+To use this you will first of all need to research the endpoint in the [Workplace API documentation v10.0](https://developers.facebook.com/docs/workplace), to **find the exact format** that Workplace will be expecting the endpoint to be passed in.
+
+Note that you will only need to add the suffix to the endpoint, as the base URL will be automatically set (the base URL is picked up from the value you entered when you created your authentication).
+
+The base URL for Workplace is: `https://graph.facebook.com/v10.0`
+
+For example, say that the 'List groups' operation did not exist in our Workplace connector, and you wanted to use this endpoint. You would use the Workplace API docs to find the relevant endpoint - which in this case is a `GET` request called: `/community/groups`.
+
+More details about this endpoint can be found [here](https://developers.facebook.com/docs/workplace/integrations/custom-integrations/reference/community#edges).
+
+There is also the option to include a query parameters for pagination, should you wish to do so. So if you know what your method, endpoint and details of your query parameters are, you can list all the groups in your community with the following settings:
+
+Method: `GET`
+
+Endpoint: `/community/groups`
+
+Query Parameter:
+
+- Key: `limit` Value: `10`
+- Key: `after` Value: `QVFIUndFbHBKT0xpZAzVHa0xXRkR3R19ydGl5SHdwVDhsRC04Si00Tk1NWV9JbFMtdzNNeXFZAeG4zRE84eWF2OF8zLTlGY2EzLVRSTERuUFdBdW1BS2VaWVFn`
+
+Body Type : none : `{ "none" : null }`
+
+Final outcome being: **https://graph.facebook.com/v10.0/community/groups?limit=10&after=QVFIUndFbHBKT0xpZAzVHa0xXRkR3R19ydGl5SHdwVDhsRC04Si00Tk1NWV9JbFMtdzNNeXFZAeG4zRE84eWF2OF8zLTlGY2EzLVRSTERuUFdBdW1BS2VaWVFn**
+
+## Example Usage
+
+Below is an example of a way in which you could potentially use the Workplace connector, to retrieve the details of a group
+
+The steps will be as follows:
+
+1. Setup using a manual trigger and list all the groups.
+2. Loop through the received list of groups.
+3. Retrieve the details of each group.
+
+Your completed workflow should look similar to this:
+
+### 1 - Setup Trigger & List groups
+
+Select the manual trigger from the trigger options available.
+
+From the connectors panel on the left, add a Workplace connector to your workflow. Set the operation to 'List groups'.
+
+Feel free to re-name your steps as you go along to make things clearer for yourself and other users. The operation names themselves often suffice.
+
+Upon completion, you will have set up the manual trigger and fetched a list of all the groups.
+
+### 2 - Loop collection
+
+Next, search for the Loop collection connector within your connector panel, and drag it into your workflow as your next step. Set your operations to 'Loop Collection'.
+
+The Loop Collection connector allows you to iterate through a list of results. In this example, we will use it to iterate through the data found within the previous 'List groups' connector step.
+
+In order to specify the list you want to loop through, start by using the list mapping icon (found next to the list input field, within the properties panel) to generate the connector-snake.
+
+While hovering over the 'List groups' step (with the tail end of the connector-snake), select `data` from the list of output properties displayed. This will auto-populate a jsonpath within your list input field, and update the type selector to jsonpath.
+
+For more clarification on the pathways you have available, open the Debug panel to view your step's Input and Output.
+
+Now, you will be able to loop through the list of the groups you have fetched in the first step.
+
+### 3 - Get group details
+
+The last step is to drag a Workplace connector **inside** of the Loop Collection step itself. Set the operation to 'Raw HTTP Request'. As you can see from the Workplace API docs, the 'group-id' field or this specific API is required.
+
+Use the connector snake and hover over the 'Loop Collection' step (with the tail end of the connector-snake) and select the jsonpath for the specified identifier from the list of output properties displayed.
+
+In this case the jsonpath for 'Endpoint' is selected and it should appear similar to `$.steps.loop-1.value.id`.
+
+You can always inspect the [logs of your workflow](/platform/troubleshooting/logs-and-debugging/) by using the ‘Debug’ tab available on the top of the Tray builder.
+
+If you go through each execution of the 'Get Group' step, you will see the results of each loop.
