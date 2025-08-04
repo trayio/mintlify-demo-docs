@@ -1,0 +1,117 @@
+---
+title: "File Storage System"
+description: "Store and interact files directly within a Tray project"
+---
+
+## Overview
+
+File Storage System is now a native capability within Tray.ai that enables secure and scalable file management within your workflows and projects. It provides a centralized location to store, manage, and process files, making it ideal for data transformation, file aggregation, and managed file transfer (MFT) scenarios.
+
+### Key capabilities:
+
+- Create, read, write, and delete files within your Tray projects
+- Append data to or overwrite existing files
+- Organize files using folders/directories
+- Receive files from 3rd party service connectors, and store them in Tray
+- Access files through both the UI and dedicated connector
+- Secure file storage with project-level isolation
+
+## Accessing File Storage System
+
+Files can be managed through two primary interfaces:
+
+- **Project UI**: <br/>Navigate to your project to access the *Files* section, where you can:
+- **File Storage Connector**:<br/>Access file operations programmatically within your workflows. Find the *File System* connector in the Tray.ai connector library under "File System". It's available to all users with appropriate workspace permissions.<br/><br/>**Common Use Cases:**
+
+![FSS file storage connector](/images/platform/automation-integration/advanced-capabilities/file-system/57kWNgrMF9B15bjyriz2Nz_Screenshot 2024-11-21 at 11.44.18.png)
+
+### **Operations**
+
+The **Tray File System** connector allows users to work with the file storage entity using the following connector operations:
+
+- Create file
+- Create folder
+- Delete file
+- Delete folder
+- Get file content
+- Get file information
+- Get file reference
+- List folder items
+- Write to file
+
+<Info>
+Note that Tray File Storage Service currently does not support temporary backup. Connector operations run on files and folders to modify them cannot be undone.
+</Info>
+
+### Create File
+
+This default operation creates a new file in the folder you specify. The file can be created from either plain text, or from a URL. If you don't specify the content schema (via the field "Content information"), Tray will create an empty file. Once created, head to *Files* in your Project nav bar to view the new file. The below example illustrates how to create a CSV file (from plain text) containing account data and store it in a dedicated "Salesforce Exports" folder using the File Storage connector:
+
+![fss - create file operation](/images/platform/automation-integration/advanced-capabilities/file-system/4Ikra2hVxzM746JfbhNDwt_Screenshot 2024-11-28 at 12.09.56.png)
+
+### Create folder
+
+This operation creates a new folder in the *Files* menu of your project. Use this operation to either create a new parent (or root) folder, or to add a new child folder to an existing parent folder. The below example illustrates how to create a new child folder under an existing parent folder:
+
+![fss - create folder op](/images/platform/automation-integration/advanced-capabilities/file-system/70nX7UBIYX5XYO78pfUftV_Screenshot 2024-11-28 at 12.14.21.png)
+
+### Delete file
+
+This operation deletes a file from file storage. To enable, choose the file you wish to delete by clicking *Select file > File ID* and use the File Explorer to find the file you wish to delete.
+
+![fss - delete file op](/images/platform/automation-integration/advanced-capabilities/file-system/1r1gUb6FaEM36rRx9VvEA1_Screenshot 2024-11-28 at 12.26.43.png)
+
+### Delete folder
+
+This operation deletes a folder from file storage. To enable, choose the folder you wish to delete by using the File Explorer.
+
+![fss - delete folder op](/images/platform/automation-integration/advanced-capabilities/file-system/1W5NBaw0IkncC4blAeBjS1_Screenshot 2024-11-28 at 16.15.01.png)
+
+### Get file content
+
+This operation returns the contents of a text-based file stored in Tray File Storage. Use the File Explorer to select the file you wish to view.
+
+![fss - get file content op](/images/platform/automation-integration/advanced-capabilities/file-system/1rnvGI8k3Wr3p9p7gH2Tyi_Screenshot 2024-11-28 at 15.26.14.png)
+
+<Info>
+Note, this operation is limited to files up to 5MB in size. For larger files, use Get file reference. For example, if you wish to import a CSV for use in [Data Tables](https://tray.ai/documentation/tray-uac/building-automations/workflow-data-basics/data-tables/), `Get file reference` is the recommended operation to use.
+</Info>
+
+### Get file reference
+
+This operation allows users to create a temporary URL that can be used to pass files to other connectors. For example, the below workflow creates a shareable reference for a file that already exists in Tray File Storage, adds a new row to it, and saves a new version of the file in File Storage:
+
+![fss - create file reference op](/images/platform/automation-integration/advanced-capabilities/file-system/KA4y35IQ7rRzesWGNRD0h_Screenshot 2024-11-28 at 17.19.29.png)
+
+Depending on the use case, users can choose to select the file from File ID or from Folder & Name. Typically, "from File ID" will be the option of choice; however in cases where you don't know the File ID because the file has not yet been created, select the "from Folder & Name" option.
+
+### List folder items
+
+This operation lists all files and child folders (if any) from within a specified folder ID. Use the File Explorer to select a folder. The elements this operations outputs contain all details Tray stores about the files and folders, such as name, size (in MB), object type, content type, creation date and time, and update date and time.
+
+### Write to file
+
+This operations overwrites or appends content data to an existing file stored in Tray. By selecting the "write mode" in the properties panel, users can choose to either overwrite or append to an existing file. Either option can be executed in three different ways, defined in the "content information" field.
+
+- **Plain Text**
+- **From URL (specify file URL)**
+- **From File**
+
+### Data retention
+
+Tray does not delete files available in File Storage System automatically and they are stored as long as users intend to persist them in the system. Users wanting to delete this data (for example, to free up storage) must do so manually. Data that is deleted by the user cannot be restored at this point.
+
+## Limitations
+
+#### Storage
+
+When using File Storage System, be aware that the usage tier that is included with *all* Tray pricing plans has the following capacity restrictions:
+
+- Each file stored has a maximum file size limitation of **100 MB**
+- Storage repository per project has a maximum size limitation of **1 GB**
+
+Enterprise customers should contact their account representative for custom storage and transfer limits.
+
+#### Embedded
+
+The current version of File Storage Service cannot be accessed from within an end-user solution instance. While direct file storage access isn't currently available in Embedded workflows, we recommend leveraging Tray [API Management](https://tray.ai/documentation/tray-uac/api-management/api-management-overview/) as a workaround: in a Tray Platform project, build out the files and logic you wish to handle in a Tray Platform project, then, turn that project into an API operation using API Management. This endpoint can subsequently be called from your Embedded workflows using the [HTTP Client connector](https://tray.ai/documentation/connectors/core/http-client/).

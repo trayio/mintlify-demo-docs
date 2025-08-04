@@ -1,0 +1,70 @@
+---
+title: "Tray Build powered by Merlin AI"
+description: "Tray Build powered by Merlin AI can help you build your workflows from scratch, significantly reducing the time involved in deciding what logic and connectors to use"
+---
+
+## What is Tray Build powered by Merlin AI?<br/>
+
+![merlin-build-new](/images/platform/artificial-intelligence/augmented-development/merlin-build/1IT9OKuyuqn45c4kf9BqcJ_merlin-build-new.png)
+
+Tray Build powered by Merlin can be launched at any stage within a workflow by clicking on the `+` button.
+
+It is able to take a natural language statement and convert it into a number of workflow steps within the current workflow.
+
+Therefore it can help you build your workflows from scratch, significantly reducing the time involved in deciding what logic and connectors to use.
+
+<Info>
+Note that users **will be asked to authenticate** and will be able to only use those authentications which are **present in the current workspace.**
+</Info>
+
+Example Tray Builder prompts:
+
+- “Create a new spreadsheet in google sheets called ‘Web Leads’ with a worksheet called ‘Today’, get the name, email, company and lead source for all my salesforce leads where the lead source is web, then loop through each one and add it to the ‘Web Leads’ google sheet in the ‘Today’ worksheet”
+
+## What can I do with Tray Build powered by Merlin?
+
+Tray Build powered by Merlin enhances your workflow creation, simplifies Tray Builder usage, and provides instant access to key information
+
+Here are a few examples of what you can do with Merlin: 
+
+### **Workflow documentation assistance**
+
+If you have questions about your workflows, simply ask Merlin, 'What is this workflow doing?' Merlin will then provide you with a detailed, step-by-step explanation. 
+
+For additional guidance on documenting workflows effectively, check out our [How to Document a Workflow](https://tray.io/documentation/tray-uac/building-automations/documenting-your-workflows/how-to-document-a-workflow/) page.
+
+![merlin-explain-what-the-wf-is-doing](/images/platform/artificial-intelligence/augmented-development/merlin-build/5mmO7gfWZkq91W9vib70yC_merlin-explain-what-the-wf-is-doing.png)
+
+### **Workflow building guidance **
+
+At times, building a workflow or configuring a connector step might need assistance. In such situations Merlin can assist in navigating technical intricacies. 
+
+For example, you're dealing with a large dataset and are uncertain about which connector to use to filter objects. In such situations, you can ask Merlin questions like "What connector should I use for filtering a list of objects?"
+
+Merlin not only delivers a quick answer but also walks you through the steps to implement it seamlessly. 
+
+![merlin-get-info-from-doc](/images/platform/artificial-intelligence/augmented-development/merlin-build/3XYqPlwuayPjjjqavE4Dvr_merlin-get-info-from-doc.png)
+
+Here's another scenario: suppose you need assistance configuring a specific step in a workflow, like setting up a Scheduled trigger to run on every third Tuesday of each month using a cron expression. 
+
+Feel free to use Merlin's capabilities to help you write a cron expression.  
+
+![merlin-help-build-wf](/images/platform/artificial-intelligence/augmented-development/merlin-build/4vnMNbjanXxeYleEK14NRI_merlin-help-build-wf.png)
+
+### Data integration
+
+With Merlin, you can effortlessly integrate data workflows and automate tasks like writing files to an S3 bucket.
+
+Consider a scenario where you have a workflow containing a file with images, and you want to write this file to an S3 bucket.
+
+Simply ask Merlin: " Can you add to the workflow the ability to write the file to an S3 bucket?"
+
+Merlin will intelligently add the S3 connector to your workflow's endpoint, streamlining the integration process. It will then prompt you to select the appropriate authentication method.
+
+![merlin-data-integration-1](/images/platform/artificial-intelligence/augmented-development/merlin-build/6JjDDAw1qC0N3U0RwUd31b_merlin-data-integration-1.png)
+
+Merlin won't configure all fields in the connector, recognizing the need for your input. You'll be asked to fill out details like the Bucket name and Object key.
+
+However, Merlin will automatically configure fields based on your use case. This includes selecting the appropriate operation, such as Put Object (File), and adding a JSON path reference to the file from the previous step that needs to be written to the S3 bucket.
+
+![merlin-data-integration-2](/images/platform/artificial-intelligence/augmented-development/merlin-build/13PrYUQzJdpmHiDX06w5Gl_merlin-data-integration-2.png)

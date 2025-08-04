@@ -1,0 +1,26 @@
+---
+title: "Project config data (reusable variables)"
+description: "Project config is data that can be re-used throughout your workflows e.g. notification email addresses, service IDs, base URLs etc."
+---
+
+In any project you can set 'project level config':
+
+![project-config-data](/images/platform/automation-integration/advanced-capabilities/project-configuration/1Li0NcX6wyNegdKI3dgbnl_project-config-data.png)
+
+This is data that can be re-used throughout your workflows e.g. notification email addresses, service IDs, base URLs etc.
+
+It can then be referenced as e.g. `$.config.project_email`
+
+![config-data-project-email](/images/platform/automation-integration/advanced-capabilities/project-configuration/4UQGkDQYaGEoM1lLQL08DJ_config-data-project-email.png)
+
+This is great for 'single-sourcing' data - i.e. if this data changes you only need to update the config data and it will propagate throughout the workflow
+
+It is also possible to set config data by using 'convert to config' from within the properties panel itself:<br/>
+
+![config-data-convert-to-config](/images/platform/automation-integration/advanced-capabilities/project-configuration/1tcUfJI7Ue4jKfdnmUThiR_config-data-convert-to-config.png)
+
+## Config data for Embedded End Users[​](http://localhost:3000/docs/building-workflows/basic-data-manipulation/config-data#config-data-for-embedded-end-users)
+
+Project config can be made available to End Users of your Embedded integrations, to enable them to personalize the integration for their own use.
+
+Please see our documentation on [Config slots](#) for more information.

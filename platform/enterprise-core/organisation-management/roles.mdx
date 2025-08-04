@@ -1,0 +1,131 @@
+---
+title: "User management and RBAC"
+description: "Guidance on managing user access to workspaces and assets"
+---
+
+## Adding new users to your Org[​](http://localhost:3000/docs/governance/org-management/rbac-and-user-management#adding-new-users-to-your-org)
+
+This action can also be carried out using the [Invite user to organization workspace](https://developer.tray.io/openapi/trayapi/tag/workspaces/#tag/workspaces/operation/invite-user-to-organization) endpoint:
+
+Go to Settings > People > Invite people:
+
+![settings-people](/images/platform/enterprise-core/organisation-management/roles/5Rwasfmd29pu7fr1ylAoBX_User management and RBAC-1 1.png)
+
+Make sure you have your new member's email address and use a `,` to separate multiple invites if there is more than one.
+
+Notice that their access level will depend on the box you enter them in (Contributor vs Viewer):
+
+![add-user-to-org](/images/platform/enterprise-core/organisation-management/roles/1X4elCVd009zGTKob7liG4_add-user-to-org.png)
+
+## Adding users to workspaces[​](http://localhost:3000/docs/governance/org-management/rbac-and-user-management#adding-users-to-workspaces)
+
+This action can also be carried out using the [Add user to workspace](https://developer.tray.io/openapi/trayapi/tag/workspaces/#tag/workspaces/operation/add-user-to-workspace) endpoint:
+
+In order to invite **pre-existing users** to a workspace, make sure you are in the correct workspace and click on 'Workspace settings' and 'People in workspace'
+
+![workspace-invite-people](/images/platform/enterprise-core/organisation-management/roles/5slkm1MC94df5qziBIaEtU_User management and RBAC-2 1.png)
+
+Use the search bar to find someone within your organization you want to add. Click Add people to add them to the workspace:
+
+![add-people-to-this-workspace](/images/platform/enterprise-core/organisation-management/roles/2XXZhDPyZ7SJbe4XMWoH3b_add-people-to-this-workspace.png)
+
+## <br/>Assigning roles to users[​](http://localhost:3000/docs/governance/org-management/rbac-and-user-management#assigning-roles-to-users)
+
+This action can also be carried out using the [Update user role](https://developer.tray.io/openapi/trayapi/tag/users/#tag/users/operation/update-user-organization-role) endpoint.
+
+When adding users to workspaces they will inherit their roles from the Organization workspace:
+
+![users-inherit-roles](/images/platform/enterprise-core/organisation-management/roles/6MBKZwDyY9aQrWYsprxt9W_users-inherit-roles.png)
+
+Once added to a workspace you can edit the roles of individual users (with the exception of Org owners and admins):
+
+![assign-role](/images/platform/enterprise-core/organisation-management/roles/3IKbMF9zn2mhTyGz6v8722_User management and RBAC-3 1.png)
+
+## Deleting users[​](http://localhost:3000/docs/governance/org-management/rbac-and-user-management#deleting-users)
+
+You can delete users from a workspace with the [Remove user from workspace](https://developer.tray.io/openapi/trayapi/tag/workspaces/#tag/workspaces/operation/remove-user-from-a-Workspace) endpoint.
+
+You can delete users from an entire organization with the [Delete user](https://developer.tray.io/openapi/trayapi/tag/users/#tag/users/operation/delete-user-by-id) endpoint.
+
+Users can be deleted from a workspace via the 'People & Settings' section of the dashboard.
+
+When a user is deleted on your end, that user's assets are still available  for 30 days.
+
+- During this period, the workflows and authentications owned by the deleted user will continue to function and are still viewable and usable by admins and the owner.
+- Personal authentications and personal workflows owned by this user will be non-functional and unrecoverable after the 30-day period
+- Any auths or workflows on the organization level will still be available.
+- Before the 30 days elapse, we advise that your team replace the deleted user's personal authentications on any enabled workflow. You will need to replace those authentications with an equivalent authentication that exists either on (a) the organization level or (b) lives in another active user's personal account.
+- You also should move any of the deleted user's personal workflows that you want to keep to an organization or shared workspace.
+- If a user has custom services in their account, it may not be possible to delete that user. You should move the services to another account.
+- For example, if you have several trial accounts and want to add that user to the main one you plan to use, you should contact support. Deleting users from another account for this purpose can cause issues.
+
+## Role-Based Access Control (RBAC)[​](http://localhost:3000/docs/governance/org-management/rbac-and-user-management#role-based-access-control-rbac)
+
+## Available user roles in Tray[​](http://localhost:3000/docs/governance/org-management/rbac-and-user-management#available-user-roles-in-tray)
+
+| **Role** | **Description** |
+| --- | --- |
+| Owner | The owner of the Organization account<br/>- one per organization |
+| Admin | Has the most privilege on all assets |
+| Contributor | Has enough privileges to contribute to projects by creating<br/>workflows, services and authentications |
+| View Only | Can only view certain assets |
+
+## Settings management[​](http://localhost:3000/docs/governance/org-management/rbac-and-user-management#settings-management)
+
+### Available org settings in Tray
+
+| **Setting** | **Details** |
+| People | Add / Edit / Delete users and their auths |
+| Workspaces | Add / Edit / Delete people in workspaces |
+| General | Basic workspace details - including name and task limits |
+| Usage / billing | Reporting on task usage and billing |
+| Insights | Analytics for troubleshooting problem workflows |
+| Tokens* | Create tokens for API access |
+| Embedded settings** | Specify Embedded ID etc.<br/> |
+| Customization** | Specify custom CSS for the [Config Wizard](/tray-uac/embedded-integrations/key-embedded-concepts/the-config-wizard/) |
+
+* If you are a non-Embedded customer and require tokens for API access, please contact support
+
+** Embedded only
+
+### Org settings RBAC matrix<br/>
+
+![org-settings-rbac-matrix](/images/platform/enterprise-core/organisation-management/roles/6l6Ma12Tw8B2oBLjZabimo_org-settings-rbac-matrix.png)
+
+* Can only view workspaces that the user belongs to
+
+## Asset management[​](http://localhost:3000/docs/governance/org-management/rbac-and-user-management#asset-management)
+
+### Available assets in Tray
+
+| Asset |
+| --- |
+| Workflows |
+| Projects |
+| Solutions** |
+| Custom services |
+| Authentications |
+| Logs |
+
+** Embedded only
+
+### Assets RBAC matrix
+
+| Role |  | Assets |  |
+| --- | --- | --- | --- |
+|  | **Manage Projects/Workflows/Solutions** | **Manage Services** | **Manage Authentications** |
+| Owner | CRUD | CRUD | CRUD |
+| Admin | CRUD | CRUD | CRUD |
+| Contributor | CRUD* | CRUD* | CRUD* |
+| Viewer | R* | -- | R* |
+
+* Can only view workspaces that the user belongs to
+
+### Logs RBAC matrix
+
+| **Role** | **Read Logs** | **Replay executions** |
+| --- | --- | --- |
+| Owner | R | U |
+| Admin | R | U |
+| Contributor | R | U |
+| View Only | R | -- |

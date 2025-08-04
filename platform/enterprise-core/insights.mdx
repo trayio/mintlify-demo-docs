@@ -1,0 +1,84 @@
+---
+title: "Insights Hub"
+description: "Insights Hub is the mission control room for your Tray organisation, surfacing analytics and operational insights into the health and performance of your assets"
+---
+
+<Info>
+The length of insights period you have depends on your package:
+
+- Pro  = 7 days
+- Team = 30 days (180 as optional add-on)
+- Enterprise = 180 days
+</Info>
+
+Insights Hub is the mission control room for your Tray organisation, surfacing analytics and operational insights into the health and performance of your assets, providing transparency into the delivery of your integrations and their adoption, and helping identify issues for timely remediation using near real-time metrics.
+
+You can find the Insights Hub by selecting `Insights` from the main menu in the dashboard in your organisation:
+
+![insights-filters-kpis](/images/platform/enterprise-core/insights/3MpqAbxq3IWC1SCtlarg4t_insights-filters-kpis.png)
+
+## Filtering and KPI cards
+
+<AccordionGroup>
+<Accordion title="Filtering">
+At the top of the page, the Insights Hub contains multiple filters which allow you toquickly drill down to the information you need and customize your view of the data:
+
+- **Time frame filter** - allows you to select from various time ranges, such as `Past 6 hours`, `Past 24 hours`, and `Past week`, as well as longer time ranges.
+- **Workspace filter** - allows you to filter data by one or more workspaces that you have access to.
+- **Project filter** - allows you to filter data by one project in the selected workspaces.
+- **Solution Instance filter** - this filter is only available in Embedded, and can be activated by first selecting a project that includes a solution. It allows you to filter by the available solution instances in that solution, with each listing showing the name of the end-user and the solution instance ID.
+- **Workflow filter** - allows you to filter by one workflow in the selected workspaces.
+</Accordion>
+
+<Accordion title="KPI cards">
+The KPI cards contain important summaries from your Tray organization for the selected time frame and filters. These summaries include:
+
+- **Active Workflows**: The number of workflows that have had active runs.
+- **Task Runs**: The number of tasks that were run.
+- **Data Volume**: The volume of data processed by all of the steps in the workflows.
+- **Solutions**: The number of solutions with active solution instance runs.
+- **Solution Instances**: The number of solution instances with active runs.
+- **End Users**: The number of end users with active solution instance runs.
+
+Each KPI card includes a trend metric that shows the percentage change compared to the previous period.
+</Accordion>
+
+<Accordion title="Hovering and selecting">
+- Hover - hovering over one item in the chart legend will highlight data for that asset in the chart, while dimming the data for other assets.
+- Select - selecting one of the items in the chart legend will add or remove the data for that asset on the chart.
+- `All` button - will make data for all assets in the legend visible in the chart.
+- `Inv` button - will invert the selected assets in the chart, making data for assets that were previously removed from the graph visible, and removing data for assets that were previously visible on the graph.
+</Accordion>
+
+<Accordion title="Chart patterns overlay (accessibility)">
+The chart patterns toggle, located in the top-right corner of the page, improves accessibility by overlaying patterns on top of charts and chart legends.
+</Accordion>
+</AccordionGroup>
+
+## Workflow runs data
+
+Clicking on the successful / failed / terminated sections of either the main workflow runs chart or the donut chart will open up the 'drawer' view of workflows over the selected time period.
+
+A powerful feature is that you can click on the link to go directly to the workflow itself to debug any issues:
+
+![workflow-runs](/images/platform/enterprise-core/insights/7MZjCORoIM2KmgQo6XQjXo_workflow-runs.png)
+
+## Task runs
+
+The task runs chart also gives you the ability to view workflows which are running the most amount of tasks.
+
+Again, you can easily access the workflow directly by clicking the provided link:
+
+![task-runs](/images/platform/enterprise-core/insights/506vNmu6Ua8rXrAI6Q8JnC_task-runs.png)
+
+## Data volume
+
+The data volume chart works in the same way as task runs - helping you to pinpoint workflows and projects with the largest throughput of data:
+
+![data-volume](/images/platform/enterprise-core/insights/1wZkVcD8n6LBikv3BEdETs_data-volume.png)
+
+## Embedded view
+
+Embedded customers can get a view on their Solution Instances and can drill down into the source workflows and End User-specific workflow instances to troubleshoot all aspects of their integrations:
+
+![insights-embedded](/images/platform/enterprise-core/insights/3J0NjDfdWdfft1hihtKUn1_insights-embedded.png)

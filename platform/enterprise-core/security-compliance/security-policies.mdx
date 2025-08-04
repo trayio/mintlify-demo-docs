@@ -1,0 +1,73 @@
+---
+title: "Tray security policies"
+description: "Keeping our customers' data secure is the single most important thing we do here at Tray. We go to significant lengths to ensure that all data sent to and through Tray is handled securely "
+---
+
+## Keeping your Data Secure[​](http://localhost:3000/docs/governance/security-and-compliance/security-policies#keeping-your-data-secure)
+
+Keeping our customers' data secure is the single most important thing we do here at Tray. We go to significant lengths to ensure that all data sent to and through Tray is handled securely - because keeping Tray secure is fundamental to the nature of our business. We'd like to share some of the practices we're following to keep your data secure in this document, and what we're doing to continually improve the security of your data. More detailed information on our security and privacy practices can be found in our [Security Statement](#) and [Data Protection Commitment](#).
+
+## Vulnerability Disclosure Program
+
+We recognize the valuable role that the security community plays in enhancing our security posture. If you identify a potential vulnerability in our platform, we encourage you to report it to us promptly.
+
+**For urgent security-related queries, please contact **[**security@tray.ai**](mailto:security@tray.ai)**.**
+
+If you are a researcher, please submit your findings through our [HackerOne submission page](https://hackerone.com/a15ee773-fdbf-4a7b-9942-43bec427b5ea/embedded_submissions/new). This platform facilitates secure and efficient communication between you and our security team.
+
+## Our Team[​](http://localhost:3000/docs/governance/security-and-compliance/security-policies#our-team)
+
+Our team is made up of people who have years of experience working for large multinational companies in areas where security is paramount such as big data, payments, gambling, advertising and defence technologies. Our passion for security is foremost and we make sure that even the least security oriented engineering roles are tested thoroughly on their security knowledge.
+
+## Data Protection[​](http://localhost:3000/docs/governance/security-and-compliance/security-policies#data-protection)
+
+Tray is committed to meeting the requirements of data protection laws and regulations like the GDPR and CCPA. See our [Data Protection Commitment](#) for more information.
+
+## Hosting[​](http://localhost:3000/docs/governance/security-and-compliance/security-policies#hosting)
+
+Tray operates in 3 segregated AWS regions:
+
+- US (AWS-West) - Default
+- EU (AWS-Ireland)
+- APAC (AWS-Sydney)
+
+High availability is set up on all our services where possible, AWS multi availability zones configured and snapshots performed daily by AWS and retained for 14 days.
+
+For full information on the extensive measures Amazon take to keep their facilities secure, visit the [AWS security page](https://aws.amazon.com/security/).
+
+## Security Measures[​](http://localhost:3000/docs/governance/security-and-compliance/security-policies#security-measures)
+
+Security best practices are ever evolving, so at Tray we invest significant time & resource in ensuring we’re up-to-date with the latest best practices and approaches to security. As SOC 2 Type 2 certified, our security procedures and organisational controls are independently audited at least annually. Please contact us for the full report. A brief description of our procedures are:
+
+- We only store the data we need to - that which is required for accessing your account, connecting with your different third party tools, and debugging workflows.
+- You control when we have access to your data through [Support Access controls](#).
+- All data sent to Tray is encrypted in transit. Our workflow and application endpoints are TLS/SSL only and score an "A" rating on SSL Labs' tests - meaning that we only use strong cipher suites.
+- We use technologies such as Datadog and AWS VPC Flow Logs to provide an audit trail over our infrastructure and the Tray application. Auditing allows us to do ad-hoc security analysis, track changes made to our setup and audit access to every layer of our stack. Audit log streaming can be setup too, see [Streaming logs to external systems](#).
+- We have advanced alerting and monitoring systems for both security an uptime. Engineers and Security are on call 24/7 in case any problems are detected.
+- We enforce the use of SSO with phishing-resistant 2FA on all systems with access to customer data and maintain strict access policies to ensure the principle of least privileged is adhered to. A managed password manger is used internally where passwords are necessary.
+- We have fully functional automation systems in place which enable us to deploy changes to any of our applications in minutes. We typically deploy dozens of times a week (sometimes even a day) - so we are well placed to roll out a security fix quickly, should the need arise.
+- We implement data encryption at rest and an additional layer of encryption for extra sensitive data like workflow authentications (API keys, access tokens etc..). See [Authenticating Connectors](/tray-uac/connectivity/authenticating-connectors/) page for more details.
+- We redact sensitive authentication data from [workflow logs](#).
+- We have documented incident response plans to handle any issues that might arise.
+
+More security measures are listed in the [Security Statement](#) which is referenced in service agreements.
+
+## Data Storage[​](http://localhost:3000/docs/governance/security-and-compliance/security-policies#data-storage)
+
+We make sure that we only store the data that is required for running workflows as long as its needed and, where possible, all data that we do store can be deleted on request. All data is encrypted at rest and in transit.The following is a list of the types of data we store and how long we store it.
+
+- **Personal Account Information **Any personal details, such as your name and email address, that you provide when creating a Tray account will be stored for as long as your account is active. At any time you can request your account be deleted and this data will deleted from our systems.
+- **Personal data / PII **We use a number of different tools to help us track usage of the product such as raw server logs and analytics tools (Google Analytics etc). These tools may receive personally identifiable information such as your IP address and in some cases your name and/or email address. Raw server logs are not stored for more than 30 days and, inline with the GDPR you can request any personal data that we store to be removed from our systems and any sub processors we employ. Please see our Privacy Policy for more information.
+- **Authentication Data **To allow workflows to process data between different 3rd party services on your behalf, we will often require you to provide authentication to these 3rd party services in the form of usernames, passwords and access tokens (including from the result of OAuth authentication flow). This sensitive authentication data is encrypted at rest in our databases, using strong 256 bit encryption, and will be removed if you delete the authentication in question or your Tray account. All sensitive authentication data is obfuscated when passed through workflow execution state and logs.
+- **Workflow Data **When you run a workflow on the Tray platform, we need to store various stateful data as part of the execution process and for post execution logging. We store detailed execution data and log information for all workflows only for as long as it is needed. Raw execution data is removed from our systems 10 days of a workflow execution finishing. Detailed workflow log data, which is viewable by customers from the "Debug" view of each workflow, is stored for 30 days. Both can be reduced to 24 hours on request. Certain Tray staff have access to this data where necessary for their role, eg: assisting a customer with their workflow. See more about Technical limits, timeouts and retries.
+- **The Data Storage Connector **The data storage connector allows end users to store data within a workflow execution at three different scoping levels - Account, Workflow and Execution. Any data that is stored using the Execution scope will be removed shortly after a workflow execution is finished. Any data stored in the Workflow scope will be persisted until you delete this workflow or your account. Any data stored in the Account scope will be persisted until you deleted your account. Please Note: Tray is not responsible for how the data storage connector is used, nor do we have the ability to remove individual items of data on request.
+- **Account Logins **We use strong bcrypt hashing and salts when storing your account passwords. These passwords are deleted if you delete your account. 2-factor authentication and SSO is available.
+- **Backups **We store regular daily backups of all important information. These backups are encrypted and stored for a maximum of 14 days before they are removed.
+
+## Sub-processors[​](http://localhost:3000/docs/governance/security-and-compliance/security-policies#sub-processors)
+
+In the course of running the Tray platform we will use a range of third party vendors or ‘sub-processors’, as defined by the GDPR, to process platform and workflow data. Our list of sub-processors and the role they play is maintained at [here](https://tray.ai/sub-processors).
+
+## Payment Details[​](http://localhost:3000/docs/governance/security-and-compliance/security-policies#payment-details)
+
+Tray does not store payment information on our servers - we’re not in the business of payments processing. All online payments are processed via invoice or through our payments provider, Stripe. For more information about PCI compliance and Stripe’s other security features, see Stripe’s security page.

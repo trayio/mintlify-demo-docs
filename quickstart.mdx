@@ -1,80 +1,254 @@
 ---
 title: "Quickstart"
-description: "Start building awesome documentation in minutes"
+description: "Get started with a walkthrough of key Tray building principles"
 ---
 
-## Get started in three steps
+## Quickstart intro
 
-Get your documentation site running locally and make your first customization.
+### The basics of Tray
 
-### Step 1: Set up your local environment
+Essentially, building automations in Tray is about doing three things:
 
-<AccordionGroup>
-  <Accordion icon="copy" title="Clone your docs locally">
-    During the onboarding process, you created a GitHub repository with your docs content if you didn't already have one. You can find a link to this repository in your [dashboard](https://dashboard.mintlify.com).
-    
-    To clone the repository locally so that you can make and preview changes to your docs, follow the [Cloning a repository](https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository) guide in the GitHub docs.
-  </Accordion>
-  <Accordion icon="rectangle-terminal" title="Start the preview server">
-    1. Install the Mintlify CLI: `npm i -g mint`
-    2. Navigate to your docs directory and run: `mint dev`
-    3. Open `http://localhost:3000` to see your docs live!
-    
-    <Tip>Your preview updates automatically as you edit files.</Tip>
-  </Accordion>
-</AccordionGroup>
+- **Getting data **from one service
+- **Doing something **with that data
+- **Sending that data **to another service
 
-### Step 2: Deploy your changes
+When you start building Tray workflows, you need to then ask yourself the following questions:
 
-<AccordionGroup>
-  <Accordion icon="github" title="Install our GitHub app">
-    Install the Mintlify GitHub app from your [dashboard](https://dashboard.mintlify.com/settings/organization/github-app).
-    
-    Our GitHub app automatically deploys your changes to your docs site, so you don't need to manage deployments yourself.
-</Accordion>
-<Accordion icon="palette" title="Update your site name and colors">
-    For a first change, let's update the name and colors of your docs site.
+- **How do I get data **from the first service?
+- **What do I do with the data**?
+- **How do I send it **to the second service?
 
-    1. Open `docs.json` in your editor.
-    2. Change the `"name"` field to your project name.
-    3. Update the `"colors"` to match your brand.
-    4. Save and see your changes instantly at `http://localhost:3000`.
+When using Tray, the [Trigger](/connectors/triggers/) that you choose for your workflow will be dictated by **how** you get your data.
 
-    <Tip>Try changing the primary color to see an immediate difference!</Tip>
-  </Accordion>
-</AccordionGroup>
+Two of the most common scenarios are:
 
-### Step 3: Go live
+- A workflow triggered by an event happening in a 3rd party service (using a pre-built Tray service trigger, or the Tray [webhook trigger](/connectors/triggers/webhook-trigger) if no dedicated service trigger exists)
+- A [scheduled trigger](/connectors/triggers/scheduled-trigger) workflow where you periodically query the 3rd party service for new updated records (known as polling)
 
-<Accordion icon="rocket" title="Publish your docs">
-  1. Commit and push your changes.
-  2. Your docs will update and be live in moments!
-</Accordion>
+This Quickstart will take you through a service trigger-based scenario and introduce you to basic data processing principles.
 
-## Next steps
+The key thing that it will introduce you to is how to think about dealing with the data that comes into your workflows.
 
-Now that you have your docs running, explore these key features:
+It will also introduce you to some key concepts in Tray usage:
 
-<CardGroup cols={2}>
+- [Project config](/tray-uac/building-automations/workflow-data-basics/project-config-data/)
+- [Conditional logic](/tray-uac/building-automations/workflow-data-basics/conditional-logic/)
+- [Callable workflows](/tray-uac/building-automations/processing-data-and-scaling/using-callable-workflows/)
+- [Data mapping](/connectors/core/data-mapper/)
+- [Transforming data for input](/tray-uac/building-automations/transforming-data-for-input/satisfying-input-schema/)
+- [Error handling](/tray-uac/error-handling/what-is-an-error/)
+- [Environment variables](/tray-uac/building-automations/workflow-data-basics/environment-variables/)[​](http://localhost:3000/docs/getting-started/quickstart#template-overview)
 
-<Card title="Write Content" icon="pen-to-square" href="/essentials/markdown">
-  Learn MDX syntax and start writing your documentation.
-</Card>
+### Quickstart template overview
 
-<Card title="Customize style" icon="palette" href="/essentials/settings">
-  Make your docs match your brand perfectly.
-</Card>
+The use case that we are dealing with in this quickstart is processing survey results from Typeform:
 
-<Card title="Add code examples" icon="square-code" href="/essentials/code">
-  Include syntax-highlighted code blocks.
-</Card>
+![typeform-survey-ui](/images/quickstart/1cRX065DzgjeOEW63qP7WK_typeform-survey-ui.png)
 
-<Card title="API documentation" icon="code" href="/api-reference/introduction">
-  Auto-generate API docs from OpenAPI specs.
-</Card>
+Ultimately we want to process each survey response to a Google Sheet:
 
-</CardGroup>
+![sheets-typeform-survey-responses](/images/quickstart/MdWDzX2moWuzR8spCyZJS_sheets-typeform-survey-responses.png)
 
-<Note>
-  **Need help?** See our [full documentation](https://mintlify.com/docs) or join our [community](https://mintlify.com/community).
-</Note>
+And notify a company Slack channel that a response has been processed:
+
+![typeform-slack-notification](/images/quickstart/77I2WpdeIiXeKbasi8bHuh_typeform-slack-notification.png)
+
+<Info>
+Please install and run the [Add Typeform survey responses to Google Sheets](https://tray.io/documentation/templates/getting-started/add-typeform-survey-responses-to-google-sheets/) template associated with this project.
+
+It only takes 10 minutes to set up a free Typeform account and start filling in test survey responses to test it out.
+
+The template instruction page will take you through installing, configuring and testing the template.
+
+This guide will then take you through the key points in how it was built
+</Info>
+
+### Working with data payloads​
+
+Every service operation or trigger that you work with will have its own payload structure that you will have to work with every time you receive or fetch data from it.
+
+So this quickstart will introduce you to the general principles of working with payloads that can then be applied any time you are working with Tray.
+
+With Typeform survey responses we are dealing with payloads 300+ lines long:
+
+![typeform-trigger-payload](/images/quickstart/1nxFTZB82hdACKnS0meQ3A_typeform-trigger-payload.png)
+
+On inspection we find that key sections are:
+
+- The `form_response.definition.fields` array which includes:
+- The `form_response.answers` array which includes:
+
+The template is set up to automatically extract the key information from these sections, using the principles outlined in [Mapping data between steps](#).
+
+## Simple implementation[​](http://localhost:3000/docs/getting-started/quickstart#simple-implementation)
+
+<Warning>
+This workflow is not included in the template.It is only being shown here for introduction purposes.
+</Warning>
+
+The most simple implementation of this use case (minus the Slack notification) is a single workflow which makes use of Tray's pre-built Typeform trigger.
+
+Once you have authenticated your Typeform trigger you will be able to choose which of the forms in your account you wish to trigger the workflow:
+
+![quickstart-typeform-trigger](/images/quickstart/7gXsHmyJDyb3B7ypRcSasL_quickstart-typeform-trigger.png)
+
+Then we can make use of the methods outlined in [Mapping data between steps](#) to use the following jsonpaths to get at the answers from the payload returned by the trigger:
+
+- `$.steps.trigger.form_response.answers[0].choice.label`
+- `$.steps.trigger.form_response.answers[1].choice.label`
+- `$.steps.trigger.form_response.answers[2].choice.label`
+- `$.steps.trigger.form_response.answers[3].choice.label`
+
+Note that the exact trigger payload and the jsonpaths will depend on the service.
+
+Thus the payload and jsonpaths here are specific to Typeform. Please see [Mapping data between steps](#) for more guidance.
+
+![typeform-sheets-simple](/images/quickstart/1cra6pvv6Aov8jj3kk7RzO_typeform-sheets-simple.png)
+
+## Quickstart template walkthrough[​](http://localhost:3000/docs/getting-started/quickstart#template-walkthrough)
+
+### Overview[​](http://localhost:3000/docs/getting-started/quickstart#overview)
+
+The template itself has 2 processing workflows:
+
+- **A 'static' workflow **whereby it only deals with a fixed Typeform survey with 'string'-type answers and a fixed Google Sheet which already has its headers set up
+- **A 'dynamic' workflow **whereby it will deal with any Typeform survey and create the headers for an empty Google Sheet
+
+### Project config[​](http://localhost:3000/docs/getting-started/quickstart#project-config)
+
+Looking at the project config you will see that we have a `processing_method` variable which allows you to switch between static and dynamic processing.
+
+For Typeform, Google Sheets and Slack, there are also variables for `form_id`, `spreadsheet_id`, `worksheet_name` and `slack_channel` as a best practice for single-sourcing variables that are used repeatedly in a project:
+
+![quickstart-project-config](/images/quickstart/4JG39VaeJtwNLlX8fzosEU_quickstart-project-config.png)
+
+### The Typeform trigger workflow[​](http://localhost:3000/docs/getting-started/quickstart#the-typeform-trigger-workflow)
+
+In the first 'Typeform trigger' workflow you will notice that a Branch connector is used.
+
+The branch uses the `processing_method` config variable to decide which branch to go down, and whether to call the static or dynamic workflow:
+
+![quickstart-typeform-trigger-workflow](/images/quickstart/ZTZXAlMBYn34jtHxs2CDb_quickstart-typeform-trigger-workflow.png)
+
+Then each branch calls the appropriate workflow and sends the trigger payload as 'Data':
+
+![quickstart-typeform-call-static-workflow](/images/quickstart/5TRmAnHE6UW2JOGgfVbu5A_quickstart-typeform-call-static-workflow.png)
+
+### The static processing workflow[​](http://localhost:3000/docs/getting-started/quickstart#the-static-processing-workflow)
+
+You will remember that this workflow is called 'static' as it only deals with a fixed Typeform survey and adds them to a Google Sheet which already has all the headers added.
+
+However it does introduce you to some other Tray concepts:
+
+**1. Data mapping**
+
+We have decided that, for the purposes of our records it is more useful to have customers identified as:
+
+- **short / medium / long term **rather than how many months they have been using us
+- **small / medium / large size **rather than how many employees they have
+
+To do this we can pull the payload from the trigger and use the Data mapper's 'map values' operation:
+
+![typeform-static-map-values](/images/quickstart/6I6dIbwPmxZDWfN81NnDVd_typeform-static-map-values.png)
+
+We can then use the output from the data mapper as inputs for each column in the worksheet:
+
+![mapped-values-to-sheet-columns](/images/quickstart/2a7nvu7y13r5wslPcm0v1B_mapped-values-to-sheet-columns.png)
+
+The end result is that the mapped values are entered for each customer response:
+
+![typeform-results-mapped-values-sheets](/images/quickstart/47CLHBNQzQ9xnJmdqGUcsA_typeform-results-mapped-values-sheets.png)
+
+**2. Error handling**
+
+In Tray projects, it is very important to set up Error Handling where appropriate.
+
+In this case we might be concerned that Google Sheets occasionally returns a 500 or 503 and we want to make sure this doesn't mean we miss some responses being recorded.
+
+Exactly how you will handle errors depends on your setup and use case.
+
+In this case we are sending a failure message to Slack:<br/>
+
+![quickstart-send-error-message-to-slack](/images/quickstart/1FLqEJvzZ2pYqRBfT3lsNH_quickstart-send-error-message-to-slack.png)
+
+In that message we are making use of the following [environment variables](#):
+
+- `{$.env.workflow_uuid} `to compose the url of the workflow
+- `{$.env.execution_log_url} `to link directly to the logs for the failed execution
+
+It also makes use of the `{$.config.spreadsheet_id}` project config in order to construct the url for the Google Sheet.
+
+The end result is a message such as:
+
+![quickstart-error-message-slack-example](/images/quickstart/1UEwzme3XDMhmiEOtAeI28_quickstart-error-message-slack-example.png)
+
+### The dynamic processing workflow[​](http://localhost:3000/docs/getting-started/quickstart#the-dynamic-processing-workflow)
+
+**Check if the sheet has been started**
+
+The first thing we do in the dynamic processing workflow is check if the worksheet has already been started.
+
+This is done by using the Google Sheets 'get sheet data' operation and then using the Boolean connector 'property exists?' operation to see if any 'values' were returned:
+
+![quickstart-dynamic-property-exists](/images/quickstart/57AwO9pVT90oLUvkhDrDtX_quickstart-dynamic-property-exists.png)
+
+If no values have been returned this tells us that the sheet is empty.
+
+**2. Creating the sheet headers**
+
+So on the 'false' branch we use the List Helpers 'pluck' operation to get all the answers using the `$.steps.trigger.form_response.definition.fields` jsonpath and plucking each 'title':
+
+![typeform-pluck-questions](/images/quickstart/7BjEzdVjUlm3dTKxW4lbwg_typeform-pluck-questions.png)
+
+We can use the [Tray Operations Explorer dev tool](https://developer.tray.io/developer-portal/dev-tools/ops-explorer/ops-explorer-tool/) to investigate the input schema requirements for the Google Sheets 'Create column headers for sheet' operation:
+
+![ops-explorer-create-sheet-headers](/images/quickstart/1FZ4Z2Y1Xy6BczIBNuNVZI_ops-explorer-create-sheet-headers.png)
+
+So we know that we can just pass a basic array into 'Row data' and the headers will be added:
+
+![typeform-question-headers-to-sheets](/images/quickstart/5hCvTqzGb22fVmTIfBxPcV_typeform-question-headers-to-sheets.png)
+
+**3. Getting the answers**
+
+In order to respond dynamically to the answers given in a response to any survey, we need to allow for the fact that answers in the payload coming from Typeform could be in a number of formats: number, boolean, string etc.
+
+So we use a javascript connector step to write a switch statement to deal with each type and create a final array of answers:
+
+![typeform-answers-switch-statement](/images/quickstart/4eyPpxwKDAFBnkMe4TE6I_typeform-answers-switch-statement.png)
+
+4. **Adding the answers to Google Sheets**
+
+In order to dynamically add answers we must send them as a dynamically generated array, since we don't know how many there are.
+
+A key point here is that any connector operation which allows you to add multiple records will have a particular input schema.
+
+To find this out we can do a manual test run of the Google Sheets 'create row' operation and inspect the input logs in the Tray UI:
+
+![sheets-test-data-input-schema](/images/quickstart/4kWDcNtGqqz1MBIy9n3YxJ_sheets-test-data-input-schema.png)
+
+(Note that you could also make use of our [Tray Operations Explorer dev tool (beta)](https://developer.tray.io/developer-portal/dev-tools/ops-explorer/ops-explorer-tool/)) to create a dummy input payload and find out the required schema)
+
+This tells us that we must transform our simple array of answers:
+
+```json
+{
+  "result": [
+    "Neutral",
+    "Hospitality",
+    "6 months to 2 years",
+    "50-200 employees",
+    "United Kingdom"
+  ]
+}
+```
+
+Into an array of 'column_heading' / 'value' pairs.
+
+In the 'Construct GSheet input array' step this is done using a simple for loop:
+
+![script-transform-sheets-input-array](/images/quickstart/38DtjRp9TRqM4lNitxEpOG_script-transform-sheets-input-array.png)
+
+When building your own workflows this is a script you could write yourself, or you could make use of our [Data transformer tool (beta)](https://developer.tray.io/developer-portal/dev-tools/data-transformer/introduction/) to generate the script for you!
+
+The result of this script step can then be passed directly into the 'Row data' for the Google Sheets 'create row' operation.

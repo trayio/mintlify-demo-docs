@@ -1,0 +1,79 @@
+---
+title: "Storing and retrieving data"
+description: "The Data Storage connector is one of the key connectors that you will need to use in Tray"
+---
+
+The Data Storage connector is one of the key connectors that you will need to use.
+
+Its primary function is to 'get' and 'set' data at key points in your workflows and projects, via the 'Get value' and 'Set value' operations.
+
+The key to using it effectively is identifying circumstances when it is required.
+
+<Warning>
+Data being stored or retrieved by the data storage connector is visible in the Tray logs. Therefore the data storage connector **should not be used for storing sensitive information** such as authentication credentials.
+
+**Auth credentials should always be stored in actual authentications**, which can then be retrieved using `$.auth` environment variables, whereby the credentials are always obscured in the logs.
+</Warning>
+
+## Storing data in the current workflow run[​](http://localhost:3000/docs/building-workflows/basic-data-manipulation/storing-and-retrieving-data#storing-data-in-the-current-workflow-run)
+
+Our [Use the set/get data storage method](https://academy.tray.io/tray-build-foundations-ii/6hoDfaEAbmyfZx2Pp3FEez/use-the-setget-data-storage-method/eqbdVbM68Y1jsN2RxZWjqn) academy course gives a good example of when to use set / get value in data storage.
+
+![conditional-data-storage](/images/platform/automation-integration/building-workflows/storing-retrieving-data/7CC0LVPHoVbOCdY7xB0TB4_conditional-data-storage.png)
+
+The principle here is that **when there are certain conditionals within your workflow which change exactly what data you want to store**, you will need to:
+
+1. Set the value on the conditional path(s)
+2. Get the data when all conditionals have been resolved and you are ready to send to the destination service
+
+## Using a default value[​](http://localhost:3000/docs/building-workflows/basic-data-manipulation/storing-and-retrieving-data#using-a-default-value)
+
+The above example gives an illustration of how you can effectively use the default value option when getting a key.
+
+In this case, it is preferable to make use of the prospect's phone number as their means of contact.
+
+However, if it has not been provided then we can use the email address that was pulled from the original prospect details in Salesforce.
+
+<Info>
+The default 'default' value when using 'get value' is null.
+
+This can also be set to boolean, a number or an empty string, object or list.
+
+This may be necessary in order to meet the input requirements of your destination service
+</Info>
+
+## Storing data for subsequent workflow runs[​](http://localhost:3000/docs/building-workflows/basic-data-manipulation/storing-and-retrieving-data#storing-data-for-subsquent-workflow-runs)
+
+There may be times when you need to store pieces of data that need to be retrieved the next time a workflow is run.
+
+In this case you can set and get data using the **'workflow' scope**.
+
+A classic example of this is with a scheduled workflow which has to paginate batches of records being pulled from a particular service.
+
+In this case, when the pagination loop has finished, we have to store the pagination offset token that is returned by the 3rd party service.
+
+Then, at the start of the pagination loop for each run of the workflow, we retrieve the offset token to pass to the 3rd party service:
+
+![pagination-architecture](/images/platform/automation-integration/building-workflows/storing-retrieving-data/11DjWscUTOroQiVrwgCJKG_pagination-architecture.png)
+
+## Storing data at account / workspace level[​](http://localhost:3000/docs/building-workflows/basic-data-manipulation/storing-and-retrieving-data#storing-data-at-account--workspace-level)
+
+There are certain rare use cases when you will need to store data that is to be used in other workflows within the same workspace.
+
+In this case you can set and get data using the **'account' scope**.
+
+An example of this is given in our documentation on workflow threads.
+
+<Warning>
+When storing data at account level, you will need to be careful about how you name your keys.
+
+One strategy to adopt is to link the key to the source workflow by appending the `$.env.workflow_uuid` to the key.
+
+You may also need to make sure that you 'reset' your account-level data (to null, empty string etc.) when the routine across all workflows has finished running
+</Warning>
+
+## Storing objects and lists[​](http://localhost:3000/docs/building-workflows/basic-data-manipulation/storing-and-retrieving-data#storing-objects-and-lists)
+
+If you need to store and retrieve objects, you can construct objects using the Object Helpers connector in combination with the Data Storage set and get value operations.
+
+For adding both simple fields and objects to lists, there is the Data Storage 'append to list' operation. Please see our page on 'working with lists' for more information.

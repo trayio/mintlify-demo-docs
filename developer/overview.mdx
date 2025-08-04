@@ -1,0 +1,117 @@
+---
+title: "Development tips"
+description: "When building workflows, there are certain tools and strategies you will need to adopt in order to make sure that you have each 'section' of your workflow operating as expected, before moving on to the next."
+---
+
+When building workflows, there are certain tools and strategies you will need to adopt in order to make sure that you have each 'section' of your workflow operating as expected, before moving on to the next.
+
+For further guidance and interactive labs on this topic, please see our [Academy course on workflow testing](https://academy.tray.io/?path=/tray-build-foundations-iii/15Wh43mxKhAtjoQJqLsAMw/introduction/dNRmj4KoNMUFX7mQAWNdEF)
+
+## The Terminate connector[​](http://localhost:3000/docs/development-and-testing/development-tips#the-terminate-connector)
+
+When building your workflow section-by-section, you will very often need to test it up to a certain point.
+
+In the below example we are wanting to check that the first few Jira steps are working, but we know that the rest of the workflow is not yet configured correctly, so we temporarily add a terminate step after the last Jira step:
+
+![terminate-example](/images/developer/overview/6jAX7RTYvlfUsTomYW7VhC_terminate-example.png)
+
+This will allow you to:
+
+1. **Observe the output **of all steps up to the terminate step (using the debug logs)
+2. **Manually set the output schema **for any connectors if it has not been auto-updated
+3. **Make any necessary data transformation and mappings to subsequent steps**, based on the output from all steps leading up to the Terminate step
+
+The terminate connector is also helpful when building callable workflows and webhook-triggered workflows.
+
+For the first workflow run, it can be set as the first step after the callable or webhook trigger.
+
+You can then configure subsequent steps as outlined above.
+
+Once the terminate connector has served its purpose, it can be removed from the workflow.
+
+<Info>
+You can also use the terminate connector 'Fail run' operation to force an error from your workflow when certain conditions are met.
+
+This can be useful in production situations in terms of giving you more granular control over your [error handling](https://staging.tray.io/documentation/tray-uac/error-handling/what-is-an-error/).
+</Info>
+
+## Replaying steps and workflow runs
+
+![replay-runs-or-steps](/images/developer/overview/4rsAptARUmwd23wzqzqLsA_replay-runs-or-steps.png)
+
+In your workflow logs it is possible to re-run either:
+
+- An entire workflow run (using the left-hand column as indicated in the above screenshot)
+- An individual workflow step (using the right-hand column as indicated in the above screenshot)
+
+This is very useful when developing your workflows, as it allows you to make the appropriate fix to your workflow and quickly re-run the data which caused the failure, without having to create or trigger it at source again.
+
+### Replaying individual steps[​](http://localhost:3000/docs/development-and-testing/development-tips#replaying-individual-steps)
+
+This is useful when e.g. there is only one step that needs fixed and you only want to re-execute the failed step and those below it.
+
+### Replaying entire workflow runs[​](http://localhost:3000/docs/development-and-testing/development-tips#replaying-entire-worklow-runs)
+
+This method should be used when you want to re-execute all steps in the workflow.
+
+It can also be used for successful workflow runs. Two examples of when this might be useful are:
+
+- There are fixes to be made on **more than one step **in the workflow
+- **A successful run doesn't give the result you expected **- e.g. the wrong column was updated in your destination database.
+
+In these cases you can make the necessary corrections and then replay the workflow.
+
+### Important note on callable workflows
+
+<Warning>
+Note the following points about callable workflows when it comes to replaying runs and steps:
+
+- **For a fire and forget callable workflow**, you can replay at both workflow and step level as normal
+- **For a fire and wait for response callable workflow**, you can only replay from within the **calling workflow **(i.e. not the workflow being called)
+</Warning>
+
+## Running steps in isolation
+
+The feature allows users to isolate and test individual steps within a workflow, enhancing testing precision and efficiency.
+
+![run-test](/images/developer/overview/aChYe8xz0wsWdVovWUrE2_run-step-complete-wf.png)
+
+**Supported Connectors**
+
+You can run isolation mode on any connector in the app. If there is a reason a specific step is not compatible with running in isolation you will get an error message letting you know. For example, the data storage step with a scope of "current run" cannot be used in isolation and you will get an error message reminding you. 
+
+**Why use this feature?**
+
+- **Simplifies Connector Testing**: Eliminates the need to run entire workflows to test a change on just one connector.
+- **Cost-Effective**: [Prices single tasks for individual tests](/tray-uac/governance/org-management/billing-tasks-and-usage/#connectivity-api-tasks), eliminating the need to pay for entire workflows.
+- **Efficiency for AI Users**: Enables rapid prompt engineering iterations directly within the Tray app.
+- **Streamlines Script Testing**: Allows direct testing within the Tray app.
+
+**Points to remember**
+
+- **Real Impact**: Testing a step within a workflow that could affect a third-party system will have a real impact. For instance, when testing with connectors like the HTTP client.
+- **No Logs Retained**: No logs are retained for test runs. Exercise caution, especially when testing with production systems, as there will be no record of your actions.
+- **Designed for Individual Steps**: This functionality is designed for running individual steps and does not execute full workflows or multi-step processes. It's important to note that this feature is not intended for end-to-end integration testing; it solely verifies the functionality of individual steps within the workflow.
+- **How it's billed: **Each time you run a step in isolation it is billed as a single task. You can see the usage in the insights part of the app under CAPI usage. 
+
+### How to run steps in isolation?
+
+**Prompt Engineering with AI Connectors**
+
+Prompt engineering with AI connectors involves creating and refining input prompts to effectively communicate with AI models. The process typically includes designing the prompt, testing and iterating, formatting the output, and model selection and configuration. 
+
+To achieve the desired results, you might need to run the workflow several times.
+
+Instead, you can run this step in isolation to fine-tune the AI's response using the "run steps in isolation" feature. 
+
+The following video demonstrates how you can efficiently handle prompt engineering using this feature. The example workflow utilizes AWS Bedrock connector's AI Generation operation.
+
+**Iterative script building**
+
+The iterative script building process ensures that the script works correctly within the script connector and meets all requirements. 
+
+The usual process involves: designing the script, testing and debugging,** **review and refine, adding more functionality if needed, repeat the process. 
+
+The testing and debugging phase often requires repetitively running the workflow. By using the "running steps in isolation" feature, you can isolate the script connector to perform testing, make necessary changes, and then save them.
+
+Demo video: 

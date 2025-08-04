@@ -1,0 +1,672 @@
+---
+title: "Data transformation guide"
+description: "When working with data in Tray, you will often find that you need to carry out certain transformations."
+---
+
+## Overview
+
+When working with data in Tray, you will often find that you need to carry out certain transformations.
+
+Examples of this are:
+
+- **Filtering data** to exclude certain results
+- **Enriching data** by combining datasets or pulling key extra info from extra sources
+- **Formatting data **(such as date information) so that it is accepted by the destination service / database
+- **Mapping data **for when you need to map fields or values to meet the naming protocols of a destination service
+- **Structuring data** so that it satisfies the input schema of the destination service / database
+
+## Filtering data
+
+### Include / Exclude items with particular values
+
+For example you may wish to include / exclude all entries in a list where **id = null:**
+
+![filter-include-exclude](/images/platform/automation-integration/advanced-use-cases/transforming-data/7xXAdDRjLV75TnpL2rCJxw_filter-include-exclude.png)
+
+In this case you can use the List Helpers 'filter' operation (using either 'inclusive' or 'exclusive' as the filter type)**:**
+
+<AccordionGroup>
+<Accordion title="List Helpers 'Filter' operation">
+![lh-filter-include](/images/5rrDvzmJGqy1uVIASpnI99_lh-filter-include.png)
+</Accordion>
+</AccordionGroup>
+
+Or you could use the JSON transformer `=` and `!=` operators:
+
+<AccordionGroup>
+<Accordion title="JSON transformer include / exclude">
+<AccordionGroup>
+<Accordion title="Include">
+![json-transformer-include](/images/4fvBIEeZjL3IXYZyGX3LsQ_json-transformer-include.png)
+</Accordion>
+
+<Accordion title="Exclude">
+![json-transformer-exclude](/images/5QlonKg2wDaqvbJtlWnHfp_json-transformer-exclude.png)
+</Accordion>
+
+<Accordion title="Select fields to return in each object">
+You can also use dot notation such as `staff[id=null].email` to specify the fields you wish to be returned for each filtered object:
+
+![json-transformer-include-set-fields-returned](/images/1xrKN9nIsYnBK0Nr4eQqcM_json-transformer-include-set-fields-returned.png)
+</Accordion>
+</AccordionGroup>
+</Accordion>
+
+<Accordion title="Playground and workflow links">
+To see how to implement this solution in Tray, you can download and import the example workflow for this [here](#) (right-click and save)
+
+And you can try this query out in the JSONata Sandbox [here](https://try.jsonata.org/0fgzUvzPn), [here](https://try.jsonata.org/qCuwdNO4A) and [here](https://try.jsonata.org/feKqTd-W1)
+</Accordion>
+</AccordionGroup>
+
+### Get a list of all available values for a particular field
+
+For example you may wish to get all the possible values for 'title' in a 'staff' dataset:
+
+![get-available-values](/images/platform/automation-integration/advanced-use-cases/transforming-data/5ZbQ2vEONzRRT3FCUWBtdc_get-available-values.png)
+
+For this you could use the List Helpers 'Pluck' operation:
+
+<AccordionGroup>
+<Accordion title="List Helpers 'pluck'">
+![get-available-values-lh-pluck](/images/3SFc8ivhb2GbJEPxuZmQYD_get-available-values-lh-pluck.png)
+</Accordion>
+
+<Accordion title="Pluck unique values only">
+You will notice that using 'Pluck' on its own will return multiple results for each value.
+
+You can fix this by preceding it with List Helpers 'Get unique items by key':
+
+![get-unique-staff-by-title](/images/6FKl6l4946QgjGM7pewlZm_get-unique-staff-by-title.png)
+</Accordion>
+</AccordionGroup>
+
+Or you could use dot notation with the JSON Transformer:
+
+<AccordionGroup>
+<Accordion title="JSON transformer get values">
+We can retrieve the list of titles for each staff member using `staff.title:`
+
+![get-available-values-json-transformer](/images/8gr1YgwzAPtpxEP5t8AOz_get-available-values-json-transformer.png)
+</Accordion>
+
+<Accordion title="JSON Transformer get values (distinct)">
+You could also use the ['distinct' array function](https://docs.jsonata.org/array-functions#distinct) to remove duplicates from the list:
+
+![get-available-values-json-transformer-distinct](/images/5lkzO1vVLpyCHyDZvu3t37_get-available-values-json-transformer-distinct.png)
+</Accordion>
+
+<Accordion title="Playground and workflow links">
+To see how to implement this solution in Tray, you can download and import the example workflow for this [here](#) (right-click and save)
+
+And you can try this query out in the JSONata Sandbox [here](https://try.jsonata.org/v_XSfa-q1) 
+</Accordion>
+</AccordionGroup>
+
+## Formatting Data
+
+### Setting date format
+
+There may be times when you receive a date in a particular format, which is then not accepted by a service which you need to pass the date into.
+
+For example you may receive a date in the 'date' format:
+
+'Fri Aug 27 2021' (**ddd MMM DD YYY**)
+
+But the destination service only accepts it in the dateTime format:
+
+'2021-08-27T12:00:44.000+0000' (***yyyy-MM-ddTHH:mm:ss.SSS+/-HH:mm****)*
+
+In this case you may also need to set a dateTime range as dateTime is a specific time of day.
+
+The example below shows how to get all Salesforce opportunities created on a particular date:
+
+<AccordionGroup>
+<Accordion title="1 - receive date">
+![new-opportunities-created](/images/6HYCtJD63UDedH7LG7QchI_new-ooportunities-created.png)
+</Accordion>
+
+<Accordion title="2 - get start of day">
+![get-start-of-day](/images/4MvMRncG6Tg72aSdUQqb6q_get-start-of-day.png)
+</Accordion>
+
+<Accordion title="3 - get start of next day">
+![get-next-day](/images/5LhUtOfVuAbSiZPgNmKXwe_get-next-day.png)
+</Accordion>
+
+<Accordion title="4 - set date range">
+When adding the dates to the service query, we need to set the date range:
+
+- 'Greater than or equal to' the start of the first day
+- 'Less than' the start of the second day
+
+![set-date-range](/images/4jKT8iPMYYymfKmpvhGGEc_set-date-range.png)
+</Accordion>
+</AccordionGroup>
+
+### Working with Unix timestamps
+
+When working with Unix timestamps, there are some very quick and easy functions you can use with the JSON transformer:
+
+<AccordionGroup>
+<Accordion title="Get Unix timestamp for now">
+Try this query [here](https://try.jsonata.org/xLLlstwCR)
+
+You can use the `$toMillis` and `$now` functions to obtain the current Unix timestamp:
+
+```json
+{
+"unixTimeStamp":$toMillis($now())
+}
+```
+
+This will return the Unix timestamp:
+
+![jsonata-unix-timestamp-now](/images/38bFKaHhq8kuXOJtlSPnEZ_jsonata-unix-timestamp-now.png)
+</Accordion>
+
+<Accordion title="Get Unix timestamp +/- 10 mins">
+As above, you can use the `$toMillis` and `$now` functions to obtain the current Unix timestamp.
+
+You can then add -600000 or +600000 to get the timestamp for 10 minutes before or after the current timestamp:
+
+```json
+{
+"tenMinutesBefore": $toMillis($now())-600000,
+"tenMinutesAfter": $toMillis($now())+600000
+}
+```
+
+![jsonata-unix-10-mins](/images/64F55zrd6stsIJ6cFeZwEx_jsonata-unix-10-mins.png)
+</Accordion>
+
+<Accordion title="Get unix timestamp +/- 1hr +/- 1 day +/- 1 week">
+```json
+{
+"oneHourBefore": $toMillis($now())-3600000,
+"oneHourAfter": $toMillis($now())+3600000,
+"oneDayBefore": $toMillis($now())-86400000,
+"oneDayAfter": $toMillis($now())+86400000,
+"oneWeekBefore": $toMillis($now())-604800000,
+"oneWeekAfter": $toMillis($now())-604800000
+}
+```
+</Accordion>
+
+<Accordion title="Note on using timestamp functions in your workflows">
+When using the JSON transformer `$now()` function, it is not necessary to specify any input data in the JSONData field.
+
+You can simply wrap the function in `{ }`:
+
+![jsonata-timestamps-in-workflow-no-inputs](/images/2fgrJZYfI1ZY2soADXuUWZ_jsonata-timestamps-in-workflow-no-inputs.png)
+</Accordion>
+</AccordionGroup>
+
+### Transform one field in each object
+
+When you have an array of data you may need to perform a transformation such as the following where you have to convert SKU from a string to a number:
+
+![sku-string-to-int](/images/platform/automation-integration/advanced-use-cases/transforming-data/xCqa97pai0OCdTVTu0USB_sku-string-to-int.png)
+
+This can be done using the Text Helpers connector in combination with a Loop, Object Helpers and Data Storage (please download and import the [sample project](#) to check all step settings and setup):
+
+<AccordionGroup>
+<Accordion title="Change type with text helper">
+![sku-loop-change-type](/images/5yckkdkDYyurAspTxV7pN2_sku-loop-change-type.png)
+</Accordion>
+</AccordionGroup>
+
+Or could be done using the JSON transformer:
+
+<AccordionGroup>
+<Accordion title="JSON transformer 'transform' operator">
+We can make use of the [JSONata transform operator](https://docs.jsonata.org/other-operators#-------transform) with a query like this:
+
+`Products ~> | $ | {'SKU': $number(SKU)} |`
+
+![change-type-json-transformer](/images/5uZ8UqQQ6Z7SOMC946lKfZ_change-type-json-transformer.png)
+
+This will return a simple unnamed array.
+
+If needed we could keep the name of the original array by extending the query:
+
+![jsonata-transform-playground-extended](/images/4XWoso374wv0xXVNspSDrQ_jsonata-transform-playground-extended.png)
+
+<br/>
+</Accordion>
+
+<Accordion title="Playground and workflow links">
+To see how to implement the above solutions in Tray, you can download and import the example workflow for this [here](#) (right-click and save)
+
+And you can try the queries out in the JSONata Sandbox [here](https://try.jsonata.org/IS3Jshw6-) and [here](https://try.jsonata.org/eLhy_yJ5A) 
+</Accordion>
+</AccordionGroup>
+
+## Mapping Data
+
+### Joining fields/values for each item
+
+For example you may wish to concatenate 'first_name' and 'last_name' to get 'full_name'
+
+![join-values-together](/images/platform/automation-integration/advanced-use-cases/transforming-data/2o6bgnnKSRXWI2AmHvBOoZ_join-values-together.png)
+
+For this you could use the Loop Connector and Data Storage 'Append to list' operation:
+
+<AccordionGroup>
+<Accordion title="1 - Loop and append to list">
+When using 'Append to list':
+
+- 'Key' is the name you want to give the list e.g. 'staff' or 'amended_staff_list'
+- 'Value' can be set as an object
+- 'full_name' is a string which uses 'interpolation' to concatenate 'first_name' and 'last_name'
+
+![join-values-together-loop-append-to-list](/images/4cmPYoNiF9zud3RYBiZ1uZ_join-values-together-loop-append-to-list.png)
+</Accordion>
+
+<Accordion title="2 - Get list">
+Once the loop has completed, you can get the list for use downstream:
+
+![join-values-together-get-list](/images/4kFdM9T1ah2e6T3mgxp7h6_join-values-together-get-list.png)
+</Accordion>
+</AccordionGroup>
+
+Or you could use the JSON Transformer '&' operator:
+
+<AccordionGroup>
+<Accordion title="JSON transformer '&' operator">
+The following JSONata script could be used to achieve the necessary concatenation:
+
+```json
+staff.{
+  "full_name": first_name & ' ' & last_name,
+  "email": email,
+  "title": title
+  }
+```
+
+![join-values-together-json-transformer](/images/6pfxLNmHtJobH77rAgX9kD_join-values-together-json-transformer.png)
+</Accordion>
+</AccordionGroup>
+
+### Simple field mapping
+
+![simple-map--fields](/images/platform/automation-integration/advanced-use-cases/transforming-data/64PRVYNdUwvbb2O6qQcAjO_simple-map--fields.png)
+
+For this you could use the Loop Connector and Data Storage 'Append to list' operation:
+
+<AccordionGroup>
+<Accordion title="1 - Loop and append to list">
+![simple-map-fields](/images/4wGBzrpFnbdKRzJw2yzmu_simple-map-fields.png)
+</Accordion>
+
+<Accordion title="2 - Get list">
+Once the loop has completed, you can get the list for use downstream:
+
+![simple-map-fields-get-value](/images/51B7ouIeMVOk0YuabUKhgv_simple-map-fields-get-value.png)
+</Accordion>
+</AccordionGroup>
+
+Or you could use the JSON Transformer:
+
+<AccordionGroup>
+<Accordion title="JSON Transformer dot notation mapping">
+```json
+staff.{
+    "FirstName": first_name,
+    "LastName": last_name,
+    "Email": email,
+    "JobTitle": title
+    }
+```
+
+![simple-map-fields-json-transformer](/images/6yEqtIBjNa8Biz4qJu7KHD_simple-map-fields-json-transformer.png)
+</Accordion>
+</AccordionGroup>
+
+### Simple value mapping
+
+There may be times when you need to map certain values, as per the following example where you want to map all American states to 'US' and all European countries to 'Europe':
+
+![simple-map-values](/images/platform/automation-integration/advanced-use-cases/transforming-data/40A9lvxCGWepOmjkPwThn5_simple-map-values.png)
+
+You could do this with the Data Mapper:
+
+<AccordionGroup>
+<Accordion title="Data mapper">
+![simple-map-values-data-mapper](/images/5AyvImXa3yjNTkY8QVn8vx_simple-map-values-data-mapper.png)
+</Accordion>
+</AccordionGroup>
+
+Or using the JSON transformer:
+
+<AccordionGroup>
+<Accordion title="1 - create lookup tables">
+First you can create lookup tables for your mappings.
+
+For the US:
+
+![lookup-table-us-states](/images/3egD3Whf5td0RIC5LDJD6e_lookup-table-us-states.png)
+
+And for Europe:
+
+![lookup-table-european-countries](/images/1ZGYVPSAQyh5OPHFxPTo2G_lookup-table-european-countries.png)
+</Accordion>
+
+<Accordion title="2 - JSON Transformer script">
+And then reference these in the JSON transformer:
+
+![simple-map-values-jsonata-script](/images/1iDSbFwgy2gvamz61yPXoS_simple-map-values-jsonata-query.png)
+
+If you wanted to also map the 'location' field to another field such as 'region' you could adjust the script like so:
+
+```json
+staff.{
+  "first_name": first_name,
+  "last_name": last_name,
+  "email": email,
+  "region": (location in $$.states) ? "US" 
+  : ((location in $$.europeCountries) ? "Europe")
+}
+```
+</Accordion>
+</AccordionGroup>
+
+## Enriching data
+
+### Merge two datasets
+
+You may need to merge two datasets which contain information about the same entities, such as:
+
+![merge-datasets](/images/platform/automation-integration/advanced-use-cases/transforming-data/61dKDEZ7U37KSfvdczM3Q2_merge-datasets.png)
+
+This can be done using the JSON transformer 'merge' function:
+
+<AccordionGroup>
+<Accordion title="JSON transformer merge">
+![merge-datasets-json-transformer](/images/39egHvPIkUOBpeWOsQUKck_merge-datasets-json-transformer.png)
+</Accordion>
+</AccordionGroup>
+
+## Structuring data
+
+### Flattening nested data (single object)
+
+Often services return data in a very complex 'nested' format.
+
+You may need to 'flatten' this data into a single layer contained within one object, in order to send to another service, or to make the data more accessible to later steps in your workflow:
+
+![tidy-to-simple-object](/images/platform/automation-integration/advanced-use-cases/transforming-data/NlrBoHOJjpHXfp8tedz2x_tidy-to-simple-object.png)
+
+You could achieve this with the JSON transformer:
+
+<AccordionGroup>
+<Accordion title="JSON transformer dot notation">
+This can be achieved with a JSONata query such as:
+
+```js
+data.{
+        "Description": records.Campaign.Description,
+        "EndDate": records.Campaign.EndDate,
+        "Event_Platform_ID": records.Campaign.Event_Platform_ID__c,
+        "IsActive": records.Campaign.IsActive,
+        "Is_recurring": records.Campaign.Is_recurring__c,
+        "Campaign_Name": records.Campaign.Name,
+        "Offer_Type": records.Campaign.Offer_Type__c,
+        "OwnerId": records.Campaign.OwnerId,
+        "StartDate": records.Campaign.StartDate,
+        "Status": records.Campaign.Status,
+        "URL": records.Campaign.URL__c,
+        "Webinar_End_Time": records.Campaign.Webinar_End_Time__c,
+        "Webinar_Platform": records.Campaign.Webinar_Platform__c,
+        "Webinar_Start_Time": records.Campaign.Webinar_Start_Time__c,
+        "Alternative_Host": records.Campaign.Alternative_Host__c,
+        "Webinar_Name": records.Campaign.Webinar_Name__c,
+        "Recording_Link": records.Campaign.Recording_Link__c,
+        "Registration_Link": records.Campaign.Registration_Link__c
+    }
+```
+</Accordion>
+</AccordionGroup>
+
+### Flattening nested data (list)
+
+When sending multiple items of data in lists, some services, particularly SQL databases, require data to be sent in a 'flat' format.
+
+So you may have to carry out a transformation such as the following:
+
+![flatten-data](/images/platform/automation-integration/advanced-use-cases/transforming-data/6TnuFdX2QLkCQz0r6OStwf_flatten-data.png)
+
+You could achieve this with the Data Mapper:
+
+<AccordionGroup>
+<Accordion title="Data mapper 'map objects'">
+You can use dot notation to map nested objects using the data mapper:
+
+![flatten-data-data-mapper](/images/3mZkMpv3OpeltDbiqb1lKo_flatten-data-data-mapper.png)
+</Accordion>
+</AccordionGroup>
+
+Or with the JSON transformer:
+
+<AccordionGroup>
+<Accordion title="JSON transformer dot notation">
+This can also be achieved with a JSON transformer script such as:
+
+```json
+staff.{
+    "FirstName": first_name,
+    "LastName": last_name,
+    "Email": email,
+    "country": location.country,
+    "branch": location.branch,
+    "department": location.department
+    }
+```
+
+![flatten-data-json-transformer](/images/76CvecjZwGLHoTCIGcal8H_flatten-data-json-transformer.png)
+</Accordion>
+</AccordionGroup>
+
+### Satisfying input schema
+
+A lot of services have specific input schema requirements - especially for running batch updates.
+
+For example for the 'batch update' operation, Salesforce would require a transformation such as the following:
+
+![satisfy-input-schema](/images/platform/automation-integration/advanced-use-cases/transforming-data/3jeL9caJMNwcSypqH72d3B_satisfy-input-schema.png)
+
+<Info>
+This example shows you how to 'hardcode' the fields to be dealt with in your Salesforce payload.
+
+Please see the [**<u>Satisfying input schema (changing payloads)</u>**](#satisfying-input-schema-changing-payloads) example below for a more advanced implementation which automatically picks up the fields present in your payload.
+</Info>
+
+You could solve this by using the Loop Connector and Data storage:
+
+<AccordionGroup>
+<Accordion title="1 - Loop and append to list">
+Here you can set 'value' as an object which exactly matches the structure required for each object in the input schema:
+
+![satisfy-input-schema-loop-and-append-to-list](/images/5ha9TUmmmEyMuXNipvPjtu_satisfy-input-schema-loop-and-append-to-list.png)
+</Accordion>
+
+<Accordion title="2 - Get list and batch update">
+![get-list-batch-update](/images/2pfk9OSbfNf8Or3UgKfM1l_get-list-batch-update.png)
+</Accordion>
+
+<Accordion title="Workflow link">
+You can download and import the example workflow for this [here](#) (right-click and save)
+</Accordion>
+</AccordionGroup>
+
+Or you could use the JSON transformer dot notation:
+
+<AccordionGroup>
+<Accordion title="JSON transformer dot notation">
+We can use a JSONata script such as the following to specify the exact requirements:
+
+```json
+data.{
+   "fields":[
+       {
+           "value": LastName,
+           "key":  "LastName"
+       },
+       {
+           "value": Company,
+           "key": "Company"
+       },
+       {
+           "value": Email,
+           "key": "Email"
+       }
+   ],
+   "object_id": object_id
+   }
+```
+
+![satisfy-input-schema-json-transformer](/images/abhN932hUqMplMOfCmGMo_satisfy-input-schema-json-transformer.png)
+</Accordion>
+
+<Accordion title="Workflow and playground link">
+You can download and import the example workflow for this [here](#) (right-click and save)
+
+And you can try this query out in the JSONata Sandbox [here](https://try.jsonata.org/mQb1jc3Nf)
+</Accordion>
+</AccordionGroup>
+
+### Sending payloads to SQL DBs
+
+Generally speaking you will need to 'flatten' data in order to send to SQL DBs, as in the examples given above.
+
+There may be occasions when you receive payloads of data where the same fields are not always present.
+
+As per the example below where **some staff members have location data** while others don't, and **some have a title** and others don't:
+
+![simple-changing-payload](/images/platform/automation-integration/advanced-use-cases/transforming-data/1178R2YJ9Xca6Qg8YBOb6S_changing-payload.png)
+
+When you need to send this data to a SQL database this will often present no issue, as your tables will be correctly set up to handle nullable values.
+
+However, you will need to carry out a transformation if either of the following is the case:
+
+- The **names of the fields are not the same** as they are in your destination DB
+- There are some **nested values** within the data
+
+In this case you can use the above dot notation methods explained in 'Flattening nested data'.
+
+You can simply list out all of the potential mappings using the Data Mapper:
+
+<AccordionGroup>
+<Accordion title="Data mapper list all potential mappings">
+![changing-payload-data-mapper](/images/9wK9DOuWHFUqpVHAnUK26_changing-payload-data-mapper.png)
+</Accordion>
+</AccordionGroup>
+
+Or using the JSON transformer:
+
+<AccordionGroup>
+<Accordion title="JSON transformer list all potential mappings">
+![changing-payload-json-transformer](/images/3ZiDsL4TlL3Jkc8cNJ57jG_changing-payload-json-transformer.png)
+</Accordion>
+</AccordionGroup>
+
+### <br/>Delete one field in each object
+
+When you have an array of data you may need to perform a transformation such as the following where you have to delete the 'Description' from each object:
+
+![transform-delete-function](/images/platform/automation-integration/advanced-use-cases/transforming-data/363KNmGqhpz0lQcCgOssB3_transform-delete-function.png)
+
+This can be done using the JSON transformer:
+
+<AccordionGroup>
+<Accordion title="JSON transformer transform and delete function">
+You can test this query [here](https://try.jsonata.org/A9llMFdZ_)
+
+We can make use of the [JSONata transform operator](https://docs.jsonata.org/other-operators#-------transform) with a query like this:
+
+`data ~> | Products | {}, ['Description'] |`
+
+![transform-delete-function-sandbox](/images/2IO29EoUBEMoLVdkPV1gJm_transform-delete-function-sandbox.png)
+</Accordion>
+</AccordionGroup>
+
+### Add (zip) extra fields into each object
+
+In order to satisfy input requirements for certain services you may need to add extra fields to each object, such as the following example when working with Slack modals:
+
+![zip-extra-fields](/images/platform/automation-integration/advanced-use-cases/transforming-data/1FQum4F3k3mqENbx0kwzLw_zip-extra-fields.png)
+
+Please see the following video for a detailed walkthrough of this use case:
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/XSwE54is_wo" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+## <br/>Managing dynamic data (Advanced)
+
+### Satisfying input schema (changing payloads)
+
+The above [Satisfying input schema](#satisfying-input-schema) example shows how to restructure a Salesforce payload when you know exactly what fields are coming through.
+
+However there may be times when the fields which come through are not always the same, or you have made an adjustment to the list of fields. 
+
+The following screenshot shows a very simple example where 'Phone' is present in one payload but not in another:
+
+![sfdc-dynamic-input-schema](/images/platform/automation-integration/advanced-use-cases/transforming-data/1es53HlmnUuBt9AxlyCk7M_sfdc-dynamic-input-schema.png)
+
+We can take care of this using JSONata dot notation and a few built-in functions:
+
+<AccordionGroup>
+<Accordion title="1 - move 'object_id' to top layer and 'spread' fields">
+We can use the following script to create the first array:
+
+```json
+(
+$firstArray := $.    
+    {
+    "object_id": object_id,
+    "fields": ([$ ~> |$|{}, ['object_id']|]) ~> $spread()    
+    };
+
+)
+```
+
+As you can see this moves `object_id` 'up' to the top layer.
+
+It also removes `object_id` from the nested fields with `([$ ~> |$|{}, ['object_id']|])` 
+
+This is a [JSONata transform operator](https://docs.jsonata.org/other-operators#-------transform) including a delete script.
+
+The result of this is passed to a `$spread()` function which separates the fields into an array of individual objects.
+
+As you can see the output is nearly there:
+
+![jsonata-sfdc-dynamic-input-first-array](/images/3trtiFviOyscVWlhzoZlgD_jsonata-sfdc-dynamic-input-first-array.png)
+</Accordion>
+
+<Accordion title="2 - create key / value pairs">
+The final thing we need to do is take the result of the first array and create a second one which separates each field into a key / value pair:
+
+```json
+$secondArray := $firstArray.
+{
+"object_id": object_id,
+"fields": fields.
+      {
+      "key": $keys($),
+      "value": $lookup($keys($))    
+      }
+}
+```
+
+For each single field object in the array this uses `$keys()` and `$lookup()` to create the key / value pairs.
+
+The complete script and correct final result:
+
+![jsonata-sfdc-dynamic-input-second-array](/images/OoHKS1kNHD2NkNo2jXfx3_jsonata-sfdc-dynamic-input-second-array.png)
+</Accordion>
+
+<Accordion title="Project and playground links">
+To see how to implement this solution in Tray, including the best practice of using a callable workflow for data processing, you can download and import the example project for this [here](#) (right-click and save)
+
+And you can try this query out in the JSONata Sandbox [here](https://try.jsonata.org/V2inXsg7v)
+</Accordion>
+</AccordionGroup>

@@ -1,0 +1,324 @@
+---
+title: "Streaming logs to external systems"
+description: "It is possible to enable the streaming of workflow logs to an external endpoint. This means you could use a system such as Datadog, Sentry, Redshift, New Relic or Kibana in order to display statistics in a meaningful dashboard"
+---
+
+<Info>
+This feature is available with the following packages:
+
+- Team (as an optional add-on)
+- Enterprise
+</Info>
+
+## Introduction
+
+The workflow logs described in the previous page in this section are a powerful tool to enable seeing the context of current & past runs for a given workflow. This can be vital in providing key insights into the health of given workflows.
+
+It is also possible to enable the streaming of workflow logs information to an external endpoint. This means you could use a system such as Datadog, Sentry, Redshift, New Relic or Kibana in order to conduct further analysis and display statistics in a meaningful dashboard, as is offered by these services.
+
+This opens up all sorts of possibilities in terms of what you can do with filtering and visualizing your logs, to help identify patterns of success and failure, time taken and processing efficiency, across workflows and individual connectors (both third-party service and core/helpers), as illustrated by the following example dashboard:
+
+The following shows an example of a graphic dashboard you could render with filters of log data:
+
+![datadog-example-graphs](/images/platform/enterprise-core/logs-debugging/log-streaming/15656c55-16e73635_datadog-example-graphs.png)
+
+And the following shows an example Datadog dashboard with a basic list of events and specific columns:
+
+![datadog-dashboard-1](/images/platform/enterprise-core/logs-debugging/log-streaming/15656c55-d50578ad_datadog-dashboard-1.png)
+
+And an individual event:
+
+![datadog2](/images/platform/enterprise-core/logs-debugging/log-streaming/15656c55-2125ed27_datadog2.png)
+
+## Log event types
+
+There are three main log event types in Tray:
+
+- [Execution](#the-execution-event-type)
+- [Step](#the-step-event-type)
+- [Audit](#the-audit-event-type)
+
+<Info>
+Data payloads are subject to change with subsequent releases
+</Info>
+
+## The 'Execution' event type
+
+An **Execution** event gives the details on the status of a **workflow run**. A key piece of info here being `eventType` which can be: `created | started | retrying | failed | created_failed | manually_retried | successful | terminated`
+
+### Execution payload format
+
+The execution log payload format is:
+
+```json
+{
+  "header": {
+    "payloadSize": 773,
+    "version": 1
+  },
+  "logType": "execution_event",
+  "eventType": "<created | started | retrying | failed | created_failed | manually_retried | successful | terminated>",
+  "created": "<iso timestamp>",
+  "executionCreated": "<iso timestamp>",
+  "executionId": "<uuid>",
+  "workflowId": "<uuid>",
+  "organizationId": "<uuid>",
+  // fields present in case of error
+  "errorMessage": "<string | undefined>",
+  "errorStepName": "<string | undefined>",
+  "errorStepTitle": "<string | undefined>",
+  "errorId": "<uuid | undefined>",
+  "errorType": "<internal | input | connector | external>"
+}
+```
+
+### Execution example payload
+
+And the following screenshot shows an example execution log payload:
+
+![execution-payload-example](/images/platform/enterprise-core/logs-debugging/log-streaming/15656c55-fb32960c_execution-payload-example.png)
+
+### Execution payload format (including Solution Instances)[​](https://docs-restructure-tray.vercel.app/docs/logs-and-monitoring/streaming-logs-to-external-systems#execution-payload-format-including-solution-instances)
+
+For Enterprise package customers using the Embedded bundle to build integrations for multiple End Users, the Execution event (which gives details on the status of a workflow run) includes `solutionId`, `solutionInstanceId` and `sourceWorkflowId`:
+
+```json
+{
+ "header": {
+  "payloadSize": 773,
+  "version": 1
+ },
+ "logType": "execution_event",
+ "eventType": "<created | started | retrying | failed | created_failed | manually_retried | successful | terminated>",
+ "created": "<iso timestamp>",
+ "executionCreated": "<iso timestamp>",
+ "executionId": "<uuid>",
+ "workflowId": "<uuid>",
+ "organizationId": "<uuid>",
+ // embedded only
+ "solutionId": "<uuid>",
+ "solutionInstanceId": "<uuid>",
+ "sourceWorkflowId": "<uuid>",
+ // fields present in case of error
+ "errorMessage": "<string | undefined>",
+ "errorStepName": "<string | undefined>",
+ "errorStepTitle": "<string | undefined>",
+ "errorId": "<uuid | undefined>",
+ "errorType": "<internal | input | connector | external>"
+}
+```
+
+## The 'Step' event type
+
+A **Step** event gives details about the status of a specific step in a workflow. A key piece of info here being `stepState` which can be `running | failure | success`
+
+It can be of **logType** 'input' or 'output' (as explained in the [Intro to Logs and Debugging](/platform/troubleshooting/logs-and-debugging/))
+
+### Step payload format
+
+The standard step payload format is:
+
+```json
+{
+ "header": {
+  "payloadSize": 773,
+  "version": 1
+ },
+ "logType": "<step_input | step_output>",
+ "created": "<iso timestamp>",
+ "executionCreated": "<iso timestamp>",
+ "executionId": "<uuid>",
+ "workflowId": "<uuid>",
+ "organizationId": "<uuid>",
+ "stepName": "<string>",
+ "stepState": "<running | failure | success>",
+ "connectorName": "<string>",
+ "connectorVersion": "<string>",
+ "operation": "<string>",
+ "executionStepUuid": "<uuid>",
+ "correlationId": "<uuid>",
+ // if enabled
+ "data": "<object>",
+ // fields present in case of error
+ "errorMessage": "<string | undefined>",
+ "errorId": "<uuid | undefined>",
+ "errorType": "<internal | input | connector | external>"
+}
+```
+
+### Step payload example
+
+And the following screenshot shows an example step log **step_input** payload:
+
+![step-payload-example](/images/platform/enterprise-core/logs-debugging/log-streaming/15656c55-aecd0af8_step-payload-example.png)
+
+And a **step_output** payload:
+
+![step-payload-exaple-output](/images/platform/enterprise-core/logs-debugging/log-streaming/15656c55-f161ac5a_step-payload-exaple-output.png)
+
+### Enhanced error alerting payloads
+
+Note that it is possible to turn on enhanced payloads for your error handling workflows.
+
+This will mean that payloads coming through to your workflows using the [Alerting Trigger](/connectors/triggers/alerting-trigger) will contain more detailed information on workflow errors, as they will have parsed the information directly from the third-party service which returned the error.
+
+Please see our [Error Handling documentation](/platform/troubleshooting/error-handling/#the-stop-workflow-default-option) for full details.
+
+## The 'Audit' event type
+
+Audit events inside of Tray are a powerful tool to be able to see the user and system generated actions performed on Workflows, Users and Authentications. Context given from these events can be vital to providing key insights into the usage of the Tray platform and also to provide a historical trail of user or system actioned events that took place in the Tray platform.
+
+This allows customers to run their own real time analysis using the tooling of their choice and also have a copy of the logs for batch analysis later and also monitor the usage of the platform for auditing purposes.
+
+### Audit payload format
+
+Each audit event has slightly different details, but the following is a sample format.
+
+```json
+{
+"eventType": "string",
+"details": {"stepName": "string", "workflowId": "<uuid>"},
+"organizationId": "<uuid>",
+"timestamp": "<iso datetime>",
+"impersonatedBy": {"userId": "string", "email": "string"},
+"calledBy": {"userId": "string", "email": "string"}
+}
+```
+
+### Audit payload example
+
+And the following screenshot shows an example audit log payload:
+
+![audit-payload-example](/images/platform/enterprise-core/logs-debugging/log-streaming/15656c55-ae4c54d9_audit-payload-example.png)
+
+Please see the appendix below for a table which gives a list of all the Audit events available.
+
+### Audit payload example (including Solution Instances)[​](https://docs-restructure-tray.vercel.app/docs/logs-and-monitoring/streaming-logs-to-external-systems#audit-payload-example-including-solution-instances)
+
+For Enterprise customers with the Embedded bundle, there are several Embedded-specific Audit event types.
+
+These are `solutionInstanceWorkflowCreated`, `solutionInstanceWorkflowUpdated` and `solutionInstanceWorkflowDeleted`
+
+The following screenshot shows an example log for `solutionInstanceWorkflowCreated`:
+
+![instance-created-datadog](/images/platform/enterprise-core/logs-debugging/log-streaming/5wVPQN0FJ7Z1NNYlxpfx9f_instance-created-datadog.png)
+
+<br/>
+
+## Saving filters in your dashboard
+
+The external service you are streaming your logs to will likely have the ability to filter data according to your needs.
+
+There are obviously huge possibilities in terms of what filtering can be done. But some ways in which you might wish to filter are:
+
+- By **connectorName** so you can have a dashboard which shows all information on how Salesforce connectors are running across all your workflows
+- By **stepState = retrying** to get a view on all **step** events which are currently retrying
+- By **eventType = failed** to monitor failing workflows
+
+## Setting up logs streaming
+
+To begin the setup process please either:
+
+- Contact your **account manager **
+
+  Or
+
+- Click on **'Submit a ticket'** in the 'Getting Help' section of the builder:
+
+![submit-a-ticket](/images/platform/enterprise-core/logs-debugging/log-streaming/VEaTweQjuHNv9gBRmImMW_submit-a-ticket.png)
+
+When creating a ticket you will be presented with the Log Streaming form:
+
+![log-streaming-form](/images/platform/enterprise-core/logs-debugging/log-streaming/5xxZR36qvGhXMqtuSFCy1y_log-streaming-form.png)
+
+The following table lists the basic required information we need to begin the setup process
+
+| Requirement | Description | Example |
+| :-- | :-: | :-: |
+| Secure Endpoint (https) | URL that we'll be streaming the given log information to (This might not be required - i.e. when an API key is needed instead) | `https://customer.logservice.endpoint/` |
+| API key | Some services will require an API key |  |
+| Organization or Email(s) to be enabled on | The Username(s) or Organization/Domain to enable log streaming on | Email(s): `support@acme.com` Organization: "acme.com" |
+| Content-Type of Requests | "applicaton/json" or "application/ndjson" | application/json |
+| Log Type | "Execution", "step logs" , or "everything" | Step Logs |
+
+
+Once set up you can then validate that your service is receiving the correct log types.
+
+<Info>
+For whitelisting purposes Tray will be sending logs from the following IPs
+
+- **52.8.7.130**
+- **18.144.153.142**
+</Info>
+
+## Example setup - Datadog
+
+In order to set up Datadog for logs streaming you will need to go to the 'Integrations' section of your dashboard to retrieve both your API key and Application Key which you have configured for use with Tray:
+
+![datadog-api-keys](/images/platform/enterprise-core/logs-debugging/log-streaming/15656c55-8a821350_datadog-api-keys-2.png)
+
+Then simply provide us with your Organization/Email, Content type and Logs Type info as above
+
+## Questions & Feedback
+
+In order to improve this feature, we'd like to hear from your experience in using Logs Streaming. To do so, navigate to the "Product Feedback" section of your Tray dashboard and mention **'Logs Streaming'** in your message.
+
+## Appendix - Table of Audit log event types
+
+<Info>
+There are several Embedded-specific **Audit** events. Refer this page [here](#).
+</Info>
+
+| Category                | Name                              |
+| ----------------------- | --------------------------------- |
+| Authentication          | AuthenticationCreated             |
+| Authentication          | AuthenticationUpdated             |
+| Authentication          | AuthenticationDeleted             |
+| Authentication          | AuthenticationRefreshFailed       |
+| Authentication          | AuthenticationRefreshSuccessful   |
+| Authentication          | AuthenticationCreationFailed      |
+| Authentication          | AuthenticationSharingChanged      |
+| Authentication          | AuthenticationUsed                |
+| Authentication/Workflow | ServiceChanged                    |
+| Authentication/Workflow | ServiceCreated                    |
+| Organization            | OrganizationUserInvited           |
+| Organization            | OrganizationDetailsUpdated        |
+| Organization            | OrganizationSettingsUpdated       |
+| User                    | UserInternalRoleChanged           |
+| User                    | 2FALoginFailed                    |
+| User                    | 2FADisabled                       |
+| User                    | 2FAEnabled                        |
+| User                    | UserLoginSucceeded                |
+| User                    | UserLoginFailed                   |
+| User                    | UserDeleted                       |
+| User                    | UserOrganizationRoleChanged       |
+| Workflow                | WorkflowUpdated                   |
+| Workflow                | WorkflowCreated                   |
+| Workflow                | WorkflowDeleted                   |
+| Workflow                | WorkflowViewed                    |
+| Workflow                | WorkflowTagsUpdated               |
+| Workflow                | WorkflowDisabled                  |
+| Workflow                | WorkflowStepTitleUpdated          |
+| Workflow                | WorkflowStepSettingsUpdated       |
+| Workflow                | WorkflowStepOperationUpdated      |
+| Workflow                | WorkflowStepAuthenticationSet     |
+| Workflow                | WorkflowAlertingWorkflowSet       |
+| Workflow                | WorkflowStepMoved                 |
+| Workflow                | WorkflowStepDescriptionRemoved    |
+| Workflow                | WorkflowDescriptionRemoved        |
+| Workflow                | WorkflowStepDeleted               |
+| Workflow                | WorkflowVersionRolledBack         |
+| Workflow                | WorkflowEnabled                   |
+| Workflow                | WorkflowStepCreated               |
+| Workflow                | WorkflowStepAuthenticationRemoved |
+| Workflow                | WorkflowStepDescriptionSet        |
+| Workflow                | WorkflowCloned                    |
+| Workflow                | WorkflowDescriptionSet            |
+| Workflow                | WorkflowAlertingWorkflowRemoved   |
+| Workflow                | WorkflowNameUpdated               |
+| Workflow                | WorkflowDebugLogViewed            |
+| Workflow                | WorkflowDetachedFromProject       |
+| Solution Instance | solutionInstanceWorkflowCreated |
+| Solution Instance | solutionInstanceWorkflowUpdated |
+| Solution Instance | solutionInstanceWorkflowDeleted |
+

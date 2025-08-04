@@ -1,0 +1,32 @@
+---
+title: "Disabling logs storage"
+description: "Also known as Ghost logging this feature allows customers to change the standard logs retention time and disable sharing logs data."
+---
+
+<Info>
+This feature is available to **Team** and **Enterprise** customers only
+</Info>
+
+## Overview
+
+Also known as **Ghost logging** this feature **allows customers to change the standard logs retention** **time and disable sharing logs data**.
+
+It is essentially a combination of "1 day data retention" and disabling the ability to send logs.
+
+Whenever a workflow is triggered it will generate logs for that particular run. **Depending on your account your logs will have a retention period of either 7 or 30 days - in both the workflow logs and Tray**. They store this data to allow workflow steps to use previous step outputs and for replaying or re-running workflow executions as and when need be.
+
+The **data retention period can be reduced to 1 day via an organization-wide setting**. Note that the actual amount of time the logs are held is completely up you.
+
+This will stop logs from being written into the server meaning they will not be visible in the workflow builder. However they will still be stored in Tray for as long as the data retention setting for the organisation i.e. for 1 day in this case.
+
+**Using this feature allows you to minimize the data that’s stored on Tray.**
+
+Reducing the retention of workflow logs or disabling it entirely can make troubleshooting workflows difficult. You can still take advantage of:
+
+<br/>- ****Error reporting****: By forwarding error reports to a separate workflow so they can be surfaced elsewhere (eg: slack/internal support ticket).
+
+- ****Log streaming****: Available regardless of your log retention period. This allows you to stream your workflow execution data to your own systems or SIEM so you can set your own retention period.
+
+<Info>
+This feature is automatically included when the HIPAA Compliance package is purchased
+</Info>

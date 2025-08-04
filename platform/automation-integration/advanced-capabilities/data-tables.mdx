@@ -1,0 +1,66 @@
+---
+title: "Data tables"
+description: "Data tables can be used to store data in a table format in order to enable such functionality as lookup tables"
+---
+
+## 
+
+**Data tables** can be used to store data in a table format in order to enable such functionality as **lookup tables**.
+
+![data-tables-project-list](/images/platform/automation-integration/advanced-capabilities/data-tables/si3GpRVCpOcjUg5CtYZ0o_Data_Table.png)
+
+## How to use data tables 
+
+- Go to the data tables tab in your project.
+- Add a data table (from scratch or import CSV)
+- Add / edit your data.
+- Create workflows which make use of the [Data tables connector](#) and its operations.
+
+<Warning>
+Please be sure to read the [note on updating column names](https://tray.io/documentation/connectors/core/data-tables/#updating-column-names) to make sure that you are able to properly access the output schema of your data tables
+</Warning>
+
+Please also note the following:<br/>
+
+- The current version of data tables cannot be accessed from within an end-user solution instance.
+- When exporting projects with data tables please remap the data table in the target workspace after importing
+
+## Storage capacity
+
+Please see the [Data tables connector page](https://tray.io/documentation/connectors/core/data-tables/#storage-capacity) for information on the storage capacity of the Data tables connector
+
+## Example: Basic Lookup table
+
+Below is an example of creating a simple lookup table. 
+
+In this example we have received a contact's details including the country they live in.
+
+The lookup table contains a list of countries and their regions so we can use it to add a region for the contact.
+
+![data-table-country-region-lookup](/images/platform/automation-integration/advanced-capabilities/data-tables/1mb2clgh1gDB7LPQ0LV2wt_data-table-country-region-lookup.png)
+
+1. As you can see from our source data we have a contact with a 'country' but no 'region':
+
+![data-tables-1-dummy-contact](/images/platform/automation-integration/advanced-capabilities/data-tables/1IecyJmT6t6scpramVKADu_data-tables-1-dummy-contact.png)
+
+2. So we use the **Data tables 'Lookup row' operation** to find which region matches their country:
+
+![data-tables-1-get-row-by-country](/images/platform/automation-integration/advanced-capabilities/data-tables/5XQfbaMEkxgQiXgr5Ow92L_data-tables-1-get-row-by-country.png)
+
+3. The final step then combines the fields from the original data source with the 'region' result from the Data tables step:
+
+![data-tables-1-create-contact-with-region](/images/platform/automation-integration/advanced-capabilities/data-tables/4aMUMMel5zA2EI9CyIONan_data-tables-1-create-contact-with-region.png)
+
+## Example: status updates
+
+In the following scenario we are using a data table to keep track of and update the status of orders:
+
+![orders-data-table](/images/platform/automation-integration/advanced-capabilities/data-tables/6x6n4VtIsVIKYjGDM6KR6B_orders-data-table.png)
+
+1. Receive webhook payload and lookup row:
+
+![lookup-row-by-orderid](/images/platform/automation-integration/advanced-capabilities/data-tables/70mYFUnL75jYKKWp0vv8iJ_lookup-row-by-orderid.png)
+
+2. Update status for matching row:
+
+![update-status](/images/platform/automation-integration/advanced-capabilities/data-tables/5fB93zVoECPwBaDFjZPwV3_update-status.png)

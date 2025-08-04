@@ -1,0 +1,24 @@
+---
+title: "ETL Overview"
+description: "Extract Transform Load (ETL) generally involves the transferral of data from one (or more) sources to another, including a certain amount of 'transformation' of the data so that it adheres to the required protocols of the destination system"
+---
+
+**Extract Transform Load (ETL)** generally involves the transferral of data from one (or more) sources to another, including a certain amount of 'transformation' of the data so that it adheres to the required protocols of the destination system.
+
+Some different types of ETL implementation are:
+
+- Extract data from a source, run a **simple transformation (e.g. set data type) in Tray**, then load to a database of your choice
+- Extract data from a source, store it in an intermediary (such as AWS EMR) which can act as a **staging environment which can perform more 'heavyweight' transformations**, then load to a database of your choice
+- Extract data from a source, load straight to a database of your choice, **then perform transformations directly in the new database environment** (this is more of an ELT implementation)
+
+Some **common SaaS sources** used in ELT are:
+
+- CRM systems e.g. [Salesforce](/connectors/service/salesforce/)
+- Automated marketing systems e.g. [Marketo](/connectors/service/marketo/), [Outreach](/connectors/service/outreach/)
+- HR systems (employee and payroll info etc.) e.g. [BambooHR](/connectors/service/bamboohr/)
+- Project management systems e.g. [Asana](/connectors/service/asana/), [Workfront](/connectors/service/workfront/)
+
+Most commonly the data is finally **loaded into databases / data warehouse solutions**, i.e.:
+
+- MySQL, PostgreSQL, MSSQL
+- BigQuery, Snowflake, Redshift

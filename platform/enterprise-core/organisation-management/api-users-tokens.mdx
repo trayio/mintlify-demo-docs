@@ -1,0 +1,140 @@
+---
+title: "Creating API tokens"
+description: "sgdgsdas"
+---
+
+## Basic management of API tokens
+
+### Roles and Permissions
+
+| **Role** | **Create / Delete Permissions** | **Usage Permissions** |
+| --- | --- | --- |
+| **Organization Admins** | Can create tokens for any workspaces | Can use tokens |
+| **Workspace Admins** | Can create tokens for the workspaces they administer if this feature is enabled by an Organization admin. | Can use tokens |
+| **Workspace Contributors** | Cannot create tokens | Can use tokens |
+| **Workspace Viewer** | Cannot create tokens | Can use tokens |
+
+### Administering API tokens
+
+Each API token is associated with an API user. Therefore, before creating a token, you need to create an API user.
+
+<Info>
+- API users and tokens must be created in shared workspaces. 
+- They cannot be created in Personal and Organization workspaces.
+</Info>
+
+Organization admins within the Organization workspace are responsible for creating users and tokens. They can generate tokens from the** Account settings**, selecting the appropriate workspace for user access.
+
+To do so navigate to Account Settings > Tokens > Create API user:
+
+<Warning>
+If you are not an admin, your organization admin can create a token for you. You can raise this request with your IT department, and they can assist you in obtaining one.
+</Warning>
+
+![create-api-user](/images/platform/enterprise-core/organisation-management/api-users-tokens/7zN2IhgE5ZW1j6zkTb4MmR_create-api-user.png)
+
+To create an API user, provide the following details:
+
+- **Name:** Choose a unique name for your API user.
+- **Organization Role:** Only organization owners/admins can choose/edit this role. For workspace admins, it defaults to Viewer.
+- **Workspace:** Select the specific workspace for which you want to create the token.
+- **Workspace Role:** Choose a suitable workspace role; assign either Contributor or Viewer. Post-creation, you can promote the user to an admin role if needed.
+
+Check the [Assets RBAC matrix](https://tray.io/documentation/tray-uac/governance/org-management/user-management-and-rbac/#assets-rbac-matrix) to understand User roles.
+
+![api-user-add-workspace](/images/platform/enterprise-core/organisation-management/api-users-tokens/4uaTF2PWpr1MQPZtpsykEY_create-user.png)
+
+Once you click the **Next** button, a new window will open for creating an API token. 
+
+Provide a suitable **Token name** and **set token expiration** period.
+
+<Info>
+Once the token expires, it will be automatically deleted and will no longer be available in the list.
+</Info>
+
+![api-user-create-token](/images/platform/enterprise-core/organisation-management/api-users-tokens/5IItkQgObUYjoni8XKXXBH_three 1.png)
+
+Make sure to copy and save the newly created token securely. 
+
+You will not be able to view the token again. 
+
+If you are an admin creating the token for an end user, be sure to save the token in a password vault and then share it with the user.
+
+![api-user-copy-gen-token](/images/platform/enterprise-core/organisation-management/api-users-tokens/6JmsLkFNpEPlEEoYq2Caom_api-user-copy-gen-token.png)
+
+On successful completion of the above steps, you will be able to see the user under the **API users** list. You can view the associated tokens using the link under **Active Tokens **or using the **View tokens** options.  
+
+<Info>
+Deletion of API users is restricted to Organization admins. When a user is deleted, all associated tokens will be automatically removed.
+</Info>
+
+![api-user-gen-api-user](/images/platform/enterprise-core/organisation-management/api-users-tokens/7icOjns34eQK16QVDzRbM9_api-user-gen-api-user.png)
+
+![api-user-gen-token](/images/platform/enterprise-core/organisation-management/api-users-tokens/2avYgcva68odravkX6gkGJ_api-user-gen-token.png)
+
+## Facilitating environment promotion
+
+API tokens are necessary to facilitate [environment promotion](https://tray.io/documentation/tray-uac/governance/environment-promotion/setting-up-your-environment/) within Tray. 
+
+Let's explore a scenario where you aim to export a project from Marketing-Development workspace and import it into Marketing-Production workspace programmatically using [Tray APIs](https://tray.io/documentation/tray-uac/governance/environment-promotion/exporting-importing-projects/#import--export-workflows-via-api).
+
+To achieve this you need to create an API token for each workspace. 
+
+![mark-dev-token](/images/platform/enterprise-core/organisation-management/api-users-tokens/4xI1u4nb350RLyu9nMVRBP_mark-dev-token.png)
+
+![mark-prod-token](/images/platform/enterprise-core/organisation-management/api-users-tokens/7CjVUpTp1NiAEOW64WD0dE_mark-prod-token.png)
+
+<Info>
+The API user must have a contributor or higher role to utilize the Import and Export Project APIs.
+</Info>
+
+Now, you can use the created API Tokens to [Export a project](https://developer.tray.io/openapi/embeddedapi/tag/projectMutations/#tag/projectMutations/operation/export-project) from the Marketing-Development workspace and [Import a Project](https://developer.tray.io/openapi/embeddedapi/tag/projectMutations/#tag/projectMutations/operation/import-project) to the Marketing-Production workspace.
+
+Note that users with the Viewer role cannot import projects, and you will receive the following error message:
+
+```json
+{
+    "data": null,
+    "errors": [
+        {
+            "message": "Something unexpected happened. If this problem persists, please contact support@tray.io.",
+            "path": [
+                "importProject"
+            ],
+            "locations": [
+                {
+                    "line": 2,
+                    "column": 3
+                }
+            ],
+            "extensions": {
+                "name": "PreconditionError",
+                "time_thrown": "2024-01-24T12:02:40.775Z",
+                "code": "internal_error"
+            }
+        }
+    ]
+}
+```
+
+## Generating tokens in shared workspaces
+
+<Warning>
+It is possible to allow workspace admins to generate tokens within shared workspaces themselves.
+
+Please note that this approach is generally not recommended - the more secure approach is to have an IT Org admin create tokens in the Org workspace and specify which shared workspace they are for.
+</Warning>
+
+### Enabling workspace admins to generate tokens
+
+If you choose to allow workspace admins to generate tokens, the setting needs enabled from the account settings page:
+
+![allow-workspace-admin](/images/platform/enterprise-core/organisation-management/api-users-tokens/3xo7TMM90tS7CTr15qk1xP_allow-workspace-admin.png)
+
+### Administering API tokens in shared workspaces
+
+Once enabled, workspace admins are able to manage tokens within shared workspaces:
+
+![worksapce-settings](/images/platform/enterprise-core/organisation-management/api-users-tokens/4Ht14jKlqLItIqWNldEa8S_worksapce-settings.png)
+
+## 

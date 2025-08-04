@@ -1,0 +1,85 @@
+---
+title: "Workflow step dependencies"
+description: "A visual aid that provides a quick overview of the relationships between your workflow steps. "
+---
+
+This is a visual aid that provides a quick overview of the relationships between your workflow steps. 
+
+There are three groups of relationships:
+
+#### 1. Step data source and destination relationship<br/>
+
+
+<table style="border: 0; margin-bottom: 40px;">
+  <tr>
+    <td style="vertical-align: middle; width: 150px;">
+      <img     src="https://images.ctfassets.net/p3dvvupz8xw4/1Lc9G68mLhQNxqmUhbJ28X/1b9643a5d98e9a04a2b5bbdfb2c81be7/Screenshot_2023-04-19_at_11.39.26.png" />
+    </td>
+    <td style="vertical-align: middle;">
+      <b>Data source</b>
+      <p>This highlights the source data of the currently selected step.
+It means that the currently selected step is using data from that step through jsonpath data mapping.</p></td>
+  </tr>
+    <tr>
+    <td style="vertical-align: middle; width: 150px;">
+      <img     src="https://images.ctfassets.net/p3dvvupz8xw4/1EO1SPyCa84QpUvELNxJfh/ac226d3fce29ca1cca1c910e2ded906e/Screenshot_2023-04-19_at_11.39.04.png" />
+    </td>
+    <td style="vertical-align: middle;">
+      <b>Data destination</b>
+      <p>This highlights the steps that use data from the currently selected step.<p></td>
+  </tr>
+</table>
+
+
+#### <br/><br/>2. Same storage key relationship<br/>
+
+
+<table style="border: 0; margin-bottom: 40px;">
+  <tr>
+    <td style="vertical-align: middle; width: 150px;">
+      <img     src="https://images.ctfassets.net/p3dvvupz8xw4/5WCal01LPXxT1AU10QagHd/889f272963d516832caacd1681ca01cc/Screenshot_2023-04-19_at_11.40.30.png" />
+    </td>
+    <td style="vertical-align: middle;">
+      <b>Same key</b>
+      <p>This means that the step is using the same data storage key as the currently selected step.</p></td>
+  </tr>
+</table>
+
+
+#### <br/>3. Break-loop belonging to a certain loop relationship
+
+
+<table style="border: 0; margin-bottom: 40px;">
+  <tr>
+    <td style="vertical-align: middle; width: 150px;">
+      <img     src="https://images.ctfassets.net/p3dvvupz8xw4/7ef6Xjg0Lhxp7SrshXk6NF/4225188aeb626e13ce476babf185ea70/Screenshot_2023-04-19_at_11.40.05.png" />
+    </td>
+    <td style="vertical-align: middle;">
+      <b>Break loop</b>
+      <p>This highlights the loop step associated with the currently selected break-loop step, and vice versa, it will highlight the break-loop step that is associated with the currently selected loop.</p></td>
+  </tr>
+</table>
+
+
+#### 
+
+### Examples
+
+In the below example:
+
+- The step 'Filter events' uses data from the trigger 'Get events'
+- The data is then pumped to 'Set events in storage' and Loop events (in other words 'Set events in storage' and 'Loop events' use data from 'Filter events')
+
+![data-source-destination](/images/platform/automation-integration/building-workflows/shortcuts/step-dependencies/7tDp2AAGap2prdBHE8M07q_data-source-destination.png)
+
+<br/>If we select another step from this workflow, 'Set events in storage', we see it uses the data from the 'Filter events' step. 
+
+Also, as a Storage step, it uses the same key as the 'Get events from storage' step (highlighted in green):
+
+![example-set-events-in-storage](/images/platform/automation-integration/building-workflows/shortcuts/step-dependencies/4jh6ewP1NXc4wglhgwBQfr_example-set-events-in-storage.png)
+
+If we select another step, the 'Break Loop' step, the Loop associated with this break-loop step gets highlighted in yellow. 
+
+This means that this is the Loop that will be exited when the Break Loop step will be encountered:
+
+![example-break-loop](/images/platform/automation-integration/building-workflows/shortcuts/step-dependencies/28qfP1Lk4RIIlKl3prVhbe_example-break-loop.png)

@@ -1,0 +1,26 @@
+---
+title: "Getting started"
+description: "Getting started (on-prem agent)"
+---
+
+## How the agent works
+
+![on-prem-architecture](/images/platform/connectivity/on-premise-systems/on-prem-agent/3HYgqfrdorB5W2F65zLWYg_on-prem-architecture.png)
+
+Once installed on your private infrastructure, Tray's on-prem agent creates a secure connection with Tray which allows Tray's connectors to communicate directly with your key services and databases.
+
+With a single agent, you have the ability to configure your connectors to interact with your resources through a secure connection and the agent will seamlessly redirect requests automatically.
+
+<Info>
+A key benefit of the on-prem agent is that the connector nodes inside the Tray On-Prem Network are dedicated resources and not shared with other users.
+</Info>
+
+When using the on-prem agent you do not need to open up your services to the internet - Tray authentications for your on-prem services can make use of your internal private IP address and port / proxy configurations, and you can shut down access to your public IP.
+
+For load-balancing and high availability, agents can be installed in groups.
+
+## OS Support
+
+The on-prem agent runs on Linux and Windows (64-bit Intel / AMD and ARM)
+
+The agent can be run on your own hardware or on any public cloud platform - AWS, Azure, GCP etc. and will run on any virtual or physical machine running any of the above OSes.

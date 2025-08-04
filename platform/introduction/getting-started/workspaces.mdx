@@ -1,0 +1,235 @@
+---
+title: "Workspaces and projects"
+description: "Workspaces can be used to divide your Organization into subsections. Projects are self contained and they contain key Tray building blocks such as workflows."
+---
+
+## Graphical overview
+
+![org-architecture](/images/platform/introduction/getting-started/workspaces/2EXITCtWOX69TsZpmydSwv_org-architecture.png)
+
+<Info>
+This page gives you an introduction to how workspaces and projects work in a Tray org.
+
+To gain a full understanding of how to effectively organize your workspaces and projects please read our section on environment promotion
+</Info>
+
+## What is a workspace?
+
+<Info>
+The number of workspaces you can have depends on your plan:
+
+Pro = 3 workspaces
+
+Team = 20
+
+Enterprise = unlimited
+</Info>
+
+Workspaces can be used to divide your Organization into subsections.
+
+When your Tray account is initially created access is granted to two default workspaces:
+
+- **Organization**: This workspace contains workflows and authentications that other members have shared with the entire organization
+- **Personal**: Every user has their own workspace accessible only to them
+
+![workspaces-personal-org](/images/platform/introduction/getting-started/workspaces/2DDOltBPkYCbpk7Mu2PQKR_Workspaces and projects.png)
+
+Additional Workspaces can be created and used to sub-divide your organization to however suits your business needs. For example by:
+
+- Company department (sales, marketing, HR etc.)
+- Project units
+- Teams
+- Implementation types (Data syncing, ETL etc.)
+
+### Creating workspaces[​](http://localhost:3000/docs/governance/org-management/workspaces-and-projects#creating-workspaces)
+
+**Within org settings **you can add new workspaces as per your organization requirements:
+
+![settings-add-workspace](/images/platform/introduction/getting-started/workspaces/5R5Eqq85r4RgUt6aDwwAQ_Workspaces and projects-1.png)
+
+### Setting workspace task limits[​](http://localhost:3000/docs/governance/org-management/workspaces-and-projects#setting-workspace-task-limits)
+
+It is possible to limit the number of tasks per month in any particular workspace.
+
+This allows you to identify particular workspaces as sandbox / test environments, and ensure that they do not significantly impact your monthly billing:
+
+![task-limits](/images/platform/introduction/getting-started/workspaces/2HtBT9yjIakUUYcUA6kK0Q_Workspaces and projects-3.png)
+
+When looking at Workspace details for any particular workspace this can be set in the 'Workspace task limit' box:
+
+![workspace-task-limit-box](/images/platform/introduction/getting-started/workspaces/1S39WimXiUhFnv29oPUP2f_Workspaces and projects-4.png)
+
+### Notes on setting workspace task limits[​](http://localhost:3000/docs/governance/org-management/workspaces-and-projects#notes-on-setting-workspace-task-limits)
+
+The usage is measured by the calendar month, not the billing month. Therefore, it does not sync with your billing date (e.g., the 15th of every month).
+
+Anyone who is an admin or owner of the organization can set the task limit. 
+
+Upon reaching a task limit, you will receive an email notification. An email will be sent when you reach 75% of your monthly task limit. 
+
+![workspace-tasks-limits](/images/platform/introduction/getting-started/workspaces/1hUkpTcfeqUtnCnz2xNRlV_Workspaces and projects-14(task-limit) 1.png)
+
+We will send at most one email per week until you reach 100% of your limit, after which we will send one email daily.
+
+![Workspaces and projects-15(task-limit) 1](/images/platform/introduction/getting-started/workspaces/4IiDfIVSgeCJs4ASGelsPI_Workspaces and projects-15(task-limit) 1.png)
+
+When the task limit is reached, workflows in progress will stop. This may result in potential data loss or corruption. If the task limit is reached during the execution of a workflow run, your workflow will encounter an error.
+
+Once a workflow errors, you can increase the task limit for its workspace if necessary. Subsequently, you can rerun the workflow.<br/>
+
+### Adding people to workspaces[​](http://localhost:3000/docs/governance/org-management/workspaces-and-projects#adding-people-to-workspaces)
+
+You can add people to a workspace when you are creating it or at any stage by navigating to **Workspace settings **> **People in workspace**:
+
+![add-people-to-workspace](/images/platform/introduction/getting-started/workspaces/0Kl6jaz06Y3DTYPsIn9i6_Workspaces and projects-5.png)
+
+### [​](http://localhost:3000/docs/governance/org-management/workspaces-and-projects#important-notes-on-adding-people-to-workspaces)
+
+- You can skip the 'Add people to Workspaces step' during creation by clicking on the 'I'll do it later' option.
+- If you're the Workspace creator you'll be added as a Workspace Admin by default. You can change/ update this access level later if need be.
+- Members can be assigned three access levels:
+
+### Editing a workspace[​](http://localhost:3000/docs/governance/org-management/workspaces-and-projects#editing-a-workspace)
+
+Only **Owners, Admins and allocated Workspace Admins** can edit a Workspace:
+
+![edit-workspace-details](/images/platform/introduction/getting-started/workspaces/3Fhbkhn3mf4jkqw0nAQE9r_Workspaces and projects-6.png)
+
+### Deleting workspaces[​](http://localhost:3000/docs/governance/org-management/workspaces-and-projects#deleting-workspaces)
+
+Only Owners, Admins and allocated Workspace Admins can edit a Workspace's members or delete a Workspace entirely.
+
+<Warning>
+In order to delete a Workspace you will need to either move the workflows into another Workspace OR delete them individually.
+
+This is to prevent the accidental deletion of any important workflows
+</Warning>
+
+In the Workspace details tab you will find a Delete workspace button.
+
+If you are unable to delete a Workspace it may be because:
+
+- The Workspace still contains workflows that must be moved or deleted separately
+- Your access level is not high enough
+- Both of the above
+
+### Leaving a workspace[​](http://localhost:3000/docs/governance/org-management/workspaces-and-projects#leaving-a-workspace)
+
+- When leaving a Workspace team members will lose access to everything within the workspace that they left
+- The exceptions being the Organization Owner and Organization Admins. They will still be able to access and maintain all Workspaces, even if they are not active members
+- The workflows and authentications created by them will not be affected. They will remain in the shared workspace
+- Said team members will still be able to access all other Workspaces of which they are a member
+
+### How to leave a workspace[​](http://localhost:3000/docs/governance/org-management/workspaces-and-projects#how-to-leave-a-workspace)
+
+- From the People in workspace list
+- From the Workspace list
+
+## What is a project?
+
+![projects-view](/images/platform/introduction/getting-started/workspaces/6X7fgbATW4jUwXc0W8cF3G_Workspaces and projects-7.png)
+
+Tray projects follow a classic Information Architecture model.
+
+They are a collection of objects with pre-defined relationships.
+
+Projects are self contained and they contain key Tray building blocks such as workflows.
+
+They live within a workspace and inherit the settings of the workspace in which they are created.
+
+This means you can create:
+
+- **Personal** workspace projects (accessible only by you)
+- **Organization** workspace projects (accessible by the entire organization)
+- **Custom workspace** projects (accessible only by the members of that workspace)
+
+### How to use Projects[​](http://localhost:3000/docs/governance/org-management/workspaces-and-projects#how-to-use-projects)
+
+Projects can be used to group together workflows which work together to fulfil a particular goal - e.g. create a project for a specific data syncing operation between e.g. HubSpot and Salesloft:
+
+![projects-view-2](/images/platform/introduction/getting-started/workspaces/65EZKM0M8jVN8axRPasMlO_Workspaces and projects-12 1.png)
+
+Or you might create projects for callable workflows which any other workflow can call upon for e.g. repeatable data processing tasks:
+
+![projects-view-3](/images/platform/introduction/getting-started/workspaces/2l9rE1S6kCNeLGIjmiwsvt_Workspaces and projects-13 1.png)
+
+### Notes on using projects[​](http://localhost:3000/docs/governance/org-management/workspaces-and-projects#notes-on-using-projects)
+
+- A workflow can only be added to one project
+- A callable workflow within a project can be called by a workflow from another project within the same workspace
+- Projects can be exported for e.g. import into a production workspace
+- Project config can be used to store common variables between workflows and so negates the need for an alternative approach such as account-level data storage. This can be done for variable such as:
+
+Whenever you create a workflow you will have to **add it to an existing Project or create a new one to add it to**.
+
+**Workflows can only be allocated to one Project at a time**.
+
+### Viewing workflows across all projects[​](http://localhost:3000/docs/governance/org-management/workspaces-and-projects#viewing-workflows-across-all-projects)
+
+Workflows are not available in the dashboard navigation
+
+If you wish to view and search workflows across all projects within a workspace, you can click on the 'view workflows' link in the banner message at the top of the projects list:
+
+![projects-view-workflows](/images/platform/introduction/getting-started/workspaces/1eJJdbaSVd9nXFzcGETqXf_Workspaces and projects-9 1.png)
+
+### Version control / env promotion[​](http://localhost:3000/docs/governance/org-management/workspaces-and-projects#version-control--env-promotion)
+
+Projects can facilitate [version control and environment promotion.](#)
+
+You can export a project from e.g. your Marketing (dev) workspace and then import it into your Marketing (staging/prod) workspace.<br/>
+
+### Adding projects to workspaces[​](http://localhost:3000/docs/governance/org-management/workspaces-and-projects#adding-projects-to-workspaces)
+
+When you have multiple projects within your workspace, they are available for searching, tagging and filtering.
+
+When a workspace is first created, however, your projects list will be empty.
+
+When you click to add a project:
+
+![add-project-v2](/images/platform/introduction/getting-started/workspaces/7qotUmxJBlRDb81Nx3Ql7c_Workspaces and projects-10 1.png)
+
+You have two ways of doing so:
+
+**New project**
+
+You can create a new empty project from scratch:
+
+![new-project-dialog-v2](/images/platform/introduction/getting-started/workspaces/4lJtOBP7v6rkHOJTOvC9Gb_new-project-dialog-v2.png)
+
+**From import**
+
+Or you can import a project which you have previously exported
+
+This is particularly useful for version controlling your projects and workflows.
+
+In a typical setup, you might have e.g. a Sales (dev) workspace which contains all your test projects that you can then export once you are happy with them, before importing to your Sales (prod) workspace:
+
+![import-project-dialog-v2](/images/platform/introduction/getting-started/workspaces/5PtbHD12pBtZ5vJ9AiqNIz_import-project-dialog-v2.png)
+
+### Adding workflows to your projects[​](http://localhost:3000/docs/governance/org-management/workspaces-and-projects#adding-workflows-to-your-projects)
+
+When you click to add a workflow:
+
+![add-workflow-v3](/images/platform/introduction/getting-started/workspaces/ldAIJvEkwXqE7vfpRQNtJ_Workspaces and projects-11 1.png)
+
+You have 3 ways of doing so:
+
+**Existing workflow**
+
+The first option is to add a workflow which already exists in the parent workspace.
+
+Note that this will move a workflow from its previous workspace:
+
+![add-existing-workflow-v3](/images/platform/introduction/getting-started/workspaces/7amXJ7LLnRRIJ8yxRKHaeS_add-existing-workflow-v3.png)
+
+**From scratch**
+
+You can use this option to start building a workflow from scratch.
+
+It will then be stored in the current project.
+
+**Import workflow**
+
+You can also import a workflow which you have previously exported
+
+![import-workflow-v3](/images/platform/introduction/getting-started/workspaces/3plOZQPEu5QJvILszcgsgT_import-workflow-v3.png)

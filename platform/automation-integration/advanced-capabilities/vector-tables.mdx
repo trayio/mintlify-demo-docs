@@ -1,0 +1,55 @@
+---
+title: "Getting started with vector tables"
+description: "Tray’s vector tables is a key feature in terms of making your organization AI-ready. Post-ingestion, it allows you to store your data in ‘vector embedding’ format, which means it is primed to work with AI systems."
+---
+
+![vector-tables-acme-procedures](/images/platform/automation-integration/advanced-capabilities/vector-tables/s7ruwklqjDSeyQLF7w2Mv_vector-tables-acme-procedures.png)
+
+Tray’s **vector tables** is a key feature in terms of making your organization AI-ready. Post-ingestion, it allows you to store your data in ‘vector embedding’ format, which means it is primed to work with AI systems.
+
+The fact that you can store your vector embeddings directly in Tray, without relying on an external database service, means you can get to POC and from POC to production in a fraction of the time.
+
+## What are vectors?
+
+Vectors, or vector 'embeddings', are a way to represent words or phrases as numbers in a high-dimensional space, allowing computers to understand their meaning.
+
+Imagine a map where similar words are placed close together, and dissimilar words are far apart. Each word is assigned **a unique set of coordinates (the vector) that captures its meaning**, so **words with similar meanings have similar coordinates**.
+
+This way, we can calculate the distance between words and understand their relationships. This is what enables powerful retrieval systems based on finding closest matching vectors. Retrieved matches can then be passed on to LLMs such as ChatGPT and Claude to enable tools like chat interfaces and simple Q&A knowledge agents.
+
+## How do I use vector tables?
+
+### Adding data to vector tables
+
+After creating a new vector table, you will need to manage a content ingestion pipeline.
+
+This is generally done with the following basic steps:
+
+![ingest-vector-data](/images/platform/automation-integration/advanced-capabilities/vector-tables/6VHv3P0kH5IjGpm0zC2zuL_ingest-vector-data.png)
+
+1. **Ingest the data **you want to store for use by AI systems. In the above screenshot this is represented by an http client step which retrieves some content from source
+2. Use an appropriate script step to **break your data down into optimally-sized ‘chunks’ **(check out our templates)
+3. Create a **vector embedding for each 'chunk’ **of data (using e.g. the Amazon titan embed text v2.0 model)
+4. Assign a unique id and **add each chunk of data to the vector table** (using the Vector tables `upsert_vector` operation). From the above screenshot you will see that each entry must have values for the following: 
+
+### Retrieving data from vector tables
+
+The following screenshot illustrates a typical process when retrieving vectors from a vector table:
+
+![query-vector-table](/images/platform/automation-integration/advanced-capabilities/vector-tables/4Z6L7YmzLWrKY2ygPnzoN3_query-vector-table.png)
+
+These steps are:
+
+1. **Accept a query **(e.g. a webhook picks up incoming questions from staff / users such as 'In the onboarding process what sales techniques are we trained on?')
+2. **Create a vector embedding of that query **(using the same model that was used to create the vector embeddings of the content stored in your vector table)
+3. **Use the Vector tables** `query vector` **operation** to retrieve the closest matches from the vector table: 
+4. **Make use of the query vector results** by e.g. passing to an LLM for a chat completion. A chat completion will generally include: 
+
+### Deleting data from vector tables
+
+You have two options for deleting vectors from a vector table: 
+
+1. Use the connectors within a workflow to delete vectors 
+2. Use the delete all vectors button in the vectors list view 
+
+![CleanShot 2024-11-06 at 10.45.41 - vector tables delete all vectors](/images/platform/automation-integration/advanced-capabilities/vector-tables/1YXmXB6VNBLI28Alq9zXWw_CleanShot 2024-11-06 at 10.45.41.png)

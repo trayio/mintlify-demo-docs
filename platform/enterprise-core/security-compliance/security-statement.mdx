@@ -1,0 +1,129 @@
+---
+title: "Security statement"
+description: "Tray has implemented the measures as described in this exhibit insofar as the respective measure contributes or is capable of contributing directly or indirectly to the protection of the personal data under the DPA entered into between the parties"
+---
+
+Technical and organizational security measures to be implemented by Tray:
+
+Tray has implemented the measures as described in this exhibit insofar as the respective measure contributes or is capable of contributing directly or indirectly to the protection of the personal data under the DPA entered into between the parties.
+
+These measures are commercially reasonable, and aligned with industry standard technical and organizational measures, to protect personal data. These measures are also consistent with applicable laws, and meet the standard of protection appropriate to the risk of processing personal data in the course of providing Tray services. Tray will regularly carry out, test, review, and update all such measures.
+
+These measures will be subject to technical progress and future developments of Tray Services. As such, Tray will be permitted to implement alternative adequate measures. In such event, the security level may not be lower than the measures memorialized here. Material changes are to be coordinated with the Data Controller and documented.
+
+## Compliance[​](http://localhost:3000/docs/governance/security-and-compliance/security-statement#compliance)
+
+In order to help our customers satisfy their compliance requirements, Tray supports a number of certifications and regulatory commitments:
+
+SOC 2 Type 2 - Annual audits are performed in SOC 2 Type 2 on a 12 month reporting period, and reports are made available upon request. Tray reserves the right to move to a framework of a higher standard in the future.
+
+HIPAA - Tray is compliant in the role as a Business Associate with the HIPAA Security Rule and the HITECH Breach Notification Requirement and has independent audits to verify this.
+
+GDPR & CCPA - Please see Data Protection below.
+
+## Data Protection[​](http://localhost:3000/docs/governance/security-and-compliance/security-statement#data-protection)
+
+To meet the requirements of data protection laws and regulations like the GDPR and CCPA, Tray employs privacy and information security controls mentioned in this document, as well as:
+
+A [Data Processing Agreement](https://tray.ai/dpa) (DPA) for our role as a Data Processor/Service Provider as part of our standard service agreement with our customers.
+
+Proper due diligence of our service providers, including receipt of appropriate representations and warranties of compliance with data protection laws and regulations; view our list of [sub-processors](https://tray.ai/sub-processors).
+
+Data protection and information security training for our staff.
+
+GDPR related procedures and policies, including breach management and notification, data retention, impact assessments, assistance to controllers and records of processing.
+
+Nominated data protection lead (Tray’s Head of Security & Compliance).
+
+Transparent over the use of data through an up-to-date [Privacy Policy](https://tray.ai/privacy).
+
+See our [Data Protection Commitment](#) for more information.
+
+## Data Center and Hosting[​](http://localhost:3000/docs/governance/security-and-compliance/security-statement#data-center-and-hosting)
+
+Systems storing Customer Data shall be protected from unauthorized access with appropriate physical security mechanisms including, but not limited to, badge access control, visitor logs, secure perimeter, 24/7 CCTV, and enforced user provisioning controls (i.e., appropriate authorization of new accounts, timely account terminations, and frequent user account reviews). These physical security mechanisms are provided by data center partners such as AWS. Data centers shall be certified against ISO 27001, ISO 27017, and ISO 27018.
+
+Tray's infrastructure is a multi-tenant design within our data center partner. Customer Data is logically segregated using unique identifiers that are assigned to specific data resources (e.g., user accounts, workflows, authentications) and an internal permissions system controls this access.
+
+A patch management process is maintained to implement patches on systems in a reasonable, risk-based timeframe.
+
+Customer Data is only used in production and is not used in non-production environments, such as staging or development environments.
+
+## Network and Data Transmissions[​](http://localhost:3000/docs/governance/security-and-compliance/security-statement#network-and-data-transmissions)
+
+Tray implements network access controls and segregation to restrict access to internal and external facing environments and their resources to restrict access to systems storing Customer Data, such as firewalls, security groups, and virtual private clouds (VPCs).
+
+All data shall be encrypted in-transit using NIST approved encryption standards (e.g., SSH, TLS).
+
+Access to production networks is restricted to developers with unique accounts via VPN and two-factor authentication (2FA).
+
+## Vulnerability Detection and Management[​](http://localhost:3000/docs/governance/security-and-compliance/security-statement#vulnerability-detection-and-management)
+
+A variety of different security scans run on Tray source code, the application, and infrastructure:
+
+- Vulnerability scans on internal and external cloud-hosted systems and dynamic application security testing (DAST) on the web application are performed at least quarterly using industry-standard scanning tools.
+- Third-party web application penetration tests are performed annually. An executive summary of the report will be provided on request.
+- A bug bounty program is maintained to engage with the wider security community and encourage responsible testing and disclosure.
+
+Vulnerabilities, as defined by industry standards, shall be remediated within a reasonable risk-based timeframe or identified as a residual risk where the action(s) should be taken to remediate as soon as possible.
+
+## Secure Development[​](http://localhost:3000/docs/governance/security-and-compliance/security-statement#secure-development)
+
+A secure software development lifecycle (SDLC) is maintained to ensure that security assessments are performed at the relevant stages of software development.
+
+Documentation is maintained on the overall application architecture, process flows, change management, and security requirements for applications handling Customer Data.
+
+Tray employs secure programming techniques and protocols in the development of applications handling Customer Data as well as provides training for developer in secure development principles.
+
+## Disaster Recovery and Business Continuity[​](http://localhost:3000/docs/governance/security-and-compliance/security-statement#disaster-recovery-and-business-continuity)
+
+Disaster recovery (DR) procedures are maintained and tested at least annually, and business continuity plans (BCP) are maintained in order to allow Tray to withstand events that threaten business critical processes. Information security policies will continue to be adhered to in the course of plan execution.
+
+Backups of Customer Data are performed at least daily, stored in a separate geographic location, and protected by at least the same level of security and encryption.
+
+DR procedures are designed for a Recovery Time Objective (RTO) of 14 hours and a Recovery Point Objective (RPO) of 24 hours for related Customer Data.
+
+## Security Incident Management[​](http://localhost:3000/docs/governance/security-and-compliance/security-statement#security-incident-management)
+
+Security incident management policies are maintained. In the event of a confirmed data breach (unauthorized access, misuse, accidental loss, or destruction of Customer Data) Tray will provide written notification to the Customer without undue delay of becoming aware of the incident.
+
+The notice will contain the date and time, nature, the extent of the incident, the measures taken to remediate and prevent the occurrence of a similar incident.
+
+Tray will provide the information required by the Customer in order to fulfill its data breach reporting obligations under (and in accordance with the timescales required by) applicable data protection laws and regulations.
+
+## Personnel Security[​](http://localhost:3000/docs/governance/security-and-compliance/security-statement#personnel-security)
+
+Organizational security policies are maintained for all employees with access to Customer Data. These state that employees will:
+
+- use a unique user account with 2FA;
+- authenticate via single sign-on (SSO) or where applicable generate and store passwords in Tray's password manager;
+- use a workstation that adheres to Tray's security policy, which includes device encryption, password complexity, automatic screen lock, up-to-date endpoint detection and response (EDR) or anti-virus software;
+- have background checks performed in accordance with local laws;
+- complete security awareness training during onboarding and at least annually;
+
+## Access Control[​](http://localhost:3000/docs/governance/security-and-compliance/security-statement#access-control)
+
+Tray shall ensure that access to information and application system functions is restricted to authorized personnel only.
+
+Customer Data stored on archive or backup systems shall be stored at the same level of security or better than the data stored on operating systems.
+
+In the event of employee termination, access to Customer Data will be revoked within 24hrs.
+
+## Shared Responsibility[​](http://localhost:3000/docs/governance/security-and-compliance/security-statement#shared-responsibility)
+
+The Tray service requires a shared responsibility model. For example:
+
+- Customer must maintain controls over Customer user accounts (such as disabling/removing access when a Customer employee is terminated, establishing password requirements for Customer users, enabling two-factor authentication, etc.).
+- Customer will upload connector authentications (API tokens, passwords, certifications, etc..) via the Authentication Flow within the Tray application as this applies an extra layer of encryption and redacts the clear text authentications from workflow logs [https://tray.ai/documentation/tray-uac/connectivity/authenticating-connectors/](https://tray.ai/documentation/tray-uac/connectivity/authenticating-connectors/).
+- Customer will apply security to workflow webhooks to prevent unauthorized use, examples available at [https://tray.ai/documentation/connectors/triggers/webhook-trigger/#security](https://tray.ai/documentation/connectors/triggers/webhook-trigger/#security).
+
+## Third-party Vendors and Sub-processors[​](http://localhost:3000/docs/governance/security-and-compliance/security-statement#third-party-vendors-and-sub-processors)
+
+Tray maintains a strict vendor management program to ensure control over how data is managed by external applications. This includes security reviews and receipt of appropriate representations and warranties of compliance with data protection laws and regulations. Where a third-party processes Customer Data as a sub-processor, they will apply at least an equivalent level of security as Tray and will be published at [https://tray.ai/sub-processors](https://tray.ai/sub-processors).
+
+## Additional Safeguards[​](http://localhost:3000/docs/governance/security-and-compliance/security-statement#additional-safeguards)
+
+- Customer can reduce the data footprint on the platform by minimizing the workflow log retention down from 30 days to 24hrs.
+- Customer can receive access to audit log data which shows when workflow data is accessed by Tray. See here for more details.
+
+Last updated: 27 Feb 2025

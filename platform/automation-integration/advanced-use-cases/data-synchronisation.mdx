@@ -1,0 +1,119 @@
+---
+title: "Data synchronization"
+description: "Data synchronization is the process of maintaining data consistency between two or more services. "
+---
+
+## Overview
+
+Data synchronization is the process of maintaining data consistency between two or more services. It is an ongoing process of automatically updating changes from one service to another and vice versa.
+
+Tray helps to automate the process of synchronizing data using workflows where creating or updating the data in service A triggers a workflow that updates similar changes in service B.
+
+There are two types of data syncing:
+
+- **Unidirectional syncing**: where changes are always made in service A and are then synced to Service B
+- **Two-way syncing**: where changes can happen in either service A or Service B and must then be synced to the other service
+
+## Real-time vs Scheduled Sync
+
+What trigger you will use depends on your use case:
+
+- Service / Webhook trigger: to sync data as and when it is changed in 'real-time'
+- Scheduled trigger: If your software service doesn’t offer real-time triggering or you do not wish to sync in real time, you can use a [Scheduled trigger](/connectors/triggers/scheduled-trigger) to pull the data at specified intervals.
+
+In the workflows below, you could replace the service triggers with a Scheduled trigger to sync the data at scheduled time intervals.
+
+When using the Scheduled trigger you will most likely have to use the **'Last run time' method**, whereby you use data storage to store the exact time you run each sync, in order to tell the service to only include records since then.
+
+A basic explanation of this method [can be found here](#). A more sophisticated implementation which allows you to **specify how far you want to backdate the first run** can be seen in our [Salesforce Daily Sync to Amazon S3](/templates/sales/salesforce-daily-sync-to-amazon-s3/) template.
+
+## Unique identifiers
+
+A key driver of data syncing setups is the use of a unique identifier which matches records between the two services.
+
+This could be an email address.
+
+Very often, however, it requires a **unique id** which requires creating a **custom field** in Service B to contain that record's id from Service A.
+
+The uni-directional example below shows creating a custom field in Netsuite to contain the Salesforce id for each record.
+
+### Unidirectional synchronization
+
+Our [Sync SFDC Accounts -> Netsuite Customers](/templates/sales/sync-sfdc-accounts-netsuite-customers/) template is a good example of a unidrectional sync.
+
+This workflow syncs live data between Accounts in Salesforce and Customers in Netsuite.
+
+The following is an edited screenshot of the original template that illustrates the stages of syncing SFDC Accounts > Netsuite customers.
+
+![sync-sfdc-accounts-netsuite-customers-wf-6](/images/platform/automation-integration/advanced-use-cases/data-synchronisation/33d14507-33b94d71_sync-sfdc-accounts-netsuite-customers-wf-6.png)
+
+The key points in this setup are:
+
+<AccordionGroup>
+<Accordion title="1 - Create custom field to contain unique id ">
+A unique ID is used to see if a matching account exists in Netsuite.
+
+To enable this check we must create a custom field for the Salesforce ID in Netsuite.
+
+Exactly how you create a custom field will depend on the service you are using:
+
+![custom-netsuite-field](/images/33d14507-b119be40_custom-netsuite-field.png)
+</Accordion>
+
+<Accordion title="2 - Record created / updated in Service A">
+The workflow is triggered whenever a new account is created or updated in Salesforce.
+</Accordion>
+
+<Accordion title="3 - Check if account exists using unique id">
+The Netsuite 'Search for Existing Customer' step then checks to see if there is an existing customer in Netsuite with a matching Salesforce ID ($.steps.trigger.events[0].Id).
+
+![search-for-existing-customer](/images/33d14507-36ba8751_search-for-existing-customer.png)
+</Accordion>
+
+<Accordion title="4 - Create / update record">
+Finally, a Boolean checks to see if a matching ID is found. If **True**, then Netsuite updates that customer. If **False** then no match was found and Netsuite creates a new customer, with the Salesforce ID.
+
+![customer-exists](/images/33d14507-6016ffcc_customer-exists.png)
+</Accordion>
+</AccordionGroup>
+
+### Bi-directional synchronization
+
+To achieve Bi-directional real-time synchronization between two services, you need to create two workflows for each service.
+
+Let's consider two services, Salesloft and Hubspot and the following templates to understand the process involved:
+
+- [Sync Salesloft Accounts to Hubspot Companies](/templates/marketing/sync-salesloft-accounts-to-hubspot-companies/)
+- [Sync Companies Unidirectional Hubspot -> Salesloft](/templates/marketing/sync-companies-hubspot-to-salesloft/)
+
+![bi-directional-sync-1](/images/platform/automation-integration/advanced-use-cases/data-synchronisation/33d14507-17b131cd_bi-directional-sync-1.png)
+
+Both the services have workflows which are fired by their respective service triggers.
+
+Let's consider a scenario where a company was created or updated in Salesloft.
+
+1. This create or update action in Salesloft will trigger the Salesloft workflow.
+2. Which then uses 'Domain' as the unique identifier to check if a matching company for the Salesloft account is available in Hubspot.
+3. If it exists, the company information in Hubspot will be updated. Else a new company will be created.
+4. Since either a create or update action is performed in the Hubspot account, this will trigger the Hubspot workflow.
+5. Now, the Hubspot workflow will look for a matching account in Salesloft. The account information will either be updated, or a new account will be created based on its availability.
+
+In this way, the workflows **will trigger each other and sync the data for both services**. While doing so, they may end up in an **infinite loop**, where they would continue to trigger each other.
+
+To avoid this, we use a method of payload comparison, which compares the new data received through trigger with the existing data.
+
+We use the [Object Helpers](/connectors/helpers/object-helper/#add-key-value-pairs) 'Add key/value pairs' operation to build these payloads and include the fields we want to compare:
+
+If there is no difference between them, the workflow ends without performing any action. If a discrepancy is found, the workflow updates the new information in Hubspot.
+
+To do so,
+
+1. The workflow creates Salesloft and Hubspot payload.
+
+![impl-notes-build-payloads](/images/platform/automation-integration/advanced-use-cases/data-synchronisation/33d14507-cbc9fdf5_impl-notes-build-payloads.png)
+
+2. Compares both the payloads using the Equals operation. The operation returns true if both the objects are the same. False otherwise.
+
+![impl-notes-compare-payloads](/images/platform/automation-integration/advanced-use-cases/data-synchronisation/33d14507-4b9dfb60_impl-notes-compare-payloads.png)
+
+3. If there is no difference between them, the workflow ends without performing any action. If a discrepancy is found, the workflow updates the new information in Hubspot.

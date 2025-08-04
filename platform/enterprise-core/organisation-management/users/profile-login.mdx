@@ -1,0 +1,184 @@
+---
+title: "Profile / login management"
+description: "If you have more than one Tray.io account you can be signed into multiple accounts at once. That way you can switch between accounts without signing out and back in repeatedly."
+---
+
+## Managing multiple logins[​](http://localhost:3000/docs/governance/account-and-org-management/profile-login-management#managing-multiple-logins)
+
+If you have more than one Tray account you can be signed into multiple accounts at once. That way you can switch between accounts without signing out and back in repeatedly.
+
+This can be useful if your accounts have separate account settings, access levels or different use cases.
+
+The email addresses you can use are not limited to aliases so you could add john.smith@gmail.com if you wanted to.
+
+In fact you can add accounts in any way you wish to help you achieve your aims. Below shows an example of a user using email aliases to work in different departments (documentation and main).
+
+As a user you could use email alias' to separate sales, marketing, support, etc:
+
+![multiple-accounts-92010ce82dabfc42c9fa05ec051cda46](/images/platform/enterprise-core/organisation-management/users/profile-login/6MfP203qyrnzKUEeNkdkWx_Profile _ login management-1 1.png)
+
+To further this example - you may have the following emails to deal with the above departments, all signed in at once:
+
+- marketing@acme.com
+- sales@acme.com
+- support@acme.com
+
+Or if you are an international organization wanting to manage by region you could use something like this:
+
+- sales@acme.in
+- sales@acme.eu
+- sales@acme.ja
+
+### Setting up multiple logins[​](http://localhost:3000/docs/governance/account-and-org-management/profile-login-management#setting-up-multiple-logins)
+
+The procedure for working with multiple accounts is as follows:
+
+1. Any accounts you wish to add to your list must be added by an Orgnanization Owner or Admin access level team member.
+
+2. Invites received need to then be accepted and a password created for each account.
+
+3. Once logged in under your Profile click on 'Add another account':
+
+4. You will then be redirected to the `https://app.tray.io/add-account/` URL where you can login with any created account:<br/>
+
+![add-account-url-7bf72c1be01e574dc00f4abfa59a3b04](/images/platform/enterprise-core/organisation-management/users/profile-login/beY3J5iIWd1DgWwx3QVgo_add-account-url-7bf72c1be01e574dc00f4abfa59a3b04.png)
+
+<Warning>
+Remember that you are not creating an account here. **You can only log into accounts that have already been created** by an Owner or Admin.
+</Warning>
+
+Once logged in you should be able to switch between your different accounts, through your user profile drop-down options and create and manage your workflows accordingly:
+
+![multiple-accounts-completed](/images/platform/enterprise-core/organisation-management/users/profile-login/6gfWJ0zlPCSMsyiKosYCh4_Profile _ login management.png)
+
+### Notes on multiple logins[​](http://localhost:3000/docs/governance/account-and-org-management/profile-login-management#notes-on-multiple-logins)
+
+- You will log back into whichever account you were last using when you return to the Tray platform.
+- When you log out of one account, you will automatically be logged out of all accounts. This means will have to re-add your accounts when logging back in.
+- Note that it is possible for multiple people within your organization, to add the same account to their list. For example, several people may need to switch to the sales@acme.com account.
+- You cannot be logged into multiple accounts across different tabs. When you refresh your browser window, you will remain in the last logged in account.
+- It is possible to use the 'forgot password' flow when adding new accounts.
+
+## Two factor authentication
+
+Two Factor Authentication (2FA) is **an industry standard implementation of Multi Factor Authentication**. It requires two separate methods of verifying your identity when you try to access Tray services.
+
+We have taken the **Time-based one-time password **(**TOTP**) approach which requires you to use a compatible smartphone app such as **Google Authenticator** (iOS or Android) or **Authy** (iOS or Android).
+
+### Enabling two factor authentication
+
+To enable 2FA on your account click on your account avatar and select **Profile settings**. This will take you to your **Profile** main page.
+
+Scroll down until you come to the 2FA section:
+
+![two-factor-auth-setup](/images/platform/enterprise-core/organisation-management/users/profile-login/6Ik0chaHzOlxHJh72VaqXL_two-factor-auth-setup.png)
+
+ Follow the steps as prompted. You will need your password in order to complete setup.
+
+You will also be prompted to setup your **TOTP** application such as **Google Authenticator** or **Authy** (as mentioned above).
+
+![enable-two-factor-auth](/images/platform/enterprise-core/organisation-management/users/profile-login/6ls07tOWYrFPrxTwx3gG66_enable-two-factor-auth.png)
+
+![set-up-authenticator-app](/images/platform/enterprise-core/organisation-management/users/profile-login/7skV1298oa9KrNbtm5xOg3_set-up-authenticator-app.png)
+
+<Warning>
+Please remember to copy your backup code. This is required if you lose access to your 2FA device. This can be used in place of the 2FA verification code after you login.
+</Warning>
+
+### Disabling two factor authentication
+
+To disable 2FA click on the **Disable two factor authentication** button and enter your password when prompted.
+
+## Single Sign-On
+
+To increase both usability and security for enterprise users, please note that it is possible to set up **SAML-based single sign-on (SSO)**.
+
+Using SSO with your Organization means that your team members won't have to keep track of their login credentials. They will be able to quickly and easily access the Organization's assets and you can be certain that anyone logging into your Tray Organization will be in line with your internal protocols.
+
+There are a number of SSO authentication providers and Tray connectors to choose from (such as [OneLogin](/connectors/service/onelogin/), Duo, [Okta](/connectors/service/okta/)). Exactly how SSO will work will depend on the provider your Organization requirements.
+
+Please contact your Tray account manager if you wish to proceed with using SSO alongside your Organization.
+
+### Important notes on SSO
+
+<Warning>
+**IMPORTANT!**: The Tray platform only supports **SAML version 2.0**.
+</Warning>
+
+### Setup
+
+Please follow the following steps to start the process of configuring an SSO for your organisation:
+
+<Info>
+**PLEASE NOTE**: Some SSO providers use a staging environment which means the SSO setup will need testing before it goes live. This is naturally use case dependant.
+</Info>
+
+1. Open a **support ticket**.<br/><br/>Choose the following option from the **drop down menu**:<br/>
+2. **Exchange SSO urls<br/><br/>We will provide the Single Sign-on URL/ACS URL** and **URN/Entity ID **(with your organization id) which will be required for the SAML application creation.<br/><br/>**In return** **please provide us with the** **x509 Certificate** and **Sign-in URL** after the SAML application is created.<br/><br/>This exchange of information **allows both parties to configure the SSO connection** on their respective ends.
+
+Once SSO is setup and tested, it will work in one of two ways:
+
+- Login will be initiated at "your" end. Users will usually initiate their login at a URL which will look similar to this: `https://app.tray.io/sso/connection/<organisation_id>`. 
+- When your users login to your authentication portal, they will then be redirected to a "logged in Tray session".
+- If a user tries to login with a preexisting Tray account, their login will be matched via a UID aka their email address.
+- If this is a new user, then a new account will be created and registered with your SSO provider.
+
+### Instructions for individual SSO providers
+
+### Okta
+
+Below is a summary of setup instructions for Okta users.
+
+<AccordionGroup>
+<Accordion title="1 - Create Okta SAML app">
+Users will first will **need to create an Okta SAML application**, as per the [Okta](https://developer.okta.com/docs/guides/saml-application-setup/overview/) setup guide instructions.
+
+Choose your **App name**.
+</Accordion>
+
+<Accordion title="2 - Replace your Org ID">
+Anywhere you see **organisation_id **below, please replace **organisation_id** with the `organisation_id` of your company.
+
+Continue setup with the following values updated as demonstrated below:
+
+- **Single sign-on URL**: `https://sso.tray.io/login/callback?connection=organisation_id`
+
+<Info>
+use the correct base URL depending on your region:
+
+- US: `https://`**`sso.tray.io`**`/login/callback?connection={organisation_id}`
+- EU: `https://`**`sso.eu1.tray.io`**`/login/callback?connection={organisation_id}`
+- AP: `https://`**`sso.ap1.tray.io`**`/login/callback?connection={organisation_id}`
+</Info>
+
+- **Audience URI ( SP entity ID)**: urn:auth0:trayio:organisation_id
+- **Default relay state**: <u>**DO NOT set any value here**</u>
+- **Name ID format**: Unspecified
+- **Application username**: Okta username
+</Accordion>
+
+<Accordion title="3 - Update your Attribute elements">
+In the **Attribute statements** section, add the following two attributes:
+
+##### First attribute:
+
+- **Name:** `email`
+- **NameFormat:** `unspecified` 
+- **Value** *select* `user.email` from the dropdown options
+
+##### Second attribute:
+
+- **Name:** `name` 
+- **NameFormat:** `unspecified`
+- **Value** *select* `user.firstName` from the dropdown options
+</Accordion>
+
+<Accordion title="4 - Provide Tray with your details">
+Once the above is set, you will need to provide Tray.io with the following information (available from the Okta admin interface):
+
+- **IdP single sign-on URL**
+- **X509 signing certificate**
+
+Following completion of the above your setup should be complete.
+</Accordion>
+</AccordionGroup>

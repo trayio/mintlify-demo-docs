@@ -1,0 +1,261 @@
+---
+title: "Mapping data between steps"
+description: "Tray has a set of tools that allow you to 'map' data from one service to another - i.e. 'pull' data from one service in order to 'push' it into another"
+---
+
+As discussed in [Basic data concepts](#), data in the Tray platform is returned in JSON format.
+
+Tray has a set of tools that allow you to 'map' data from one service to another - i.e. 'pull' data from one service in order to 'push' it into another.
+
+While these tools make this as simple and visually intuitive as possible, it is important to understand the concept of 'jsonpaths'.
+
+A jsonpath is a standardized way of writing a single line of text which can extract values from fields, objects and arrays contained in JSON data.
+
+All jsonpaths will begin as follows:
+
+- If the data is coming from the trigger step of your workflow it will begin with `$.steps.trigger`
+- If the data is coming from a [service connector](https://tray.io/documentation/connectors/service/) step in your workflow it will begin with a path which names the service such as `$.steps.slack-1` or `$.steps.marketo-2`
+- If the data is coming from a [core connector](https://tray.io/documentation/connectors/core/) step it will be something similar to `$.steps.script-2` or `$.steps.loop-3`
+- If the data is coming from a [helpers connector](https://tray.io/documentation/connectors/helpers/) step it will be something similar to `$.steps.text-helpers-1` or `$.steps.list-helpers-1`
+
+The following illustration shows how you can determine the prefix for a jsonpath by looking at **the connector name and number under the step title** for the connector you are wishing to pull data from:
+
+![steps-number-table](/images/platform/automation-integration/building-workflows/mapping-data/configuration/f69fc707-f93f1279_steps-number-table.png)
+
+The complete jsonpath will depend on exactly what you are retrieving from the workflow step.
+
+It might be something relatively complex like:
+
+`$.steps.hubspot-1.results[0].properties.email`
+
+Or something very simple like:
+
+`$.steps.storage-3.value`
+
+Tray has built-in simple auto-mapping methods to make the process of extracting data as easy as possible.
+
+However, for troubleshooting and advanced use cases, you should still have a knowledge of how jsonpaths work in detail. So it is recommended that you familiarize yourself with all the information on this page.
+
+## Simple auto-mapping methods
+
+### Map data inline
+
+The builder has an easy-to-use visual tool to search through all available jsonpaths from all of the 'output schemas' attached to each connector step in your workflow.
+
+When you select any field to insert data, you will** automatically be presented with a list of all  jsonpaths from previous steps, which are filtered as you type**:
+
+![trigger-firstname-select](/images/platform/automation-integration/building-workflows/mapping-data/configuration/f69fc707-a5cdef32_trigger-firstname-select (2).png)
+
+In the above case we are searching through all the 'leads' data that has been received by the webhook trigger.
+
+You can see that by searching for 'name' the tool saves us the trouble of having to work out and manually type the `$.steps.trigger.body.firstName` jsonpath.
+
+<Warning>
+Sometimes the data from a particular step may not appear to be accessible.
+
+i.e. there may appear to be 'missing' fields.
+
+This is due to the dynamic nature of connector output 'schema'
+
+In this case you will need to trigger a run of your workflow (using a terminate step where necessary) and then manually update the output schema as per the below instructions in 'troubleshooting jsonpaths'
+</Warning>
+
+### Editing jsonpaths
+
+The end result is a selected jsonpath which can be edited manually, copied, deleted or have a [fallback value](/platform/working-with-data/fallback-values/) set in order to deal with occasionally missing data.
+
+![trigger-firstname-selected](/images/platform/automation-integration/building-workflows/mapping-data/configuration/f69fc707-c98d660b_trigger-firstname-selected.png)
+
+To fully understand how data and jsonpaths are structured, please be sure to read through the rest of this page!
+
+### The connector-snake
+
+You can also use the 'connector snake' to get at the data you need:
+
+![trigger-firstname-connectorsnake](/images/platform/automation-integration/building-workflows/mapping-data/configuration/f69fc707-d3dad47c_Jan-16-2024 13-57-38.gif)
+
+<Warning>
+Sometimes the data from a particular step may not appear to be accessible.
+
+i.e. there may appear to be 'missing' fields.
+
+This is due to the dynamic nature of connector output 'schema'
+
+In this case you will need to trigger a run of your workflow (using a terminate step where necessary) and then manually update the output schema as per the below instructions in 'troubleshooting jsonpaths'
+</Warning>
+
+### Interpolated mode
+
+It's also possible to do more advanced mapping using interpolated mode. Interpolated mode is used when the destination input requires a string and can do things like:
+
+- **Concatenate multiple variables into one input**, for example "first name" and "last name" both into a single "name" field
+- **Construct sentences which mix arbitrary text and data** pulled in from previous workflow steps
+- **Converting other types into a string**, for example numbers and booleans can be converted into a string by setting the input to just the interpolated variable.
+
+The following example shows using interpolated mode to send a new lead notification to a Slack channel:
+
+![interpolated-mode-send-slack-message](/images/platform/automation-integration/building-workflows/mapping-data/configuration/7drtON1xLVkxTyoWUkBwIy_interpolated-mode-send-slack-message.png)
+
+As you can see there is mixture of arbitrary text and data pulled in 'programatically' each time a lead is created:
+
+![interpolated-mode-slack-result](/images/platform/automation-integration/building-workflows/mapping-data/configuration/1P8Yx6rl7OVjixeTlXTKf7_interpolated-mode-slack-result.png)
+
+There are 2 ways of using interpolated mode:
+
+- Use `/` to open up a list of all available jsonpaths:<br/>
+- Copy the jsonpath from the output tab in the properties panel.<br/>
+
+### Cancelling interpolated mode
+
+Pressing the `esc` key on your keyboard will cancel interpolated mode.
+
+## jsonpaths in detail
+
+### Pulling data from a trigger
+
+While the above tools make it very easy to get at data from other connectors in your workflow, it is still important to understand how the jsonpaths are formed.
+
+To show you how jsonpaths are constructed we can use an example workflow:
+
+![jsonpath-trigger-firstname](/images/platform/automation-integration/building-workflows/mapping-data/configuration/f69fc707-9fc18d0f_jsonpath-trigger-firstname.png)
+
+In this workflow, we have data about an individual which has been received via a webhook trigger:
+
+1. The workflow is triggered by data being received about a new lead which needs added to Salesforce (in this case it is a [webhook trigger](#))
+2. The Salesforce step uses the **Create New Record (Lead)** operation to add the lead to Salesforce
+3. To populate the First Name, Last Name and City values the Salesforce step uses jsonpaths to extract the relevant data from the trigger step
+
+From the screenshot you can see that the details of the individual are contained within a **body** object, and that to access:
+
+- **firstName** we use `$.steps.trigger.body.firstName`
+- **lastName** we use `$.steps.trigger.body.lastName`
+- **city** we use `$.steps.trigger.body.address.city`
+
+### Accessing data in arrays
+
+The above examples are quite straightforward. However, if we want to access the correct value to populate Mobile Phone in Salesforce, it is slightly different, as John's phones are stored in an **array** within **phoneNumbers**, as indicated by the use of `[ ]` in the output data.
+
+![jsonpath-array](/images/platform/automation-integration/building-workflows/mapping-data/configuration/f69fc707-f9f16508_jsonpath-array-1.png)
+
+From the above screenshot you will see that the correct jsonpath for this is `$.steps.trigger.body.phoneNumbers[0].number`
+
+This is because we have identified that, in order to populate **Mobile Phone** in the Salesforce record, the correct phone number from the list is type **iPhone** (i.e. not 'home').
+
+In order to pick the first item from an array we use [0] as in the above jsonpath.
+
+Why do we use [0]? Because arrays returned in Tray platform data are always [ zero-indexed](https://en.wikipedia.org/wiki/Zero-based_numbering)!
+
+So in this case, if we wanted to access the second item in this list (i.e. the 'home' phone number) we would use `$.steps.trigger.body.phoneNumbers[1].number`
+
+So when accessing data / objects in arrays, you use:
+
+- **[0]** to get item number **1**
+- **[1]** to get item number **2**
+- **[2]** to get item number **3**
+- etc.
+
+### Pulling data from service connectors
+
+The following example shows how you can use jsonpaths to pull data from a service connector:
+
+![sf-to-clearbit-jsonpath](/images/platform/automation-integration/building-workflows/mapping-data/configuration/f69fc707-ff4b9851_sf-to-clearbit-jsonpath.png)
+
+In this case we have used Salesforce to return the **Email** of a lead, which we would like to pass into a Clearbit connector step.
+
+From the output on the left side of the screen you can see that the lead is the first (and only!) result in a **records** array of results (indicated by the `[ ]`).
+
+Therefore (remembering the rules on accessing data from arrays) the jsonpath we use to pull the email which is needed for the Clearbit **Enrichment** operation is:
+
+`$.steps.salesforce-1.records[0].Email`
+
+Note that the exact path for this might change depending on the position of your Salesforce connector in your workflow. For example, it could be `$.steps.salesforce-3.records[0].Email` if it was the third Salesforce connector you added to the workflow.
+
+### Pulling data from core / helper connectors
+
+You can also pull data from Tray platform [core](/connectors/core/) and [helper](/connectors/helpers/) connectors.
+
+For example, we could use `$.steps.script-1.result.messages[0].body` to get at the output of a [script connector](/connectors/core/script/) step such as:
+
+![script-connector-example-output](/images/platform/automation-integration/building-workflows/mapping-data/configuration/f69fc707-374be6f1_script-connector-example-output.png)
+
+Or we could use `$.steps.storage-1.value` to pull data from a [data storage](/connectors/core/data-storage/) connector step.
+
+### Pulling data from a loop connector
+
+When building workflows, it is very common that you will need to use the [Loop Connector](/connectors/core/loop/) to go through a list of results one-by-one. In this case you will then be adding further connector steps within the loop which will pull the data from each result using jsonpaths which begin with e.g. `$.steps.loop-1.value`
+
+For detailed instructions on how to do this please see the [Loop Connector documentation page](https://tray.io/documentation/connectors/core/loop/). 
+
+### Passing variables with spaces
+
+If a variable contains spaces then it must be passed inside `['']`
+
+For example a body response such as:
+
+```json
+{
+  "body": {
+    "Primary User Email": "email_address"
+  }
+}
+```
+
+Would be passed as `$.steps.trigger.body['Primary User Email']` if the body had come from the output of the workflow trigger.
+
+## Troubleshooting jsonpaths
+
+## Common mistakes
+
+### Getting the case wrong
+
+Jsonpaths are **case-sensitive!**
+
+So if the piece of data you are after is **firstName** and you enter `$.steps.asana-2.person.firstname` the connector step will fail!
+
+### Getting the number of the connector step wrong
+
+Remember that the prefix of your jsonpath must match the name of the connector/service and the number of the step - e.g. `$.steps.slack-1` or `$.steps.salesforce-3` or `$.steps.loop-2`
+
+This is explained in [working with data and jsonpaths](/platform/working-with-data/basic-data-guide/).
+
+### Variables with spaces in them can cause an error!
+
+If the variable you are trying to access is called e.g. **Primary User Email** then you will need to pass it inside `['']` as explained [here](/platform/working-with-data/basic-data-guide/#passing-variables-with-spaces)
+
+## FAQs / other scenarios
+
+### Sometimes the data from a step doesn't seem to be available
+
+You may find that you need to go to 'Debug' and click 'use output' for certain steps if it appears that the output is not available when using visual jsonpaths or the connector snake:
+
+![use-output](/images/platform/automation-integration/building-workflows/mapping-data/configuration/0247ba3c-6097a899_use-output.png)
+
+You will also be notified in the 'Output' panel for any step when a new version of its schema is available:
+
+![new-output-schema-indicator](/images/platform/automation-integration/building-workflows/mapping-data/configuration/3PHPoqNZRIsCs4vAFYOj6Q_new-output-schema-indicator.png)
+
+Clicking on 'preview' will allow you to update the schema:
+
+![preview-latest-schema](/images/platform/automation-integration/building-workflows/mapping-data/configuration/7LVKrDIHZUiAKjlPCzCQbv_preview-latest-schema.png)
+
+### I have an array of results, how do I access a result which is not the first in the list?
+
+In this scenario, you would use certain identifying criteria to pull the correct item from the list (for example pull the item where **lastName** equals **Robinson**)
+
+This can be done using the [List Helpers 'filter' operation](/connectors/helpers/list-helper/#filter)
+
+### I have an array of results, how do I access the last result in the list?
+
+You can use the [List Helpers 'last' operation](/connectors/helpers/list-helper/#last)
+
+### How do I check if a piece of data matches a certain value?
+
+Use the [Text Helpers](/connectors/helpers/text-helper/) 'contains' operation.
+
+### How do I put several pieces of data into a single box?
+
+You can use [Interpolated mode](/platform/working-with-data/basic-data-guide/#interpolated-mode) to combine pieces of data, and e.g. compose a long message which contains those pieces of data.
+
+### "Data is too large to be displayed" message in logs
+
+Please see our [help center article on dealing with this message](https://tray.ai/documentation/help/faqs/working-with-data-faqs/#data-is-too-large-to-be-displayed-how-to-visualise-the-incoming-data-in-such-a-case)

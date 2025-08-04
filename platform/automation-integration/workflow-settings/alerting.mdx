@@ -1,0 +1,95 @@
+---
+title: "Automated alerting"
+description: "Using the Alerting Trigger you can set up workflows to process errors from your workflows. This enables you to monitor and take appropriate action to help you quickly rectify any problems which occur in your projects."
+---
+
+Using the [Alerting Trigger](#) you can set up workflows to process errors from your workflows.
+
+This enables you to monitor and take appropriate action to help you quickly rectify any problems which occur in your projects.
+
+![alerting-workflow](/images/platform/automation-integration/workflow-settings/alerting/4hHOnDomdyljNmvSuCIt6o_alerting-workflow.png)
+
+Logging errors outside of Tray in some way is essential.
+
+What service you choose for this logging process is up to you.
+
+A few example options:
+
+- Google Sheets (only suited to low throughput - be careful of API limits!)
+- Airtable 
+- Database (SQL, Redshift, Snowflake etc.)
+- Segment (more task-specific tracking and reporting options)
+- Other task-specific apps you may have in your tech stack
+
+Please see our [Tray Academy course on error handling](https://academy.tray.io/tray-build-practitioner-i/kfVai5MR5jdVwknL8JQ3XT/dealing-with-errors-monitoring/x2B2eQLjiaEQgYKbMYz2BG) for an interactive lab and some guidance on how we handle errors at Tray! 
+
+## Instance-level alerting 
+
+It is possible to set up an alerting workflow which will deal with errors **for every single workflow in your Organization.**
+
+This can be done by a **Workspace Admin** by going to Account Settings > General > Alerting:
+
+![set-org-alerting-workflow](/images/platform/automation-integration/workflow-settings/alerting/2KwnR4Pkd0oi4M2k95M5LX_Automated alerting-1 2.png)
+
+So by default any errors in your organization's workflows will go to this workflow.
+
+Unless it is overridden by:
+
+- Alerting workflows assigned to specific workflows
+- Workflows in a personal workspace using a personal alerting workflow
+
+## Workflow-specific alerting
+
+For each workflow it is possible to go into workflow settings and choose the alerting workflow that it will use:
+
+![workflow-specific-alerting](/images/platform/automation-integration/workflow-settings/alerting/6k2Kx08C2uLtpOUj7ZYNHR_workflow-specific-alerting.png)
+
+## Personal alerting
+
+For all workflows in your personal workspace you can choose either an org-level alerting workflow or an alerting workflow from within your personal workspace:
+
+This is done by going to your personal profile settings and setting the alerting workflow:
+
+![set-personal-alerting-workflow](/images/platform/automation-integration/workflow-settings/alerting/2fE7fE1LiHBtZOjufcKRYZ_Automated alerting-2 1.png)
+
+As with instance-level alerting, this can be overridden by the settings for individual workflows within your personal workspace.
+
+## Alerting payloads
+
+An alerting payload contains the following basic info:
+
+| Name | Description |
+|---|---|
+| workflow_uuid | The UUID of the workflow which sent the error |
+| workflow_url | The URL of the workflow which sent the error |
+| workflow_title | The title of the workflow which sent the error |
+| step_name | The name of the specific step which was the cause of the error |
+| step_log_url | This URL can be used to go directly to the point in the logs at which this error occurred |
+| connector | The type of connector (and version) that caused the error |
+| project_id     | The unique identifier of the project the workflow belongs to |
+| workspace_id   | The unique identifier of the workspace where the error occurred |
+| workspace_name | The name of the workspace where the error occurred |
+| message | The internal Tray-generated error message |
+| created | A timestamp of when the error occurred |
+
+These are available as 'alerting variables' that can be made use of in any of your workflow steps
+
+`step_log_url `is undoubtedly one of the most important here as it allows potentially quick troubleshooting and re-running of the source workflow:
+
+![error-alerting-payload](/images/platform/automation-integration/workflow-settings/alerting/E9IEYuHU10QDzQjVrTtAD_error-alerting-payload.png)
+
+![alerting-variables-sect-to-slack](/images/platform/automation-integration/workflow-settings/alerting/44oybDmlOBozp7Jlw043k_alerting-variables-sect-to-slack.png)
+
+## Enhanced alerting payloads
+
+When creating an alerting workflow it is often advisable to tick the 'Include raw response' option:
+
+![include-raw-response](/images/platform/automation-integration/workflow-settings/alerting/7a4f64fb-1a738781_Automated alerting-3 1.png)
+
+When enabled, this will include more detailed information as it will parse the specific response from the third-party API.
+
+So for the above example of sending an unrecognized file id to Google Drive we could get the following response:
+
+![enhanced-alerting-payload](/images/platform/automation-integration/workflow-settings/alerting/7a4f64fb-5972937e_enhanced-alerting-payload.png)
+
+The details can be accessed with jsonpaths such as `$.steps.trigger.error.response.body.error.errors[0].domain` or `$.steps.trigger.error.response.body.error.errors[0].reason`

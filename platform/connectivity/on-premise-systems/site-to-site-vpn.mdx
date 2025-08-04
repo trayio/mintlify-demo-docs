@@ -1,0 +1,60 @@
+---
+title: "Site-to-site VPN configuration"
+description: "This option allows Tray connectors to access your network using VPN tunnels."
+---
+
+## 
+
+<Info>
+Advanced on-prem options are available to:
+
+- **Team** customers as an optional add-on
+- **Enterprise** customers as standard
+</Info>
+
+## Site-to-site VPN
+
+![on-prem-diagram-new](/images/platform/connectivity/on-premise-systems/site-to-site-vpn/53b84e75-b9c1259b_on-prem-diagram-new-9.png)
+
+This option allows Tray connectors to access your network using VPN tunnels.
+
+In this model, Tray effectively becomes a “Site” in your network and establishes an encrypted communication channel.
+
+To do this we will host a VPN server and deploy a **Tray.io subnet** in a region nearest to your geographic location.
+
+## Key points in using Site-to-site VPN
+
+- A VPN connection gateway is not a server, or an agent
+- Traffic goes via the Internet (and not a private backbone) but since it is **via an encrypted tunnel**, it is highly secure
+- It is possible to establish 2 tunnels for failover and high availability purposes
+
+## Setting up a Site-to-site VPN
+
+### Basic required info
+
+| Details                          | Notes                     |
+| -------------------------------- | ------------------------- |
+| Customer Name |   |
+| Geographic location | The region in which your VPC is locatedWe will locate the Tray.io VPC in a region that is optimal in terms of latency when connecting  |
+| Tray OrgID |   |
+| Customer network gateway public IP address | This is required for the connection and is used to generate the IPSec credentials between the two environments.  |
+| Static or dynamically (BGP) routed VPN? | If static we will require your subnet ranges  |
+
+
+### The setup process
+
+1. We set up a **separate Tray VPC network** which does not overlap with your network and will not require you to reserve a large chunk of routes
+2. We establish a VPN connection gateway (not a server, and not an agent),
+3. You will do the same - we then bidirectionally **point these two gateways at each other to establish a connection**
+4. We **attach the VPN gateway to the VPC** to ensure the private traffic between two sites traverse via it
+5. We will also create a **NAT Gateway** in case you also need to reach pubic resources on the web (non-VPN traffic)
+
+### Technical considerations
+
+- We can establish **2 tunnels for better failover**. For this we provide two IPSec credentials. Not all customers may want this but should be aware that in the event of tunnel failure, this would mean an outage in connectivity and hence disruption in WF execution.
+- We offer two “modes” of VPN connectivity:
+- **Statically routed**
+- **Dynamically routed** (BGP-based)<br/>**BGP is preferable** as some of the overhead can be delegated to the underlying protocol. BGP also has built-in peer discovery and connection keep-alive which will result in **healthier tunnels**.<br/>However, BGP requires you to have a compatible router and to actively advertise routes to the Tray gateway so we can reach all the relevant resources.
+- We also support both IKEv1 and IKEv2:
+- **IKEv1** means on the Tray side we need to reinitiate interesting traffic in the event of tunnel inactivity
+- With **IKEv2 this** needs to be done by you<br/>(This is mostly applicable to static routing VPNs and usually achieved by something as simple as a long-running ping script but because of lack of fault tolerance there we prefer to use BGP)

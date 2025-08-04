@@ -1,0 +1,112 @@
+---
+title: "Folder migration (recursion)"
+description: " very common problem faced by businesses is the mass migration of an entire company's folder structure (as well as the files themselves) into a new management system."
+---
+
+## Overview
+
+A very common problem faced by businesses is the mass migration of an entire company's folder structure (as well as the files themselves) into a new management system.
+
+While on the surface this is a daunting task, by using Tray and the recursive method, it can be easily mitigated even if as a user the intricacies of the files and folder structure remain a mystery to you.
+
+Please have a quick watch of our introductory video on recursion:
+
+## Import and run the pre-built workflows
+
+We have prebuilt and exported these workflows for you so you can import them to your own account:
+
+- [parentRecursion workflow](#)
+- [subRecursion1 workflow](#)
+- [subRecursion2 workflow](#)
+
+<Warning>
+It is assumed that the root folder in your source Box directory only has folders and no actual files
+</Warning>
+
+### Notes on importing
+
+- You will first need to create 3 empty workflows (using any trigger - this will be updated upon upload), then import the above workflows one-by-one
+- Assuming you have pre-existing Box and Drive authentications you will need to set the authentications for your Box and Drive steps in each workflow. Note you will also need to set the **get Parent Folder **(http-client-1) step to use your Box auth in both sub workflows (the http client is used here as the available operations for the Box Tray connector don't quite meet our needs).
+- Once imported you will need to manually set the correct workflows to be called for each 'Callable workflow' step as these dependencies are lost when importing separate workflows:
+
+![set-callable-step](/images/platform/automation-integration/advanced-use-cases/folder-migration/3D9njsCmBTNuzDYieTFnXP_set-callable-step.png)
+
+Your own version of these workflows will then be ready for testing.
+
+We have also included a Deletion workflow, so that you as a user can re-run the use case provided with the knowledge that your data storage connectors will start "empty" on each run:
+
+- [deleteDataStorage workflow](#)
+
+<Info>
+While this example will work 'out of the box' for transferring from Box to Google Drive, it should be fairly straightforward to re-purpose it to work the other way, or with other file storage applications such as Dropbox
+</Info>
+
+## Workflows explained
+
+This use case highlights moving a complex folder structure from a [Box](#) account, into a [Google Drive](#) account. Without even knowing the complexity of the folder structure beforehand, the method below explains how this can be automated.
+
+The workflows involved carry out the following tasks:
+
+1. The **Parent workflow **loops through all files and folders **within the root directory **and sends them **for processing to the first sub-workflow**
+2. The **first sub-workflow** processes the file or folder which has been sent from the parent workflow. Then:
+3. The second sub-workflow processes the file or folder received from the first sub-workflow in exactly the same way. **If it is processing a folder it will loop through each item and send it back to the first sub-workflow **
+
+So in this way the sub-workflows will keep calling each other until all sub-folders and files have been created in Drive.
+
+### Parent Process (workflow 1):
+
+![recursion-parent-pro](/images/platform/automation-integration/advanced-use-cases/folder-migration/56ZQlNmTjX0qjcXb1WAjFp_recursion-parent-pro.png)
+
+### Sub-workflows 2 & 3 - these are identical:
+
+![recursion-sub-pro](/images/platform/automation-integration/advanced-use-cases/folder-migration/2r8ilghiHc7yZhR5fiXUrC_recursion-sub-pro.png)
+
+## Key concepts
+
+### Lookups
+
+You will notice that there are several steps throughout the workflows which refer to 'folder lookup'.
+
+This is what is used to recreate the folder structure.
+
+The workflows are effectively creating a 'lookup table' as they go, which maps the id of a Box Folder to the id of the corresponding Google Folder:
+
+| **Box (Key)**   | **Drive (Value)**  |
+|-----------|------------|
+| mainFolder1 Box id  | mainFolder1 Drive id  |
+| subMainFolder1.1 Box id  | subMainFolder1.1 Drive id  |
+| subMainFolder1.2 Box id  | subMainFolder1.2 Drive id  |
+| mainFolder2 Box id  | mainFolder2 Drive id  |
+| subMainFolder2.1 Box id  | subMainFolder2.1 Drive id  |
+| subMainFolder2.2 Box id  | subMainFolder2.2 Drive id  |
+| etc. |   |
+
+These lookups are stored using **account-level data storage**, where the **Key** is the Box id and the **Value** is the Drive id.
+
+The way in which the lookup for a folder is generated is illustrated by the following section:
+
+![create-in-parent-folder-section](/images/platform/automation-integration/advanced-use-cases/folder-migration/24sUxPnOAInfOoOGrNW8bu_create-in-parent-folder-section.png)
+
+1. A check is carried out to see if this folder has a parent folder (i.e. the Box parent folder id 'key' has a corresponding Drive folder id 'value' in Data Storage)
+2. In this case it is 'True'
+3. Create a new folder in Drive using the value from Data Storage for the Parent Folder (the folder Name is pulled from the workflow trigger)
+4. A Folder lookup then has to be set for the folder just created:
+
+![create-folder-lookup](/images/platform/automation-integration/advanced-use-cases/folder-migration/4Dpv4obUDGWM5Lg5ReyLUB_create-folder-lookup.png)
+
+You can see that
+
+- The **Key **for this lookup is the **Box id **taken from the **workflow trigger**
+- The **Value **is the **Drive id **taken from the **folder just created**
+
+Once a folder is created, its items must be looped through and passed to either sub-workflow 2 or sub-workflow 1.
+
+### Preventing a 'Race Condition'
+
+When the items in a folder are being looped through, you will also notice that the loop is delayed with an **await Lookup** step:
+
+![loop-through-items](/images/platform/automation-integration/advanced-use-cases/folder-migration/3q5yDhQejKs2qPmCJDZ0gG_loop-through-items.png)
+
+This uses the **Await Get Value** operation which forces the loop to pause until a folder lookup has been created for this item.
+
+This is because if there is a delay in creating the first item in a particular subfolder then the second item might create the new folder and lookup a split second before the first item does. As it had already gone down the 'no lookup exists' path the first item will still create a new folder and we will have a duplicate!

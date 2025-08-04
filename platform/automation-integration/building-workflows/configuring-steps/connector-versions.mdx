@@ -1,0 +1,103 @@
+---
+title: "Updating connector version"
+description: "Connectors have different \"versions\" in Tray.io. Every time an update is made to a connector (i.e. every time we add new operations and functionality to a service or helper connector), a new version is created."
+---
+
+Connectors have different "versions" in Tray. Every time an update is made to a connector (i.e. every time we add new operations and functionality to a service or helper connector), a new version is created.
+
+We highly recommend that you maintain up to date connector versions throughout your your workflow usage.
+
+## Auto Update not available
+
+<Warning>
+**IMPORTANT!**: When a new connector version is available and you are using it in a workflow, you will need to manually update it yourself.
+</Warning>
+
+**We do not allow automatic version updates because there is a risk that it may break your workflow**.
+
+One (or possibly all) of the following critical aspects may have changed during a connector version update. 
+
+- [Authentication method](/platform/connectors/authenticating-connectors/) (token-based, OAuth-based etc.):
+- **Operation names**:
+- **Operations may return their results in a different format**:
+
+These important components cannot be automatically integrated. The connector therefore must be tested before assuming the workflow will continue to run as expected.
+
+## When should I update my connector?
+
+### General updates vs Deprecations
+
+**Deprecation**: When the previous version/s of a connector is no longer maintained and will be removed as an option within a set timeline.
+
+**A deprecation will necessitate the update of a connector version**.
+
+**General updates**: Third party services are continually updating their product and Tray will periodically update connector versions to incorporate new functionality etc.
+
+It is up to you to decide if you wish to update your connectors to take advantage of new features, bug fixes etc.
+
+Updating your connector/s to the latest version will allow you to get the latest connector functionality when building workflows.
+
+Advantages include but are not limited to:
+
+- **Updated/new functionality**: This can include but is not limited to updated operations, new service options, and more. Updates may even result in a significantly simplified workflow.
+- **Future proofing**: Good maintenance of your workflow will mean that it will be easier to adapt if/when need be and for others to potentially use after you.
+- **New Authentication methods**: Services will update their authentication methods accordingly and you may find the latest version not only more secure but better for your individual use case.
+- **Bug fixes**
+
+## How do I know when a new version is available?
+
+You will know there is a new version of your connector (or trigger) when it is mentioned in the latest [Release Notes](https://tray.io/documentation/releases/) publication.
+
+This document includes any/all updates regarding the latest connector versions and important notes our customers should be made aware of.
+
+Please note that it is currently not possible to subscribe to updates for a particular connector.
+
+## Bug Fix vs Major Update
+
+- **Bug Fix**: Is relative to the connector and is essentially a minor version update. It is symbolised by incrementation of the latter index:
+- **Major Update**: Is essentially a new version of the connector. It is symbolised by incrementation of the primary index.
+
+## Incompatibility of different major versions
+
+With some connectors, different major versions cannot be used together in the same workflow.
+
+An example of this is the [CSV Editor](https://tray.io/documentation/connectors/core/csv-editor/), where files created with a step using connector version `3.x` can only be used by a step also set at version `3.x` - and similarly for `2.x`.
+
+If you want to start using version `3.x` in a workflow which has previously used `2.x`, all CSV Editor steps will need set to `3.x`. This will mean checking and testing the functionality of all steps which were previously set at `2.x`.
+
+From this point it should be that every time the workflow is triggered, all CSV Editor steps will be creating only 3`.x` - compatible output.
+
+## Best practices
+
+### Keep your Originals
+
+Before updating any connector **we strongly recommend you save a version of your original connector or workflow first**.
+
+This will allow you to easily revert back should any unexpected breakages or changes occur. Use one of the following methods depending on your use case.
+
+- Individual/small changes:
+- Multiple changes:
+
+### Check your Dependencies
+
+Tray's [**Workflow Step Dependencies**](https://tray.io/documentation/tray-uac/building-automations/build-ui-shortcuts/workflow-step-dependencies/) feature will help you understand which connectors are going to be affected by your version update. 
+
+Simply click on the connector you plan to update to use this visual aid. It will provide a quick overview of the relationships between your workflow steps. 
+
+It is the affected connectors and their relative jsonpaths which will need to be checked and tested. We highly recommend you **make a list of all the step dependencies associated **before beginning any alterations.
+
+![data-source-example](/images/platform/automation-integration/building-workflows/configuring-steps/connector-versions/1zFGVqb2nKHSs1xLb1E1kE_Group 21.png)
+
+Connectors (copied or otherwise) include** step numbers** . For example this jsonpath uses step number 1: `{.steps.object-helpers-1.result...}`.
+
+You need to ensure that the final working connector version either uses the **same** **step  number as the original** OR** that all jsonpath references to the original connector have been updated** **to refer to the new connector/step number** instead.
+
+Check out our page on [Workflow step dependencies](https://tray.io/documentation/platform/workflow-step-dependencies/#examples) for more details on the data and destination feature.
+
+## How to update the version of a connector
+
+1. Click the connector step that you want to edit.
+2. The connector properties panel will automatically display. In the bottom left corner the version options are available. Once selected a dropdown will appear. 
+3. Choose the version you want to use.
+
+![choose-connector](/images/platform/automation-integration/building-workflows/configuring-steps/connector-versions/63774a80-ad0eda65_version-1-2.png)

@@ -1,0 +1,36 @@
+---
+title: "Manual error handling (connector-level)"
+description: "For any service connector step, you can override the default error alerting setup by going to the 'If a step error occurs' setting in the properties panel"
+---
+
+For any service connector step, you can override the default error alerting setup by going to the 'If a step error occurs' setting in the properties panel:
+
+![set-manual-error-handling](/images/platform/automation-integration/building-workflows/configuring-steps/error-handling/7L0O9PQL3qbzvCsZF9CYG2_set-manual-error-handling.png)
+
+<Warning>
+Error handling supports all errors however you may have legacy error handling enabled which supports 3rd party service errors only. Please see your workflow settings to disable legacy error handling and our guidance on '[What is an error?](https://tray.ai/documentation/tray-uac/error-handling/what-is-an-error/)'
+</Warning>
+
+This allows you to set up a very bespoke system.
+
+For example you may wish to enable people to quickly rectify an error by passing them details using data and environment variables from the workflow run that allows them to manually fix the error:
+
+![manual-error-use-env-variables](/images/platform/automation-integration/building-workflows/configuring-steps/error-handling/5vKpEofaCwNiV1M2pns9Fa_manual-error-use-env-variables.png)
+
+![manual-error-handling-slack](/images/platform/automation-integration/building-workflows/configuring-steps/error-handling/7j7zcTRR0edKBOgZUzQz8M_manual-error-handling-slack.png)
+
+## Accessing error messages
+
+As per the following screenshot, you can access the error messages using `$.errors` as a jsonpath prefix:
+
+![manual-errors-access-messages](/images/platform/automation-integration/building-workflows/configuring-steps/error-handling/zrVqhBjrVFaSZ0eDo8dnO_manual-errors-access-messages.png)
+
+## The continue workflow option
+
+The Continue Workflow error handling method allows for your workflow to continue running, even if that step encounters an error. 
+
+When this method of error handling is selected, the step will be denoted by a Continue icon, to let you know that the workflow will continue. 
+
+However, using this error handling method is not recommended, especially if you need to reference data from this step further downstream (because if the step fails/errors, there won’t be data to reference). 
+
+Some examples where you *may *use this method include getting a value from data storage or a callable workflow that might not be there, or POSTing data using an HTTP client or a callable workflow where you don’t need to reference the success/fail response.

@@ -1,0 +1,83 @@
+---
+title: "What is an error?"
+description: "Identifying Tray vs 3rd party errors in the Tray builder"
+---
+
+Tray has a set of modes and tools that enable you to reliably deal with errors. This can be configured with the step properties and can be configured to:
+
+1. Automatic 
+2. Manual Error Handling 
+3. Continue 
+
+For a step within a loop there are two further additional options
+
+1. Break loop 
+2. Continue loop 
+
+When dealing with errors it is important to understand there are essentially two types of errors to look out for:
+
+- Tray errors
+- 3rd party service errors
+
+## Tray errors
+
+Tray errors tend to come from mis-configured workflow steps - e.g. you mis-configured a jsonpath to use `$.steps.trigger.data.bod.email` instead of `$.steps.trigger.data.body.email`
+
+In this case the logs will return an error such as `"message": "Reference: $.steps.trigger.data.bod.email in property: 'conditions[].value' did not resolve to any value."`
+
+Jsonpaths can be referenced by both 3rd party service connectors and Tray core and helper connectors.
+
+**These errors will be picked up by alerting workflows** which can help you make sure that no jsonpaths go 'out of date' with the source data they are pulling from (e.g. if a webhook payload suddenly changes from returning 'account_name' to just 'name')
+
+## 3rd party errors[​](http://localhost:3000/docs/error-handling/what-is-an-error#3rd-party-errors)
+
+3rd party errors can happen for a number of reasons
+
+One possible reason is that the **service may occasionally fail and return e.g. a 500 or 503 status**.
+
+Another possible reason is that you have **attempted to retrieve a record which doesn't exist and the service returns a 404**.
+
+For example you may try and retrieve a non-existent card in Trello
+
+(This screenshot shows an example of using the 'manual' error-handling option. Note that you can still use the default 'stop workflow (alerting)' option):
+
+![trello-get-non-existent-card](/images/platform/automation-integration/building-workflows/mapping-data/error-data/3DXdcuh4Hl6bKRLUdrDVhY_trello-get-non-existent-card.png)
+
+It is important to note, however, that **3rd party services will have their own policies on what is considered an error**.
+
+For example, **when trying to retrieve a non-existent record in Salesforce, the Salesforce API will not return a 404 error**.
+
+Rather, it will return an **empty array.**
+
+In this case we can use a boolean condition to check for an empty array and then take whatever action we feel necessary.
+
+We could send an alert via email or to a Slack channel:
+
+![salesforce-returns-empty-array](/images/platform/automation-integration/building-workflows/mapping-data/error-data/44qHW9y8NzK2mHNKz97kZL_salesforce-returns-empty-array.png)
+
+Or we could force an error as explained below:
+
+## Forcing errors[​](http://localhost:3000/docs/error-handling/what-is-an-error#forcing-errors)
+
+In the example above you could force an error using the Terminate connector 'fail run' operation:
+
+![salesforce-force-error](/images/platform/automation-integration/building-workflows/mapping-data/error-data/7GMmWLIYHzq8YIpPRCu6sb_salesforce-force-error.png)
+
+This would trigger a run of an alert-triggered workflow and pass on the message you have set:
+
+![forced-alert-message](/images/platform/automation-integration/building-workflows/mapping-data/error-data/72BYl8iqYxVRlcgfiYg1Xk_forced-alert-message.png)
+
+## Fallback values as an alternative to errors[​](http://localhost:3000/docs/error-handling/what-is-an-error#fallback-values)
+
+Note that, rather than allowing a workflow to error, you can also potentially make use of Fallback values to use e.g. empty strings, null values or default email addresses, phone numbers etc. 
+
+## Legacy manual error handling
+
+When creating new workflows, legacy manual error handling is off by default, please see the workflow settings to enable this. When using legacy manual error handling mode**, **only third party errors can be handled manually at the connector level. Alerting workflows should therefore be used to monitor workflows using legacy manual error handling. To enable legacy manual error handling please see the workflow settings. 
+
+![Legacy Error Handling](/images/platform/automation-integration/building-workflows/mapping-data/error-data/44yv2Hwh2iGrGZ2g1HefI6_Screenshot 2025-05-02 at 11.10.21.png)
+
+A comparison of the behaviours are below.
+
+| Legacy Manual Error Handling Not Enabled (default) | Manual or continuous modes supported for all errors without automatic behaviours. |
+| Legacy Manual Error Handling Enabled | Manual or continuous modes do not support all errors,  where supported automatic behaviours take precedence. |

@@ -1,0 +1,78 @@
+---
+title: "API management overview"
+description: "Tray offers a fully featured API management platform to build and publish accessible endpoints"
+---
+
+<Info>
+All executions of workflows which underpin your API endpoints will go towards your task allowance.
+
+Please see our [documentation on tasks](/tray-uac/governance/org-management/billing-tasks-and-usage/) and [Efficient execution and minimized task consumption](/tray-uac/optimizing-your-workflows/efficient-execution-and-minimized-task-consumption/) for more details 
+
+And also our section on [Controlling task usage](/tray-uac/api-management/troubleshooting-managed-apis/#controlling-task-usage) which is specific to API management
+</Info>
+
+Tray's API management interface enables you to manage, govern, and secure APIs. 
+
+It allows you to turn any project into an API. Within a project any API operation-triggered workflows can be turned into an endpoint. These workflows themselves can be the start point for a collection of callable workflows:
+
+![apim-project-overview](/images/platform/api-management/overview/7u7U0tqeCV8xf86br3wj4i_apim-project-overview.png)
+
+With API management you can expose the power of Tray automation to other services, and  you and your customers can build applications powered by your own workflow-based endpoints.
+
+You can protect and secure your API with a powerful **policy management system** which allows you to:
+
+- Manage authentication 
+- Set rate limits
+- Restrict access by role
+- Enforce header policies
+- Limit access by IP
+- Block abusive or suspicious behaviors
+
+To assist with API governance in your organization it is also possible to [export your API as an OpenAPI spec](/tray-uac/api-management/openapi-spec/export-openapi-spec/) which can then be used for automated docs and testing, pipeline validation, standardized practices etc. 
+
+The following documentation pages will take you through the basics of API management:
+
+- [Create endpoints / operations ](/tray-uac/api-management/create-endpoints/)
+- [Roles policies clients & tokens](/tray-uac/api-management/roles-policies-clients-tokens/)
+- [Making API calls](/tray-uac/api-management/making-api-calls/)
+- [API management and Embedded integrations](/tray-uac/api-management-and-embedded-integrations/)
+- [Troubleshooting managed APIs](/tray-uac/api-management/troubleshooting-managed-apis/)
+
+## API management use cases
+
+### Composable internal APIs
+
+With APIm you can expose the functionality of your workflows in a way that allows your internal staff and teams to make use of your automations in a controlled and consistent manner.
+
+Some key benefits here are:
+
+- **Preventing duplication of work (composability)** - i.e. once a workflow has been built which enables functionality that can be plugged into any internal processes, it can be turned into an endpoint that can be shared 
+- **Removing the need for other teams to see the underlying workflow(s) or auth data**
+- **Enabling monitoring of usage** - i.e. you can see the origin of calls and what data is being processed in the endpoint workflows so know which internal teams are making use of the endpoints and what data is being processed on their behalf
+- **Enables highly customized security protocols** to prevent unapproved POST or GET access
+
+The endpoints can be called within Tray workflows using the HTTP client, which will return payloads which adhere to your pre-determined output schema.
+
+Some possible scenarios:
+
+- **Employee Directory** - call to get internal employee info that is owned by your employee system of record service (Workday, ADP etc.) 
+- **Marketing data** - an endpoint which geocodes a prospect's address or calculates a lead score on demand and can then be used as key prospect data to be stored in Google Sheets
+
+### Building custom functions for LLMs and knowledge agents
+
+If your organization is building out a library of knowledge agents (internal or external), you could create an endpoint which acts as a callable function that any of your knowledge agents can call at any time.
+
+For example you may wish to build a function which gathers all required geographical information about a place and returns it in the payload.
+
+Any knowledge agent workflow could then call this function with one simple HTTP client step and send the returned payload to the LLM as part of the info it needs for its chat completion.
+
+### External APIs for production systems
+
+Please note that external API usage **isn't best suited for interacting with UI components** within web apps due to latency considerations.
+
+As long as your workflows do not have too much potential latency within certain steps, and they are heavily optimized for execution time, you can build out an api to use in **certain** external applications.
+
+Some examples:
+
+- **AI-powered chat interfaces / knowledge agents** - having built an endpoint which retrieves data from a vector database and sends it to an LLM for chat completion, you could build a front-end UI which makes use of it by simply sending user questions entered into the UI
+- **E-commerce / finance** - build an endpoint which retrieves inventory levels from Netsuite that can be displayed on a website

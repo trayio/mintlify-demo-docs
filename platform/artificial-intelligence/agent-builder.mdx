@@ -1,0 +1,84 @@
+---
+title: "Merlin Agent Builder"
+description: "Build AI Agents on Tray with Merlin Agent Builder. Native functionality to build and manage agents that can take actions using Tray workflows."
+---
+
+Building Agents on Tray's AI-ready iPaaS unlocks a whole new paradigm of automation in the enterprise.
+
+<Info>
+If you're interested in using this feature, please reach out to your Customer Success Manager or Account Executive.
+</Info>
+
+## Agent Accelerators
+
+We have accelerators that can help you get started in minutes or you can build your agent one tool at a time to meet your exact business requirements. With Tray the hardest parts of building agents (agent architecture, setting up function calling, defining tool schemas) are all simplified in our low-code interface. We make it easy to get started and leave to door open to endless customization.
+
+## What is an AI Agent? 
+
+An artificial intelligence (AI) agent is a software program that can interact with its environment, collect data, and use the data to perform self-determined tasks to meet predetermined goals.
+
+If you are familiar with building on the Tray platform this is how these pieces break down: 
+
+- Environment
+- Collect Data
+- Perform tasks
+
+Using an AI-ready iPaaS is much different from an agent that exists within a single platform because you can orchestrate tasks across tools that just isn't possible with an agent that is silo'd within a specific application.
+
+## Components of an Agent on Tray
+
+### Merlin Agent Builder
+
+This is the part of a project where you build and manage your agent. You can add or remove tools from the agent, rename your agent, and update agent tool descriptions.
+
+![Merlin Agent Builder](/images/platform/artificial-intelligence/agent-builder/3ptK2LzUrSdsubM6TY1GWO_CleanShot 2025-01-23 at 08.32.12.png)
+
+### Agent Workflow
+
+Each agent is automatically provisioned with an agent workflow. Inside this workflow there are specific connectors (ai-agent-utils) that use AI to understand a request, reason about what should be done, determine what tools are available, choose the right tools, execute the tools, and respond with the outcome. The architecture of the default agent workflow is built to run without modifications (which includes session handling). We have default inputs for the agent, but you can customize these by updating the input schema of this workflow. 
+
+### Agent System Prompt 
+
+The "Run Agent" step inside the Agent workflow is where you provide the instructions for the agent at a general level, this typically includes Standard Operating procedures or routines that you have in mind that the agent should run through in natural language. 
+
+![Run Agent System Prompt 20241127](/images/platform/artificial-intelligence/agent-builder/202W9sIujZA23uu8MW7Osx_CleanShot 2024-11-27 at 10.50.26.png)
+
+### Agent Tools
+
+Agents must have tools assigned to them to run successfully. Tools are Tray workflows paired with Operations that the agent can use to execute a request. 
+
+We like to think of tools in two ways: 
+
+1. Tools that provide more context to the agent 
+2. Tools that take actions in your systems
+
+You can build tools that are used for Retrieval Augmented Generation (RAG) in order for the agent to have more knowledge and better answer requests as in the case of a Knowledge Agent accelerator. You can also build tools that take actions to help get work done like in the case of the IT Ticketing Agent accelerator.
+
+Each tool is defined for the agent so it knows what the tool does and how to interact with it. You can update the tool definition by updating the inputs and outputs of the tools AND by adding a natural language description of the tool (this is handled at the level of the Tray workflow and can be modified from within the Merlin Agent Builder UI)
+
+![Agent tools 20241127](/images/platform/artificial-intelligence/agent-builder/2Er1rDHB6cJ2cyE6IfYkxD_CleanShot 2025-01-23 at 08.30.46.png)
+
+#### Creating New Tools
+
+The best way to create a new tool for your agent is from the Merlin Agent Builder UI. You can browse agent tool templates, create a new blank tool, or select an existing compatible workflow from your project. When you create a tool from this view it takes care of creating the underlying operation that is required for the workflow to be accessed by your agent. 
+
+![CleanShot 2025-01-23 at 08.36.03 - New Agent Tool Merlin Agent Builder](/images/platform/artificial-intelligence/agent-builder/7nv9WncNjvgRZdybvzEBms_CleanShot 2025-01-23 at 08.36.03.png)
+
+If you already have a workflow that you want to turn into a tool for the agent you need to make sure of two things:
+
+1. The workflow must start with the API Trigger
+2. There must be a corresponding Operation that points to that workflow 
+
+Then you can add the tool from your project to the agent from the Merlin Agent Builder UI
+
+## Invoking and Executing an Agent
+
+You can call an agent using the AI-Agent connector from any other workflow. We have guides and templates to setup an agent that can be deployed directly into your enterprise chat application (ie Slack). Other examples of invoking are when a new ticket is submitted to your support desk (ie Zendesk) or your IT service desk (ie Jira). 
+
+![Knowledge agent in slack 20241127](/images/platform/artificial-intelligence/agent-builder/a8Fb4pVF4lQyGHIOS1orb_CleanShot 2024-11-27 at 10.53.05.png)
+
+## Agent Limits
+
+- Agents use Tray's AI infrastructure, you can read more about how Merlin Agent Builder uses your data [here](https://tray.ai/documentation/tray-uac/merlin-ai/how-does-merlin-ai-use-my-data/).
+- Agents are limited to 100 concurrent runs within a single organization.  If this limit is reached the agent steps within your Agent workflow will return a 429 temporarily. 
+- You cannot move agents between projects or workspaces - we recommend creating your agent in a dedicated workspace so you can give other builders view access to the workspace so they can learn from what you build!

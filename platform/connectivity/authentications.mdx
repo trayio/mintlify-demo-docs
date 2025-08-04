@@ -1,0 +1,276 @@
+---
+title: "Authenticating connectors"
+description: "Just as when you log into your Gmail, Facebook, Salesforce, LinkedIn account etc., any service connectors you wish to use also require an authentication to verify the user."
+---
+
+Just as when you log into your Gmail, Facebook, Salesforce, LinkedIn account etc., any service connectors you wish to use also require an authentication to verify the user.
+
+Authentications can be built and used within these three areas:
+
+1. **Personal - **Used only by you.
+2. **Organization** - For example a company login used by anyone within your organisation.
+3. **Workspace **- Sub-divisions of your organisation.
+
+<Info>
+**USER TIP**: Please see the [Managing Authentications](https://tray.io/documentation/tray-uac/connectivity/authenticating-connectors/) page for guidance on how best to handle authentications within your organization and instructions on creating authentications from the dashboard.
+</Info>
+
+Read on for an overview of the different types of authentications you will come across. 
+
+Then you can go to the [Service Connectors](/connectors/service/) own page to find the specific instructions needed in order to authenticate.
+
+## Naming your Authentications
+
+**Please take care when naming your authentications**. 
+
+You will often need to create more than one over time (even for the same services) and it can become incredibly easy to get them confused with one another if you don't take your naming conventions seriously.
+
+You should try to name your authentications in a way that will quickly identify it within a potentially large list. Consider who/ how many people will need access to this authentication when choosing where to create this authentication 
+
+For example whether it is a Sandbox or Production auth. Maybe including the name of the service API version you are using would be useful. Perhaps you could specify the Workspace group or Organisation associated with this particular type of authentication so you know if its one you and your team have access to.
+
+If you take the above into account upon creation when looking in your group of available authentications later on finding the right one will be simple! 
+
+## Creating Auths
+
+There are two places you can create service authentications:
+
+- In a workflow
+- From the dashboard 
+
+### Creating auths in a workflow
+
+Once you are within the builder highlight the connector you want to create a new authentication for. 
+
+In the connector properties panel select the **Auth** tab and **Create New authentication**:
+
+![create-new-auth](/images/platform/connectivity/authentications/7wCqrQGHuxS8Jg3klaj2h_create-new-auth.png)
+
+### Managing Scopes
+
+When creating auths, a lot of OAuth2 services will present a list of scopes as checkboxes, and include and 'Extra permissions' box to allow you to enter any extra scopes required:
+
+![scopes-ticks-and-extra](/images/platform/connectivity/authentications/4Wjd0Lcu91ChO1Hx8A96x_scopes-ticks-and-extra.png)
+
+Others will simply present you with a permission scopes box to allow you to enter any necessary scopes:
+
+![image](/images/platform/connectivity/authentications/22JH11BXi0KSybdpzTEADt_image.png)
+
+### Creating auths from the Dashboard
+
+Within the main Tray dashboard click on the **Authentications** section. Click **Create new authentication**.
+
+![auth-new-3](/images/platform/connectivity/authentications/78W4yQAE9c5gxKYiSBdqtG_Authenticating connectors 1.png)
+
+Here you will have two options. Do you want to** authenticate with a prebuilt service** or **connect to a custom API**:
+
+![auth-new-5](/images/platform/connectivity/authentications/5LzbE81RUc6kYFuWh1kp1W_auth-new-5.png)
+
+![auth-new-4](/images/platform/connectivity/authentications/7t2t5XmTBFiKdSThHE81S8_auth-new-4.png)
+
+## Auth types
+
+### Token based
+
+Some API's prefer to use Bearer Tokens as a means for validation. Such as Airtable.
+
+All you need do is add your token to the form when the property is presented:
+
+![airtable-auth-new-token-eg](/images/platform/connectivity/authentications/1DpVaw5WViVMVqTSSOEB3B_alksdufh.png)
+
+### OAuth2
+
+APIs that use OAuth or OAuth2 display a more complex box. From here you can reduce the permission 'scopes'. 
+
+**Be careful** - reducing the scopes might prevent the connector from functioning properly (required scopes are described in individual connector docs).
+
+**Please take note that every connector authentication window is unique!** There are many variables involved that are dependant on the service's own requirements and API calls.
+
+Individual service connector documentation gives more specific details on how to set up a connector's authentication.
+
+![oath2-scopes-gif](/images/platform/connectivity/authentications/3es9S1di5jSKyPTEPGFDp3_Feb-13-2024 13-52-23.gif)
+
+<Info>
+**PLEASE NOTE**: Tray does support OAuth (or OAuth 1) authentications, we simply don't recommend them due to the security risk they might impose.
+</Info>
+
+### Certificate-based Authentication
+
+Tray can also support certificate-based authentications. Please contact us if you need a custom certificate-based authentication built for your service.
+
+## Editing basic auth details
+
+Once created, you can edit the basic details of the authentications you have provided you have the right access levels.
+
+This includes the **name of the authentication and the workspace** it is part of.
+
+![org-manage-auths-edit](/images/platform/connectivity/authentications/a929bffd-6585d144_Authenticating connectors-2.png)
+
+## Updating auth settings
+
+You can **change the settings and access** of authentications created previously - i.e. the parameters you gave said authentication earlier or when it was originally created.
+
+From the 'Authentications' section of the main dashboard next to the authentication in question, select the 'Settings' option from the 'Options' icon.
+
+This step will **ask you to re-authenticate** as all changes and access to your tools will have to be **verified**.
+
+![org-manage-auths-update](/images/platform/connectivity/authentications/a929bffd-d4bb5ee7_Authenticating_connectors.png)
+
+You can also edit the actual authentication credentials itself, such as:
+
+- The custom domain of the app.
+- The API key associated with the app.
+- The OAuth scopes (i.e. specific 'read/write' permissions to different parts of the service).
+
+Note that when doing this:
+
+- Changes you make will override existing values.
+- Previously-saved sensitive authentication information will not be displayed.
+
+## Creating new Services
+
+If you need to connect to a third party service (for when there is no pre-existing Tray connector) there are three ways in which you can do this: 
+
+- Generic Service Authentication - (token based authentications)
+- Create a new service and auth (via the HTTP client or authentications dashboard)
+- Create a new service only (for which authentications can later be made)
+
+<Info>
+You cannot use Generic Service Authentication with complex token-based and Oauth-based authentications. In such cases, we recommend creating a new service.
+</Info>
+
+Consider a scenario where you want to launch a modal in slack when a /test-referral command is fired in Slack. To launch the modal you need to use an HTTP Client connector. 
+
+![launch-initial-modal](/images/platform/connectivity/authentications/3iYrJ9KVEjAC7cPbbwJhpi_launch-initial-modal.png)
+
+To authenticate the HTTP Client with the required Slack app you can use the Generic Service authentication method.
+
+<Warning>
+For security purposes, be careful when you create a Generic service auth in an organization workspace as it will be accessible to everyone in your organisation.
+</Warning>
+
+### Generic Service Authentication
+
+This method is useful for any third party service that uses token auths (example: [Basic auth](https://www.twilio.com/docs/glossary/what-is-basic-authentication)).
+
+Apart from this, you can also use generics service auth for:
+
+- [Webhook trigger](/connectors/triggers/webhook-trigger/#csrf-tokens) - to securely store a CSRF token
+- [File helpers](/connectors/helpers/file-helper/) - to secure any credentials that maybe used in a file http request header.
+
+and any connector that may want to have sensitive data passed externally.
+
+Follow the step by step guide below to add Generic service auth in [HTTP Client](/connectors/core/http-client/) connector:
+
+<AccordionGroup>
+<Accordion title="1 - Add new authentication">
+Highlight the **Launch Initial Modal **step. Select the 'Auth' tab and click on the 'New authentication' button on the properties panel.
+
+![launch-initial-modal-new-auth](/images/3gB6UADvqaRpOIbubAav9K_launch-initial-modal-new-auth.png)
+</Accordion>
+
+<Accordion title="2 - Select Generic Service">
+Name your auth on the **New authentication modal** and select the service as Generic Service.
+
+![launch-initial-modal-auth-modal](/images/2LikKriA4N8mqb3stSle5i_Screen Shot 2022-05-05 at 8.47.00 AM.png)
+</Accordion>
+
+<Accordion title="3 - Add new property">
+Add a **New Property** as `access_token`.
+
+![launch-initial-modal-auth-add-new-property](/images/KHWbYlzhZ03EML7xm8UMC_launch-initial-modal-auth-add-new-property.png)
+
+<Info>
+The property may vary based on the service. Since we are authenticating the Slack app, the required property is `access_token.`
+</Info>
+</Accordion>
+
+<Accordion title="4 - Add value to the access_token">
+To get the value for the access_token, go to your **Slack admin settings, select OAuth & Permissions** from the left panel, and copy the **Bot User OAuth Token.**
+
+![launch-initial-modal-oauth-token](/images/6CqEd52JYs9wP8LhoS6E1U_launch-initial-modal-oauth-token.png)
+
+Paste this value to the 'access_token' field on the Tray New authentication modal and click the 'Create authentication' button.
+
+![launch-intial-modal-auth-add-access-token](/images/1zRmbamxCY2EteL7wxAgDF_launch-intial-modal-auth-add-access-token.png)
+
+Your connector authentication setup should now be complete.
+</Accordion>
+
+<Accordion title="5 - Select the newly created authentication">
+Select the newly created authentication from the available drop-down options.
+
+![select-the-newly-created-authentication](/images/99R4DjrQjeqhwaH4Cyi8t_select-the-newly-created-authentication.png)
+</Accordion>
+
+<Accordion title="6 - Add the auth access token to the  Authorisation type">
+The next step is to add the `access-token` from the newly created authentication to the **Authorisation type.**
+
+To do so:
+
+<AccordionGroup>
+<Accordion title="1 - Show advanced properties">
+On the HTTP connector's properties panel, scroll down and click the **Show advanced properties** button.
+
+![show-advanced-properties](/images/7gDyeUqKRIXDahrXEVFnqZ_Show advanced properties.png)
+</Accordion>
+
+<Accordion title="2 - Select the Authorisation type">
+In Advanced properties select the '**Authorisation type' **as `OAuth2.`
+
+![choose-authorization-type-oauth2](/images/5Jr7ESsl1KUrMNisHcrhJh_choose-authorization-type-oauth2.png)
+</Accordion>
+
+<Accordion title="3 - Add the Access token">
+Change the type selector for the 'Access token' field to `jsonpath.`
+
+![change-the-type-selector](/images/78IqHuu54yEuio1vn3Vfrq_change-the-type-selector.png)
+
+Select `$.auth.access_token `jsonpath from the available drop-down options for the Access token field.
+
+![select-access-token](/images/4FhmxKFvObVVbQ5z83jxa_select-access-token.png)
+</Accordion>
+</AccordionGroup>
+</Accordion>
+</AccordionGroup>
+
+### Create a Service & Auth
+
+There are essentially two routes for doing this. 
+
+- Go to your Personal workspace and select the main Tray Authentications tab. Click 'Create new authentication'.
+- The other route is via the HTTP connector within the builder itself.
+
+<AccordionGroup>
+<Accordion title="Personal workspace [option 1]">
+![new-auth-personal](/images/19ZlFWj261bcyz36tb8638_new-auth-personal.png)
+</Accordion>
+
+<Accordion title="Http connector [option 2]">
+![http-auth-new-modal](/images/5TFkWjYhjZzX0ouch3JEu6_http-auth-new-modal.png)
+</Accordion>
+
+<Accordion title="1 - Add your basic Auth info & select Connect to a new API">
+![http-new-connect](/images/46sHQdsuwWa3W8ePgGQkFw_2.png)
+</Accordion>
+
+<Accordion title="2 - Choose your Auth type">
+![cb-new-api-1](/images/5QiHUhafiE2PJm9L10TLoC_cb-new-api-1.png)
+
+![cb-new-api-2](/images/RilZnKCM5aj8YoofrcoYF_cb-new-api-2.png)
+</Accordion>
+
+<Accordion title="3 - Add your properties as relevant to your use case">
+Below is an example walkthrough of the kind of options you have should you choose the OAuth 2 option.
+
+![new-auth-gif](/images/6vVWTdBAIJYPBhm3tTael_new-auth-gif.gif)
+</Accordion>
+</AccordionGroup>
+
+### Create a Service only
+
+To reference a service when creating an authentication with the HTTP Client you can for example, choose a name for your auth token and then enter the actual token value. 
+
+This auth token can then be used in your API call (for example, as a parameter) by including the path `$.auth.token_name`.
+
+Please see the Custom Services guide for an illustration of how this generic approach works.

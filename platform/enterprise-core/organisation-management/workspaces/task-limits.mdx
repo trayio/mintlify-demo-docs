@@ -1,0 +1,92 @@
+---
+title: "Technical limits, timeouts and retries"
+description: "This page brings together all information on technical limits of connectors on the Tray Platform."
+---
+
+This page brings together all information on technical limits of connectors on the Tray Platform.
+
+Some of this information is repeated on relevant connector pages.
+
+## Timeout information
+
+| **Case** | **Policy** | **Notes** |
+| --- | --- | --- |
+| How long does a connector take to timeout? | 45 seconds<br/><br/>OR<br/><br/>120 seconds if built and deployed by you using [CDK](https://developer.tray.io/developer-portal/cdk/introduction/) | is longer on certain connectors such as the CSV connectors and Redshift (Redshift setting is 60 minutes) |
+| How long does the HTTP Client (Universal Connector) wait for a response? | 15 mins |  |
+| How long does the [Webhook Trigger](/documentation/connectors/triggers/webhook-trigger/) wait (when using [trigger event reply](/documentation/connectors/core/trigger-event-reply/)) | 5 mins |  |
+| How long does the Authentication refresh wait before throwing an error - such as 'unable to refresh OAuth token.' | 1st retry is immediate | 2nd and 3rd retries wait approx 20 seconds |
+| How long does the 'Fire and Wait for Response' operation in the '[Callable response](/documentation/connectors/core/callable-workflow-response/)' connector wait before timing out? | this doesn’t have a timeout as a workflow could take a long time to complete |  |
+
+## Connector retry logic
+
+| Case | Policy | Notes |
+| --- | --- | --- |
+| Service connector API returns an error | Retry 3 times every 40 seconds | Retries 3 times only if set to stop workflow, error handling retries 0 times
+| Internal Tray.io error (backend) | Retries 15 times regardless of error handling | Delay increases each time. First retry after 30s, then 2mins, etc. 10th time will wait for 30 minutes. "Unfortunately, we encountered an internal error..." |
+| Backend Error (connector itself) | Retries 3 times regardless of error handling | "Unfortunately, the connector unexpectedly failed..." |
+| Wrong user input (e.g. wrong [jsonpath](https://tray.io/documentation/tray-uac/building-automations/workflow-data-basics/mapping-data-between-steps/#editing-jsonpaths)) | Doesn’t retry regardless of error handling | Use error returned to troubleshoot |
+| A service trigger / webhook is retrying | If the service which sends the webhook doesn't receive a 200 status from Tray.io, this will depend on the retry policy of the service | An example policy is [QuickBooks](https://developer.intuit.com/app/developer/qbo/docs/develop/webhooks#configuring-webhooks) which retries every 20, 30, and 50 minutes |
+| Service connector is not retrying a failed API call  | Will only retry a failed API call if the error handling logic is set to 'Stop workflow'  | 'Manual' & 'Continue workflow' logic - Api/ connector error: doesn’t retry internally, generic backend error: retries 3 times internally |
+
+
+## Data payload limits
+
+| Case | Limit | Notes |
+| --- | --- | --- |
+| Data that can pass between any 2 steps in the workflow builder | 6 MB | any more will cause issues |
+| Data that can be sent using the [Trigger Event Reply](https://tray.io/documentation/connectors/core/trigger-event-reply/) | 1 MB |
+| Data that can be consumed by our Webhook Trigger | 1 MB | file content can be sent as multi-part http requests, with an overall limit of 10MB |
+| Data that can be sent via the [Form Trigger](https://tray.io/documentation/connectors/triggers/form-trigger/) | 1 MB (10 MB for attached files) |
+| Data that can be attached to an [inbound email](https://tray.io/documentation/connectors/triggers/email-trigger/) | 10 MB |
+
+
+## Link persistence
+
+| Case                                               | Policy  |
+| -------------------------------------------------- | ------- |
+| How long do files generated in a workflow persist? | 6 hours |
+
+
+## CSV connectors
+
+| Case | Limit | Notes |
+| ---- | --- | --- |
+| Data that can be extracted from, or sent to, the [CSV Editor](https://tray.io/documentation/connectors/core/csv-editor/) in a single call | 1 GB | more is likely to cause issues |
+| File size limit when [importing to the CSV Editor](https://tray.io/documentation/tray-uac/building-automations/workflow-data-basics/managing-csv-files/) | 1 GB |
+| Max payload between steps for [CSV Reader](https://tray.io/documentation/connectors/core/csv-reader/) | 1 MB | as per between standard connectors in the builder |
+| Maximum row size | 8 KB |
+| Maximum number of columns | 4096 |
+| When I create a CSV how long does this CSV persist for? | 30 days |
+| When I export my created CSV I get a download url How long is the download URL active for? | 6 hours | as per standard link persistence policy |
+
+## Logs retention
+
+| Case                             | Policy  | Notes                     |
+| -------------------------------- | ------- | ------------------------- |
+| How long are logs retained for?  | 7 days or 30 days depending on package| can be reduced on request |
+| How long can logs be re-run for? | 7 days  |
+
+
+## The Data Storage connector
+
+| Case | Policy | Notes |
+| --- | --- | --- |
+| Overall storage limit | none |
+| Storage limit under single key | 400 KB |
+| Nested depth limit | 32 | for more deeply-nested objects the 'set value' operation can use the 'Force store in older format' option in advanced properties. |
+| How long is data stored under **Current Run** scope? | 30 days from execution | to allow for delays in workflow completion |
+| How long is data stored under **Workflow** scope? | until deletion of the workflow |
+| How long is data stored under **Account** scope? | until deletion of the workspace |
+
+
+## Webhook trigger rate limits
+
+| Case                             | Policy  | Notes                     |
+| -------------------------------- | ------- | ------------------------- |
+| 'Auto respond with status 200' operation  | No rate limiting | |
+| 'Validate and respond' operation | Rate limiting applies  | If too many requests (i.e. several hundred per second) come in to your webhook trigger at once, Tray.io will respond with an HTTP 429 (too many requests) error
+Please be sure to throttle requests appropriately at the source third-party service |
+| 'Await workflow and respond' operation | Rate limiting applies  | If too many requests (i.e. several hundred per second) come in to your webhook trigger at once, Tray.io will respond with an HTTP 429 (too many requests) error
+Please be sure to throttle requests appropriately at the source third-party service |
+| 'Await workflow and respond' operation | Response size limit  | If the combined size of the 'status', 'body and 'header' in a trigger event reply step is larger than 2MB then the request will fail with a 504 after several retries |
+

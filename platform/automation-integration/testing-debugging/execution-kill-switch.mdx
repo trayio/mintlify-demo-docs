@@ -1,0 +1,28 @@
+---
+title: "Stopping workflows"
+description: "There may be occasions when the running execution(s) of a workflow has become dangerous. If you need to immediately stop all executions of a workflow you can do this with the 'Stop all executions' button:"
+---
+
+## Overview
+
+There may be occasions when the running execution(s) of a workflow has become dangerous.
+
+Some example scenarios are:
+
+- An incorrect setting means that data is going to be pulled from the wrong source or pushed to the wrong destination
+- An incorrect setting means that some data is going to be wiped
+- A badly-configured loop is running infinitely
+
+Whatever the reason, if you need to immediately stop all executions of a workflow you can do this with the 'Stop all executions' button:
+
+![stop-all-executions](/images/platform/automation-integration/testing-debugging/execution-kill-switch/6GTO9wqotSbnjqUe5Zxoj2_stop-all-executions.png)
+
+You will be presented with the following warning:
+
+![stop-all-executions-warning-modal](/images/platform/automation-integration/testing-debugging/execution-kill-switch/3CbnoAmKIG8o1Rb1QdpyPN_stop-all-executions-warning-modal.png)
+
+## Important notes
+
+- All running executions of the workflow will be stopped **once the current step for each execution is completed**. 
+- This is not the same as the 'disable' button as it **only stops executions that started before the button is pressed**. 
+- To stop **all past and future executions** this functionality would need to be used **alongside the disable workflow functionality**.

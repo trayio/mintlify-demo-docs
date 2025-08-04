@@ -1,0 +1,366 @@
+---
+title: "Using callable workflows"
+description: "Setting up parallel processing and modular functions in Tray"
+---
+
+## Overview
+
+When processing data in Tray there are three primary factors to be taken into consideration:
+
+- The **complexity** of the processing
+- The **number of processing actions** to manage
+- The **volume of data** being processed
+
+If your data processing is **both simple and low-volume**, then you will likely be able to build a **single workflow which will meet your needs**, and it will be **simple to understand and maintain**.
+
+However, **if your data processing is complex** (particularly if there are multiple processing actions to manage) then it is highly recommended to use **a callable workflow for each processing action**.
+
+This will enable you to **work with a set of simpler 'parent and child' workflows which are easier to understand and maintain** than one large sprawling workflow.
+
+Likewise, **if you are processing e.g. 10s of 1000s of rows of data**, the processing actions should be **sent to callable workflows**. 
+
+This will allow you to **send data in batches which will then be processed in parallel**, as opposed to each batch waiting for the previous to finish, as would be the case if the processing was down in the main parent workflow.
+
+## Example callable project
+
+So in practice you could end up with an extremely simple main workflow which looks something like this:
+
+![main-callable-webhook](/images/platform/automation-integration/building-workflows/composable-workflows/calling-other-workflows/4RmfZzLYrSThYCUo1FuEuP_main-callable-webhook.png)
+
+The above example begins with the following 'applicants' dataset:
+
+<AccordionGroup>
+<Accordion title="Applicants dataset">
+```json
+{
+  "applicants":[
+  {
+    "first_name": "Elizabeth",
+    "last_name": "Taylor",
+    "email": "elizabeth.kay.taylor@aol.com",
+    "favorite_color": "blue"
+  },
+  {
+    "first_name": "Brian",
+    "last_name": "Cooper",
+    "email": "brian@gmail.com",
+    "favorite_color": "n/a"
+  },
+  {
+    "first_name": "Robert",
+    "last_name": "Clark",
+    "email": "r.clark@ymail.com",
+    "favorite_color": "green"
+  },
+  {
+    "first_name": "Samuel",
+    "last_name": "Martinez",
+    "email": "samuel_martinez@outlook.com",
+    "favorite_color": "yellow"
+  },
+  {
+    "first_name": "Lillian",
+    "last_name": "Nelson",
+    "email": "lanelson@ymail.com",
+    "favorite_color": "unspecified"
+  },
+  {
+    "first_name": "John",
+    "last_name": "Evans",
+    "email": "johnmatthewevans@rocketmail.com",
+    "favorite_color": "none"
+  },
+  {
+    "first_name": "Owen",
+    "last_name": "Davis",
+    "email": "owenjdavis@live.com",
+    "favorite_color": "red"
+  },
+  {
+    "first_name": "Courtney",
+    "last_name": "Parker",
+    "email": "c_e_parker@yahoo.com",
+    "favorite_color": "green"
+  },
+  {
+    "first_name": "David",
+    "last_name": "Coleman",
+    "email": "d.a.coleman@live.com",
+    "favorite_color": "green"
+  },
+  {
+    "first_name": "Ava",
+    "last_name": "Smith",
+    "email": "a_l95@ymail.com",
+    "favorite_color": "orange"
+  }
+]
+}
+```
+</Accordion>
+</AccordionGroup>
+
+It then 'cleanses' it by mapping several 'favorite_color' values ('n/a', 'none' and 'unspecified') to 'null' in order to ensure consistency.
+
+Before enriching it with the following dataset which contains the same applicants favorite tv shows:
+
+<AccordionGroup>
+<Accordion title="Dataset 2">
+```json
+[
+  {
+    "email": "elizabeth.kay.taylor@aol.com",
+    "favorite_tv_show": "Northern Exposure"
+  },
+  {
+    "email": "brian@gmail.com",
+    "favorite_tv_show": "The Wire"
+  },
+  {
+    "email": "r.clark@ymail.com",
+    "favorite_tv_show": "The Wire"
+  },
+  {
+    "email": "samuel_martinez@outlook.com",
+    "favorite_tv_show": "Justified"
+  },
+  {
+    "email": "lanelson@ymail.com",
+    "favorite_tv_show": "Northern Exposure"
+  },
+  {
+    "email": "johnmatthewevans@rocketmail.com",
+    "favorite_tv_show": "The Wire"
+  },
+  {
+    "email": "owenjdavis@live.com",
+    "favorite_tv_show": "Justified"
+  },
+  {
+    "email": "c_e_parker@yahoo.com",
+    "favorite_tv_show": "Northern Exposure"
+  },
+  {
+    "email": "d.a.coleman@live.com",
+    "favorite_tv_show": "Northern Exposure"
+  },
+  {
+    "email": "a_l95@ymail.com",
+    "favorite_tv_show": "The Wire"
+  }
+]
+```
+</Accordion>
+</AccordionGroup>
+
+And then sending the final list to Google Sheets.
+
+It takes the following steps to achieve all this:
+
+<AccordionGroup>
+<Accordion title="1(a) Send data for cleansing">
+The first 'call workflow' step sends the data to be 'cleansed'.
+
+Note that it uses the 'Fire and wait for response' operation, as it needs the child workflow to return the cleansed data before it is passed on to the next step:
+
+![send-to-be-cleansed](/images/1Yn9Pou07EFvhCiIe1143A_send-to-be-cleansed.png)
+</Accordion>
+
+<Accordion title="1(b) Cleanse data">
+The 'cleanse data' callable workflow then uses the Data Mapper 'map values' operation to map several 'favorite_color' values ('n/a', 'none' and 'unspecified') to 'null' in order to ensure consistency in your dataset
+
+The last 'Callable response' step sends the cleansed data back to the main workflow:
+
+![map-values-to-null](/images/6KJoGraaaP9mUDcnPzYYvA_map-values-to-null.png)
+
+Sample logs:
+
+![map-values-to-null-sample-output](/images/6ImKMZAhAwYc0vuwPKl7nb_map-values-to-null-sample-output.png)
+</Accordion>
+
+<Accordion title="2(a) Send data to be enriched">
+![send-data-to-be-enriched](/images/HzftyRfRVoYB5qU5Vaecr_send-data-to-be-enriched.png)
+</Accordion>
+
+<Accordion title="2(b) Enrich data">
+The 'enrich data' callable workflow then parses a dummy data set to mimic having pulled data on your applicants from another source.
+
+It then uses a JSON transformer step to merge the two lists so that you have 'favorite_color' and 'favorite_tv_show' recorded for each applicant
+
+The final **Callable response **step sends the merged list back to the main workflow:
+
+![dummy-data-tv-shows](/images/74pnqJ7ta35I7lfeHagAYz_dummy-data-tv-shows.png)
+</Accordion>
+
+<Accordion title="3(a) Send data for upload to sheet">
+![send-data-to-sheet](/images/1YU3050YDrGYgmLDttbIYj_send-data-to-sheet.png)
+</Accordion>
+
+<Accordion title="3(b) Upload to sheet">
+In the upload to sheet workflow, the final cleansed and enriched dataset is looped through and added to a Google Sheet.
+
+Note that Google Sheets is acting as a placeholder for any service / database you may wish to use: 
+
+![add-to-sheet](/images/7gmjz3cvU5VP4o1cZg13M3_add-to-sheet.png)
+
+The final list in Sheets:
+
+![applicants-in-sheet](/images/3L0Mo1RtuR5zkUzkrY3m0S_applicants-in-sheet.png)
+</Accordion>
+</AccordionGroup>
+
+## Note on complexity
+
+The processing carried out in all of the above callable workflows is deliberately very simple for demonstration purposes.
+
+If the processing was that simple you would arguably do it all in the main workflow!
+
+However, your processing may be as complex as the following example, in which case it is imperative that you use a callable workflow:
+
+![complex-processing-workflow](/images/platform/automation-integration/building-workflows/composable-workflows/calling-other-workflows/2KCM1ouLdBriTtl8DVbmKq_complex-processing-workflow.png)
+
+---
+
+## Waiting for callable workflows to respond
+
+The above example uses callable workflow responses as it is required in order to retrieve the data from each step in order to pass it on to the next processing step.
+
+However, this may not be necessary.
+
+For example a callable workflow might be simply compiling and sending notification messages.
+
+Or the callable may be processing data and sending to a destination service / database in one go.
+
+In which case, you should use the** 'Fire and forget' operation**.
+
+When using Fire and Forget you will need to be extra sure that the callable workflows have the **correct monitoring and error handling** systems built in.
+
+Note that, if your main workflow needs a response before continuing to downstream actions, and you are processing large volumes of data, then you may need to use workflow threads as explained below.
+
+## Processing large volumes of data
+
+If you are processing e.g. 10s of 1000s of rows of data at a time, you can send these rows in batches to callable workflows and they will be processed 'in parallel'.
+
+This has two benefits:
+
+- The main workflow which is responsible for creating the batches can work much faster because it is only focused on this one task.
+- The secondary processing workflows can process multiple runs simultaneously. So your workflow batches do not have to wait in a queue until the previous batch is finished.
+
+The following diagram is a good illustration of how this works:
+
+![async-1-diagram](/images/platform/automation-integration/building-workflows/composable-workflows/calling-other-workflows/47594d2e-26018745_./async-1-diagram-3.png)
+
+This can massively reduce the overall processing time - i.e. 10 batches of records will take a 1/10th of the time.
+
+The following example illustrates a project which makes use of this approach: 
+
+![parallel-mass-processing-via-callables](/images/platform/automation-integration/building-workflows/composable-workflows/calling-other-workflows/4kLKzRvifWoClVQeNzRB5d_parallel-mass-processing-via-callables.png)
+
+Here, the parent workflow kicks off processing workflows where:
+
+- Child 1 ingests batches of 5000 Snowflake rows (the maximum which can be pulled from Snowflake at one time)
+- Child 2 separates each batch into batches of 500 to be uploaded to BigQuery (the maximum which can be uploaded to BigQuery at one time)
+
+A very important operation to be aware of here is the List Helpers 'Chunk' operation.
+
+In conjunction with the Loop Connector this can be used to batch your data into the required batch sizes in order to be sent to processing workflows:
+
+![process-in-chunks](/images/platform/automation-integration/building-workflows/composable-workflows/calling-other-workflows/22AdU1SKp13d5LCNQzbqtb_process-in-chunks.png)
+
+---
+
+## Using workflow threads
+
+In the above Snowflake / BigQuery example, the main workflow is kept very simple as it does not require a response from the processing workflows.
+
+However there may be times when you need to both:
+
+- Process large volumes of data
+
+  AND
+
+- Receive a response from the processing workflows before continuing with further tasks in the main workflow
+
+In this case you should follow our guide on [Workflow Threads](#)
+
+This will show you how to:
+
+- Keep track of threads started and finished
+- Notify the main workflow when all threads have completed
+- Run a monitoring system to check if the processing has been running too long
+
+## Appendix: Import and run the test callable project
+
+### Prerequisites
+
+You will need to create a Google Sheet and:
+
+1. Add the following headers:
+
+![google-sheet-headers](/images/platform/automation-integration/building-workflows/composable-workflows/calling-other-workflows/1BEUZd4ysgN5Y7PPCF84wd_google-sheet-headers.png)
+
+2. Grab the sheet ID from the sheet url:
+
+![sheet-id](/images/platform/automation-integration/building-workflows/composable-workflows/calling-other-workflows/2SvGP422FTUzRbtLSntKMc_sheet-id.png)
+
+### Import the project
+
+Download the project by clicking on [this link](#).
+
+Then:
+
+<AccordionGroup>
+<Accordion title="1 - Add project">
+Go to the 'Projects' section of your dashboard and click Add project > From import:
+
+![add-project-from-import](/images/2cjj01V0kVTa26Y6t8MZEV_add-project-from-import.png)
+</Accordion>
+
+<Accordion title="2 - Name the project">
+![name-project](/images/1lkjVtyFDwxtKxObpfnb9g_name-project.png)
+</Accordion>
+
+<Accordion title="3 - Import project file">
+![import-project-file](/images/4MC62nYuiZfnPkIUs5Zbjm_import-project-file.png)
+</Accordion>
+
+<Accordion title="4 - Open all workflows">
+Now open the project.
+
+Then click on 'Open all workflows':
+
+![open-all-workflows](/images/3OdNG6ALKqYHyZAbUnkPL7_open-all-workflows.png)
+</Accordion>
+
+<Accordion title="5 - Add Sheets authentication">
+Go to the 'Add to sheet' workflow and add a Google Sheets auth to the 'Upload to sheet' step:
+
+![create-sheets-auth](/images/1WUD4WORPFNbYdDeYLsuFM_create-sheets-auth.png)
+</Accordion>
+
+<Accordion title="6 - Add Sheet ID">
+Now go to step inputs and add the Sheet ID you grabbed earlier:
+
+![sheets-add-id](/images/5nao78GfIpTlsIh1RZe3un_sheets-add-id.png)
+</Accordion>
+
+<Accordion title="7 - Trigger main workflow">
+Now go to the Main workflow and click on 'Run workflow':
+
+![trigger-main-workflow](/images/4J1QpMpfJQLs2WsqphVFBD_trigger-main-workflow.png)
+</Accordion>
+</AccordionGroup>
+
+---
+
+Once you have triggered a run your Google Sheet will be populated:
+
+![applicants-in-sheet](/images/platform/automation-integration/building-workflows/composable-workflows/calling-other-workflows/3L0Mo1RtuR5zkUzkrY3m0S_applicants-in-sheet.png)
+
+And you can inspect the logs in your workflows:
+
+![inspect-logs](/images/platform/automation-integration/building-workflows/composable-workflows/calling-other-workflows/7rybTLredFwqescBdy6q5q_inspect-logs.png)
+
+And check to see how the input schema for each callable trigger is made:
+
+![edit-input-schema](/images/platform/automation-integration/building-workflows/composable-workflows/calling-other-workflows/1lJgH53opNT4EfCZIl6v90_Group 14.png)

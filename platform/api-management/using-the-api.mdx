@@ -1,0 +1,32 @@
+---
+title: "Making API calls"
+description: "How to make basic calls to packaged APIs"
+---
+
+## Making basic calls
+
+In order to make actual POST / GET etc. calls to your published APIs, you will need to retrieve the base url from the operations section:<br/>
+
+<Warning>
+It is not currently possible to whitelabel the base url for your API management projects
+</Warning>
+
+<br/>
+
+![app-base-url](/images/platform/api-management/using-the-api/5qjtsq7qWDIbHtDVRv4Oio_app-base-url.png)
+
+<br/><br/>Then you can make any external calls by appending the endpoint path onto the base url:<br/><br/>
+
+![call-api](/images/platform/api-management/using-the-api/58pcLBpd9MGfdzbEge30m_call-api.png)
+
+## Authenticating calls
+
+To authenticate your calls you will need a client-associated token.
+
+this can then be passed as a bearer with any API calls, i.e.:
+
+```json
+{
+"Authorization": "Bearer 39e8fh3rfxxxxxxxxxxd9df2e"
+}
+```

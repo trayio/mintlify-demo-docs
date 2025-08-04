@@ -11,111 +11,296 @@
   "navigation": {
     "tabs": [
       {
-        "tab": "Guides",
+        "tab": "AI Orchestration Platform",
         "groups": [
           {
-            "group": "Getting started",
+            "group": "Introduction",
             "pages": [
-              "index",
-              "quickstart",
-              "development"
+              "platform/introduction/what-is-tray",
+              {
+                "group": "Getting Started",
+                "pages": [
+                  "platform/introduction/getting-started/organisations",
+                  "platform/introduction/getting-started/workspaces",
+                  "platform/introduction/getting-started/projects",
+                  "platform/introduction/getting-started/workflows"
+                ]
+              }
             ]
           },
           {
-            "group": "Customization",
+            "group": "Automation & Integration",
             "pages": [
-              "essentials/settings",
-              "essentials/navigation"
+              {
+                "group": "Creating Projects",
+                "pages": [
+                  "platform/automation-integration/creating-projects/from-scratch",
+                  "platform/automation-integration/creating-projects/templates",
+                  "platform/automation-integration/creating-projects/importing"
+                ]
+              },
+              {
+                "group": "Building Workflows",
+                "pages": [
+                  {
+                    "group": "Workflow Steps",
+                    "pages": [
+                      "platform/automation-integration/building-workflows/workflow-steps/adding-steps",
+                      "platform/automation-integration/building-workflows/workflow-steps/connectors-and-operations",
+                      "platform/automation-integration/building-workflows/workflow-steps/deleting-steps",
+                      "platform/automation-integration/building-workflows/workflow-steps/moving-steps"
+                    ]
+                  },
+                  {
+                    "group": "Configuring Steps",
+                    "pages": [
+                      "platform/automation-integration/building-workflows/configuring-steps/title-description",
+                      "platform/automation-integration/building-workflows/configuring-steps/authentication",
+                      "platform/automation-integration/building-workflows/configuring-steps/input-properties",
+                      "platform/automation-integration/building-workflows/configuring-steps/dynamic-input-schemas",
+                      {
+                        "group": "Output Schemas",
+                        "pages": [
+                          "platform/automation-integration/building-workflows/configuring-steps/output-schemas/dynamic-output",
+                          "platform/automation-integration/building-workflows/configuring-steps/output-schemas/using-logs-output"
+                        ]
+                      },
+                      "platform/automation-integration/building-workflows/configuring-steps/error-handling",
+                      "platform/automation-integration/building-workflows/configuring-steps/connector-versions"
+                    ]
+                  },
+                  {
+                    "group": "Branching & Looping",
+                    "pages": [
+                      "platform/automation-integration/building-workflows/branching-looping/collapsable-branches"
+                    ]
+                  },
+                  {
+                    "group": "Mapping Data",
+                    "pages": [
+                      "platform/automation-integration/building-workflows/mapping-data/data-types",
+                      "platform/automation-integration/building-workflows/mapping-data/json-path",
+                      "platform/automation-integration/building-workflows/mapping-data/connector-snake",
+                      "platform/automation-integration/building-workflows/mapping-data/fallback-values",
+                      "platform/automation-integration/building-workflows/mapping-data/configuration",
+                      "platform/automation-integration/building-workflows/mapping-data/environment-variables",
+                      "platform/automation-integration/building-workflows/mapping-data/error-data"
+                    ]
+                  },
+                  "platform/automation-integration/building-workflows/storing-retrieving-data",
+                  {
+                    "group": "Composable Workflows",
+                    "pages": [
+                      "platform/automation-integration/building-workflows/composable-workflows/calling-other-workflows"
+                    ]
+                  },
+                  {
+                    "group": "Shortcuts",
+                    "pages": [
+                      "platform/automation-integration/building-workflows/shortcuts/copy-paste",
+                      "platform/automation-integration/building-workflows/shortcuts/keyboard-shortcuts",
+                      "platform/automation-integration/building-workflows/shortcuts/searching-steps",
+                      "platform/automation-integration/building-workflows/shortcuts/undo-redo",
+                      "platform/automation-integration/building-workflows/shortcuts/step-dependencies",
+                      "platform/automation-integration/building-workflows/shortcuts/snippets"
+                    ]
+                  }
+                ]
+              },
+              {
+                "group": "Testing & Debugging",
+                "pages": [
+                  {
+                    "group": "Enabling Workflows",
+                    "pages": [
+                      "platform/automation-integration/testing-debugging/enabling-workflows/trigger-initialisation"
+                    ]
+                  },
+                  "platform/automation-integration/testing-debugging/manual-trigger",
+                  "platform/automation-integration/testing-debugging/trigger-testing",
+                  "platform/automation-integration/testing-debugging/debug-logs",
+                  "platform/automation-integration/testing-debugging/testing-single-steps",
+                  "platform/automation-integration/testing-debugging/execution-kill-switch"
+                ]
+              },
+              {
+                "group": "Workflow Settings",
+                "pages": [
+                  "platform/automation-integration/workflow-settings/alerting",
+                  "platform/automation-integration/workflow-settings/tags",
+                  "platform/automation-integration/workflow-settings/documentation"
+                ]
+              },
+              {
+                "group": "Advanced Capabilities",
+                "pages": [
+                  "platform/automation-integration/advanced-capabilities/data-tables",
+                  "platform/automation-integration/advanced-capabilities/vector-tables",
+                  "platform/automation-integration/advanced-capabilities/file-system",
+                  "platform/automation-integration/advanced-capabilities/project-queue",
+                  "platform/automation-integration/advanced-capabilities/project-configuration"
+                ]
+              },
+              {
+                "group": "Advanced Use Cases",
+                "pages": [
+                  "platform/automation-integration/advanced-use-cases/polling-for-new-data",
+                  "platform/automation-integration/advanced-use-cases/batching-queueing",
+                  "platform/automation-integration/advanced-use-cases/transforming-data",
+                  "platform/automation-integration/advanced-use-cases/processing-data-at-scale",
+                  "platform/automation-integration/advanced-use-cases/data-synchronisation",
+                  "platform/automation-integration/advanced-use-cases/folder-migration",
+                  "platform/automation-integration/advanced-use-cases/extract-transform-load-etl"
+                ]
+              }
             ]
           },
           {
-            "group": "Writing content",
+            "group": "Artificial Intelligence",
             "pages": [
-              "essentials/markdown",
-              "essentials/code",
-              "essentials/images",
-              "essentials/reusable-snippets"
+              "platform/artificial-intelligence/agent-builder",
+              "platform/artificial-intelligence/ai-palette",
+              "platform/artificial-intelligence/intelligent-automations",
+              "platform/artificial-intelligence/vector-storage",
+              "platform/artificial-intelligence/intelligent-document-processing",
+              {
+                "group": "Augmented Development",
+                "pages": [
+                  "platform/artificial-intelligence/augmented-development/merlin-build"
+                ]
+              }
             ]
           },
           {
-            "group": "AI tools",
+            "group": "Embedded",
             "pages": [
-              "ai-tools/cursor",
-              "ai-tools/claude-code",
-              "ai-tools/windsurf"
+              "platform/embedded/overview"
+            ]
+          },
+          {
+            "group": "API Management",
+            "pages": [
+              "platform/api-management/overview",
+              "platform/api-management/api-operations",
+              "platform/api-management/access-control",
+              "platform/api-management/using-the-api",
+              "platform/api-management/troubleshooting",
+              "platform/api-management/openapi-spec"
+            ]
+          },
+          {
+            "group": "Connectivity",
+            "pages": [
+              "platform/connectivity/authentications",
+              "platform/connectivity/custom-services",
+              {
+                "group": "On Premise Systems",
+                "pages": [
+                  "platform/connectivity/on-premise-systems/on-prem-options",
+                  "platform/connectivity/on-premise-systems/on-prem-agent",
+                  "platform/connectivity/on-premise-systems/aws-connectivity",
+                  "platform/connectivity/on-premise-systems/site-to-site-vpn",
+                  "platform/connectivity/on-premise-systems/public-ips"
+                ]
+              }
+            ]
+          },
+          {
+            "group": "Enterprise Core",
+            "pages": [
+              {
+                "group": "Organisation Management",
+                "pages": [
+                  {
+                    "group": "Users",
+                    "pages": [
+                      "platform/enterprise-core/organisation-management/users/profile-login",
+                      "platform/enterprise-core/organisation-management/users/multi-factor-authentication",
+                      "platform/enterprise-core/organisation-management/users/single-sign-on"
+                    ]
+                  },
+                  {
+                    "group": "Workspaces",
+                    "pages": [
+                      "platform/enterprise-core/organisation-management/workspaces/task-limits"
+                    ]
+                  },
+                  "platform/enterprise-core/organisation-management/roles",
+                  "platform/enterprise-core/organisation-management/support-access",
+                  "platform/enterprise-core/organisation-management/ai-features",
+                  "platform/enterprise-core/organisation-management/api-users-tokens",
+                  "platform/enterprise-core/organisation-management/regional-hosting"
+                ]
+              },
+              {
+                "group": "Lifecycle Management",
+                "pages": [
+                  "platform/enterprise-core/lifecycle-management/workflow-history",
+                  "platform/enterprise-core/lifecycle-management/project-versioning",
+                  "platform/enterprise-core/lifecycle-management/import-export"
+                ]
+              },
+              {
+                "group": "Logs & Debugging",
+                "pages": [
+                  "platform/enterprise-core/logs-debugging/debugging-workflows",
+                  "platform/enterprise-core/logs-debugging/log-streaming",
+                  "platform/enterprise-core/logs-debugging/audit-logs",
+                  "platform/enterprise-core/logs-debugging/disabling-log-storage"
+                ]
+              },
+              "platform/enterprise-core/insights",
+              "platform/enterprise-core/usage-billing",
+              {
+                "group": "Security & Compliance",
+                "pages": [
+                  "platform/enterprise-core/security-compliance/security-policies",
+                  "platform/enterprise-core/security-compliance/building-securely",
+                  "platform/enterprise-core/security-compliance/data-protection-commitment",
+                  "platform/enterprise-core/security-compliance/security-statement",
+                  "platform/enterprise-core/security-compliance/support-access-controls"
+                ]
+              }
             ]
           }
         ]
       },
       {
-        "tab": "API reference",
-        "groups": [
-          {
-            "group": "API documentation",
-            "pages": [
-              "api-reference/introduction"
-            ]
-          },
-          {
-            "group": "Endpoint examples",
-            "pages": [
-              "api-reference/endpoint/get",
-              "api-reference/endpoint/create",
-              "api-reference/endpoint/delete",
-              "api-reference/endpoint/webhook"
-            ]
-          }
+        "tab": "Developer",
+        "pages": [
+            "developer/overview"
+        ]
+      },
+      {
+        "tab": "Connectors",
+        "pages": [
+            "connectors/overview"
+        ]
+      },
+      {
+        "tab": "Library",
+        "pages": [
+            "library/overview"
+        ]
+      },
+      {
+        "tab": "Help Center",
+        "pages": [
+            "help/overview"
         ]
       }
-    ],
-    "global": {
-      "anchors": [
-        {
-          "anchor": "Documentation",
-          "href": "https://mintlify.com/docs",
-          "icon": "book-open-cover"
-        },
-        {
-          "anchor": "Community",
-          "href": "https://mintlify.com/community",
-          "icon": "slack"
-        },
-        {
-          "anchor": "Blog",
-          "href": "https://mintlify.com/blog",
-          "icon": "newspaper"
-        }
-      ]
-    }
+    ]
   },
   "logo": {
     "light": "/logo/light.svg",
     "dark": "/logo/dark.svg"
   },
   "navbar": {
-    "links": [
-      {
-        "label": "Support",
-        "href": "mailto:hi@mintlify.com"
-      }
-    ],
     "primary": {
       "type": "button",
-      "label": "Dashboard",
-      "href": "https://dashboard.mintlify.com"
+      "label": "App",
+      "href": "https://app.tray.io"
     }
-  },
-  "contextual": {
-    "options": [
-     "copy",
-     "view",
-     "chatgpt",
-     "claude",
-     "perplexity",
-     "mcp",
-     "cursor",
-     "vscode"
-   ]
   },
   "footer": {
     "socials": {

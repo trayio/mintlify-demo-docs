@@ -1,0 +1,90 @@
+---
+title: "(BETA) Project versioning "
+description: "In the Software Development Life Cycle (SDLC) at Tray, versions act like code commits or release candidates - stable snapshots of the project's state that are documented and can be deployed to higher environments."
+---
+
+<Warning>
+This feature is in **beta **with pricing to be confirmed.   
+
+At least the last 2 versions and 7 days of event data will be available by default to all pricing tiers. 
+</Warning>
+
+## Project versioning overview
+
+A **version** is a snapshot of a project saved at a specific point in time, capturing key project assets such as workflows, configurations, and solutions.
+
+In the Software Development Life Cycle (SDLC) at Tray, versions act like code commits or release candidates - stable snapshots of the project's state that are documented and can be deployed to higher environments.
+
+Versions can be easily reverted to in the event of future breaking changes - either by using the 'Restore version' option or by exporting a historical version as JSON and importing it to your desired destination.
+
+![sdlc-overview](/images/platform/enterprise-core/lifecycle-management/project-versioning/5p068lbjNDTuazvegcz7Mr_sdlc-overview.png)
+
+- Each version is annotated with a **title **and **description**, allowing you to clearly define the purpose of the version, the changes it includes, and any relevant details.
+- Each version also provides a **list of changes **made since the previous version, including details of who made the changes and what those changes were. This helps with auditability and debugging.
+
+You can **revert** to a previous version, restoring the project to the exact state it was in when the version was created, or you can **export** the version's data as a JSON file for external use or backup.
+
+<Info>
+Coming soon - API support for storing and retrieving versions
+</Info>
+
+### Best practices
+
+To effectively manage changes and maintain stability, save versions at key points during the development, similar to committing code or creating pull requests. Here are some recommended times to save a version:
+
+- **Before major changes**: Save a version before big updates to workflows, config, or solutions, so you can revert if needed.
+- **After completing stable updates**: When a feature or update is finished and tested, save a version to lock in a stable snapshot.
+- **Before risky or experimental changes**: Save a version before making changes that might disrupt the project, providing a safety net.
+- **Before deploying to higher environments**: Capture a version before promoting changes to production or staging.
+- **Before publishing a solution**: Save a version before publishing, ensuring that a concrete, stable package is deployed to solution instances. This ensures traceability and stability when releasing updates.
+- **At key milestones**: Save versions at regular intervals to document progress and aid in audits.
+
+## Managing versions
+
+### Viewing change history
+
+On the Project Versions Overview page, you can view saved versions and track changes across different sections. Each section represents either **"Work in Progress"** (unsaved changes) or a specific **version** (e.g., "Version 2.1 Enabled all workflows"), followed by a list of changes made in that version.
+
+![sdlc-project-versions-1](/images/platform/enterprise-core/lifecycle-management/project-versioning/5GQToO3fXpx9z8zAmtT0Oi_sdlc-project-versions-1.png)
+
+Changes are grouped by project assets, such as:
+
+- **Workflows**
+- **Project configuration **that includes project config and details
+- **Solution**
+
+There are two composite change types:
+
+- **Project import**: A grouped set of changes related to the imported assets.
+- **Project rollback**: A grouped set of changes applied when a version is restored.
+
+Each composite change type includes information about the project version that has been imported or restored, if available.
+
+Each change item on the overview page features a visual summary showing the distribution of changes: green for created, yellow for updated, and red for deleted items. A bar chart shows these proportions and the total count, making it easy to assess changes impact easily.
+
+You can drill down into each change to view a more detailed breakdown and the complete change history of the asset, such as the specific history of a workflow.
+
+![solution-asset-details](/images/platform/enterprise-core/lifecycle-management/project-versioning/6RoR17AAB18B6hNR15Ef1Y_solution-asset-details.png)
+
+### Saving a version
+
+To save a version of your project, navigate to the **Project versions** overview page and locate the **Work in progress** section. Saving a version captures a snapshot of the current project state, including its assets such as workflows, project configuration and solution, for later retrieval.
+
+Note that Datatables, Vector tables and API management are not yet supported. E.g. if a workflow refers to a datatable, the references will be saved but the datatable itself will have to be recreated manually.
+
+**Steps to save a version:**
+
+- **Set a title and description**:
+- **Choose a version type**:
+
+For embedded projects, it's important to ensure the solution is synced with the project before saving a version. To force a sync, navigate to the solution editor, click "Publish Draft", and select "Publish Later".
+
+### Restoring historical changes
+
+There are three ways to restore historical changes in your project:
+
+- **Restoring a previously saved version **Use the **"Restore version" **option in the version menu on the overview page. This will apply the project state from that version as new changes in the Work in Progress section. Be aware that if some external dependencies may become unavailable since the version was saved (e.g., authentication credentials may no longer exist), restoring the version will result in an error, but you can still export the version as described below.
+- **Exporting a previously saved version JSON **Select the **"Export as JSON" **option in the version menu on the overview page. This will save the exported project data as a JSON file, which you can then import back into the project. You will need to resolve all dependencies as you would during a typical project import.
+- **Restoring individual workflows states **You can restore specific workflows to their historical states by navigating to the workflow detailed history page. To access this, click on the desired workflow in the project versions overview page and use the "Restore this workflow state" option in the change menu. This will apply the state of the workflow at that specific point in time and create a new change. Note that you can only restore workflow states from the last 30 days.
+
+<br/>

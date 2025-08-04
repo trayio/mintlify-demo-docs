@@ -1,0 +1,42 @@
+---
+title: "Allow-listing Tray public IPs"
+description: "For all services, you can allow-list the Tray public IPs, so that you are not opening your services to the world:"
+---
+
+<Info>
+**Tray public IPs** are available to all **Pro, Team and Enterprise** customers as standard.
+</Info>
+
+![shared-static-ips](/images/platform/connectivity/on-premise-systems/public-ips/b0116a57-e994404e_tray-public-ips.png)
+
+<Warning>
+Note that these IP addresses are only used by default by connector traffic. 
+
+Other outbound traffic related to authentications (for example, OAuth traffic) does not necessarily originate from these IP addresses. 
+
+If you need a fixed set of outbound IPs for authentication traffic, please contact us.
+</Warning>
+
+For all services, you can allow-list the Tray **public IPs**, so that you are not opening your services to the world:
+
+The list of IPs, based on your region are as follows:
+
+**US**
+
+- `52.40.200.248`
+- `52.39.10.61`
+- `52.26.59.155`
+
+**EU**
+
+- `108.129.66.83`
+- `54.73.116.155`
+- `63.33.233.130`
+
+**APAC**
+
+- `3.105.252.6`
+- `54.79.191.214`
+- `3.24.148.13`
+
+Once you have allow-listed these IPs with your firewall to ensure that you are only accepting communications from Tray.io, you can then forward them to the correct ports for your on-prem services.

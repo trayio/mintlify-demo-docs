@@ -1,0 +1,66 @@
+---
+title: "Regional hosting"
+description: "A Tray instance can be hosted in one of the following Data Regions: US, EU or APAC. This can help ensure that business data will never leave the region that it originated in, and compliance with data regulations according to your region."
+---
+
+<Info>
+Regional hosting in Tray is available for the following packages:
+
+- Team (optional add-on per region)
+- Enterprise - all regions available as standard
+</Info>
+
+A Tray instance can be hosted in one of the following **Data Regions**:
+
+- US 
+- EU 
+- APAC 
+
+This can help ensure that business data will never leave the region that it originated in, and compliance with data regulations according to your region.
+
+## Accessing multiple orgs in one region[​](http://localhost:3000/docs/governance/org-management/regional-hosting#accessing-multiple-orgs-in-one-region)
+
+A Tray User can access **one Organization in a given region per unique email address**.
+
+If you need to access another Org (e.g. a client you are working as an integration consultant for) in the same region, you can be added to their org by using a `+` modifier.
+
+e.g. if you already have a login for `roger@acme.com` and you are working as a consultant for a client you could use `roger+clientName@acme.com`
+
+If you have specific requirements for migrating existing company emails, please contact support.
+
+## Multi-region setup[​](http://localhost:3000/docs/governance/org-management/regional-hosting#multi-region-setup)
+
+Depending on your package and use case, you can have Tray instances in multiple regions, for example when:
+
+- You are a **multi-national company **and your staff need to login to an instance which is hosted in the same region they work in
+- You have built **Embedded integrations which End Users configure for their own use**, and your **End Users will be in multiple regions**, then you can deploy a Tray instance in each region which contains the same projects and solutions
+
+## API customers[​](http://localhost:3000/docs/governance/org-management/regional-hosting#api-customers)
+
+When making use of any of our APIs as documented in our [Developer portal](https://developer.tray.io/openapi/trayapi-introduction/) the base url will change depending on region:
+
+- US `https://api.tray.io/core/<version>/<resource>`
+- EU `https://api.eu1.tray.io/core/<version>/<resource>`
+- APAC `https://api.ap1.tray.io/core/<version>/<resource>`
+
+## Embedded integrations
+
+<Info>
+The Tray Embedded bundle is available to Enterprise customers as an optional add-on.
+
+Please contact your sales representative if you wish to activate the bundle.
+</Info>
+
+When making use of our [Embedded API](https://developer.tray.io/openapi/embeddedapi-introduction/) to allow End Users to activate integrations, the base url will change depending on your region:
+
+- US `https://tray.io/graphql/`
+- EU `https://eu1.tray.io/graphql/`
+- APAC `https://ap1.tray.io/graphql/`
+
+And the base url for the [Config wizard](/tray-uac/embedded-integrations/key-embedded-concepts/the-config-wizard/) which enables your End Users to personalize their integrations will vary per region:
+
+- `https://embedded.tray.io/`
+- `https://embedded.eu1.tray.io/`
+- `https://embedded.ap1.tray.io/`
+
+As will the base url for the [**Auth-only dialog**](/tray-uac/embedded-integrations/key-embedded-concepts/auth-only-dialog/)

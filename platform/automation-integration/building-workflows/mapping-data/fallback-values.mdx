@@ -1,0 +1,216 @@
+---
+title: "Fallback values"
+description: "Fallback values can be used for occasions when you know that data being returned will be inconsistent in some way."
+---
+
+## Overview
+
+A very powerful Tray feature is the ability to set Fallback Values.
+
+This can be used for occasions when you know that data being returned will be inconsistent in some way.
+
+For example, when pulling data from one service to push it into a database, if a particular field is empty for some records, you may wish to set this as ‘not found’ for the purpose of your database.
+
+Or you may find that some services return nothing at all if a particular field has no value - causing errors in your subsequent workflow steps.
+
+The examples given below should give you a good understanding of when you can make use of the Fallback Values feature.
+
+The following video shows an example of using a fallback to send a helpful default Slack message in case the message content is not picked up for some reason:
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/MCbpXf4E5tQ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+
+## Examples
+
+### String
+
+The following workflow demonstrates how to use fallback values when pulling records from Salesforce:
+
+![sf-fallback-1](/images/platform/automation-integration/building-workflows/mapping-data/fallback-values/59bcf6b7-fc5f4098_sf-fallback-1.png)
+
+In this workflow, we:
+
+- Use the Salesforce 'Get Records' operation to retrieve Salesforce accounts, including the name and phone number.
+- Loop through each account and add it as a new row to a Google Sheet.
+- Set a fallback for the 'Phone' value, as we anticipate that many accounts in Salesforce may not have a phone number entered.
+
+The fallback value is set by clicking on 'Set fallback value' as shown in the screenshot below. You can then enter the required fallback value as a simple string:
+
+![sf-fallback-string-not-found](/images/platform/automation-integration/building-workflows/mapping-data/fallback-values/59bcf6b7-1e99281f_set-fallback-examples-string 1.png)
+
+When this workflow runs, the resulting Google Sheet will include accounts with 'Not Found' in the Phone column where no phone number is available:
+
+![sf-fallback-sheets-not-found](/images/platform/automation-integration/building-workflows/mapping-data/fallback-values/59bcf6b7-a5f1493e_sf-fallback-sheets-not-found.png)
+
+### Jsonpath
+
+A similar example imagines a situation where you are dealing with Salesforce Contacts.
+
+In this case, you ideally want to output their 'Mobile Phone' to a Google Sheet.
+
+However, since the 'Mobile Phone' of a contact is not always available, you wish to use their 'Business Phone' as a fallback.
+
+This can easily be done by using another jsonpath as your fallback value:
+
+![sf-business-phone-fallback](/images/platform/automation-integration/building-workflows/mapping-data/fallback-values/59bcf6b7-c6cd7a17_sf-business-phone-fallback.png)
+
+### Config data
+
+You can also use Config Data in Workflow Settings to set a fallback value.
+
+Say, for example, we are wanting to enter a personal email address for each contact. If no email is found we can use a company email that is stored in Config:
+
+![workflow-settings-config-fallback](/images/platform/automation-integration/building-workflows/mapping-data/fallback-values/59bcf6b7-961c1f28_workflow-settings-config-fallback.png)
+
+This can then be entered as a fallback value in the properties panel, using e.g. `$.config.acme_company_email`:
+
+![enter-config-fallback-value](/images/platform/automation-integration/building-workflows/mapping-data/fallback-values/59bcf6b7-b1b4664e_enter-config-fallback-value.png)
+
+Note that in the above situation you would likely be making use of the 'conditional' [Branch](https://tray.io/documentation/connectors/core/branch/) and/or [Boolean](https://tray.io/documentation/connectors/core/boolean-condition/) connector to determine which company email you will be using (e.g. do you have a company / account ID to identify what company somebody works for?)
+
+### Set a fallback to no value
+
+When you use the "no value" option, the property is not included in the output of the step. 
+
+Consider a scenario where you would like to add records to a Google Sheet, but some entries are missing contact information. You can set no value for these fields in the Google Sheet by following these steps:
+
+Select the **Set fallback** option for the field:
+
+![set-fallback-value-no-value](/images/platform/automation-integration/building-workflows/mapping-data/fallback-values/20rQSh1dDuEgbCZ7Vl2m4k_set-fallback-value-no-value.png)
+
+Leave the field blank and click **Save**.
+
+![set-fallback-value-no-value-2](/images/platform/automation-integration/building-workflows/mapping-data/fallback-values/6Ljsdlu9xxH1LOKUHu4eho_set-fallback-value-no-value-2.png)
+
+**Example Scenario:**
+
+You want to add the following records to a Google Sheet. Notice that some records do not have contact information:
+
+```json
+[
+  {
+    "name": "John Doe",
+    "contact": "+1 (123) 456-7890"
+  },
+  {
+    "name": "Jane Smith"
+  },
+  {
+    "name": "Michael Johnson"
+  },
+  {
+    "name": "Emily Brown",
+    "contact": "+1 (456) 789-0123"
+  },
+  {
+    "name": "David Wilson",
+    "contact": "+1 (567) 890-1234"
+  }
+]
+```
+
+When processed, the output will look like this:
+
+![set-fallback-value-no-value-op](/images/platform/automation-integration/building-workflows/mapping-data/fallback-values/4moTVGpRXcG9TSY9ypb25t_set-fallback-value-no-value-op (1).png)
+
+In this example, the "Contact" field is set to no value for the records missing contact information.
+
+### Set a fallback to empty string
+
+You can set the fallback to an empty string by clicking into the field and then clicking out. You will notice that the placeholder text changes from "no value" to "empty string" when you do this.
+
+![set-fallback-value-to-empty-string](/images/platform/automation-integration/building-workflows/mapping-data/fallback-values/2nrxMEKexkdz7pxV6FRkq0_Jul-18-2024 10-57-59.gif)
+
+### Service API (returns no result)
+
+Some services, such as [Airtable](https://tray.io/documentation/connectors/service/airtable/) and [Hubspot](https://tray.io/documentation/connectors/service/hubspot/), will not return a field at all if there is no value stored for it.
+
+This can cause problems in that any subsequent steps which are attempting to pull that field for every record will error if it is not there.
+
+For example if we use the 'List records' operation in Airtable to get the following records:
+
+![airtable-order-list](/images/platform/automation-integration/building-workflows/mapping-data/fallback-values/59bcf6b7-49edc659_airtable-order-list.png)
+
+Then the orders which have no email address recorded will not return the email field at all:
+
+![airtable-debug-no-email](/images/platform/automation-integration/building-workflows/mapping-data/fallback-values/59bcf6b7-66cf5dfa_airtable-debug-no-email.png)
+
+The following workflow illustrates how to deal with this, **using Google Sheets as a generic placeholder** for any service you may be wanting to push the Airtable data into:
+
+![airtable-fallback-workflow](/images/platform/automation-integration/building-workflows/mapping-data/fallback-values/59bcf6b7-fe471b92_airtable-fallback-workflow.png)
+
+From the properties panel of the **Add order as row** step you can see that we are including 'email' as a field to be pushed.
+
+We can then also set the fallback value to be e.g.'null' (or 'not found' etc.):
+
+![airtable-set-fallback-as-null](/images/platform/automation-integration/building-workflows/mapping-data/fallback-values/59bcf6b7-8fe8a296_airtable-set-fallback-as-null.png)
+
+Inspecting the input logs from the debug tab for the Sheets **Add order as row** step will then show that the email 'null' value has been passed succesfully:
+
+![sheets-fallback-input](/images/platform/automation-integration/building-workflows/mapping-data/fallback-values/59bcf6b7-c077b90f_sheets-fallback-input.png)
+
+And all orders have been pushed to Google Sheets:
+
+![sheets-fallback-successful](/images/platform/automation-integration/building-workflows/mapping-data/fallback-values/59bcf6b7-95fd669a_sheets-fallback-successful.png)
+
+## Important Notes
+
+### Using fallback values in raw text fields
+
+In certain fields - e.g. the 'body' field in an http client - a jsonpath will not visually render, so it is not possible to use the above method.
+
+In this case you can programmatically set a fallback in the jsonpath itself using an `or` clause.
+
+For example you could write:
+
+`{$.steps.text-helper-1.result or:'not specified'}` 
+
+### Fallback values won't work on a step that has errored
+
+Fallback values won't work on a step if the third party API returns an error. In this case, you should use the [Manual error handling](#) method instead.
+
+To understand this, let's consider an example where you wish to merge data received from two different sources and store the merged data in [Google Sheets](/connectors/service/google-sheets/).
+
+The two sources considered in this example are a Webhook trigger and a Redshift table.
+
+The [Webhook trigger](/connectors/triggers/webhook-trigger/) is receiving JSON data, and we are fetching records from the [Redshift](/connectors/service/redshift/) table using the 'Run SQL query' operation.
+
+The next step is merging this data using an Object Helpers connector:
+
+![fallbackvalue-merge-data](/images/platform/automation-integration/building-workflows/mapping-data/fallback-values/59bcf6b7-f0192cf4_fallbackvalue-merge-data.png)
+
+In a situation where the Redshift table is empty or if the table doesn't exist we might try to set an empty object as a fallback value for the 'Target' field.
+
+This would be done by clicking the 'Target' field and 'Set fallback'.
+
+![fallbackvalue-set-fallbackvalue](/images/platform/automation-integration/building-workflows/mapping-data/fallback-values/59bcf6b7-69fe65be_fallbackvalue-set-fallbackvalue.png)
+
+Then the 'Type selector' would be set as 'object' for the Fallback value:
+
+![fallbackvalue-set-empty-object](/images/platform/automation-integration/building-workflows/mapping-data/fallback-values/59bcf6b7-c14b5830_fallbackvalue-set-empty-object.png)
+
+Unfortunately, in this case it won't work!
+
+Fallback values work if, for example, a service returns a payload and a particular field is missing (as explained in the example section above).
+
+In this case however Redshift returns no data and the API is returning an error code. So here we need to use [error handling](#) rather than fallback values. Redshift returns the following error message:
+
+```json
+{
+  "message": "Failed to reference: $.steps.redshift-1.result[0]: This step failed. To access it's error output, you'll need to refer to it by '$.errors.<name>' reference."
+}
+```
+
+A simple solution to this is to handle the Redshift connector error manually. To do so for the Redshift connector in the properties panel, click 'Handle errors' and set the error handling to 'Manual'.
+
+![fallbackvalue-manual-error-handling](/images/platform/automation-integration/building-workflows/mapping-data/fallback-values/59bcf6b7-270f934e_fallbackvalue-manual-error-handling.png)
+
+The way we handle an error from the Redshift step here is:
+
+- **Success:** This means Redshift has successfuly returned data that we can merge with the Webhook data and then store it into google sheets.
+- **Error:** This means Redshift has returned no data. In which case we can ignore Redshift and only use Webhook data to add to google sheets.
+
+<Info>
+**PLEASE NOTE**: There is no fixed way of working with error handling. This is just one simple example of handling errors. Exactly how you handle errors depends entirely on your specific requirements.
+</Info>
+
+![fallbackvalue-complete-wf](/images/platform/automation-integration/building-workflows/mapping-data/fallback-values/59bcf6b7-7e3c09d9_fallbackvalue-complete-wf.png)

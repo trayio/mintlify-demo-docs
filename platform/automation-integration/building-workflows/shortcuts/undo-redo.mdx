@@ -1,0 +1,66 @@
+---
+title: "Undo / redo and workflow history"
+description: "It is possible to revert or repeat your changes using the Undo / Redo buttons found in the top of the workflow editor. You can also  \"rollback\" your workflow to a specific point in time during its build history."
+---
+
+## Undo / redo
+
+It is possible to revert or repeat your changes using the **Undo / Redo buttons** found in the **top of the workflow editor:**
+
+![builder-undo](/images/platform/automation-integration/building-workflows/shortcuts/undo-redo/fc86bd0c-8ed2a5af_builder-undo.png)
+
+When you use Undo or Redo it will only affect **the last three seconds worth of recorded editing activity**
+
+<Warning>
+**IMPORTANT!**: **The changes available for an Undo / Redo action are stored in the current page session**. In other words be careful when you reload your page as you may lose some of the available Undo / Redo options.
+</Warning>
+
+## Workflow history
+
+This function allows you to "rollback" your workflow to a specific point in time during its build history.
+
+Your workflow build history (i.e. the workflow builder's "Version History" feature), is located within the **Builder menu bar** -> **Options** -> **History** menu:
+
+![history](/images/platform/automation-integration/building-workflows/shortcuts/undo-redo/2igN7OgbS3scDz32rOwa3u_history.png)
+
+You will then be able to view your build activity based on the times and dates the changes were made.
+
+Once a date is selected your build history is broken down even further into specific time slots where you were most active.
+
+![history-timeline](/images/platform/automation-integration/building-workflows/shortcuts/undo-redo/3I80qbNc7o6IawxWlHrfFS_history-timeline.png)
+
+### Searching workflow history
+
+Within the the **Builder menu** -> **Options** -> **History** feature there is a search bar.
+
+This **Version history search bar** will help you find the specific workflow version you are looking for via the following filters:
+
+- Actions
+- Dates
+- Users
+
+![search-history](/images/platform/automation-integration/building-workflows/shortcuts/undo-redo/1JNSukDjuDttsHqTxuoQVb_search-history.png)
+
+### Version history storage
+
+There are differences in how long a version of your workflow can be stored vs how far back you can rollback your workflow changes.
+
+- **Edit history**: Viewable **up to 12 months**
+- **Rollback feature**: Can rollback to a previous workflow version **up to 30 days prior** to your current changes.
+
+For example say your last edit was beyond 30 days ago. While you would be able see the record of the changes within the edit history, you would not be able to rollback your workflow to reflect those changes.
+
+### Reverting rollbacks
+
+When you revert back to a previous version of your workflow, the selected "rollback" becomes the latest edit in your workflow version history timeline.
+
+It will therefore be displayed at the top of the workflow version history timeline as it is technically a new edit.
+
+For example:
+
+- Say you rolled back to the previous version of your workflow within your version history timeline.
+- From here you continued editing your workflow. These new changes were also logged.
+- Having made several changes you decide to discard them all.
+- In order to and begin again from the same starting point you had earlier, simply use the rollback feature once more.
+
+Just be sure to **rollback to a version that correlates to a time before the 'new' changes were made**.

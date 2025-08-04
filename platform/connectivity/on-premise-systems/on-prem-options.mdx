@@ -1,0 +1,30 @@
+---
+title: "Choosing an on-prem option"
+description: "Tray offers several options for On-prem setups which can help you comply with your infosec requirements for execution runtimes with 3rd party vendors"
+---
+
+Tray offers several options for On-prem setups which can help you comply with your infosec requirements for execution runtimes with 3rd party vendors:
+
+## Tray's On-prem agent
+
+As the '**default' option**, Tray's on-prem agent offers a simple to configure enterprise-grade solution which creates a secure connection with Tray which allows Tray's connectors to communicate directly with your key services and databases.
+
+When using the on-prem agent you do not need to open up your services to the internet - Tray authentications for your on-prem services can make use of your internal private IP address and port / proxy configurations, and you can shut down access to your public IP.
+
+## AWS-specific options
+
+For AWS customers who may prefer to use AWS out-of-the-box options, the following options are also available:
+
+- Transit Gateway 
+- PrivateLink 
+- VPC Peering 
+
+## Private site-to-site VPN
+
+The generic (non AWS-specific) **private site-to-site VPN** solution allows Tray to establish a secure IPSec tunnel to your VPN gateway device. This requires opening your firewall to inbound traffic from Tray.
+
+While this is also secure and effective, there is considerable technical overhead in setting this up on your network, which will require the involvement of an engineering team.
+
+## Tray Public IPs
+
+For customers who have public-facing resources they would like to access Tray, **Tray public IPs are available by default** for all service connectors, so it is just a matter of allow-listing the IPs with your firewall.

@@ -1,0 +1,332 @@
+---
+title: "Exporting / importing projects"
+description: "In Tray you can use Projects to manage a classic dev > production setup. Tray has a system whereby you can export and import projects (and individual workflows) as json files."
+---
+
+## Overview
+
+In Tray you can use **Projects **to manage a classic dev > production setup.
+
+Tray has a system whereby you can **export and import projects (and individual workflows) as json files**.
+
+This allows you to fully test your projects and workflows in a 'development' environment (i.e. using test/sandbox accounts and test data) before exporting to a json file, ready to be imported to your 'production' environment.
+
+<Info>
+Please see the page on [Authentication mapping at import](/tray-uac/governance/environment-promotion/authentication-mapping-at-import/) for detailed guidance on how to manage authentications when importing and exporting projects
+</Info>
+
+## The basic process[​](http://localhost:3000/docs/governance/environment-promotion/the-import-export-process#the-basic-process)
+
+Importing and exporting is the method used to promote projects from one env to another
+
+1. Create and test the project/workflow(s) in your **test/dev environment**, using test/sandbox accounts and test data
+2. **Once you are ready to publish the first version**, export your workflow/project to a local json file and then **import it to your production workspace**
+3. In the process of your **first** import, **select your production authentications** (or create new ones if necessary)
+4. **Edit subsequent versions in the test/dev workspace**, before importing again to the production workspace
+5. Every time you do a promotion save each export.json in your own storage
+
+If you mistakenly import a workflow, or need to undo for any reason, you can do so with the [Rollback Workflow History](https://tray.io/documentation/tray-uac/building-automations/build-ui-shortcuts/undo-redo/#reverting-rollbacks) function.
+
+## Projects
+
+---
+
+### Import / export projects manually (legacy method)
+
+<AccordionGroup>
+<Accordion title="1 - Export project from dev workspace">
+![export-project](/images/2qSu5N2n5XvFgTbyrZDQWB_imp-exp-wf.png)
+</Accordion>
+
+<Accordion title="2 - Import project to prod workspace">
+![import-project-2](/images/3c5R86lV02EWCm88HavYK7_Group 15.png)
+</Accordion>
+
+<Accordion title="3 - Select / create auths (first import only)">
+You will then be asked to select existing or create new authentications for any of the services included in the workflow (generally you will have used 'dev / staging' auths in the original workflow and will be using 'prod' accounts in the new workflow being imported to):<br/><br/>
+
+<Info>
+Please see the page on [Authentication mapping at import](/tray-uac/governance/environment-promotion/authentication-mapping-at-import/) for detailed guidance on how to manage authentications when importing and exporting projects
+</Info>
+
+![configureAuths](/images/4wedAQsLuYNK9e9YGGRzSI_imp-exp-wf-2.png)
+</Accordion>
+</AccordionGroup>
+
+### Import / export projects manually (new method)
+
+<AccordionGroup>
+<Accordion title="1 - Save as version">
+When making changes to a project, at any time you can click to see a list of ‘project versions’.
+
+The ‘work in progress’ section at the top of the list contains any changes that have not yet been saved as a version:
+
+![sdlc-project-versions-1](/images/5GQToO3fXpx9z8zAmtT0Oi_sdlc-project-versions-1.png)
+
+Clicking on ‘Save as version’ will bring up the version dialog.
+
+Here you can choose whether to make it a major or minor version, and add a title and detailed description of the changes:
+
+![create-version-dialog](/images/3VrUGoQYrWYSEUSxJRZrlT_create-version-dialog.png)
+</Accordion>
+
+<Accordion title="2 - Exporting a project version">
+Once you have saved a version and are ready to export a project you can click on the ‘Export as JSON’ button for that specific version.
+
+This will prompt the download of a project json file to your local machine.
+
+The file will be automatically named and **appended with the version number** e.g. `project_Key content_v1.1.json`:
+
+![export-version](/images/1alfNyvERhpiDI2y1dGZMP_export-version.png)
+</Accordion>
+
+<Accordion title="3 - Importing a project version">
+In the destination environment you can import the local json file by clicking on ‘Import project version’ in the project versions UI.
+
+If you are importing from a saved version you will see the version number in the UI (picked up from inside the json):
+
+![import-project](/images/4fcOMtZC3PXkGmwsEhdu9E_import-project-version.png)
+
+In the process of importing you will need to resolve:
+
+- **Authentication dependencies** as discussed in [Authentication mapping at import](/tray-uac/development-and-testing/environment-promotion/authentication-mapping-at-import/)
+- **Config dependencies** as discussed in [Resolving config value conflicts](/tray-uac/development-and-testing/environment-promotion/resolving-config-value-conflicts/)
+
+Once the json file has been imported to e.g. your ‘prod’ environment, you will need to **save a new version with a title and description**.
+
+It is important to make sure that the version numbers between environments are kept in sync.
+
+<Warning>
+For Embedded Solutions:
+
+After import, the new Solution version will **always need to be published in the Solution Editor**
+</Warning>
+
+## 
+</Accordion>
+</AccordionGroup>
+
+### Import / export projects via API (legacy method)
+
+It is possible to programatically Import and Export projects with our GraphQL APIs.
+
+<Info>
+Importing and Exporting via API is only available to Embedded customers at this time
+</Info>
+
+<Warning>
+The first import **will have to be done manually** (as described above) in order to allow you to create the linked authentications in the target workflow(s).
+</Warning>
+
+<Warning>
+If new services are added to any subsequent versions then you will need to run another manual import, as new authentications will need to be created
+</Warning>
+
+<AccordionGroup>
+<Accordion title="The exportProject mutation">
+The **exportProject** mutation can be used to export a Project. This requires the **projectId** of the Project you wish to export (obtained from the url when editing a Project: `https://app.tray.io/project/{projectId}/workflow/{workflowId}/edit` )
+
+```json
+mutation exportProject {
+ exportProject (input: {
+  projectId: "d9b4xxx-xxxx-xxx-xxxxxc9f25e"
+  exportSolution: true
+ }) {
+  exportedProjectJson
+ }
+}
+```
+
+The response to this will contain the **exportedProjectJson** (this is the same json output as per a manual export but in stringified format).
+
+```json
+{
+ "data": {
+  "exportProject": {
+   "exportedProjectJson": ""
+  }
+ }
+}
+```
+</Accordion>
+
+<Accordion title="The importProject mutation">
+The **importProject** mutation can then be used to import the Project to e.g. your 'production' account.
+
+```graphql
+mutation importProject {
+ importProject (input: {
+  exportedProjectJson: ""
+  targetProjectId: "944da62c-xxxx-xxxx-xxxx-5c8ea222eb99"
+ }) {
+  clientMutationId
+ }
+}
+```
+
+A successful import will simply return:
+
+```json
+{
+ "data": {
+  "importProject": {
+   "clientMutationId": null
+  }
+ }
+}
+```
+</Accordion>
+</AccordionGroup>
+
+## Individual workflows
+
+---
+
+### Import / export workflows manually
+
+<AccordionGroup>
+<Accordion title="1 - Export as JSON">
+Exporting a workflow is done by clicking on the ellipsis in the top right of the builder and choosing **Export as JSON **(the json file will be downloaded to your local machine):
+
+![export-workflow-as-json](/images/2vHX176CSRnmk3RmQKEDw6_imp-exp-wf-manually.png)
+</Accordion>
+
+<Accordion title="2 - Create from import">
+When creating a new workflow you can choose 'from import':
+
+![new-workflow-from-import](/images/38R4xxpuF6D11vmvDDt9Nu_imp-exp-wf-manually-1.png)
+
+You can then pick up the json file of the workflow you wish to import:
+
+![upload-json-file](/images/652cbe20-6a395aa8_upload-json-file.png)
+</Accordion>
+
+<Accordion title="3 - Select / create auths (first import only)">
+You will then be asked to select existing or create new authentications for any of the services included in the workflow (generally you will have used 'dev / staging' auths in the original workflow and will be using 'prod' accounts in the new workflow being imported to):
+
+<Info>
+Please see the page on [Authentication mapping at import](/tray-uac/governance/environment-promotion/authentication-mapping-at-import/) for detailed guidance on how to manage authentications when importing and exporting projects
+</Info>
+
+![configureAuths](/images/4wedAQsLuYNK9e9YGGRzSI_imp-exp-wf-2.png)
+</Accordion>
+
+<Accordion title="4 - Importing subsequent versions">
+![import-new-workflow-version](/images/3CrwlaI4cURos8dUK0a7Bd_imp-exp-wf-manually-2.png)
+</Accordion>
+</AccordionGroup>
+
+### Import / export workflows via API
+
+It is possible to programatically Import and Export workflows with our GraphQL APIs.
+
+<Info>
+Importing and Exporting via API is only available to Embedded customers at this time
+</Info>
+
+<Warning>
+The first import **will have to be done manually** (as described above) in order to allow you to create the linked authentications in the target workflow(s).
+</Warning>
+
+<Warning>
+If new services are added to any subsequent versions then you will need to run another manual import, as new authentications will need to be created
+</Warning>
+
+<AccordionGroup>
+<Accordion title="The exportWorkflows mutation">
+The **exportWorkflows** mutation can be used to export a workflow. This requires the **workflowId** of the workflow you wish to export (obtained from the url when editing a workflow: `https://app.tray.io/workflow/{workflowId}/edit` )
+
+```json
+mutation exportWorkflows {
+ exportWorkflows (input: {
+  workflowIds: ["a90f4eef-xxxx-xxxx-xxxx-xxxxxxxxfbc"]
+ }) {
+  exportedWorkflowsJson
+ }
+}
+```
+
+The response to this will contain the **exportedWorkflowsJson** (this is the same json output as per a manual export but in stringified format).
+
+It will also contain the **targetWorkflowIds** which can be used to identify the target workflow when making the import.
+
+An example response is given below:
+
+```json
+{
+  "data": {
+   "exportWorkflows": {
+	"exportedWorkflowsJson": ""
+    }
+  }
+}
+```
+</Accordion>
+
+<Accordion title="The importWorkflows mutation">
+The **importWorkflows** mutation can then be used to import the workflow to e.g. your 'production' account.
+
+**targetWorkflowIds** is used to specify the id of the target workflow in your production account.
+
+Note that it is possible to import multiple workflows (you would have to ensure that the workflows and workflowIds are listed in the exact same order in exportedWorkflowsJson and targetWorkflowIds - to make sure the correct workflow is imported to the correct target workflow)
+
+However if you are working with multiple workflows, it is more likely that you will be importing a project
+
+```graphql
+mutation importWorkflows {
+ importWorkflows (input: {
+  exportedWorkflowsJson: ""
+  targetWorkflowIds: ["260767f4-xxxx-xxxx-xxxx-1c4ebf86c2fd"]
+ }) {
+  clientMutationId
+ }
+}
+```
+
+A successful import will simply return:
+
+```graphql
+{
+ "data": {
+  "importWorkflows": {
+   "clientMutationId": null
+  }
+ }
+}
+```
+</Accordion>
+</AccordionGroup>
+
+## Data limitation on Export / Import size
+
+### Export
+
+The project/workflow export size is limited to 15 Mb. 
+
+If your project/workflow exceeds this limit, the export would fail with a status: `502 Bad Gateway`.
+
+It is very unlikely to exceed the 15 megabytes limit and it should suffice your needs for all practical purposes. 
+
+Note that you will be able to run and test your project just as good (provided other technical limits are not breached) but you wouldn't be able to export it because the project size would exceed 15 Mb of data.
+
+If you face this issue, please cross verify all your workflows for any hardcoded information. 
+
+Example: hardcoding thousands of records of sales data in one of the steps in a variable instead of obtaining them from a  Service connector / HTTP Client call to the source system. 
+
+Finally if your exports are still greater than 15 Mb, reach out to Tray support for workarounds.
+
+### Import
+
+The project/workflow import size is limited to 6 MB. 
+
+If you are importing a project/workflow that exceeds this limit, the import will fail with status: `413 Request Entity Too Large`.
+
+It is very unlikely to exceed the 6 MB limit and it should meet your needs for all practical purposes. 
+
+Note that you will be able to run and test your project just as well (provided other technical limits are not breached) but you won't be able to export and then import it because the project size would exceed 6 MB of data.
+
+If you face this issue, please cross verify all your workflows for any hardcoded information. 
+
+Example: hardcoding thousands of records of sales data in one of the steps in a variable instead of obtaining them from a  Service connector / HTTP Client call to the source system. 
+
+Finally if your imports are still greater than 6 MB, reach out to Tray support for workarounds.

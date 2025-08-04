@@ -1,0 +1,373 @@
+---
+title: "Introduction"
+description: "When you want to use a service which is not available in the list of pre-built Tray connectors, you will have to build a custom service."
+---
+
+## Custom services overview
+
+<Info>
+Creating a generic service authentication is the most straightforward way to use a service that is not included in our list of connectors. Please see our [Authenticating Connectors](https://tray.io/documentation/tray-uac/connectivity/authenticating-connectors/) page for details on creating one.
+
+You cannot create a generic service auth for complex and Oauth-based authentications. In such cases, we recommend creating a new service.
+
+<br/>
+</Info>
+
+When you want to use a service which is not available in the list of pre-built Tray connectors, you will have to build a custom service.
+
+Once you have built a custom service, you can then use the [Http Client](#) to make all the calls you need to the service.
+
+When you are creating a custom service in Tray, you are basically creating an **authentication mechanism** for a particular 3rd party service.
+
+A key point to be aware of is that this allows consumers of your service - whether it is you as a Tray workflow builder or it is external End Users of your Embedded integrations - to authenticate themselves.
+
+This can be done using either:
+
+- **OAuth protocols **- here the user can authenticate by sharing a logged-in OAuth session. In the Tray build UI or the Embedded Config Wizard the auth dialog will either pick up the session automatically or prompt the user to login
+- **Token-based auth **- here the user can authenticate by entering e.g. an API key or access token
+
+When creating OAuth-based services, it is important to note that keys such as ClientID and Client Secret are set only once by **you** to configure the service (i.e. these are not auth credentials to be provided by consumers of the service).
+
+Note that, while it uses its own mechanism for creating services / auth apps, this information applies also to the [Connector Development Kit (CDK)](https://developer.tray.io/developer-portal/cdk/introduction/)
+
+ 
+
+## Creating a service
+
+Custom services can be created in **any workspace**:
+
+![create-custom-service](/images/platform/connectivity/custom-services/7itDQnYDQN9zixfwpHOqbe_custom-services-introduction.png)
+
+****
+
+****
+
+**Any user whose role is contributor or above** can create, edit or delete the custom services in that workspace. 
+
+They can also **use custom services to create authentications in that workspace**. 
+
+<Warning>
+If a service is created in your Organization workspace then it is **available organization-wide**. 
+
+This means other users can also use this service for creating authentications. 
+
+This **does not mean** they will be able to see and edit the custom service in their services section.
+</Warning>
+
+### Legacy Custom Services
+
+Using the 'Legacy' tab in your Personal workspace it is possible to view Custom Services that were created in the legacy system (whereby you could only create services in personal workspaces and they were available org-wide).
+
+<Warning>
+It is recommended to **delete all services in Personal workspaces and recreate them elsewhere**, as they will be deprecated at some point in the near future.
+</Warning>
+
+![legacy-services](/images/platform/connectivity/custom-services/nsQZtmNyw41QYluVZXezl_legacy-services.png)
+
+### **Note on Importing and Exporting**
+
+If you are importing a workflow** which uses a custom service** then please make sure that **the service is shared with the workspace where the workflow is being imported to**. 
+
+Currently there are two ways to share the service with the workspace:
+
+- Create the service in the **Organization** workspace
+
+  OR
+
+- **Use the service in a custom connector then share that connector with the workspace** **where the workflow is being imported to**. 
+
+Otherwise the import will fail.
+
+The **exception **is if the service is being **only used in the Graph QL or HTTP client** connectors.
+
+**In this case the user will get the option to choose the service** from the list of services available in the workspace where the workflow is being imported to.
+
+### Note for Embedded
+
+If you are an Embedded customer, the **custom services must be created in the embedded workspace by the organization owner**. The custom service will then be available for creating the authentication to other builders in your organization as well. Finally, once you publish a solution, Your end users will also be able to authenticate with this custom service through the config wizard.
+
+## Reading API documentation
+
+In order to work out how to **authenticate** with your service and how to make **specific calls to e.g. a '/customers' or a '/accounts' enpdoint** you will need to read the **API documentation published for that service**.
+
+Please note that **there is no uniform standardization of language or terminology across all potential services**.
+
+All service API documentation is written **in a style specific to that company**. When used in conjunction with our own, the terminology can get confusing.
+
+For example, when Tray refers to a 'parameter' within the context of a custom service, it refers to it in the form of a 'query parameter'. Another service may use the same term to refer to a 'header parameter' or item in the 'request body'.
+
+Another example worthy of note is that a service within Tray usually refers to a service connector, such as the AWS connectors.
+
+However, a lot of documentation will have a general commonality and therefore should not be too difficult to comprehend.
+
+Remember that you can also check out service forums and examples of what users before you tried to do online.
+
+## Authentication methods
+
+There are two main methods of authenticating with the HTTP client connector: **OAuth2**, **Token**.
+
+<Warning>
+**IMPORTANT!**: While it is possible to also authenticate with OAuth2 Password grant flow and OAuth1, **we do not recommend these unless absolutely necessary** due to the security risks they pose.
+</Warning>
+
+You can go through the pages in this section to find a basic setup guide for each method. 
+
+- OAuth2: Authorization code grant flow
+- OAuth2: Client credentials grant flow
+- Token
+
+Every page contains a detailed walk-through using specific examples to demonstrate the full process.
+
+### Using pre-existing auths
+
+You may also find that some Tray connectors do not work with a particular endpoint that you want to access.
+
+For example you may already have used the Slack connector to e.g send messages, but there is a particular Slack API endpoint you want to work with, that is not accessed by any of our Slack connector operations.
+
+For such cases, You can also make use of authentications you have already created for Tray connectors.
+
+<AccordionGroup>
+<Accordion title="1 - Select your service">
+From the dropdown options available under the Services heading, select a pre-existing Tray.io service connector to connect the HTTP client connector with.
+
+All connectors currently available on the [Service Connectors](/connectors/service/) page will be listed as an available option:
+
+![http-auth-3-service](/images/d4c81a92-ceb3bea0_http-auth-3-service-1.png)
+</Accordion>
+
+<Accordion title="2 - Add account credentials">
+The second authentication page will be entirely dependent on what the service selected now requires.
+
+You may need to provide scopes, permission settings, client secrets, etc. Please see the relevant Tray.io service page documentation for further details on completion of setup.
+
+![http-auth-3-second-page](/images/d4c81a92-af0a6186_http-auth-3-second-page.png)
+</Accordion>
+</AccordionGroup>
+
+### Authentication Issues (third party processing)
+
+<Info>
+**PLEASE NOTE**: This issue is much more common with Embedded customers because its purpose is to deal with external user data.
+</Info>
+
+Due to the very nature of our service, **Tray is sometimes mistaken for a third party processor**. While **this is not the case**, it is a common error.
+
+It is especially common when authenticating with outside data processing services who for legal reasons, have stricter data protection policies.
+
+Third party processing is often against their terms of use and API protocols. This surface level error can make the approval process for OAuth custom services (that want to work with Tray) a bit more difficult. Once clarified, all works as expected.
+
+However **until this happens, the authentications created within Tray in tandem with your custom service, may unexpectedly stop working.**.
+
+Say you wanted to use a custom service under the following circumstances:
+
+- The custom service has been created within an umbrella application (such as [Google Ad Manager](/connectors/service/google-ad-manager/) or [Facebook](/connectors/service/facebook/)).
+- The umbrella application has a particularly high bar when it comes to processing end user data. Who can view email addresses, personal information, etc.
+- While you can use your custom service as normal, the status of your custom service has not yet been fully verified to work with Tray (by the umbrella application).
+
+Until the custom service itself is fully verified by the umbrella application, and has the umbrella applications approval to work with Tray, any authentications created within Tray may become faulty or suddenly stop working.
+
+This is because **while the authentication may have passed Tray's standard, the custom service is usually only given a demo or test status level of approval**. Usually this means the authentication/ refresh token/ etc will automatically expire after a short time frame.
+
+Please contact your umbrella applications customer services in order to rectify the situation should this occur.
+
+ for the remainder of this example.
+
+<AccordionGroup>
+<Accordion title="1 - Select Token">
+To authenticate with a Token based service, first go to the main Tray.io account dashboard. From the top, select 'Services' and click the 'New service' button in the top right.
+
+![http-auth-2-new-service](/images/d4c81a92-d27636da_custom-services-auth-issues.png)
+
+Make sure to fill in all the required fields (**name** and **description**) of the 'Details' panel.
+
+![http-auth-2-details](/images/d4c81a92-dc7dcaf3_custom-services-auth-issues-1 1.png)
+
+Select 'Token-based' from the authentication section.
+
+![http-auth-2-auth-type](/images/d4c81a92-9b8843c3_http-auth-2-auth-type.png)
+
+The panel below it will change accordingly (i.e. the Scopes section will be removed). You will only be left with **Authentication parameters**.
+
+When it comes to using the **Authentication parameters** with a Token based authentication the most important field is the first parameter you add, the **Title** itself.
+
+**This is what your Bearer token will be referring to in order to access the API of your choice**.
+
+In order to clarify what title would be appropriate, we need to head to the REST API documentation itself.
+</Accordion>
+
+<Accordion title="2 - Airtable API docs">
+For the purposes of this demo, the following explanation will use the [Airtable REST API](https://airtable.com/developers) for the remainder of this example.
+
+While the information here is unlikely to be in accordance with your own custom service, it is a useful reference when dealing with navigating the Tray.io Token panel and Token API documentation in general.
+
+<Warning>
+The API Docs you will need to refer to, should be at a URL similar to: 
+
+`https://airtable.com/appXXXXXXXXXXXXXX/api/docs#curl/introduction`
+
+, (your own project/ Base ID hash after 
+
+`.com/app`
+
+ will vary). More information on how to get to this URL is explained further on.
+</Warning>
+</Accordion>
+
+<Accordion title="3 - Head to the Developers site">
+Go to the [Airtable API](https://airtable.com/api) site and sign into your account.
+
+This should lead you to on to the main [Airtable Developers site](https://airtable.com/developers).
+
+Select the 'WEB API' option to reach the main page (follow the steps displayed where possible for your own chosen Token based API authentication service).
+
+![http-auth-2-developers](/images/d4c81a92-87bf43b8_http-auth-2-developers 1.png)
+</Accordion>
+
+<Accordion title="4 - Find your Base ID">
+This will direct you to a list of your current projects. Choose the project in question you wish to authenticate with:
+
+![http-auth-2-bases](/images/d4c81a92-e69c5e98_http-auth-2-bases.png)
+
+Airtable states that: **"after you’ve created and configured the schema of an Airtable base from the graphical interface, your Airtable base will provide its own API to create, read, update, and destroy records."**
+
+This means that depending on the project you select from your available bases, your API docs will be 'unique' to and your needs.
+
+The URL you will be redirected to, should look similar to: `https://airtable.com/appXXXXXXXXXXXXXX/api/docs#curl/introduction`. **This is where your REST API documents for this particular base/ project will lie**.
+
+In the introductory section, you will also be presented with your project's/ Base's unique ID.
+
+This is also held within the actual URL, as exampled above, the Base ID being the string after: `https://airtable.com/`. It should start with `app`.
+
+**Take note of this Base ID, and where it is located. It will be needed later on during the authentication process.**
+
+![http-auth-2-intro](/images/d4c81a92-f9f45176_http-auth-2-intro_1 1.png)
+</Accordion>
+
+<Accordion title="5 - Check your API limits">
+The second section details the limitations found within the scope of your base's API.
+
+<Warning>
+**IMPORTANT!**: What is written here may effect your project so please read through this section carefully before proceeding.
+</Warning>
+
+![http-auth-2-api-limits](/images/d4c81a92-057c5a68_http-auth-2-api-limits 1.png)
+</Accordion>
+
+<Accordion title="6 - Get your API key">
+The next section, the authentication section, outlines how to get your API key (aka your Token) via your [account page](https://airtable.com/account).
+
+It also mentions the need for an `api_key` reference should you choose to use query parameters instead of headers.
+
+**The most important thing is to copy the api key format given EXACTLY**. Then reference it in the 'Title' section of your Tray.io 'Authentication parameters' section from earlier.
+
+**Take note of this Base ID, and where it is located. It will be needed later on during the authentication process.**
+
+![http-auth-2](/images/d4c81a92-fc2bb1a8_http-auth-2-auth.png)
+
+You will need the API key from your account page, in order to authenticate with Tray.io.
+
+This is **referenced as 'the Airtable API Key within Airtable', and as 'the Token' within Tray.io**.
+
+Note that it can be regenerated via your account page if need be. For more details on how to get your Airtable API key, follow the link [here](https://support.airtable.com/hc/en-us/articles/219046777-How-do-I-get-my-API-key-).
+
+![http-auth-2-account-page](/images/d4c81a92-c92305ad_http-auth-2-account-page.png)
+</Accordion>
+
+<Accordion title="7 - Set parameters">
+With this information in hand, head back to your Tray.io services page, and make sure to add any and all properties to the 'Authentication parameters' section, as per your API service documentation specifications.
+
+<Info>
+**USER TIP**: This is the section where you add any and all extra or optional parameters, that are specific to your service.
+</Info>
+
+In this use case it will require the following:
+
+In the case of Airtable, the 'Title' should be set to 'api_key'.
+
+As you can see, this will automatically generate a unique property key: `api_key` which is the required key type.
+
+Set the 'Type' to 'Password', and make sure that the checkbox 'Marked as required' is set to **Required**:
+
+![http-auth-2-params](/images/d4c81a92-6659cb8f_http-auth-2-params.png)
+</Accordion>
+
+<Accordion title="8 - Add your service">
+Select the 'Add service' button in the top right hand corner. You will now see the newly created service under your Services tab.
+
+![http-auth-2-add-service](/images/d4c81a92-cf39fc5d_http-auth-2-add-service.png)
+
+Select 'Workflows' from the left hand menu to get back to the main Tray.io account page. Choose or create a workflow and once within the workflow builder itself, search and drag the GraphQL connector from the connectors panel (on the left hand side) onto the workflow.
+
+With the new HTTP client connector step highlighted, in the properties panel on the right, click on the Authenticate tab and 'Add new authentication' (located under the 'Authentication' field).
+
+![http-auth](/images/d4c81a92-19aee97c_OAuth2- Authorization code grant-7 1 (1).png)
+</Accordion>
+
+<Accordion title="9 - Create your Tray.io authentication">
+This will result in a Tray.io authentication pop-up window. The first page will ask you to name your authentication, and state which type of authentication you wish to create ('Personal' or 'Organisational').
+
+As you can see, there is also a third option which requires the user to select which service they wish to authenticate with. In this use case, we will be selecting the 'Airtable Docs Demo' service, which was just recently created.
+
+The second page of the popups will ask for an API Key. Add the Airtable API Key to this field (this was acquired from your account overview page earlier).
+
+![http-auth-2-popups](/images/d4c81a92-2e7e3864_http-auth-2-popups.png)
+
+Clicked on the 'Create authentication' button. Go back to your settings authentication field (within the workflow builder properties panel), and select the recently added authentication from the dropdown options now available.
+</Accordion>
+
+<Accordion title="10a - Set request type and bearer token">
+For the sake of Simplicity, and to test your HTTP client connector is in fact working as expected, set the operation to 'GET'.
+
+![http-auth-2-get-operation](/images/d4c81a92-bbdb61e7_http-auth-2-get-operation.png)
+
+Switch to the Input data tab. You will need to provide the Airtable URL (including relevant 'Endpoint'), plus the necessary 'Bearer token' in order to make this operation work correctly.
+
+The base URL for Airtable is found within the API Docs, and can be seen under any example request: `https://api.airtable.com/v0/`.
+
+![http-auth-2-base-url](/images/d4c81a92-781eba9b_http-auth-2-base-url.png)
+
+The endpoints you will need to reference include the **Base ID** and your **Table ID**. These can be found in the URL's of your project.
+</Accordion>
+
+<Accordion title="10b - Find your Base ID">
+Go to https://airtable.com/api and sign in. Click on the project (otherwise known as 'Base') you wish to use.
+
+Your Base ID can be found within the URL of your API docs themselves: `https://airtable.com/appPDWK5dasdw2/api/docs#curl/introduction`.
+
+The Base ID being the string after `https://airtable.com/`.
+
+Which means that in this example the base ID is: `appPDWK5dasdw2`. Note that this is also displayed within the introductory section of the Airtable API docs, as highlighted previously.
+</Accordion>
+
+<Accordion title="10c - Find your Table ID">
+Go to `https://airtable.com/` and sign in. Click on the table you wish to use.
+
+The Table ID will be found within the URL of your browser, which should look similar to: `https://airtable.com/tblefuahu4265d/viw0T6SXtRlRJUQLR?blocks=hide`.
+
+The Table ID being the string after `https://airtable.com/`, but before `/viw0T6SXtRlRJUQLR?blocks=hide`.
+
+So in this example the Table ID would be: `tblefuahu4265d`.
+</Accordion>
+
+<Accordion title="11 - Setup complete">
+Add these ID's the the end of the base URL as follows: `https://api.airtable.com/v0/appPDWK5dasdw2/tblefuahu4265d/`
+
+![http-auth-2-url-endpoints](/images/d4c81a92-5646daab_http-auth-2-url-endpoints.png)
+
+In order to make a successful API call and make sure to add the appropriate 'Header'/ 'Key' - value pairs for the Bearer token setup.
+
+For Airtable, completion of setup would look as follows (note that the value: `api_key` is generated from the earlier authorisation parameters step, and uses Tray.io's interpolation method):
+
+Query Parameter: Key: `Authorization`
+
+Value: `Bearer $.auth.api_key`
+
+![http-auth-2-query-params](/images/d4c81a92-3bddea1d_http-auth-2-query-params.png)
+</Accordion>
+
+<Accordion title="12 - Test the workflow">
+Run the workflow. In your Debug panel you will see a green workflow run indicating that the token was accepted and your authentication setup is complete.
+
+![http-auth-2-debug](/images/d4c81a92-b79f84e8_http-auth-2-debug.png)
+</Accordion>
+</AccordionGroup>

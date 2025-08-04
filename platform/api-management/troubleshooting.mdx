@@ -1,0 +1,38 @@
+---
+title: "Troubleshooting managed APIs"
+description: "How to troubleshoot your managed APIs and operations"
+---
+
+You can troubleshoot your API management projects and workflows as normal and set out in our [troubleshooting documentation](https://tray.io/documentation/tray-uac/logs-and-troubleshooting/logs-and-debugging/).
+
+You can also set up [automated error handling](https://staging.tray.io/documentation/tray-uac/error-handling/what-is-an-error/) to help you pre-emptively deal with any issues.
+
+## Controlling task usage
+
+To control the amount of tasks consumed in the workflows which underpin your API management endpoints, you can use [access control policies](/tray-uac/api-management/roles-policies-clients-tokens/) to filter headers or JSON in requests, rather than waste tasks in workflows to filter what’s come in. 
+
+This would help reduce task usage as you’re only paying for tasks that are useful and can drop some that aren’t generating much value.
+
+<br/>The API management policy engine is designed to be as flexible as possible, so you can frontload as much as you like to the policy engine and then continue to handle any more complex logic within the actual workflow itself.
+
+## API management FAQs
+
+### - Why can't I set security policies in the settings for an operation?
+
+In order to secure access to individual endpoints you must create [role-based policies](https://staging.tray.io/documentation/tray-uac/api-management/roles-policies-clients-tokens/).
+
+Specifically this means that you **do not set the policy directly in the operation settings screen**.
+
+Role-based policies allow you to build clear and consistent access control - for example you can ensure that all developers have a certain level of access, while all general staff have read-only access to certain operations:
+
+### - Why is my security policy not working as intended?
+
+Remember that each policy rule you set has its own logic, and the policy itself has a match all / any condition. 
+
+Make sure that none of the rules within a policy contradict each other.
+
+Likewise, make sure that none of your policies contradict other policies!
+
+### - How do I whitelabel the base url?
+
+It is not currently possible to whitelabel the base url of an API management project. This feature will be available in a future iteration

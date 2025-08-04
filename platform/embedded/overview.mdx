@@ -1,0 +1,79 @@
+---
+title: "Overview"
+description: "Put the power of Tray in the hands of End Users (internal staff or external customers) by templatizing automations and making them available as integrations"
+---
+
+<Warning>
+The Tray Embedded bundle is available to Enterprise customers as an optional add-on.
+
+Please contact your sales representative if you wish to activate the bundle.
+</Warning>
+
+You can put the power of Tray in the hands of End Users (internal staff or external customers) by templatizing automations and making them available as integrations ready for easy activation:
+
+![integration-marketplace](/images/platform/embedded/overview/3AnlUTeqmCNCxWegKdjsJV_integration-marketplace-v2.png)
+
+A typical use case for this would be if your service features a range of integrations (or **Solutions** as we call them) involving your own product and a number of third party services (Zendesk, Slack, Salesforce, Marketo, etc.) and you wish to use Tray Embedded to enable your End Users to:
+
+1. Very quickly authenticate themselves with each service involved
+2. Enter **Config Data** which makes any further necessary personal configurations so that the integration works specifically for them (e.g. what Slack channel do they subscribe to, or what Salesforce contact type do they work with)
+
+This can all be done in a properly 'white-labelled' sense - i.e. the fact that you are using Tray Embedded to automate these integrations is invisible to your End Users.
+
+## Building Embedded integrations
+
+Building Tray Embedded integrations is a matter of:
+
+1. In the Tray Embedded UI, create the workflows, projects and solutions which form the basis of your integrations:
+
+![embedded-diagram](/images/platform/embedded/overview/9b30a60b-41aae38f_embedded-diagram.png)
+
+**Workflows** contain the intelligence which drives your integration - including the required Tray and service connectors, authentications and Config Data.
+
+A **Project** can contain multiple workflows, and pulls together the Config Data shared across the workflows.
+
+A **Solution** then makes a Project configurable for an End User (via the Config Wizard) by pulling all of the Config Data and Authentications contained in your project and making them available as Config Slots and Authentication Slots. These are populated with Config and Authentication values when the End User runs the Config Wizard, to create their own **Solution Instances**.
+
+2. Build your app and make use of the Tray Embedded API to manage:
+
+- **Front End tasks** such as displaying available solutions and allowing users to click to activate the Config Wizard
+- **Back End tasks** such as creating Users and Solution Instances
+
+## Graphical overview
+
+The graphic below gives a quick snapshot of a Tray Embedded application. It shows a setup whereby you have several Solutions available for your End Users and an End User has clicked to activate a Solution which automatically creates Asana tasks for them when Salesforce accounts of a certain type are created.
+
+**Note:** The Platform Interface depicted in the centre of the graphic is a mock-up of how you might present your Tray Embedded Solutions within your own application. This is not a Tray component and the styling and presentation of this is up to you:
+
+![embedded-graphical-intro](/images/platform/embedded/overview/9b30a60b-3b500a97_embedded-graphical-intro-4.png)
+
+In the diagram there are 4 'layers':
+
+1. **Your application code** behind the UI (in the dark box) which is built using our GraphQL APIs and can use our [integration marketplace app](#) as a guide. The example shows sample code which would trigger the `createSolutionInstance` API when a user clicks to configure a Solution for their own use.
+2. Your **Application Interface** (not a Tray component). This represents the main window of your interface where you present the Solutions available for your End Users to configure for their own use (rememember that this is a simple mock-up and how this is configured is entirely up to you! The key point is that you use our APIs to help you display available Solutions and control what happens when an End User clicks to activate them).
+3. The Tray **Customizable Configuration Wizard** (this is a Tray component!) which is activated when an End User clicks to configure a Solution. This is represented in two parts:
+4. At the very bottom of the graphic you can also see the **Config Data** values of `$.config.salesforce-acct` and `$.config.asana-project` which link back to the source workflow which specified that these fields would be available in the Config Wizard.
+
+As well as the fact that End Users need to set their own authentications, the most important point to grasp in the above example is that the End User has used **Config Data** to set the Salesforce Account Type and Asana Project so that the syncing of tasks only happens when new accounts of a certain type are created ('Prospect') and only syncs to the Asana Project they have specified ('My Prospects').
+
+## How Config Data is set
+
+The following set of visual tabs illustrates how Config Data is managed in 3 steps:
+
+### 1 - Set Config Data
+
+First of all, you specify that certain fields are Config Data by entering `$.config.` jsonpaths in the source workflow. In this example we are using `$.config.asana-project` for the **Projects** field in the Asana **Create Task** operation:
+
+![asana-create-task](/images/platform/embedded/overview/9b30a60b-a8fae5fa_asana-create-task.png)
+
+### 2 - Add prompts in Solution Editor
+
+When you have created a Solution based on your source workflows you can then use the Solution Editor (found in the Tray Embedded UI) to add prompts for the End User to create their authentications and set their Config Data:
+
+![solution-editor](/images/platform/embedded/overview/7p6dQgMCi4vSGW9dFB0zN7_Overview.png)
+
+### 3 - End User activates Config Wizard
+
+The end result is that the End User can then, in the Config Wizard (a Tray component) create their own authentications and set their Config Data:
+
+![asana-config-wizard](/images/platform/embedded/overview/9b30a60b-5fa3f0d3_asana-config-wizard.png)

@@ -1,0 +1,213 @@
+---
+title: "Billing tasks and usage"
+description: "The Tray.io usage dashboard gives you full visibility of your workspaces and overall workflow usage stats, respective of the amount of entitlements you have been given."
+---
+
+<Warning>
+Access to view this information is **limited to users with Admin or Owner roles.**
+</Warning>
+
+The [Tray](http://Tray.io) usage dashboard gives you full visibility of your workspaces and overall task usage stats, respective of the amount of entitlements you have been given.
+
+This will help you manage your entitlements and quickly identify any issues and anomalies should they arise.
+
+This dashboard can be found by navigating to the **Account** **Settings** page and clicking on the **Usage tab:**
+
+![billing-tab](/images/platform/enterprise-core/usage-billing/4rOWNwf0VxoWR4FJktvHWz_Group_16.png)
+
+The dashboard is broken down into the following sections:
+
+## Tasks
+
+<Info>
+It is possible to limit the number of tasks per month in any particular workspace.
+
+This allows you to identify particular workspaces as sandbox / test environments, and ensure that they do not significantly impact your monthly billing.
+</Info>
+
+<Info>
+Retries as explained in this [table](https://tray.io/documentation/tray-uac/logs-and-troubleshooting/technical-limits-timeouts-and-retries/#connector-retry-logic) are not charged.
+</Info>
+
+<Warning>
+It is not currently possible to build Tray workflows which monitor and report on task usage.
+
+Aside from the tools described on this page, you can use our [log streaming functionality](/tray-uac/logs-and-troubleshooting/streaming-logs-to-external-systems/) to send logs and events to an external source such as Datadog which can be used to build customized dashboards
+</Warning>
+
+The Tasks section shows ALL task usage - i.e. tasks from **all organizations, all workspaces, all workflows, all solution instances, etc**.
+
+- **If you have a tasks entitlement, you will see a dotted line on the graph for that allowance**
+- Additional parts of the page enable you to **compare the usage versus the entitlement**
+- For any entitlements, you will see an **explanation of what that entitlement is based on**
+
+It contains three tabs at the top:
+
+<Info>
+Task usage now shows usage across organizations in all regions. Providing a unified perspective for a comprehensive analysis. 
+</Info>
+
+### All tasks
+
+![tasks-default](/images/platform/enterprise-core/usage-billing/30KdxskuT2Eja6QHaa0AME_all-tasks.png)
+
+### Workflow tasks
+
+This displays only tasks from all workflows (apart from End User workflows)
+
+![tasks-with-workflows-tasks-tab-open](/images/platform/enterprise-core/usage-billing/6bnR3v2EasKSsKTRjooYKJ_tasks-with-worflow-tasks-tab-open.png)
+
+### End User tasks
+
+<Warning>
+This view only applies to Enterprise customers using the [Embedded Bundle](/tray-uac/embedded-integrations/overview/).
+</Warning>
+
+This shows only tasks from all End User workflows (i.e. workflows run during a solution instance run on behalf of an end user)
+
+![end-user-tasks-tab](/images/platform/enterprise-core/usage-billing/2RewdoAJ6Bqw1VF4tiNBs1_end-user-tasks-tab.png)
+
+### Connectivity API tasks
+
+This shows any calls that have been made using the Call Connector endpoint using our Connectivity API:
+
+![capi-tasks-tab](/images/platform/enterprise-core/usage-billing/5mpvalVc81JKv3cC1PwRAW_capi-tasks-tab.png)
+
+<Info>
+For connectors API, every call to [Call Connector endpoint](https://developer.tray.io/openapi/trayapi/tag/connectors/#tag/connectors/operation/call-connector) is billed as 1 task.
+
+For Trigger API, Delivery of event payloads after a subscription is created are [billable](https://tray.io/documentation/tray-uac/governance/org-management/billing-tasks-and-usage/). Every [event payload](https://developer.tray.io/openapi/trayapi/tag/triggers/#tag/triggers/operation/create-subscription) that is processed (see note below) by Tray is billed as 1 task.
+
+Note: Processed events include:
+
+1. Events that were delivered to your subscription URL successfully
+2. Events where Tray attempted delivery but your endpoint doesn't respond after retries
+3. Events which you filter out at the connector level e.g. applying a filter condition using pick val on salesforce 'on record create'.
+
+Since all of the above events were processed by Tray, these will be billed.
+</Info>
+
+<Info>
+Each single usage of the running [steps in isolation functionality](/tray-uac/development-and-testing/development-tips/#running-steps-in-isolation) will be considered as a single connectivity task and thus billable.
+</Info>
+
+## End Users
+
+This view gives you a monthly graph of your Active End Users.
+
+An End User is any individual using Tray-powered integrations without a Tray account.
+
+So they can be:
+
+- **Embedded End Users** who have Tray workflow tasks being run in the workflows in their Solution Instances.
+- **Connectivity API End Users** who have API calls ([Call connector](https://developer.tray.io/openapi/trayapi/tag/connectors/#tag/connectors/operation/call-connector), [Trigger Subscription](https://developer.tray.io/openapi/trayapi/tag/triggers/#tag/triggers/operation/create-subscription) events etc.) being made on their behalf
+
+This view can be broken down into 'All', 'Embedded Native End Users' and 'Connectivity API End Users':
+
+![active-end-users](/images/platform/enterprise-core/usage-billing/AcddQynfa5EhdJoKh1nxB_end-users.png)
+
+## Regional billing
+
+You will be billed for usage across organizations in all regions.
+
+Entitlements reflect the total entitlement across all regions.
+
+Usage data for other regions can be accessed by logging into an organization in those regions.
+
+## Billing notes (Embedded)
+
+### Distinguishing between production and test solutions[​](http://localhost:3000/docs/governance/account-and-org-management/billing-and-usage#distinguishing-between-production-and-test-solutions)
+
+- **An End User marked with the test flag** implies each of their solution instances and unique authentications are **free of charge**
+- **Solutions with only test End Users can be assumed to be non-production** solutions and thus tagged as test solutions. These are **free of charge**
+- **Solutions with both test end users and at least 1 non test end user will be assumed to be a production solution** which may be billable
+
+### Creating test users[​](http://localhost:3000/docs/governance/account-and-org-management/billing-and-usage#creating-test-users)
+
+To exclude users from billing you can mark them as test users. You can take the role of an End User and test your solutions by creating Test users.
+
+This is useful as test users aren't billed.
+
+Please refer to our [End Users](#) documentation for guidance on creating test users.
+
+## Appendix - tasks explained
+
+### What is a task?
+
+The simplest way to think of a task, is to imagine it as equivalent to a step in a workflow.
+
+When a workflow runs it executes each of its steps and each one becomes a task. A task does not necessarily correspond directly to the number of calls to a service that are made. For example, a Tray connector may make several calls to an API when it executes but this only counts as a single task.
+
+The processing that occurs within these connectors is therefore referred to as a 'Task'.
+
+Tasks are therefore the core metrics used when determining the local data throughput necessary in order to perform Tray's logical operations.
+
+Tasks also are the highest consumer of all relevant metrics on our servers (internal calls, memory allocation, processing power, etc.)
+
+In order to better understand how tasks are calculated we can look at the following example workflow:
+
+![tasks-example-workflow](/images/platform/enterprise-core/usage-billing/2ZnFdrsqkBsfKa6NzRwO96_tasks-example-workflow.png)
+
+Then we can examine the tasks completed in one run of this workflow, in which the webhook trigger received 2 prospects to be processed:
+
+1. The webhook trigger was fired with a list of 2 data elements.
+2. A call to Clearbit was made.
+3. The first list element was passed to the loop.
+4. The first list element was evaluated in a boolean.
+5. The first list element was sent to Slack in the form of a notification.
+6. The second list element was passed to the loop.
+7. The second list element was evaluated in a boolean.
+8. The second list element was sent to Slack in the form of a notification.
+9. The loop connector made a final check for any more items in the list, which returned false so the workflow continued and then ended as there were no more steps.
+
+So, on this particular run of the workflow, 9 tasks were executed.
+
+On another run it might be more or less, depending on how many contacts are included in the webhook payload.
+
+### Using the Insights Hub
+
+The Tray [Insights Hub](#) contains a 'task runs' graph which allows you to drill down into workflows to fully analyze their task usage:
+
+![insights-full-page](/images/platform/enterprise-core/usage-billing/3JqwCsceAYhCbX697uNPBo_insights-full-page.png)
+
+### Estimating your message count
+
+### Triggers
+
+The initial contributor to the total message count is the trigger.
+
+A single HTTP call or receipt of a WebHook counts as a single task. Tray must communicate with your service of choice in order to establish a secure connection, which makes this one of our more complex tasks.
+
+However a single call is still treated as a single task.
+
+In workflow above, this applies to the `trigger `step.
+
+### Connectors and Looping
+
+Each logical operation Tray performs to each piece of your data requires a task to be run.
+
+These connectors can be found under our 'Core' and 'Helpers' sections in the left-hand panel of our connectors platform.
+
+Depending on how you configure your logic, Tasks may run multiple times in a single instance of a workflow. In the workflow above, this applies to the `loop-1 `and` boolean-1` steps.
+
+### Services
+
+Tray allows you to pass your newly formatted and logically grouped data to the service of your choice.
+
+Each connection requires a task to run in order to establish a secure connection and pass the appropriate data through.
+
+In the workflow above, this applies to the `clearbit-1` and `slack-1` steps.
+
+The above workflow includes 5 connectors. This makes for a minimum of 5 tasks required to run a single instance of the flow.
+
+In our example, we have a loop. Two data elements have come in from our trigger, which requires our loop to apply the entire logical set contained within the loop to each element. Therefore, this instance of the flow consists of 9 tasks.
+
+### Debug view
+
+Another way to see how many tasks were required for a single execution of your flow is by going to the debugger.
+
+At the top of the workflow builder, click the Debug tab.
+
+In the Workflow Logs, you will see each instance of your workflow that has been executed. Click on the instance to see the entire list of tasks required.
+
+In the 'Run logs', you will see each Task executed for a single instance of a workflow. Click on the Task to see the data that was processed.
